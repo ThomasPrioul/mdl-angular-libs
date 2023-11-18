@@ -1,0 +1,12 @@
+@use "../theme";
+@use "@angular/material" as mat;
+
+@include mat.radio-theme(theme.$light-theme);
+
+.dark {
+  @include mat.radio-color(theme.$dark-theme);
+}
+
+.light {
+  @include mat.radio-color(theme.$light-theme);
+}

@@ -1,0 +1,12 @@
+@use "../theme";
+@use "@angular/material" as mat;
+
+@include mat.sidenav-theme(theme.$light-theme);
+
+.dark {
+  @include mat.sidenav-color(theme.$dark-theme);
+}
+
+.light {
+  @include mat.sidenav-color(theme.$light-theme);
+}

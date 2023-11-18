@@ -1,0 +1,12 @@
+@use "../theme";
+@use "@angular/material" as mat;
+
+@include mat.progress-spinner-theme(theme.$light-theme);
+
+.dark {
+  @include mat.progress-spinner-color(theme.$dark-theme);
+}
+
+.light {
+  @include mat.progress-spinner-color(theme.$light-theme);
+}

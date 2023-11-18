@@ -1,0 +1,40 @@
+@use "../../vars.scss";
+@use "../../colors.scss";
+@use "../theme";
+@use "@angular/material" as mat;
+
+@include mat.dialog-theme(theme.$light-theme);
+.dark {
+  @include mat.dialog-color(theme.$dark-theme);
+}
+
+.light {
+  @include mat.dialog-color(theme.$light-theme);
+}
+
+:root {
+  --mdc-dialog-subhead-tracking: 0;
+  --mdc-dialog-subhead-font: #{vars.$font-sans-serif};
+  --mdc-dialog-subhead-size: 20px;
+  --mdc-dialog-subhead-weight: 800;
+
+  --mdc-dialog-supporting-text-tracking: 0;
+  --mdc-dialog-supporting-text-font: #{vars.$font-sans-serif};
+}
+
+.mdc-dialog {
+  --mdc-dialog-container-shape: 12px !important;
+
+  .mdc-dialog__title + .mdc-dialog__content,
+  .mdc-dialog__header + .mdc-dialog__content {
+    padding-top: 7px;
+  }
+
+  .mat-mdc-dialog-content {
+    padding: 24px;
+  }
+
+  .mat-mdc-dialog-actions {
+    padding: 24px;
+  }
+}

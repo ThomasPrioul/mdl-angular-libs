@@ -1,0 +1,10 @@
+@use "@angular/material" as mat;
+@use "../colors";
+@use "sass:map";
+@use "sass:color";
+
+// https://material.io/design/color/
+$primary: mat.define-palette(colors.$blue-palette);
+$primary-dark: mat.define-palette(colors.$blue-palette-dark);
+$accent: mat.define-palette(colors.$gray-light-palette);
+$warn: mat.define-palette(colors.$red-palette);

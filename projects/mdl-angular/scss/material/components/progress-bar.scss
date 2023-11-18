@@ -1,0 +1,11 @@
+@use "../theme";
+@use "@angular/material" as mat;
+
+@include mat.progress-bar-theme(theme.$light-theme);
+
+.light {
+  @include mat.progress-bar-color(theme.$light-theme);
+}
+.dark {
+  @include mat.progress-bar-color(theme.$dark-theme);
+}

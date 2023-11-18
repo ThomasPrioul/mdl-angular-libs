@@ -1,0 +1,62 @@
+@use "../theme";
+@use "../../colors";
+@use "@angular/material" as mat;
+
+// @include mat.option-theme(theme.$light-theme);
+
+.dark {
+  @include mat.option-color(theme.$dark-theme);
+}
+
+.light {
+  @include mat.option-color(theme.$light-theme);
+}
+
+.mat-mdc-option {
+  --mdc-theme-text-primary-on-background: #{colors.$carbon};
+  border-radius: var(--mdc-shape-small);
+  margin: 0 var(--mdc-shape-small);
+  // min-height: 48px !important;
+  // padding-top: var(--mdc-shape-small) !important;
+  // padding-bottom: var(--mdc-shape-small) !important;
+  // background: white;
+
+  &:hover:not(.mdc-list-item--disabled),
+  &:focus:not(.mdc-list-item--disabled),
+  &.mat-mdc-option-active,
+  &.mdc-list-item--selected:not(.mat-mdc-option-multiple):not(.mdc-list-item--disabled) {
+    background: colors.$cool-gray-0;
+  }
+
+  .mat-pseudo-checkbox {
+    margin-left: -2px !important;
+  }
+
+  /* Patch pour "grossir" de nouveau l'icone */
+  // &.with-expand-icon {
+  //   .mat-mdc-icon-button {
+  //     width: 48px;
+  //     height: 48px;
+  //     padding: 12px;
+  //     margin: -8px;
+  //     margin-right: -16px;
+  //   }
+  // }
+
+  &.full-width {
+    .mdc-list-item__primary-text {
+      width: 100%;
+    }
+  }
+}
+
+.small .mat-mdc-option {
+  min-height: 40px !important;
+}
+
+/*
+Sticky tree items
+z-index: 100;
+position: sticky;
+top: 0px;
+ */

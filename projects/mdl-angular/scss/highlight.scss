@@ -1,0 +1,10 @@
+@use "colors";
+
+.highlight {
+  // font-weight: bold;
+  color: colors.$primary;
+
+  .dark & {
+    color: colors.$primary-dark;
+  }
+}

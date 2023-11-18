@@ -1,9 +1,16 @@
 {
   "name": "mdl-angular",
   "version": "0.0.1",
+  "exports": {
+    ".": {
+      "sass": "./scss/"
+    }
+  },
   "peerDependencies": {
+    "@angular/cdk": "^16.2.0",
     "@angular/common": "^16.2.0",
-    "@angular/core": "^16.2.0"
+    "@angular/core": "^16.2.0",
+    "@angular/material": "^16.2.0"
   },
   "dependencies": {
     "tslib": "^2.3.0"

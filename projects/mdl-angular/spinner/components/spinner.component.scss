@@ -1,0 +1,108 @@
+@use "../../scss/colors.scss";
+
+@keyframes wcs-spinner-grow {
+  0% {
+    opacity: 0;
+    transform: scale(0);
+  }
+  25% {
+    opacity: 1;
+  }
+  75% {
+    opacity: 0;
+    transform: scale(1);
+  }
+}
+
+@keyframes wcs-spinner-rotate {
+  0% {
+    transform: rotate(0deg);
+    transform-origin: center;
+  }
+  100% {
+    transform: rotate(360deg);
+    transform-origin: center;
+  }
+}
+
+@keyframes wcs-spinner-dash {
+  0% {
+    stroke-dasharray: 1, 150;
+    stroke-dashoffset: 0;
+  }
+  50% {
+    stroke-dasharray: 90, 150;
+    stroke-dashoffset: -35;
+  }
+  100% {
+    stroke-dasharray: 90, 150;
+    stroke-dashoffset: -131;
+  }
+}
+
+:host {
+  display: inline-block;
+  vertical-align: text-bottom;
+  border-radius: 50%;
+  overflow: hidden;
+
+  &.overlay-spinner {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 0px;
+
+    .mat-mdc-form-field-type-mat-select & {
+      right: 24px;
+    }
+  }
+}
+
+:host {
+  --base-stroke-width: 8px;
+  svg {
+    .dashed-background-circle {
+      stroke: colors.$cool-gray-3;
+      stroke-width: calc(var(--base-stroke-width) - 1px);
+      stroke-dasharray: 3, 3;
+      stroke-dashoffset: 1;
+      stroke-linecap: butt;
+    }
+    .dark & {
+      stroke: colors.$cool-gray-11;
+    }
+
+    .light & {
+      stroke: colors.$cool-gray-3;
+    }
+
+    .infinite-rotation-container {
+      animation: wcs-spinner-rotate 2s linear infinite;
+    }
+
+    .dash-rotating-circle {
+      stroke: colors.$primary;
+      stroke-width: var(--base-stroke-width);
+      stroke-linecap: round;
+      animation: wcs-spinner-dash 1.5s ease-in-out infinite;
+
+      .dark & {
+        stroke: colors.$primary-dark;
+      }
+
+      .light & {
+        stroke: colors.$primary;
+      }
+    }
+  }
+}
+
+:host[mode="growing"] {
+  background-color: colors.$primary;
+  opacity: 0;
+  animation: wcs-spinner-grow 1s ease-out infinite;
+
+  .dark & {
+    background-color: colors.$primary-dark;
+  }
+}

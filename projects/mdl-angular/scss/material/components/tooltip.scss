@@ -1,0 +1,12 @@
+@use "../theme";
+@use "@angular/material" as mat;
+
+@include mat.tooltip-theme(theme.$light-theme);
+
+.dark {
+  @include mat.tooltip-color(theme.$dark-theme);
+}
+
+.light {
+  @include mat.tooltip-color(theme.$light-theme);
+}

@@ -1,0 +1,168 @@
+@use "sass:map";
+@use "../theme";
+@use "../../colors";
+@use "../../material/palettes.scss";
+@use "@angular/material" as mat;
+
+@include mat.button-theme(theme.$light-theme);
+@include mat.button-toggle-theme(theme.$light-theme); //.set(theme.$light-theme, "density", -2));
+@include mat.icon-button-theme(theme.$light-theme);
+@include mat.fab-theme(theme.$light-theme);
+
+.dark {
+  @include mat.button-color(theme.$dark-theme);
+  @include mat.button-toggle-color(theme.$dark-theme);
+  @include mat.icon-button-color(theme.$dark-theme);
+  @include mat.fab-color(theme.$dark-theme);
+
+  // *** Contrast fix example of custom accent color ***
+  .mat-mdc-raised-button.mat-primary,
+  .mat-mdc-unelevated-button.mat-primary,
+  .mat-mdc-fab.mat-primary,
+  .mat-mdc-mini-fab.mat-primary {
+    color: mat.get-color-from-palette(palettes.$primary-dark, default-contrast) !important;
+    --mat-mdc-button-persistent-ripple-color: mat.get-color-from-palette(
+      palettes.$primary-dark,
+      default-contrast
+    ) !important;
+    --mat-mdc-button-ripple-color: rgba(255, 255, 255, 0.1); //Insert custom rgba contrast color
+  }
+
+  .mat-mdc-fab.mat-primary,
+  .mat-mdc-mini-fab.mat-primary {
+    --mdc-fab-icon-color: mat.get-color-from-palette(palettes.$primary-dark, default-contrast);
+    --mat-mdc-fab-color: mat.get-color-from-palette(palettes.$primary-dark, default-contrast);
+  }
+}
+
+.light {
+  @include mat.button-color(theme.$light-theme);
+  @include mat.button-toggle-color(theme.$light-theme);
+  @include mat.icon-button-color(theme.$light-theme);
+  @include mat.fab-color(theme.$light-theme);
+}
+
+.small {
+  @include mat.button-density(-2);
+  @include mat.button-toggle-density(-2);
+  @include mat.icon-button-density(-2);
+  @include mat.fab-density(-2);
+
+  .mdc-button {
+    min-height: 40px;
+  }
+
+  .small {
+    @include mat.icon-button-density(-4);
+  }
+}
+
+.small-btn-text {
+  --mdc-typography-button-font-size: 14px;
+}
+
+.normal-btn-text {
+  --mdc-typography-button-font-size: 16px;
+}
+
+/* Button */
+:root {
+  --mdc-text-button-container-shape: 0.5rem;
+}
+
+.mdc-button.mat-mdc-button {
+  padding: 0 1rem;
+}
+
+.mdc-button {
+  min-height: 48px;
+}
+
+.mat-mdc-outlined-button:not(:disabled) {
+  &.mat-primary {
+    --mdc-outlined-button-outline-color: #{colors.$primary};
+  }
+}
+
+.mat-mdc-icon-button {
+  line-height: 0;
+}
+
+.mat-mdc-button.mat-unthemed {
+  --mdc-text-button-label-text-color: #{colors.$carbon};
+}
+
+/* BUTTON TOGGLE */
+.mat-button-toggle {
+  .cdk-keyboard-focused .mat-button-toggle-focus-overlay {
+    opacity: 0.1 !important;
+  }
+}
+
+.mat-button-toggle-group {
+  --mat-standard-button-toggle-shape: 12px !important;
+  margin: -1px;
+
+  /* SNCF "options" style */
+  &.options {
+    padding: 4px;
+    border: 0;
+    margin: 0px;
+    background: rgb(227, 243, 239);
+
+    .mat-button-toggle {
+      &.mat-button-toggle-appearance-standard {
+        background: inherit;
+        border-radius: 8px;
+        border: 2px solid transparent;
+
+        .mat-button-toggle-label-content {
+          line-height: 36px;
+        }
+
+        .mat-button-toggle-ripple {
+          border-radius: 8px;
+        }
+      }
+
+      &.mat-button-toggle-checked {
+        border-color: currentColor;
+        background-color: rgb(227, 243, 239);
+      }
+    }
+
+    &.mat-button-toggle-group-appearance-standard .mat-button-toggle + .mat-button-toggle {
+      border-left: 2px solid transparent;
+
+      &.mat-button-toggle-checked {
+        border-left-color: currentColor;
+      }
+    }
+  }
+}
+
+.small .mat-button-toggle-group.options .mat-button-toggle .mat-button-toggle-label-content {
+  line-height: 28px;
+}
+
+.dark .mat-button-toggle-group.options,
+.dark.mat-button-toggle-group.options {
+  background: colors.$carbon;
+
+  .dark & {
+    background: colors.$cool-gray-11;
+  }
+
+  .mat-button-toggle.mat-button-toggle-checked {
+    background-color: colors.$carbon;
+  }
+}
+
+.light .mat-button-toggle-group.options,
+.light.mat-button-toggle-group.options {
+  background: rgb(227, 243, 239);
+
+  .mat-button-toggle.mat-button-toggle-checked {
+    background-color: rgb(227, 243, 239);
+  }
+}

@@ -6,7 +6,7 @@
     "mdl-angular": {
       "projectType": "library",
       "root": "projects/mdl-angular",
-      "sourceRoot": "projects/mdl-angular/",
+      "sourceRoot": "projects/mdl-angular",
       "prefix": "lib",
       "architect": {
         "build": {
@@ -72,6 +72,13 @@
             "styles": [
               "projects/showcase/src/styles.scss"
             ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "dist",
+                "projects/showcase/src",
+                "node_modules"
+              ]
+            },
             "scripts": []
           },
           "configurations": {

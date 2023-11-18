@@ -1,0 +1,17 @@
+@use '../theme';
+@use '../../colors.scss';
+@use '@angular/material' as mat;
+
+@include mat.stepper-theme(theme.$light-theme);
+
+.dark {
+  @include mat.stepper-color(theme.$dark-theme);
+
+  .mat-step-header .mat-step-icon {
+    background-color: colors.$cool-gray-9;
+  }
+}
+
+.light {
+  @include mat.stepper-color(theme.$light-theme);
+}

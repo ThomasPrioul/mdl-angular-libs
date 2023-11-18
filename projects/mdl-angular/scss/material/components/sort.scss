@@ -1,0 +1,12 @@
+@use "../theme";
+@use "@angular/material" as mat;
+
+@include mat.sort-theme(theme.$light-theme);
+
+.dark {
+  @include mat.sort-color(theme.$dark-theme);
+}
+
+.light {
+  @include mat.sort-color(theme.$light-theme);
+}

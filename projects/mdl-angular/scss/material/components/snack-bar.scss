@@ -1,0 +1,103 @@
+@use "../theme";
+@use "../../colors";
+@use "@angular/material" as mat;
+
+@include mat.snack-bar-theme(theme.$light-theme);
+
+.dark {
+  @include mat.snack-bar-color(theme.$dark-theme);
+}
+
+.light {
+  @include mat.snack-bar-color(theme.$light-theme);
+}
+
+.mat-mdc-snack-bar-container.mdl {
+  --mdc-snackbar-container-color: #{colors.$cool-gray-11};
+  --mdc-snackbar-container-shape: 8px;
+  --mdc-snackbar-supporting-text-line-height: 22px;
+  --mdc-snackbar-supporting-text-weight: 500;
+  --mdc-snackbar-supporting-text-color: white;
+  --mat-snack-bar-button-color: white;
+  --progress-color: #{colors.$carbon};
+
+  background: var(--mdc-snackbar-container-color);
+  border-radius: var(--mdc-snackbar-container-shape);
+
+  &[class^="duration"],
+  &[class*=" duration"] {
+    .mdc-snackbar__surface {
+      background: linear-gradient(90deg, var(--progress-color) 0%, var(--progress-color) 100%)
+        no-repeat;
+      background-size: 0%;
+      animation: autoexit 5s ease-out;
+      animation-fill-mode: forwards;
+
+      @keyframes autoexit {
+        to {
+          background-size: 100%;
+        }
+      }
+    }
+
+    &.duration-2000 {
+      .mdc-snackbar__surface {
+        animation-duration: 2s;
+      }
+    }
+  }
+
+  &.info {
+    /* Syntaxe spéciale car utilisation d'une variable CSS */
+    --mdc-snackbar-container-color: #{colors.$primary};
+    --progress-color: #{colors.$strong-blue};
+  }
+
+  .mat-mdc-snack-bar-label.mdc-snackbar__label {
+    overflow-y: auto;
+    max-height: 300px;
+  }
+
+  .mdc-snackbar__surface {
+    min-height: 48px;
+  }
+
+  .mat-mdc-simple-snack-bar {
+    // margin: 3px 0;
+    align-items: center;
+  }
+
+  &.with-close-button {
+    .mat-mdc-snack-bar-actions.mdc-snackbar__actions {
+      // align-self: start;
+      // margin-top: 6px;
+
+      .mdc-button {
+        padding: 0 !important;
+        min-width: 36px;
+      }
+    }
+  }
+
+  &.with-checked-icon {
+    .mat-mdc-snack-bar-label.mdc-snackbar__label::before {
+      @extend .custom-snack-bar-icon;
+      content: "\e876";
+    }
+  }
+
+  &.with-info-icon {
+    .mat-mdc-snack-bar-label.mdc-snackbar__label::before {
+      @extend .custom-snack-bar-icon;
+      content: "\e000";
+    }
+  }
+
+  .custom-snack-bar-icon {
+    display: inline;
+    font-family: "Material Icons Outlined";
+    margin-right: 8px;
+    font-size: 20px;
+    vertical-align: top;
+  }
+}

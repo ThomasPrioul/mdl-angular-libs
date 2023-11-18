@@ -1,0 +1,48 @@
+@use "../colors";
+@use "../vars";
+@use "palettes";
+@use "@angular/material" as mat;
+
+$sncf-typography: mat.define-typography-config(
+  $font-family: vars.$font-sans-serif,
+  $headline-5:
+    mat.define-typography-level(24px, 36px, $font-weight: 800, $font-family: vars.$font-sans-serif),
+  $headline-6:
+    mat.define-typography-level(20px, 24px, $font-weight: 500, $font-family: vars.$font-sans-serif),
+  $subtitle-1:
+    mat.define-typography-level(16px, 22px, $font-weight: 500, $font-family: vars.$font-sans-serif),
+  $subtitle-2:
+    mat.define-typography-level(14px, 19px, $font-weight: 500, $font-family: vars.$font-sans-serif),
+  $body-1: /* 24px, 33px */
+    mat.define-typography-level(16px, 22px, $font-weight: 500, $font-family: vars.$font-sans-serif),
+  $body-2:
+    mat.define-typography-level(14px, 14px, $font-weight: 400, $font-family: vars.$font-sans-serif),
+  $caption:
+    mat.define-typography-level(14px, 19px, $font-weight: 500, $font-family: vars.$font-sans-serif),
+  $button:
+    mat.define-typography-level(16px, 16px, $font-weight: 500, $font-family: vars.$font-sans-serif),
+);
+
+$light-theme: (
+  color: (
+    primary: palettes.$primary,
+    accent: palettes.$accent,
+    warn: palettes.$warn,
+    is-dark: false,
+    foreground: colors.$light-theme-foreground-palette,
+    background: colors.$light-theme-background-palette,
+  ),
+  typography: $sncf-typography,
+);
+
+$dark-theme: (
+  color: (
+    primary: palettes.$primary-dark,
+    accent: palettes.$accent,
+    warn: palettes.$warn,
+    is-dark: true,
+    foreground: colors.$dark-theme-foreground-palette,
+    background: colors.$dark-theme-background-palette,
+  ),
+  typography: $sncf-typography,
+);

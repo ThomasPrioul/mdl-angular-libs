@@ -1,0 +1,18 @@
+@use "sass:map";
+@use "../theme";
+@use "@angular/material" as mat;
+
+@include mat.menu-theme(map.set(theme.$light-theme, "density", -2));
+
+.dark {
+  @include mat.menu-color(theme.$dark-theme);
+}
+
+.light {
+  @include mat.menu-color(theme.$light-theme);
+}
+
+.mat-mdc-menu-item-text {
+  flex-grow: 1;
+  display: flex;
+}

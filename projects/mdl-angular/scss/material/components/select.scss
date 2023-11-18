@@ -1,0 +1,131 @@
+@use "sass:map";
+@use "../theme";
+@use "../../colors";
+@use "@angular/material" as mat;
+
+@include mat.select-theme(map.set(theme.$light-theme, "density", -2));
+
+.dark {
+  @include mat.select-color(theme.$dark-theme);
+}
+
+.light {
+  @include mat.select-color(theme.$light-theme);
+}
+
+.small {
+  @include mat.select-density(-4);
+}
+
+.mat-mdc-select-value {
+  color: var(--mdc-theme-primary, #{colors.$primary});
+
+  .dark & {
+    color: var(--mdc-theme-primary, #{colors.$primary-dark});
+  }
+}
+
+.mat-mdc-select-placeholder {
+  color: #4d4f53;
+  font-weight: 400;
+  font-size: 16px;
+}
+
+html {
+  --mdc-shape-medium: 8px;
+}
+
+.cdk-overlay-pane {
+  &:not(.mat-mdc-select-panel-above) {
+    .mdc-menu-surface.mdc-menu-surface--open {
+      margin-top: 8px;
+      border-top-left-radius: var(--mdc-shape-medium) !important;
+      border-top-right-radius: var(--mdc-shape-medium) !important;
+    }
+  }
+
+  &.mat-mdc-select-panel-above {
+    .mdc-menu-surface.mdc-menu-surface--open {
+      margin-bottom: 8px;
+      border-bottom-left-radius: var(--mdc-shape-medium) !important;
+      border-bottom-right-radius: var(--mdc-shape-medium) !important;
+    }
+  }
+
+  .mdc-menu-surface.mat-mdc-select-panel {
+    border-radius: 8px;
+
+    &.with-filter-host {
+      padding-top: 0px;
+    }
+
+    &.tree {
+      .mat-mdc-option {
+        padding-right: 0;
+
+        /* Masquer la checkbox par défaut et utiliser la notre en mode tree */
+        &.mat-mdc-option-multiple .mat-mdc-option-pseudo-checkbox {
+          display: none;
+        }
+
+        /* Masquer items désactivés */
+        &.mdc-list-item--disabled {
+          display: none;
+        }
+
+        .mdc-list-item__primary-text {
+          width: 100%;
+        }
+      }
+    }
+  }
+}
+
+// .mat-mdc-option .mat-icon,
+.mat-mdc-option .mat-pseudo-checkbox-full {
+  margin-right: 12px !important;
+  // margin-left: 6px;
+}
+
+.mat-mdc-select[aria-expanded="true"] .mat-mdc-select-arrow-wrapper {
+  transform: scaleY(-1);
+}
+
+.mat-mdc-select-arrow-wrapper {
+  width: 24px;
+  height: 24px;
+  margin-right: -8px;
+  transform-origin: 50% 50%;
+  transition: transform 175ms ease-in-out;
+
+  .mat-mdc-select-arrow {
+    height: unset;
+    width: unset;
+    color: var(--mdc-theme-primary, #{colors.$blue});
+
+    svg {
+      display: none;
+    }
+
+    /* Remove the top part of the existing arrow triangle to form a chevron shape */
+    &::after {
+      font-family: "Material Icons";
+      font-weight: normal;
+      font-style: normal;
+      font-size: 24px;
+      line-height: 1;
+      letter-spacing: normal;
+      text-transform: none;
+      white-space: nowrap;
+      word-wrap: normal;
+      direction: ltr;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
+      font-feature-settings: "liga";
+
+      display: block;
+      content: "expand_more";
+    }
+  }
+}

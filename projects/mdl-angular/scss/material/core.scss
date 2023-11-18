@@ -1,0 +1,20 @@
+@use "../colors";
+@use "palettes";
+@use "theme";
+@use "@angular/material" as mat;
+
+@include mat.core();
+@include mat.core-theme(theme.$light-theme);
+@include mat.typography-hierarchy(theme.$sncf-typography);
+
+.dark {
+  @include mat.core-color(theme.$dark-theme);
+}
+
+.mat-mdc-menu-panel {
+  --mat-menu-container-shape: 8px !important;
+}
+
+div.mat-mdc-autocomplete-panel {
+  border-radius: 8px !important;
+}

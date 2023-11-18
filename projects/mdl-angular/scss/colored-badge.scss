@@ -1,0 +1,54 @@
+@use "colors";
+
+@mixin badge-color($name, $background-light, $background) {
+  &.#{$name} {
+    background: $background-light;
+
+    &.bullet:before {
+      background: $background;
+    }
+
+    &.with-border {
+      border: 1px solid rgba($background, 0.3);
+    }
+  }
+}
+
+/* Badge */
+.mdl-table-badge {
+  display: flex;
+  align-self: center;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 2px 8px;
+  gap: 8px;
+  min-height: 19px;
+  border-radius: 5px;
+  font-size: 14px;
+  font-weight: 500;
+
+  background: colors.$blue-10;
+  border: 1px solid transparent;
+
+  &.bullet:before {
+    content: "";
+    width: 8px;
+    height: 8px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    display: inline-block;
+    vertical-align: middle;
+    background: colors.$blue;
+  }
+
+  @include badge-color("blue", colors.$blue-10, colors.$blue);
+  @include badge-color("cyan", colors.$cyan-10, colors.$cyan);
+  @include badge-color("green", colors.$green-10, colors.$green);
+  @include badge-color("teal", colors.$teal-10, colors.$teal);
+  @include badge-color("yellow", colors.$yellow-10, colors.$yellow);
+  @include badge-color("orange", colors.$orange-10, colors.$orange);
+  @include badge-color("red", colors.$red-10, colors.$red);
+  @include badge-color("pink", colors.$pink-10, colors.$pink);
+  @include badge-color("purple", colors.$purple-10, colors.$purple);
+}

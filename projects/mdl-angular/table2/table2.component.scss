@@ -1,0 +1,160 @@
+@use "@angular/material" as mat;
+@use "../scss/colors";
+@use "../scss/vars";
+
+:host {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  background-color: var(--mat-table-background-color);
+}
+
+.header {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  padding: 8px 0;
+  gap: 8px;
+  // min-height: 48px;
+
+  > .left-side {
+    display: flex;
+    flex-wrap: nowrap;
+    position: relative;
+    flex-grow: 1;
+
+    > .title {
+      font-size: 20px;
+      font-weight: 500;
+      padding-left: 16px;
+      margin: auto auto auto 0;
+    }
+
+    > .searchbar {
+      width: unset;
+    }
+  }
+
+  > .action-buttons {
+    @include mat.icon-button-density(-2);
+    margin-right: 8px;
+
+    // .mat-icon {
+    //   width: 20px;
+    //   min-width: 20px;
+    //   height: 20px;
+    //   min-height: 20px;
+    //   font-size: 20px;
+    //   line-height: 16px;
+    // }
+  }
+}
+
+.loading-shade {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.15);
+  z-index: 101;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.table-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  min-height: 0;
+
+  .table-scroll {
+    overflow: auto;
+    margin: 8px 16px 0;
+    flex-grow: 1;
+    position: relative;
+
+    ::ng-deep {
+      .mat-mdc-no-data-row {
+        position: absolute;
+        width: 100%;
+        height: calc(100% - 58px - 8px);
+        display: flex;
+
+        > * {
+          margin: auto;
+        }
+      }
+    }
+  }
+
+  /* To allow ripple effect overflow */
+  .mat-column-selection {
+    overflow: initial;
+    padding: 0 0 0 8px;
+    width: 0;
+  }
+}
+
+.mat-mdc-paginator {
+  border-radius: 0 0 8px 8px;
+}
+
+.detail-row {
+  height: unset !important;
+}
+
+.mat-mdc-row {
+  transition: background-color vars.$animation;
+  border: 1px solid transparent;
+  box-sizing: border-box;
+
+  &:hover:not(.expanded) {
+    // background-color: rgba(colors.$cool-gray-0, 0.5);
+  }
+
+  // Details row theme
+  &.detail-row {
+    transition: background-color vars.$animation;
+    &.expanded {
+      max-height: 500px;
+      overflow-y: auto;
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+
+      &.selected {
+        border: 1px dashed colors.$primary;
+        border-top: 1px solid transparent;
+        background-color: #f2f9fd;
+
+        .dark & {
+          color: colors.$primary-dark;
+        }
+      }
+    }
+  }
+
+  // Normal row theme
+  &:not(.details-row) {
+    &.expanded {
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+
+    &.selected {
+      border: 1px dashed colors.$primary;
+      background-color: #f2f9fd;
+
+      .dark & {
+        border-color: colors.$primary-dark;
+      }
+
+      &.expanded {
+        border-bottom: 1px solid transparent;
+      }
+    }
+  }
+}

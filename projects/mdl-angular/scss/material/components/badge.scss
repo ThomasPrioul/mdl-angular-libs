@@ -1,0 +1,12 @@
+@use "../theme";
+@use "@angular/material" as mat;
+
+@include mat.badge-theme(theme.$light-theme);
+
+.dark {
+  @include mat.badge-color(theme.$dark-theme);
+}
+
+.light {
+  @include mat.badge-color(theme.$light-theme);
+}

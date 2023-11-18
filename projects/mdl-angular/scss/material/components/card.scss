@@ -1,0 +1,12 @@
+@use "../theme";
+@use "@angular/material" as mat;
+
+@include mat.card-theme(theme.$light-theme);
+
+.dark {
+  @include mat.card-color(theme.$dark-theme);
+}
+
+.light {
+  @include mat.card-color(theme.$light-theme);
+}

@@ -1,0 +1,12 @@
+@use "../theme";
+@use "@angular/material" as mat;
+
+@include mat.slide-toggle-theme(theme.$light-theme);
+
+.dark {
+  @include mat.slide-toggle-color(theme.$dark-theme);
+}
+
+.light {
+  @include mat.slide-toggle-color(theme.$light-theme);
+}

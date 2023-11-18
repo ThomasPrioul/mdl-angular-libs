@@ -1,0 +1,12 @@
+@use "../theme";
+@use "@angular/material" as mat;
+
+@include mat.autocomplete-theme(theme.$light-theme);
+
+.dark {
+  @include mat.autocomplete-color(theme.$dark-theme);
+}
+
+.light {
+  @include mat.autocomplete-color(theme.$light-theme);
+}

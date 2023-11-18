@@ -1,0 +1,321 @@
+@use "sass:map";
+@use "sass:color";
+
+// Colors
+$white: #ffffff !default;
+$carbon: #333 !default;
+$cool-gray-11: #4d4f53 !default;
+$cool-gray-9: #747678 !default;
+$cool-gray-7: #a0a0a0 !default;
+$cool-gray-5: #b9b9b9 !default;
+$cool-gray-3: #d7d7d7 !default;
+$cool-gray-1: #f2f2f2 !default;
+$cool-gray-0: #f4f5f6 !default;
+$gray-dark: #343a40 !default;
+$gray-darker: #212529 !default;
+$black: black !default;
+$new-light-gray: #f4f5f6 !default;
+
+$blue: #0088ce !default;
+$purple: #6e1e78 !default;
+$pink: #a1006b !default;
+$red: #cd0037 !default;
+$orange: #e05206 !default;
+$yellow: #ffb612 !default;
+$green: #82be00 !default;
+$teal: #d2e100 !default;
+$cyan: #009aa6 !default;
+
+$strong-blue: #0074af !default;
+$strong-cyan: #00838c !default;
+$strong-orange: #c74905 !default;
+
+// Defaults
+$light: $cool-gray-1 !default;
+$gray-light: $cool-gray-11 !default;
+$gray: $carbon !default;
+$text-light: $cool-gray-3 !default;
+$text-disabled: $cool-gray-5 !default;
+$text-medium: $cool-gray-9 !default;
+$primary: $blue !default;
+$primary-dark: color.adjust($blue, $lightness: +20%) !default;
+$base: $primary !default;
+$contrast: $white !default;
+
+// 10%
+$blue-10: #e5f3fa;
+$cyan-10: #e5f5f6;
+$green-10: #f2f9e5;
+$teal-10: #fbfce5;
+$yellow-10: #fff8e7;
+$orange-10: #fceee6;
+$red-10: #fae5eb;
+$pink-10: #f6e5f0;
+$purple-10: #f0e8f1;
+
+// Palettes
+$blue-palette: (
+  50: #e0f1f9,
+  100: #b3dbf0,
+  200: #80c4e7,
+  300: #4dacdd,
+  400: #269ad5,
+  500: $blue,
+  600: #0080c9,
+  700: #0075c2,
+  800: #006bbc,
+  900: #0058b0,
+  contrast: (
+    50: #ffffff,
+    100: #ffffff,
+    200: #ffffff,
+    300: #ffffff,
+    400: #ffffff,
+    500: #ffffff,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+  ),
+);
+
+$blue-palette-dark: (
+  50: #e0f1f9,
+  100: #b3dbf0,
+  200: #80c4e7,
+  300: #4dacdd,
+  400: #269ad5,
+  500: $primary-dark,
+  600: #0080c9,
+  700: #0075c2,
+  800: #006bbc,
+  900: #0058b0,
+  contrast: (
+    50: #fff,
+    100: #fff,
+    200: #fff,
+    300: #fff,
+    400: #fff,
+    500: #fff,
+    600: #fff,
+    700: #fff,
+    800: #fff,
+    900: #fff,
+  ),
+);
+
+/* For use in src/lib/core/theming/_palette.scss */
+$gray-light-palette: (
+  50: #eaeaea,
+  100: #cacacb,
+  200: #a6a7a9,
+  300: #828487,
+  400: #68696d,
+  500: $gray-light,
+  600: #46484c,
+  700: #3d3f42,
+  800: #343639,
+  900: #252629,
+  contrast: (
+    50: #333,
+    100: #333,
+    200: #333,
+    300: #333,
+    400: #333,
+    500: #ffffff,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+  ),
+);
+
+/* For use in src/lib/core/theming/_palette.scss */
+$green-palette: (
+  50: #f0f7e0,
+  100: #daecb3,
+  200: #c1df80,
+  300: #a8d24d,
+  400: #95c826,
+  500: $green,
+  600: #7ab800,
+  700: #6faf00,
+  800: #65a700,
+  900: #529900,
+  contrast: (
+    50: $cool-gray-11,
+    100: $cool-gray-11,
+    200: $cool-gray-11,
+    300: $cool-gray-11,
+    400: $cool-gray-11,
+    500: $cool-gray-11,
+    600: $cool-gray-11,
+    700: $cool-gray-11,
+    800: $cool-gray-11,
+    900: $cool-gray-11,
+  ),
+);
+
+/* For use in src/lib/core/theming/_palette.scss */
+$yellow-palette: (
+  50: #fff6e3,
+  100: #ffe9b8,
+  200: #ffdb89,
+  300: #ffcc59,
+  400: #ffc136,
+  500: $yellow,
+  600: #ffaf10,
+  700: #ffa60d,
+  800: #ff9e0a,
+  900: #ff8e05,
+  contrast: (
+    50: $cool-gray-11,
+    100: $cool-gray-11,
+    200: $cool-gray-11,
+    300: $cool-gray-11,
+    400: $cool-gray-11,
+    500: $cool-gray-11,
+    600: $cool-gray-11,
+    700: $cool-gray-11,
+    800: $cool-gray-11,
+    900: $cool-gray-11,
+  ),
+);
+
+/* For use in src/lib/core/theming/_palette.scss */
+$cyan-palette: (
+  50: #e0f3f4,
+  100: #b3e1e4,
+  200: #80cdd3,
+  300: #4db8c1,
+  400: #26a9b3,
+  500: $cyan,
+  600: #00929e,
+  700: #008895,
+  800: #007e8b,
+  900: #006c7b,
+  contrast: (
+    50: #ffffff,
+    100: #ffffff,
+    200: #ffffff,
+    300: #ffffff,
+    400: #ffffff,
+    500: #ffffff,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+  ),
+);
+
+/* For use in src/lib/core/theming/_palette.scss */
+$red-palette: (
+  50: #f9e0e7,
+  100: #f0b3c3,
+  200: #e6809b,
+  300: #dc4d73,
+  400: #d52655,
+  500: #cd0037,
+  600: #c80031,
+  700: #c1002a,
+  800: #ba0023,
+  900: #ae0016,
+  A100: #ffd8db,
+  A200: #ffa5ab,
+  A400: #ff727b,
+  A700: #ff5864,
+  contrast: (
+    50: $carbon,
+    100: $carbon,
+    200: $carbon,
+    300: #ffffff,
+    400: #ffffff,
+    500: #ffffff,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+    A100: $carbon,
+    A200: $carbon,
+    A400: $carbon,
+    A700: $carbon,
+  ),
+);
+
+// Background palette for light themes.
+$light-theme-background-palette: (
+  status-bar: #e0e0e0,
+  app-bar: white,
+  //$carbon,
+  background: white,
+  hover: $cool-gray-1,
+  card: white,
+  dialog: white,
+  disabled-button: $cool-gray-5,
+  raised-button: white,
+  focused-button: $cool-gray-11,
+  selected-button: #e0e0e0,
+  selected-disabled-button: $cool-gray-5,
+  disabled-button-toggle: #eeeeee,
+  unselected-chip: #e0e0e0,
+  disabled-list-option: $cool-gray-5,
+  tooltip: $carbon,
+);
+
+// Background palette for dark themes.
+$dark-theme-background-palette: (
+  status-bar: $carbon,
+  app-bar: $carbon,
+  background: $carbon,
+  hover: rgba(white, 0.1),
+  // TODO(kara): check style with Material Design UX
+  card: map.get($gray-light-palette, 800),
+  dialog: map.get($gray-light-palette, 800),
+  disabled-button: $cool-gray-5,
+  raised-button: map.get($gray-light-palette, 800),
+  focused-button: $cool-gray-3,
+  selected-button: map.get($gray-light-palette, 900),
+  selected-disabled-button: map.get($gray-light-palette, 800),
+  disabled-button-toggle: $carbon,
+  unselected-chip: map.get($gray-light-palette, 700),
+  disabled-list-option: rgba(white, 0.12),
+  tooltip: map.get($gray-light-palette, 700),
+);
+
+// Foreground palette for light themes.
+$light-theme-foreground-palette: (
+  base: $cool-gray-11,
+  divider: $cool-gray-3,
+  dividers: $cool-gray-3,
+  disabled: $text-disabled,
+  disabled-button: $text-light,
+  disabled-text: $text-disabled,
+  elevation: $carbon,
+  hint-text: $text-disabled,
+  secondary-text: $cool-gray-9,
+  icon: $cool-gray-9,
+  icons: $cool-gray-9,
+  text: $carbon,
+  slider-min: $cool-gray-11,
+  slider-off: $text-disabled,
+  slider-off-active: $cool-gray-9,
+);
+
+// Foreground palette for dark themes.
+$dark-theme-foreground-palette: (
+  base: white,
+  divider: rgba(white, 0.3),
+  dividers: rgba(white, 0.3),
+  disabled: $text-disabled,
+  disabled-button: rgba(white, 0.3),
+  disabled-text: $text-disabled,
+  elevation: black,
+  hint-text: $text-disabled,
+  secondary-text: $cool-gray-1,
+  icon: white,
+  icons: white,
+  text: white,
+  slider-min: white,
+  slider-off: rgba(white, 0.3),
+  slider-off-active: rgba(white, 0.3),
+);

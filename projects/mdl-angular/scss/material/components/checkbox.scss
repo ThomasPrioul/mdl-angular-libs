@@ -1,0 +1,27 @@
+@use "../theme";
+@use "@angular/material" as mat;
+
+@include mat.checkbox-theme(theme.$light-theme);
+
+.dark {
+  @include mat.checkbox-color(theme.$dark-theme);
+  * {
+    --mdc-checkbox-selected-checkmark-color: #fff !important; //Using mat.get-color-from-palette() doesn't work for me so I hardcoded the color
+  }
+
+  .mat-primary {
+    .mat-pseudo-checkbox-checked.mat-pseudo-checkbox-full::after,
+    .mat-pseudo-checkbox-indeterminate.mat-pseudo-checkbox-full::after {
+      color: #fff;
+    }
+  }
+}
+
+.light {
+  @include mat.checkbox-color(theme.$light-theme);
+}
+
+.mat-pseudo-checkbox,
+.mdc-checkbox__background {
+  border-radius: 4px !important;
+}

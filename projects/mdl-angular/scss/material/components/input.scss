@@ -1,0 +1,23 @@
+@use "sass:map";
+@use "../theme";
+@use "../../colors";
+@use "@angular/material" as mat;
+
+$density-input: -2;
+
+@include mat.input-theme(map.set(theme.$light-theme, "density", $density-input));
+.dark {
+  @include mat.input-color(map.set(theme.$dark-theme, "density", $density-input));
+}
+
+.light {
+  @include mat.input-color(map.set(theme.$light-theme, "density", $density-input));
+}
+
+.small {
+  @include mat.input-density(-4);
+}
+
+input {
+  vertical-align: middle;
+}

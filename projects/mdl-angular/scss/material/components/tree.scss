@@ -1,0 +1,13 @@
+@use "../theme";
+@use "sass:map";
+@use "@angular/material" as mat;
+
+@include mat.tree-theme(map.set(theme.$light-theme, "density", -2));
+
+.dark {
+  @include mat.tree-color(theme.$dark-theme);
+}
+
+.light {
+  @include mat.tree-color(theme.$light-theme);
+}

@@ -1,0 +1,26 @@
+@use "vars";
+
+@function contrast-foreground-color(
+  $bg,
+  $dark-color: #333,
+  $light-color: #fff
+) {
+  @if (lightness($bg) > 50) {
+    @return $dark-color;
+  } @else {
+    @return $light-color;
+  }
+}
+
+@function pow($value, $pow: 1) {
+  @return if($pow == 0, 1, $value * pow($value, $pow - 1));
+}
+
+@function rounded($value, $precision: 1) {
+  $pow10: pow(10, $precision);
+  @return round($value * $pow10) / $pow10;
+}
+
+@mixin expand-animation($property) {
+  transition: #{$property} vars.$animation;
+}

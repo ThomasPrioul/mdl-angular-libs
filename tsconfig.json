@@ -4,10 +4,10 @@
   "compilerOptions": {
     "paths": {
       "mdl-angular/*": [
-        "projects/mdl-angular/*",
+        "projects/mdl-angular/*"
       ],
       "mdl-angular": [
-        "projects/mdl-angular/",
+        "projects/mdl-angular/"
       ]
     },
     "baseUrl": "./",

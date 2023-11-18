@@ -1,0 +1,12 @@
+@use "../theme";
+@use "@angular/material" as mat;
+
+@include mat.divider-theme(theme.$light-theme);
+
+.dark {
+  @include mat.divider-color(theme.$dark-theme);
+}
+
+.light {
+  @include mat.divider-color(theme.$light-theme);
+}

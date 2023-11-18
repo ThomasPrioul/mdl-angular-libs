@@ -1,0 +1,17 @@
+@use "../theme";
+@use "@angular/material" as mat;
+
+@include mat.datepicker-theme(theme.$light-theme);
+
+.dark {
+  @include mat.datepicker-color(theme.$dark-theme);
+}
+
+.light {
+  @include mat.datepicker-color(theme.$light-theme);
+}
+
+.mat-calendar-body-label,
+.mat-calendar-period-button {
+  font-size: 14px !important;
+}

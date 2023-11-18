@@ -1,0 +1,17 @@
+@use "../theme";
+@use "@angular/material" as mat;
+
+@include mat.tabs-theme(theme.$light-theme);
+
+.dark {
+  @include mat.tabs-color(theme.$dark-theme);
+}
+
+.light {
+  @include mat.tabs-color(theme.$light-theme);
+}
+
+.mdc-tab-indicator .mdc-tab-indicator__content--underline {
+  border-top-width: 4px !important;
+  border-radius: 40px;
+}

@@ -1,0 +1,135 @@
+.app-header {
+  width: 100%;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  border-bottom: 1px solid #222;
+
+  .mat-toolbar-row {
+    gap: 1rem;
+  }
+
+  .mat-divider {
+    height: 24px;
+  }
+
+  .logos {
+    grid-area: logos;
+    display: flex;
+    gap: 1rem;
+  }
+
+  .sncf-logo {
+    display: flex;
+
+    > img {
+      width: 48px;
+    }
+  }
+
+  .menu-button {
+    margin-left: -8px;
+
+    img {
+      height: 25px;
+    }
+
+    i {
+      font-size: 20px;
+      margin-bottom: -4px;
+      transition: transform 0.3s ease-out;
+
+      &.opened {
+        transform: scaleY(-1);
+      }
+    }
+  }
+
+  .right-buttons {
+    margin-left: auto;
+    display: flex;
+    gap: 16px;
+    align-items: center;
+
+    #searchBar {
+      flex: 1 1 auto;
+      min-width: 160px;
+      max-width: 400px;
+    }
+  }
+
+  @media (max-width: 959.98px) {
+    .menu-button img {
+      height: 18px;
+    }
+
+    .sncf-logo > img {
+      width: 40px;
+    }
+
+    row-gap: 0.2rem;
+
+    .title {
+      font-size: 1rem;
+    }
+
+    #searchBar {
+      flex: 1;
+      max-width: unset;
+    }
+  }
+}
+
+.app-sidenav-container {
+  min-height: 100%;
+  width: 100%;
+  // height: auto !important;
+  height: max-content;
+  margin: 0;
+  transform: none;
+  z-index: 0;
+  position: relative;
+
+  .app-sidenav {
+    position: fixed;
+    top: 64px;
+    bottom: 0;
+    left: 0;
+    min-width: 260px;
+
+    .menu-host {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+
+      > div {
+        background: #f4f5f6;
+        display: flex;
+        align-items: center;
+        height: 48px;
+        box-sizing: border-box;
+        padding: 8px;
+        border-top: 1px solid #ccc;
+
+        &:first-child {
+          border-top: 0;
+        }
+
+        &:hover {
+          background: #dedede;
+        }
+      }
+    }
+  }
+}
+
+main {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  // height: calc(100vh - 65px);
+}
+
+mdl-table {
+  flex-grow: 1;
+}

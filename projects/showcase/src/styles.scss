@@ -1,1 +1,55 @@
-/* You can add global styles to this file, and also import other style files */
+@use "@angular/material" as mat;
+@use "mdl-angular/scss" as mdl;
+@config "../tailwind.config.js";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body {
+  height: auto;
+}
+
+body {
+  margin: 0;
+  font-family: mdl.$font-sans-serif, "Helvetica Neue", sans-serif;
+}
+
+@import "mdl-angular/scss/fonts";
+@import "mdl-angular/scss/material/core";
+@import "mdl-angular/scss/material/components/autocomplete";
+@import "mdl-angular/scss/material/components/badge";
+@import "mdl-angular/scss/material/components/button";
+@import "mdl-angular/scss/material/components/card";
+@import "mdl-angular/scss/material/components/checkbox";
+@import "mdl-angular/scss/material/components/dialog";
+@import "mdl-angular/scss/material/components/table";
+@import "mdl-angular/scss/material/components/datepicker";
+@import "mdl-angular/scss/material/components/divider";
+@import "mdl-angular/scss/material/components/input";
+@import "mdl-angular/scss/material/components/menu";
+@import "mdl-angular/scss/material/components/option";
+@import "mdl-angular/scss/material/components/paginator";
+@import "mdl-angular/scss/material/components/progress-bar";
+@import "mdl-angular/scss/material/components/progress-spinner";
+@import "mdl-angular/scss/material/components/radio";
+@import "mdl-angular/scss/material/components/select";
+@import "mdl-angular/scss/material/components/slide-toggle";
+@import "mdl-angular/scss/material/components/slider";
+@import "mdl-angular/scss/material/components/sidenav";
+@import "mdl-angular/scss/material/components/sort";
+@import "mdl-angular/scss/material/components/tabs";
+@import "mdl-angular/scss/material/components/toolbar";
+@import "mdl-angular/scss/material/components/tooltip";
+@import "mdl-angular/scss/material/components/tree";
+@import "mdl-angular/scss/material/components/snack-bar";
+@import "mdl-angular/scss/material/components/form-field";
+@import "mdl-angular/scss/material/components/stepper";
+// @use '../../bottom-sheet/bottom-sheet-theme';
+// @use '../../chips/chips-theme';
+// @use '../../expansion/expansion-theme';
+// @use '../../grid-list/grid-list-theme';
+// @use '../../list/list-theme';
+@import "mdl-angular/scss/colored-badge";
+@import "mdl-angular/scss/highlight";
+@import "mdl-angular/scss/panels";

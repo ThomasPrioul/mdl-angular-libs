@@ -1,0 +1,810 @@
+@font-face {
+  font-family: Avenir;
+  src: url('../assets/fonts/avenir-lighter.woff');
+  font-weight: 300;
+}
+
+@font-face {
+  font-family: Avenir;
+  src: url('../assets/fonts/avenir-book.woff');
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: Avenir;
+  src: url('../assets/fonts/avenir-medium.woff');
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: Avenir;
+  src: url('../assets/fonts/avenir-black.woff');
+  font-weight: 900;
+}
+
+@font-face {
+  font-family: 'icons';
+  src: url('../assets/fonts/icons.eot?#iefix') format('embedded-opentype'),
+    url('../assets/fonts/icons.woff2') format('woff2'),
+    url('../assets/fonts/icons.woff') format('woff'),
+    url('../assets/fonts/icons.ttf') format('truetype'),
+    url('../assets/fonts/icons.svg#icons') format('svg');
+}
+
+.icons {
+  font-family: icons;
+  font-style: normal;
+
+  &.small {
+    font-size: 0.75em;
+    vertical-align: baseline;
+  }
+
+  &.add:before {
+    content: '\f101';
+  }
+
+  &.admin:before {
+    content: '\f102';
+  }
+
+  &.alert-notification:before {
+    content: '\f103';
+  }
+
+  &.ambulant-sales:before {
+    content: '\f104';
+  }
+
+  &.arrow-double:before {
+    content: '\f105';
+  }
+
+  &.arrow-down:before {
+    content: '\f106';
+  }
+
+  &.arrow-next:before {
+    content: '\f107';
+  }
+
+  &.arrow-prev:before {
+    content: '\f108';
+  }
+
+  &.arrow-real:before {
+    content: '\f109';
+  }
+
+  &.arrow-up:before {
+    content: '\f10a';
+  }
+
+  &.arrow:before {
+    content: '\f10b';
+  }
+
+  &.booking:before {
+    content: '\f10c';
+  }
+
+  &.bookmark-off:before {
+    content: '\f10d';
+  }
+
+  &.bookmark:before {
+    content: '\f10e';
+  }
+
+  &.bypass:before {
+    content: '\f10f';
+  }
+
+  &.calendar-time:before {
+    content: '\f110';
+  }
+
+  &.calendar:before {
+    content: '\f111';
+  }
+
+  &.checked:before {
+    content: '\f112';
+  }
+
+  &.circle-account-connected:before {
+    content: '\f113';
+  }
+
+  &.circle-arrow:before {
+    content: '\f114';
+  }
+
+  &.circle-back-top:before {
+    content: '\f115';
+  }
+
+  &.circle-cancelled:before {
+    content: '\f116';
+  }
+
+  &.circle-delay:before {
+    content: '\f117';
+  }
+
+  &.circle-delete:before {
+    content: '\f118';
+  }
+
+  &.circle-disruption:before {
+    content: '\f119';
+  }
+
+  &.circle-facebook:before {
+    content: '\f11a';
+  }
+
+  &.circle-flux-rss:before {
+    content: '\f11b';
+  }
+
+  &.circle-google-plus:before {
+    content: '\f11c';
+  }
+
+  &.circle-information:before {
+    content: '\f11d';
+  }
+
+  &.circle-instagram:before {
+    content: '\f11e';
+  }
+
+  &.circle-linkedin:before {
+    content: '\f11f';
+  }
+
+  &.circle-mail:before {
+    content: '\f120';
+  }
+
+  &.circle-pinterest:before {
+    content: '\f121';
+  }
+
+  &.circle-print:before {
+    content: '\f122';
+  }
+
+  &.circle-reverse:before {
+    content: '\f123';
+  }
+
+  &.circle-tooltip:before {
+    content: '\f124';
+  }
+
+  &.circle-twitter:before {
+    content: '\f125';
+  }
+
+  &.circle-works:before {
+    content: '\f126';
+  }
+
+  &.clock:before {
+    content: '\f127';
+  }
+
+  &.close-circle:before {
+    content: '\f128';
+  }
+
+  &.close:before {
+    content: '\f129';
+  }
+
+  &.disabled-service:before {
+    content: '\f12a';
+  }
+
+  &.distribution:before {
+    content: '\f12b';
+  }
+
+  &.document:before {
+    content: '\f12c';
+  }
+
+  &.document2:before {
+    content: '\f12d';
+  }
+
+  &.download:before {
+    content: '\f12e';
+  }
+
+  &.eco-consumption:before {
+    content: '\f12f';
+  }
+
+  &.external-link:before {
+    content: '\f130';
+  }
+
+  &.facebook:before {
+    content: '\f131';
+  }
+
+  &.favorite-on:before {
+    content: '\f132';
+  }
+
+  &.file:before {
+    content: '\f133';
+  }
+
+  &.filters:before {
+    content: '\f134';
+  }
+
+  &.free-bike:before {
+    content: '\f135';
+  }
+
+  &.instagram:before {
+    content: '\f136';
+  }
+
+  &.itinerary-bike:before {
+    content: '\f137';
+  }
+
+  &.itinerary-bullet:before {
+    content: '\f138';
+  }
+
+  &.itinerary-bus-2:before {
+    content: '\f139';
+  }
+
+  &.itinerary-bus:before {
+    content: '\f13a';
+  }
+
+  &.itinerary-car:before {
+    content: '\f13b';
+  }
+
+  &.itinerary-line-idf-a:before {
+    content: '\f13c';
+  }
+
+  &.itinerary-line-idf-b:before {
+    content: '\f13d';
+  }
+
+  &.itinerary-line-idf-c:before {
+    content: '\f13e';
+  }
+
+  &.itinerary-line-idf-d:before {
+    content: '\f13f';
+  }
+
+  &.itinerary-line-idf-e:before {
+    content: '\f140';
+  }
+
+  &.itinerary-line-idf-h:before {
+    content: '\f141';
+  }
+
+  &.itinerary-line-idf-j:before {
+    content: '\f142';
+  }
+
+  &.itinerary-line-idf-k:before {
+    content: '\f143';
+  }
+
+  &.itinerary-line-idf-l:before {
+    content: '\f144';
+  }
+
+  &.itinerary-line-idf-n:before {
+    content: '\f145';
+  }
+
+  &.itinerary-line-idf-p:before {
+    content: '\f146';
+  }
+
+  &.itinerary-line-idf-r:before {
+    content: '\f147';
+  }
+
+  &.itinerary-line-idf-u:before {
+    content: '\f148';
+  }
+
+  &.itinerary-line-metro-1:before {
+    content: '\f149';
+  }
+
+  &.itinerary-line-metro-10:before {
+    content: '\f14a';
+  }
+
+  &.itinerary-line-metro-11:before {
+    content: '\f14b';
+  }
+
+  &.itinerary-line-metro-12:before {
+    content: '\f14c';
+  }
+
+  &.itinerary-line-metro-13:before {
+    content: '\f14d';
+  }
+
+  &.itinerary-line-metro-14:before {
+    content: '\f14e';
+  }
+
+  &.itinerary-line-metro-2:before {
+    content: '\f14f';
+  }
+
+  &.itinerary-line-metro-3:before {
+    content: '\f150';
+  }
+
+  &.itinerary-line-metro-3bis:before {
+    content: '\f151';
+  }
+
+  &.itinerary-line-metro-4:before {
+    content: '\f152';
+  }
+
+  &.itinerary-line-metro-5:before {
+    content: '\f153';
+  }
+
+  &.itinerary-line-metro-6:before {
+    content: '\f154';
+  }
+
+  &.itinerary-line-metro-7:before {
+    content: '\f155';
+  }
+
+  &.itinerary-line-metro-7bis:before {
+    content: '\f156';
+  }
+
+  &.itinerary-line-metro-8:before {
+    content: '\f157';
+  }
+
+  &.itinerary-line-metro-9:before {
+    content: '\f158';
+  }
+
+  &.itinerary-line-tram-1:before {
+    content: '\f159';
+  }
+
+  &.itinerary-line-tram-10:before {
+    content: '\f15a';
+  }
+
+  &.itinerary-line-tram-11:before {
+    content: '\f15b';
+  }
+
+  &.itinerary-line-tram-12:before {
+    content: '\f15c';
+  }
+
+  &.itinerary-line-tram-13:before {
+    content: '\f15d';
+  }
+
+  &.itinerary-line-tram-2:before {
+    content: '\f15e';
+  }
+
+  &.itinerary-line-tram-3:before {
+    content: '\f15f';
+  }
+
+  &.itinerary-line-tram-3a:before {
+    content: '\f160';
+  }
+
+  &.itinerary-line-tram-3b:before {
+    content: '\f161';
+  }
+
+  &.itinerary-line-tram-3est:before {
+    content: '\f162';
+  }
+
+  &.itinerary-line-tram-4:before {
+    content: '\f163';
+  }
+
+  &.itinerary-line-tram-5:before {
+    content: '\f164';
+  }
+
+  &.itinerary-line-tram-6:before {
+    content: '\f165';
+  }
+
+  &.itinerary-line-tram-7:before {
+    content: '\f166';
+  }
+
+  &.itinerary-line-tram-8:before {
+    content: '\f167';
+  }
+
+  &.itinerary-line-tram-9:before {
+    content: '\f168';
+  }
+
+  &.itinerary-metro:before {
+    content: '\f169';
+  }
+
+  &.itinerary-pedestrian:before {
+    content: '\f16a';
+  }
+
+  &.itinerary-rer:before {
+    content: '\f16b';
+  }
+
+  &.itinerary-train-station:before {
+    content: '\f16c';
+  }
+
+  &.itinerary-train:before {
+    content: '\f16d';
+  }
+
+  &.itinerary-tram:before {
+    content: '\f16e';
+  }
+
+  &.itinerary-tramway:before {
+    content: '\f16f';
+  }
+
+  &.label:before {
+    content: '\f170';
+  }
+
+  &.large-building:before {
+    content: '\f171';
+  }
+
+  &.large-clock:before {
+    content: '\f172';
+  }
+
+  &.large-conversation:before {
+    content: '\f173';
+  }
+
+  &.large-creditcard:before {
+    content: '\f174';
+  }
+
+  &.large-france:before {
+    content: '\f175';
+  }
+
+  &.large-group:before {
+    content: '\f176';
+  }
+
+  &.large-headphones:before {
+    content: '\f177';
+  }
+
+  &.large-information:before {
+    content: '\f178';
+  }
+
+  &.large-itinerary-bike:before {
+    content: '\f179';
+  }
+
+  &.large-itinerary-bus-2:before {
+    content: '\f17a';
+  }
+
+  &.large-itinerary-bus:before {
+    content: '\f17b';
+  }
+
+  &.large-itinerary-car:before {
+    content: '\f17c';
+  }
+
+  &.large-itinerary-metro:before {
+    content: '\f17d';
+  }
+
+  &.large-itinerary-pedestrian:before {
+    content: '\f17e';
+  }
+
+  &.large-itinerary-rer:before {
+    content: '\f17f';
+  }
+
+  &.large-itinerary-train-station:before {
+    content: '\f180';
+  }
+
+  &.large-itinerary-train:before {
+    content: '\f181';
+  }
+
+  &.large-itinerary-tram:before {
+    content: '\f182';
+  }
+
+  &.large-itinerary-tramway:before {
+    content: '\f183';
+  }
+
+  &.large-lightbulb:before {
+    content: '\f184';
+  }
+
+  &.large-luggage:before {
+    content: '\f185';
+  }
+
+  &.large-mail:before {
+    content: '\f186';
+  }
+
+  &.large-phone:before {
+    content: '\f187';
+  }
+
+  &.large-search-recent:before {
+    content: '\f188';
+  }
+
+  &.large-seat:before {
+    content: '\f189';
+  }
+
+  &.large-skateboard:before {
+    content: '\f18a';
+  }
+
+  &.large-smartphone:before {
+    content: '\f18b';
+  }
+
+  &.large-sncf:before {
+    content: '\f18c';
+  }
+
+  &.large-stroller:before {
+    content: '\f18d';
+  }
+
+  &.large-suitcase:before {
+    content: '\f18e';
+  }
+
+  &.large-swipecard:before {
+    content: '\f18f';
+  }
+
+  &.large-ticket:before {
+    content: '\f190';
+  }
+
+  &.large-truck:before {
+    content: '\f191';
+  }
+
+  &.large-warning:before {
+    content: '\f192';
+  }
+
+  &.linkedin:before {
+    content: '\f193';
+  }
+
+  &.list:before {
+    content: '\f194';
+  }
+
+  &.localisation-pin:before {
+    content: '\f195';
+  }
+
+  &.lounge-car:before {
+    content: '\f196';
+  }
+
+  &.menu-account:before {
+    content: '\f197';
+  }
+
+  &.menu-burger:before {
+    content: '\f198';
+  }
+
+  &.menu-searchbar:before {
+    content: '\f199';
+  }
+
+  &.message:before {
+    content: '\f19a';
+  }
+
+  &.mosaic:before {
+    content: '\f19b';
+  }
+
+  &.nursery-service:before {
+    content: '\f19c';
+  }
+
+  &.options:before {
+    content: '\f19d';
+  }
+
+  &.pause:before {
+    content: '\f19e';
+  }
+
+  &.pencil:before {
+    content: '\f19f';
+  }
+
+  &.play-area:before {
+    content: '\f1a0';
+  }
+
+  &.play:before {
+    content: '\f1a1';
+  }
+
+  &.position:before {
+    content: '\f1a2';
+  }
+
+  &.print:before {
+    content: '\f1a3';
+  }
+
+  &.professionnal-area:before {
+    content: '\f1a4';
+  }
+
+  &.quiet-area:before {
+    content: '\f1a5';
+  }
+
+  &.refresh:before {
+    content: '\f1a6';
+  }
+
+  &.rent-bike:before {
+    content: '\f1a7';
+  }
+
+  &.sami-confused:before {
+    content: '\f1a8';
+  }
+
+  &.sami-grin:before {
+    content: '\f1a9';
+  }
+
+  &.sami-sad:before {
+    content: '\f1aa';
+  }
+
+  &.sami-smile:before {
+    content: '\f1ab';
+  }
+
+  &.search-recent:before {
+    content: '\f1ac';
+  }
+
+  &.search:before {
+    content: '\f1ad';
+  }
+
+  &.share:before {
+    content: '\f1ae';
+  }
+
+  &.slider-off:before {
+    content: '\f1af';
+  }
+
+  &.slider-on:before {
+    content: '\f1b0';
+  }
+
+  &.sort:before {
+    content: '\f1b1';
+  }
+
+  &.support:before {
+    content: '\f1b2';
+  }
+
+  &.tag:before {
+    content: '\f1b3';
+  }
+
+  &.tgv-family:before {
+    content: '\f1b4';
+  }
+
+  &.toolbar-bold:before {
+    content: '\f1b5';
+  }
+
+  &.toolbar-center:before {
+    content: '\f1b6';
+  }
+
+  &.toolbar-italic:before {
+    content: '\f1b7';
+  }
+
+  &.toolbar-left:before {
+    content: '\f1b8';
+  }
+
+  &.toolbar-list:before {
+    content: '\f1b9';
+  }
+
+  &.toolbar-underline:before {
+    content: '\f1ba';
+  }
+
+  &.twitter:before {
+    content: '\f1bb';
+  }
+
+  &.volume-down:before {
+    content: '\f1bc';
+  }
+
+  &.volume-up:before {
+    content: '\f1bd';
+  }
+
+  &.warning:before {
+    content: '\f1be';
+  }
+
+  &.wifi-area:before {
+    content: '\f1bf';
+  }
+
+  &.young-service:before {
+    content: '\f1c0';
+  }
+}
