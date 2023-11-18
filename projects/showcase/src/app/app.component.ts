@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ButtonComponent } from '@mycomp/ui-sdk/button';
+import { ButtonComponent } from 'mdl-angular/button';
 
 @Component({
   selector: 'app-root',

@@ -3,23 +3,23 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "@mycomp/ui-sdk": {
+    "mdl-angular": {
       "projectType": "library",
-      "root": "projects/mycomp/ui-sdk",
-      "sourceRoot": "projects/mycomp/ui-sdk/src",
+      "root": "projects/mdl-angular",
+      "sourceRoot": "projects/mdl-angular/",
       "prefix": "lib",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
-            "project": "projects/mycomp/ui-sdk/ng-package.json"
+            "project": "projects/mdl-angular/ng-package.json"
           },
           "configurations": {
             "production": {
-              "tsConfig": "projects/mycomp/ui-sdk/tsconfig.lib.prod.json"
+              "tsConfig": "projects/mdl-angular/tsconfig.lib.prod.json"
             },
             "development": {
-              "tsConfig": "projects/mycomp/ui-sdk/tsconfig.lib.json"
+              "tsConfig": "projects/mdl-angular/tsconfig.lib.json"
             }
           },
           "defaultConfiguration": "production"
@@ -27,7 +27,7 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "tsConfig": "projects/mycomp/ui-sdk/tsconfig.spec.json",
+            "tsConfig": "projects/mdl-angular/tsconfig.spec.json",
             "polyfills": [
               "zone.js",
               "zone.js/testing"

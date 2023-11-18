@@ -3,11 +3,11 @@
   "compileOnSave": false,
   "compilerOptions": {
     "paths": {
-      "@mycomp/ui-sdk/*": [
-        "projects/mycomp/ui-sdk/*",
+      "mdl-angular/*": [
+        "projects/mdl-angular/*",
       ],
-      "@mycomp/ui-sdk": [
-        "projects/mycomp/ui-sdk",
+      "mdl-angular": [
+        "projects/mdl-angular/",
       ]
     },
     "baseUrl": "./",

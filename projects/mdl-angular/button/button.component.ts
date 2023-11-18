@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { TranslatePipe } from '@mycomp/ui-sdk/i18n';
+import { TranslatePipe } from 'mdl-angular/i18n';
 
 @Component({
   template: `<div>{{ 'Lib button works!' | translate }}</div>`,
