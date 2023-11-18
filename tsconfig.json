@@ -2,6 +2,14 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "paths": {
+      "@mycomp/ui-sdk/*": [
+        "projects/mycomp/ui-sdk/*",
+      ],
+      "@mycomp/ui-sdk": [
+        "projects/mycomp/ui-sdk",
+      ]
+    },
     "baseUrl": "./",
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,

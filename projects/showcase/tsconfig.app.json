@@ -1,0 +1,22 @@
+/* To learn more about this file see: https://angular.io/config/tsconfig. */
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../../out-tsc/app",
+    "types": [],
+    "paths": {
+      "@mycomp/ui-sdk/*": [
+        "dist/mycomp/ui-sdk/*"
+      ],
+      "@mycomp/ui-sdk": [
+        "dist/mycomp/ui-sdk"
+      ]
+    }
+  },
+  "files": [
+    "src/main.ts"
+  ],
+  "include": [
+    "src/**/*.d.ts"
+  ]
+}
