@@ -1,0 +1,20 @@
+@use "../scss" as mdl;
+
+:host {
+  display: flex;
+  width: min-content;
+  align-items: center;
+  background: mdl.$cool-gray-1;
+  border-radius: 40px;
+  padding: 0 4px;
+  gap: -4px;
+
+  .dark & {
+    background-color: mdl.$cool-gray-11;
+  }
+}
+
+.zoom-level {
+  min-width: 64px;
+  padding: 0 8px;
+}

@@ -9,14 +9,16 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSortModule } from '@angular/material/sort';
-// import { MdlLoadingDirective } from 'mdl-angular/spinner';
-import { ColumnDisplayInfo, MdlTableComponent } from 'mdl-angular/table2';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DarkModeDirective } from './dark-mode.directive';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
+
+// import { MdlLoadingDirective } from 'mdl-angular/spinner';
+import { MdlZoomButtonComponent } from 'mdl-angular/zoom-button';
+import { ColumnDisplayInfo, MdlTableComponent } from 'mdl-angular/table2';
 
 export interface PeriodicElement {
   name: string;
@@ -84,6 +86,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
     // MDL
     // MdlLoadingDirective,
     MdlTableComponent,
+    MdlZoomButtonComponent,
 
     // APP
     DarkModeDirective,

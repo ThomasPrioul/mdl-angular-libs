@@ -50,7 +50,7 @@
         </button>
         <button
           class="mr-auto"
-          mat-raised-button
+          mat-flat-button
           (click)="loadEmptyData()"
           [disabled]="loading() === true">
           <span>Load empty data</span>
@@ -64,6 +64,8 @@
         <mat-form-field>
           <input matInput [value]="codeOutput" />
         </mat-form-field>
+
+        <mdl-zoom-button></mdl-zoom-button>
         <mat-slide-toggle color="primary" class="ml-auto" [(ngModel)]="fixedHeight">
           Fixed height page
         </mat-slide-toggle>
