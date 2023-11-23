@@ -51,6 +51,17 @@
   @include mat.button-toggle-color(theme.$light-theme);
   @include mat.icon-button-color(theme.$light-theme);
   @include mat.fab-color(theme.$light-theme);
+
+  .mat-mdc-raised-button.mat-unthemed {
+    --mdc-protected-button-label-text-color: #{colors.$carbon};
+  }
+  .mat-mdc-unelevated-button.mat-unthemed {
+    --mdc-filled-button-label-text-color: #{colors.$carbon};
+  }
+
+  .mat-mdc-button.mat-unthemed {
+    --mdc-text-button-label-text-color: #{colors.$carbon};
+  }
 }
 
 .small {
