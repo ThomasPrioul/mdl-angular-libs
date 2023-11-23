@@ -2,13 +2,16 @@
 @use "../../colors";
 @use "@angular/material" as mat;
 
-@include mat.snack-bar-theme(theme.$light-theme);
+@include mat.snack-bar-density(theme.$light-theme);
+@include mat.snack-bar-typography(theme.$light-theme);
 
-.dark {
+.dark,
+.light .dark {
   @include mat.snack-bar-color(theme.$dark-theme);
 }
 
-.light {
+.light,
+.dark .light {
   @include mat.snack-bar-color(theme.$light-theme);
 }
 

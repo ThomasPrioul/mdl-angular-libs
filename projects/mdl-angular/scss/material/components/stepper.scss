@@ -1,10 +1,12 @@
-@use '../theme';
-@use '../../colors.scss';
-@use '@angular/material' as mat;
+@use "../theme";
+@use "../../colors.scss";
+@use "@angular/material" as mat;
 
-@include mat.stepper-theme(theme.$light-theme);
+@include mat.stepper-density(theme.$light-theme);
+@include mat.stepper-typography(theme.$light-theme);
 
-.dark {
+.dark,
+.light .dark {
   @include mat.stepper-color(theme.$dark-theme);
 
   .mat-step-header .mat-step-icon {
@@ -12,6 +14,7 @@
   }
 }
 
-.light {
+.light,
+.dark .light {
   @include mat.stepper-color(theme.$light-theme);
 }

@@ -3,7 +3,7 @@
     <mat-toolbar-row>
       <div class="logos">
         <div class="sncf-logo">
-          <img alt="SNCF" />
+          <img alt="SNCF" src="assets/logo-sncf.svg" />
         </div>
         <button
           appMainMenuButton
@@ -14,6 +14,15 @@
           MENU
         </button>
       </div>
+      <button
+        appDarkMode
+        #dark="darkMode"
+        mat-icon-button
+        [matTooltip]="dark.enabled ? 'Mode clair' : 'Mode sombre'"
+        class="ms-auto"
+        (click)="dark.enabled = !dark.enabled">
+        <mat-icon [innerText]="dark.enabled ? 'light_mode' : 'dark_mode'"></mat-icon>
+      </button>
     </mat-toolbar-row>
   </mat-toolbar>
 </div>
@@ -35,19 +44,29 @@
   </mat-sidenav>
   <mat-sidenav-content>
     <main [style.height]="fixedHeight ? 'calc(100vh - ' + header.offsetHeight + 'px)' : null">
-      <div class="flex gap-2 m-2 items-center">
+      <div class="flex gap-2 mx-6 items-center flex-wrap">
         <button mat-raised-button (click)="loadData()" [disabled]="loading() === true">
           <span>Load data</span>
         </button>
-        <button mat-raised-button (click)="loadEmptyData()" [disabled]="loading() === true">
+        <button
+          class="mr-auto"
+          mat-raised-button
+          (click)="loadEmptyData()"
+          [disabled]="loading() === true">
           <span>Load empty data</span>
         </button>
-        <textarea matInput #code></textarea>
-        <button mat-raised-button (click)="executeArbitraryCode(code.value)">
+        <mat-form-field>
+          <input matInput #code placeholder="return 1 + 1;" />
+        </mat-form-field>
+        <button mat-raised-button color="warn" (click)="executeArbitraryCode(code.value)">
           <span>Run code</span>
         </button>
-        <textarea matInput [value]="codeOutput"></textarea>
-        <mat-slide-toggle [(ngModel)]="fixedHeight"> Fixed height page </mat-slide-toggle>
+        <mat-form-field>
+          <input matInput [value]="codeOutput" />
+        </mat-form-field>
+        <mat-slide-toggle color="primary" class="ml-auto" [(ngModel)]="fixedHeight">
+          Fixed height page
+        </mat-slide-toggle>
       </div>
 
       <mdl-table2
@@ -57,8 +76,7 @@
         selection
         matSort
         title="Restrictions"
-        style="margin: 24px; border-radius: 8px"
-        class="mat-elevation-z8">
+        class="mat-elevation-z8 flex-grow mx-6 rounded-lg">
         <ng-container matColumnDef="name">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
           <td mat-cell *matCellDef="let element">{{ element.name }}</td>

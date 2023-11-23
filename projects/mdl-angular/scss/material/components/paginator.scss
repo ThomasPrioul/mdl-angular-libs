@@ -1,12 +1,15 @@
 @use "../theme";
 @use "@angular/material" as mat;
 
-@include mat.paginator-theme(theme.$light-theme);
+@include mat.paginator-density(theme.$light-theme);
+@include mat.paginator-typography(theme.$light-theme);
 
-.dark {
+.dark,
+.light .dark {
   @include mat.paginator-color(theme.$dark-theme);
 }
 
-.light {
+.light,
+.dark .light {
   @include mat.paginator-color(theme.$light-theme);
 }

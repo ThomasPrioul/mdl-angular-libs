@@ -4,10 +4,12 @@
 
 @include mat.tree-theme(map.set(theme.$light-theme, "density", -2));
 
-.dark {
+.dark,
+.light .dark {
   @include mat.tree-color(theme.$dark-theme);
 }
 
-.light {
+.light,
+.dark .light {
   @include mat.tree-color(theme.$light-theme);
 }

@@ -1,13 +1,16 @@
 @use "../theme";
 @use "@angular/material" as mat;
 
-@include mat.datepicker-theme(theme.$light-theme);
+@include mat.datepicker-density(theme.$light-theme);
+@include mat.datepicker-typography(theme.$light-theme);
 
-.dark {
+.dark,
+.light .dark {
   @include mat.datepicker-color(theme.$dark-theme);
 }
 
-.light {
+.light,
+.dark .light {
   @include mat.datepicker-color(theme.$light-theme);
 }
 

@@ -4,11 +4,13 @@
 
 // @include mat.option-theme(theme.$light-theme);
 
-.dark {
+.dark,
+.light .dark {
   @include mat.option-color(theme.$dark-theme);
 }
 
-.light {
+.light,
+.dark .light {
   @include mat.option-color(theme.$light-theme);
 }
 

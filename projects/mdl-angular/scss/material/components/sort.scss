@@ -1,12 +1,15 @@
 @use "../theme";
 @use "@angular/material" as mat;
 
-@include mat.sort-theme(theme.$light-theme);
+@include mat.sort-density(theme.$light-theme);
+@include mat.sort-typography(theme.$light-theme);
 
-.dark {
+.dark,
+.light .dark {
   @include mat.sort-color(theme.$dark-theme);
 }
 
-.light {
+.light,
+.dark .light {
   @include mat.sort-color(theme.$light-theme);
 }

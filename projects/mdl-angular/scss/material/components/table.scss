@@ -4,13 +4,16 @@
 @use "../theme";
 @use "@angular/material" as mat;
 
-@include mat.table-theme(map.set(theme.$light-theme, "density", -1));
+@include mat.table-density(map.set(theme.$light-theme, "density", -1));
+@include mat.table-typography(map.set(theme.$light-theme, "density", -1));
 
-.dark {
+.dark,
+.light .dark {
   @include mat.table-color(map.set(theme.$dark-theme, "density", -1));
 }
 
-.light {
+.light,
+.dark .light {
   @include mat.table-color(map.set(theme.$light-theme, "density", -1));
 }
 

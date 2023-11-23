@@ -126,12 +126,12 @@ export class WithSelectionPipe implements PipeTransform {
 
     // MDL
     MdlFullscreenButtonDirective,
+    MdlSpinnerComponent,
 
     // This
     WithSelectionPipe,
     SearchbarComponent,
     ColumnsComponent,
-    MdlSpinnerComponent,
   ],
 })
 export class MdlTableComponent<T> implements AfterContentInit, AfterViewInit, OnDestroy {

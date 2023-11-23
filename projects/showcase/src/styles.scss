@@ -1,6 +1,5 @@
 @use "@angular/material" as mat;
 @use "mdl-angular/scss" as mdl;
-@config "../tailwind.config.js";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

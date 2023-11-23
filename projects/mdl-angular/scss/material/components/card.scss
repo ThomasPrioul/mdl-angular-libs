@@ -1,12 +1,15 @@
 @use "../theme";
 @use "@angular/material" as mat;
 
-@include mat.card-theme(theme.$light-theme);
+@include mat.card-density(theme.$light-theme);
+@include mat.card-typography(theme.$light-theme);
 
-.dark {
+.dark,
+.light .dark {
   @include mat.card-color(theme.$dark-theme);
 }
 
-.light {
+.light,
+.dark .light {
   @include mat.card-color(theme.$light-theme);
 }

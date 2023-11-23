@@ -9,10 +9,14 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSortModule } from '@angular/material/sort';
+// import { MdlLoadingDirective } from 'mdl-angular/spinner';
 import { ColumnDisplayInfo, MdlTableComponent } from 'mdl-angular/table2';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { DarkModeDirective } from './dark-mode.directive';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 export interface PeriodicElement {
   name: string;
@@ -60,19 +64,29 @@ const ELEMENT_DATA: PeriodicElement[] = [
   styleUrls: ['./app.component.scss'],
   standalone: true,
   imports: [
+    // NG
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+
+    // MAT
     MatButtonModule,
-    MatSortModule,
-    MatInputModule,
     MatFormFieldModule,
-    MatTableModule,
-    MatToolbarModule,
+    MatIconModule,
+    MatInputModule,
     MatSidenavModule,
     MatSlideToggleModule,
+    MatSortModule,
+    MatTableModule,
+    MatToolbarModule,
+    MatTooltipModule,
 
+    // MDL
+    // MdlLoadingDirective,
     MdlTableComponent,
+
+    // APP
+    DarkModeDirective,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

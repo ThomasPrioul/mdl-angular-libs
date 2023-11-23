@@ -266,7 +266,7 @@ $light-theme-background-palette: (
 $dark-theme-background-palette: (
   status-bar: $carbon,
   app-bar: $carbon,
-  background: $carbon,
+  background: #222,
   hover: rgba(white, 0.1),
   // TODO(kara): check style with Material Design UX
   card: map.get($gray-light-palette, 800),
@@ -311,7 +311,7 @@ $dark-theme-foreground-palette: (
   disabled-text: $text-disabled,
   elevation: black,
   hint-text: $text-disabled,
-  secondary-text: $cool-gray-1,
+  secondary-text: $cool-gray-3,
   icon: white,
   icons: white,
   text: white,

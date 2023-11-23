@@ -37,10 +37,11 @@
   </div>
   <ng-template
     cdkConnectedOverlay
+    cdkConnectedOverlayHasBackdrop
+    cdkConnectedOverlayDisposeOnNavigation
+    cdkConnectedOverlayBackdropClass="cdk-overlay-transparent-backdrop"
     [cdkConnectedOverlayOrigin]="trigger"
     [cdkConnectedOverlayOpen]="columnsOverlayOpen"
-    [cdkConnectedOverlayHasBackdrop]="true"
-    cdkConnectedOverlayBackdropClass="cdk-overlay-transparent-backdrop"
     (detach)="columnsOverlayOpen = false"
     (backdropClick)="columnsOverlayOpen = false">
     <mdl-table-columns

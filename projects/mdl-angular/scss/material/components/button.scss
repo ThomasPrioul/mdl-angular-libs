@@ -4,12 +4,22 @@
 @use "../../material/palettes.scss";
 @use "@angular/material" as mat;
 
-@include mat.button-theme(theme.$light-theme);
-@include mat.button-toggle-theme(theme.$light-theme); //.set(theme.$light-theme, "density", -2));
-@include mat.icon-button-theme(theme.$light-theme);
-@include mat.fab-theme(theme.$light-theme);
+@include mat.button-density(theme.$light-theme);
+@include mat.button-typography(theme.$light-theme);
 
-.dark {
+@include mat.button-toggle-density(theme.$light-theme); //.set(theme.$light-theme, "density", -2));
+@include mat.button-toggle-typography(
+  theme.$light-theme
+); //.set(theme.$light-theme, "density", -2));
+
+@include mat.icon-button-density(theme.$light-theme);
+@include mat.icon-button-typography(theme.$light-theme);
+
+@include mat.fab-density(theme.$light-theme);
+@include mat.fab-typography(theme.$light-theme);
+
+.dark,
+.light .dark {
   @include mat.button-color(theme.$dark-theme);
   @include mat.button-toggle-color(theme.$dark-theme);
   @include mat.icon-button-color(theme.$dark-theme);
@@ -35,7 +45,8 @@
   }
 }
 
-.light {
+.light,
+.dark .light {
   @include mat.button-color(theme.$light-theme);
   @include mat.button-toggle-color(theme.$light-theme);
   @include mat.icon-button-color(theme.$light-theme);
@@ -97,6 +108,11 @@
   .cdk-keyboard-focused .mat-button-toggle-focus-overlay {
     opacity: 0.1 !important;
   }
+
+  &.mat-button-toggle-disabled,
+  &.mat-button-toggle-disabled * {
+    cursor: not-allowed;
+  }
 }
 
 .mat-button-toggle-group {
@@ -108,7 +124,30 @@
     padding: 4px;
     border: 0;
     margin: 0px;
-    background: rgb(227, 243, 239);
+
+    .dark .light &,
+    .light &,
+    &.light {
+      background: rgb(227, 243, 239);
+
+      .mat-button-toggle.mat-button-toggle-checked {
+        background-color: rgb(227, 243, 239);
+      }
+    }
+
+    .light .dark &,
+    .dark &,
+    &.dark {
+      background: colors.$carbon;
+
+      .mat-button-toggle.mat-button-toggle-checked {
+        background-color: colors.$carbon;
+      }
+
+      .dark & {
+        background: colors.$cool-gray-11;
+      }
+    }
 
     .mat-button-toggle {
       &.mat-button-toggle-appearance-standard {
@@ -127,7 +166,6 @@
 
       &.mat-button-toggle-checked {
         border-color: currentColor;
-        background-color: rgb(227, 243, 239);
       }
     }
 
@@ -143,26 +181,4 @@
 
 .small .mat-button-toggle-group.options .mat-button-toggle .mat-button-toggle-label-content {
   line-height: 28px;
-}
-
-.dark .mat-button-toggle-group.options,
-.dark.mat-button-toggle-group.options {
-  background: colors.$carbon;
-
-  .dark & {
-    background: colors.$cool-gray-11;
-  }
-
-  .mat-button-toggle.mat-button-toggle-checked {
-    background-color: colors.$carbon;
-  }
-}
-
-.light .mat-button-toggle-group.options,
-.light.mat-button-toggle-group.options {
-  background: rgb(227, 243, 239);
-
-  .mat-button-toggle.mat-button-toggle-checked {
-    background-color: rgb(227, 243, 239);
-  }
 }

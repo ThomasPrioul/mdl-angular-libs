@@ -127,7 +127,8 @@ main {
   position: relative;
   display: flex;
   flex-direction: column;
-  // height: calc(100vh - 65px);
+  gap: 1.5rem;
+  padding: 1.5rem 0;
 }
 
 mdl-table {

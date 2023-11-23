@@ -3,10 +3,12 @@
 
 @include mat.badge-theme(theme.$light-theme);
 
-.dark {
+.dark,
+.light .dark {
   @include mat.badge-color(theme.$dark-theme);
 }
 
-.light {
+.light,
+.dark .light {
   @include mat.badge-color(theme.$light-theme);
 }

@@ -1,13 +1,16 @@
 @use "../theme";
 @use "@angular/material" as mat;
 
-@include mat.tabs-theme(theme.$light-theme);
+@include mat.tabs-density(theme.$light-theme);
+@include mat.tabs-typography(theme.$light-theme);
 
-.dark {
+.dark,
+.light .dark {
   @include mat.tabs-color(theme.$dark-theme);
 }
 
-.light {
+.light,
+.dark .light {
   @include mat.tabs-color(theme.$light-theme);
 }
 

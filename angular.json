@@ -67,7 +67,12 @@
             "inlineStyleLanguage": "scss",
             "assets": [
               "projects/showcase/src/favicon.ico",
-              "projects/showcase/src/assets"
+              "projects/showcase/src/assets",
+              {
+                "glob": "*.svg",
+                "input": "projects/mdl-angular/assets/",
+                "output": "/assets/"
+              }
             ],
             "styles": [
               "projects/showcase/src/styles.scss"

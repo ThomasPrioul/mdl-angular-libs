@@ -1,12 +1,15 @@
 @use "../theme";
 @use "@angular/material" as mat;
 
-@include mat.toolbar-theme(theme.$light-theme);
+@include mat.toolbar-density(theme.$light-theme);
+@include mat.toolbar-typography(theme.$light-theme);
 
-.dark {
+.dark,
+.light .dark {
   @include mat.toolbar-color(theme.$dark-theme);
 }
 
-.light {
+.light,
+.dark .light {
   @include mat.toolbar-color(theme.$light-theme);
 }

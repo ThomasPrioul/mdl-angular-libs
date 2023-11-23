@@ -1,6 +1,10 @@
 import { OverlayContainer, FullscreenOverlayContainer } from '@angular/cdk/overlay';
 import { ApplicationConfig } from '@angular/core';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
+import {
+  MAT_FORM_FIELD_DEFAULT_OPTIONS,
+  MatFormFieldDefaultOptions,
+} from '@angular/material/form-field';
 import { MatPaginatorIntl } from '@angular/material/paginator';
 import { provideAnimations } from '@angular/platform-browser/animations';
 
@@ -34,7 +38,16 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideAnimations(),
     { provide: OverlayContainer, useClass: FullscreenOverlayContainer },
-    { provide: MAT_DATE_LOCALE, useValue: 'fr-FR' },
+    { provide: MAT_DATE_LOCALE, useValue: navigator.language },
     { provide: MatPaginatorIntl, useValue: getFrenchPaginatorIntl() },
+    {
+      provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
+      useValue: <MatFormFieldDefaultOptions>{
+        appearance: 'outline',
+        color: 'primary',
+        subscriptSizing: 'dynamic',
+        floatLabel: 'always',
+      },
+    },
   ],
 };
