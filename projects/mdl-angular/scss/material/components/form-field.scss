@@ -17,7 +17,8 @@
   @include mat.form-field-color(theme.$light-theme);
 }
 
-.small {
+.small,
+.mat-mdc-form-field.small {
   @include mat.form-field-density(-4);
 
   .mat-mdc-form-field-icon-prefix > .mat-icon,
@@ -39,6 +40,7 @@
     .mdc-notched-outline {
       .mdc-notched-outline__notch {
         border-left: 0 !important;
+        border-right: 0 !important;
         padding-left: unset;
         padding-right: unset;
         clip-path: unset;

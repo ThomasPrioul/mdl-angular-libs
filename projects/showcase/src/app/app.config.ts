@@ -7,6 +7,8 @@ import {
 } from '@angular/material/form-field';
 import { MatPaginatorIntl } from '@angular/material/paginator';
 import { provideAnimations } from '@angular/platform-browser/animations';
+import { Route, provideRouter } from '@angular/router';
+import { HomeComponent } from '../pages/home.component';
 
 function frenchRangeLabel(page: number, pageSize: number, length: number) {
   if (length == 0 || pageSize == 0) return `0 sur ${length}`;
@@ -21,7 +23,7 @@ function frenchRangeLabel(page: number, pageSize: number, length: number) {
   return `${startIndex + 1} à ${endIndex} sur ${length}`;
 }
 
-export function getFrenchPaginatorIntl() {
+function getFrenchPaginatorIntl() {
   const paginatorIntl = new MatPaginatorIntl();
 
   paginatorIntl.firstPageLabel = 'Première page';
@@ -34,9 +36,22 @@ export function getFrenchPaginatorIntl() {
   return paginatorIntl;
 }
 
+const routes: Route[] = [
+  {
+    path: 'home',
+    component: HomeComponent,
+  },
+  {
+    path: '',
+    pathMatch: 'full',
+    redirectTo: 'home',
+  },
+];
+
 export const appConfig: ApplicationConfig = {
   providers: [
     provideAnimations(),
+    provideRouter(routes),
     { provide: OverlayContainer, useClass: FullscreenOverlayContainer },
     { provide: MAT_DATE_LOCALE, useValue: navigator.language },
     { provide: MatPaginatorIntl, useValue: getFrenchPaginatorIntl() },

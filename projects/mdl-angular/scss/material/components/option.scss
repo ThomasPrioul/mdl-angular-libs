@@ -52,8 +52,11 @@
   }
 }
 
-.small .mat-mdc-option {
-  min-height: 40px !important;
+.small {
+  &.mat-mdc-option,
+  .mat-mdc-option {
+    min-height: 40px !important;
+  }
 }
 
 /*

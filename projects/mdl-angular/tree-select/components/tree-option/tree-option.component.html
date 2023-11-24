@@ -1,0 +1,5 @@
+<button *ngIf="expandable" mat-icon-button color="primary" (click)="onExpandClick($event)">
+  <mat-icon svgIcon="expand_more" [class.expanded]="expanded"></mat-icon>
+</button>
+<mat-pseudo-checkbox [state]="state === true ? 'checked' : state === null ? 'indeterminate' : 'unchecked'"></mat-pseudo-checkbox>
+<ng-content></ng-content>

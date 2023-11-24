@@ -1,0 +1,50 @@
+@use "../scss" as mdl;
+
+:host {
+  display: block;
+  transition: max-height mdl.$animation;
+}
+
+.menu-item-content {
+  display: flex;
+  align-items: stretch;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  border-left: 6px solid transparent;
+
+  transition: background-color mdl.$animation;
+  box-sizing: border-box;
+  height: 48px;
+
+  a {
+    display: flex;
+    flex-grow: 1;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  &.active {
+    background-color: rgba(255, 255, 255, 0.2);
+    font-weight: bold;
+    border-left: 6px solid currentColor;
+  }
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+  }
+
+  .menu-item-expand-button {
+    margin-left: auto;
+    align-self: center;
+
+    .expand-icon {
+      transition: transform mdl.$animation;
+
+      &.expanded {
+        transform: scaleY(-1);
+      }
+    }
+  }
+}

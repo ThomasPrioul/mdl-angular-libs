@@ -60,6 +60,10 @@ html {
 
     &.with-filter-host {
       padding-top: 0px;
+
+      .mat-mdc-option.mdc-list-item--disabled {
+        display: none;
+      }
     }
 
     &.tree {

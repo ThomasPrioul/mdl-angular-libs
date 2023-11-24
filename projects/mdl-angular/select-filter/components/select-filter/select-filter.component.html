@@ -1,0 +1,19 @@
+<mat-form-field class="select-filter-input small">
+  <mat-icon matIconPrefix>search</mat-icon>
+  <input
+    autocomplete="off"
+    aria-label="filter"
+    matInput
+    #searchInput
+    (focus)="onFocus($event)"
+    [placeholder]="placeholder!" />
+  <button
+    *ngIf="searchInput.value"
+    matSuffix
+    mat-icon-button
+    class="me-1"
+    aria-label="Clear filter"
+    (click)="onClearClick()">
+    <mat-icon>close</mat-icon>
+  </button>
+</mat-form-field>

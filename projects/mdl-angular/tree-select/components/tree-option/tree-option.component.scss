@@ -1,0 +1,21 @@
+:host {
+  display: flex;
+  align-items: center;
+
+  &:not(.expandable) {
+    padding-left: 48px;
+  }
+
+  .mat-icon {
+    transition: transform 100ms ease-out;
+    transform: rotate(-90deg);
+
+    &.expanded {
+      transform: rotate(0deg);
+    }
+  }
+}
+
+.small :host:not(.expandable) {
+  padding-left: 40px;
+}

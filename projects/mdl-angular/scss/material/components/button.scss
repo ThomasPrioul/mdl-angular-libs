@@ -64,21 +64,6 @@
   }
 }
 
-.small {
-  @include mat.button-density(-2);
-  @include mat.button-toggle-density(-2);
-  @include mat.icon-button-density(-2);
-  @include mat.fab-density(-2);
-
-  .mdc-button {
-    min-height: 40px;
-  }
-
-  .small {
-    @include mat.icon-button-density(-4);
-  }
-}
-
 .small-btn-text {
   --mdc-typography-button-font-size: 14px;
 }
@@ -96,8 +81,25 @@
   padding: 0 1rem;
 }
 
-.mdc-button {
+:not(.small) .mdc-button,
+.mdc-button:not(.small) {
   min-height: 48px;
+}
+
+.small {
+  @include mat.button-density(-2);
+  @include mat.button-toggle-density(-2);
+  @include mat.icon-button-density(-2);
+  @include mat.fab-density(-2);
+
+  .mdc-button,
+  &.mdc-button {
+    min-height: 40px;
+  }
+
+  .small {
+    @include mat.icon-button-density(-4);
+  }
 }
 
 .mat-mdc-outlined-button:not(:disabled) {

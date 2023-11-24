@@ -1,0 +1,16 @@
+:host {
+  display: block;
+  position: sticky;
+  z-index: 1;
+  background: var(--mat-select-panel-background-color);
+  padding: 8px;
+  top: 0px;
+
+  .select-filter-input {
+    display: block;
+  }
+
+  &.hidden {
+    display: none;
+  }
+}

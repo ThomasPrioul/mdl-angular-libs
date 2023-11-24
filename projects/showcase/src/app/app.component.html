@@ -5,21 +5,16 @@
         <div class="sncf-logo">
           <img alt="SNCF" src="assets/logo-sncf.svg" />
         </div>
-        <button
-          appMainMenuButton
-          i18n-matTooltip="app menu tooltip"
-          mat-button
-          (click)="menuOpen = !menuOpen"
-          class="mdl menu-button">
-          MENU
-        </button>
+        <button mat-button class="mdl menu-button" (click)="menuOpen = !menuOpen">MENU</button>
       </div>
+      <mat-slide-toggle color="primary" class="ms-auto" [(ngModel)]="fixedHeight">
+        Hauteur de page fixe
+      </mat-slide-toggle>
       <button
         appDarkMode
         #dark="darkMode"
         mat-icon-button
         [matTooltip]="dark.enabled ? 'Mode clair' : 'Mode sombre'"
-        class="ms-auto"
         (click)="dark.enabled = !dark.enabled">
         <mat-icon [innerText]="dark.enabled ? 'light_mode' : 'dark_mode'"></mat-icon>
       </button>
@@ -29,82 +24,21 @@
 
 <mat-sidenav-container class="app-sidenav-container">
   <mat-sidenav
-    class="app-sidenav"
-    [style.top]="header.offsetHeight + 'px'"
-    [mode]="(menuMode$ | async) ?? 'side'"
-    [opened]="menuOpen">
-    <div class="menu-host">
-      <div>User menu 1</div>
-      <div>User menu 2</div>
-      <div>User menu 3</div>
-
-      <div style="margin-top: auto">Admin menu 1</div>
-      <div>Admin menu 2</div>
+    class="app-sidenav dark"
+    appMainMenu
+    [(opened)]="menuOpen"
+    [style.top]="header.offsetHeight + 'px'">
+    <div class="menu prod">
+      <mdl-side-menu-item *ngFor="let menu of menus" [menu]="menu"> </mdl-side-menu-item>
+      <div class="d-flex mt-auto p-3" style="align-items: center">
+        <img id="logo" class="app-logo no-path" alt="APP LOGO" />
+        <div class="ms-auto ps-3 text-align-right">{{ "prod" }} v{{ "1.0.0" }}</div>
+      </div>
     </div>
   </mat-sidenav>
   <mat-sidenav-content>
     <main [style.height]="fixedHeight ? 'calc(100vh - ' + header.offsetHeight + 'px)' : null">
-      <div class="flex gap-2 mx-6 items-center flex-wrap">
-        <button mat-raised-button (click)="loadData()" [disabled]="loading() === true">
-          <span>Load data</span>
-        </button>
-        <button
-          class="mr-auto"
-          mat-flat-button
-          (click)="loadEmptyData()"
-          [disabled]="loading() === true">
-          <span>Load empty data</span>
-        </button>
-        <mat-form-field>
-          <input matInput #code placeholder="return 1 + 1;" />
-        </mat-form-field>
-        <button mat-raised-button color="warn" (click)="executeArbitraryCode(code.value)">
-          <span>Run code</span>
-        </button>
-        <mat-form-field>
-          <input matInput [value]="codeOutput" />
-        </mat-form-field>
-
-        <mdl-zoom-button></mdl-zoom-button>
-        <mat-slide-toggle color="primary" class="ml-auto" [(ngModel)]="fixedHeight">
-          Fixed height page
-        </mat-slide-toggle>
-      </div>
-
-      <mdl-table2
-        [dataSource]="dataSource"
-        [loading]="loading()"
-        [(displayedColumns)]="displayedColumns"
-        selection
-        matSort
-        title="Restrictions"
-        class="mat-elevation-z8 flex-grow mx-6 rounded-lg">
-        <ng-container matColumnDef="name">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
-          <td mat-cell *matCellDef="let element">{{ element.name }}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="position">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Position</th>
-          <td mat-cell *matCellDef="let element">{{ element.position }}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="weight">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Weight</th>
-          <td mat-cell *matCellDef="let element">{{ element.weight }}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="symbol">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Symbol</th>
-          <td mat-cell *matCellDef="let element">{{ element.symbol }}</td>
-        </ng-container>
-
-        <tr class="mat-mdc-row mdc-data-table__row" *matNoDataRow>
-          <td *ngIf="loading() === false" class="mat-mdc-cell mdc-data-table__cell" colspan="1000">
-            No data
-          </td>
-        </tr>
-      </mdl-table2>
+      <router-outlet></router-outlet>
     </main>
   </mat-sidenav-content>
 </mat-sidenav-container>

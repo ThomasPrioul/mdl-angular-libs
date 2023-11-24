@@ -1,0 +1,175 @@
+{
+  "git-graph.contextMenuActionsVisibility": {},
+  "git-graph.dialog.addTag.pushToRemote": true,
+  "git-graph.dialog.addTag.type": "Lightweight",
+  "git-graph.dialog.cherryPick.noCommit": true,
+  "git-graph.dialog.createBranch.checkOut": true,
+  "git-graph.dialog.merge.noFastForward": false,
+  "git-graph.repository.commits.fetchAvatars": true,
+  "javascript.inlayHints.enumMemberValues.enabled": true,
+  "javascript.inlayHints.functionLikeReturnTypes.enabled": true,
+  "javascript.inlayHints.parameterTypes.enabled": true,
+  "javascript.inlayHints.propertyDeclarationTypes.enabled": true,
+  "javascript.inlayHints.variableTypes.enabled": true,
+  "javascript.preferences.quoteStyle": "single",
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "prettier.bracketSameLine": true,
+  "prettier.jsxSingleQuote": true,
+  "prettier.singleQuote": true,
+  "tsco.groupPropertiesWithDecorators": true,
+  "tsco.memberOrder": [
+    {
+      "caption": "Properties",
+      "memberTypes": [
+        "privateStaticConstProperties",
+        "privateConstProperties",
+        "privateStaticReadOnlyProperties",
+        "privateReadOnlyProperties",
+        "privateStaticProperties",
+        "privateProperties",
+        "protectedStaticConstProperties",
+        "protectedConstProperties",
+        "protectedStaticReadOnlyProperties",
+        "protectedReadOnlyProperties",
+        "protectedStaticProperties",
+        "protectedProperties",
+        "publicStaticConstProperties",
+        "publicConstProperties",
+        "publicStaticReadOnlyProperties",
+        "publicReadOnlyProperties",
+        "publicStaticProperties",
+        "publicProperties"
+      ]
+    },
+    {
+      "caption": "Constructors",
+      "memberTypes": ["constructors"]
+    },
+    {
+      "caption": "Public Static Indexers",
+      "memberTypes": ["publicStaticIndexes"]
+    },
+    {
+      "caption": "Public Indexers",
+      "memberTypes": ["publicIndexes"]
+    },
+    {
+      "caption": "Public Abstract Indexers",
+      "memberTypes": ["publicAbstractIndexes"]
+    },
+    {
+      "caption": "Protected Static Indexers",
+      "memberTypes": ["protectedStaticIndexes"]
+    },
+    {
+      "caption": "Protected Indexers",
+      "memberTypes": ["protectedIndexes"]
+    },
+    {
+      "caption": "Protected Abstract Indexers",
+      "memberTypes": ["protectedAbstractIndexes"]
+    },
+    {
+      "caption": "Private Static Indexers",
+      "memberTypes": ["privateStaticIndexes"]
+    },
+    {
+      "caption": "Private Indexers",
+      "memberTypes": ["privateIndexes"]
+    },
+    {
+      "caption": "Private Abstract Indexers",
+      "memberTypes": ["privateAbstractIndexes"]
+    },
+    {
+      "caption": "Public Static Accessors",
+      "memberTypes": ["publicStaticGettersAndSetters"]
+    },
+    {
+      "caption": "Public Accessors",
+      "memberTypes": ["publicGettersAndSetters"]
+    },
+    {
+      "caption": "Public Abstract Accessors",
+      "memberTypes": ["publicAbstractGettersAndSetters"]
+    },
+    {
+      "caption": "Protected Static Accessors",
+      "memberTypes": ["protectedStaticGettersAndSetters"]
+    },
+    {
+      "caption": "Protected Accessors",
+      "memberTypes": ["protectedGettersAndSetters"]
+    },
+    {
+      "caption": "Protected Abstract Accessors",
+      "memberTypes": ["protectedAbstractGettersAndSetters"]
+    },
+    {
+      "caption": "Private Static Accessors",
+      "memberTypes": ["privateStaticGettersAndSetters"]
+    },
+    {
+      "caption": "Private Accessors",
+      "memberTypes": ["privateGettersAndSetters"]
+    },
+    {
+      "caption": "Private Abstract Accessors",
+      "memberTypes": ["privateAbstractGettersAndSetters"]
+    },
+    {
+      "caption": "Public Static Methods",
+      "memberTypes": ["publicStaticMethods"]
+    },
+    {
+      "caption": "Public Methods",
+      "memberTypes": ["publicMethods"],
+      "placeAbove": [
+        "ngOnChanges",
+        "ngOnInit",
+        "ngDoCheck",
+        "ngAfterContentInit",
+        "ngAfterContentChecked",
+        "ngAfterViewInit",
+        "ngAfterViewChecked",
+        "ngOnDestroy"
+      ]
+    },
+    {
+      "caption": "Public Abstract Methods",
+      "memberTypes": ["publicAbstractMethods"]
+    },
+    {
+      "caption": "Protected Static Methods",
+      "memberTypes": ["protectedStaticMethods"]
+    },
+    {
+      "caption": "Protected Methods",
+      "memberTypes": ["protectedMethods"]
+    },
+    {
+      "caption": "Protected Abstract Methods",
+      "memberTypes": ["protectedAbstractMethods"]
+    },
+    {
+      "caption": "Private Static Methods",
+      "memberTypes": ["privateStaticMethods"]
+    },
+    {
+      "caption": "Private Methods",
+      "memberTypes": ["privateMethods"]
+    },
+    {
+      "caption": "Private Abstract Methods",
+      "memberTypes": ["privateAbstractMethods"]
+    }
+  ],
+  "tsco.organizeOnSave": true,
+  "tsco.treatArrowFunctionPropertiesAsMethods": true,
+  "tsco.useRegions": false,
+  "typescript.inlayHints.enumMemberValues.enabled": true,
+  "typescript.inlayHints.propertyDeclarationTypes.enabled": true,
+  "typescript.inlayHints.variableTypes.enabled": true,
+  "typescript.preferences.quoteStyle": "single",
+  "typescript.updateImportsOnFileMove.enabled": "always"
+}
