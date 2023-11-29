@@ -1,9 +1,9 @@
-import { Pipe, PipeTransform } from "@angular/core";
-import { MdlTreeOption } from "../models/tree-option";
+import { Pipe, PipeTransform } from '@angular/core';
+import { MdlTreeOption } from '../models/tree-option';
 
 /** Retourne vrai si l'item doit être caché (parents pas expanded). */
 @Pipe({
-  name: "mdlTreeItemHidden",
+  name: 'mdlTreeItemHidden',
   standalone: true,
   pure: false,
 })

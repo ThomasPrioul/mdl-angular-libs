@@ -6,7 +6,7 @@
     padding-left: 48px;
   }
 
-  .mat-icon {
+  > .mat-mdc-icon-button .mat-icon {
     transition: transform 100ms ease-out;
     transform: rotate(-90deg);
 

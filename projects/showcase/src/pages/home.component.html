@@ -22,16 +22,8 @@
   <mdl-zoom-button></mdl-zoom-button>
 </div>
 <div class="flex gap-2 items-center flex-wrap">
-  <!-- <mat-form-field>
-    <mat-label>Séries par défaut</mat-label>
-    <mat-select multiple [formControl]="seriesControl" placeholder="Sélectionnez...">
-      <mat-option *ngFor="let serie of series" [value]="serie.codeSerieMateriel">
-        {{ serie.nomTechniqueComplet }}
-      </mat-option>
-    </mat-select>
-  </mat-form-field> -->
-  <mat-form-field class="small">
-    <mat-label>Séries par défaut (small)</mat-label>
+  <mat-form-field class="small" style="min-width: 400px">
+    <mat-label>Select avec filtre (small)</mat-label>
     <mat-select multiple [formControl]="seriesControl" placeholder="Sélectionnez...">
       <mdl-select-filter #filter></mdl-select-filter>
       <div *mdlSelectNoResults="filter" class="no-data-label">Aucune série trouvée</div>
@@ -43,7 +35,33 @@
       </mat-option>
     </mat-select>
   </mat-form-field>
-  <div>Result: {{ seriesControl.value }}</div>
+  <!-- <div>Result: {{ seriesControl.value }}</div> -->
+  <mat-form-field style="min-width: 400px">
+    <mat-label>Tree select (avec filtre)</mat-label>
+    <mdl-spinner *ngIf="false" overlay></mdl-spinner>
+    <mat-select
+      placeholder="Filtrer par série/sous-série"
+      multiple
+      mdlTreeSelect
+      #matSelect="matSelect"
+      #tree="mdlTreeSelect">
+      <mat-select-trigger>
+        {{ matSelect.triggerValue | mdlTreeSelectSummary : tree }}
+      </mat-select-trigger>
+      <mdl-select-filter #filter></mdl-select-filter>
+      <div *mdlSelectNoResults="filter" class="no-data-label">Aucune série trouvée</div>
+      <mat-option
+        *ngFor="let item of series | seriesOptions"
+        [disabled]="
+          (item | mdlTreeItemHidden) || (item | seriesOptionsFilter : filter.value) === false
+        "
+        [value]="item.key">
+        <mdl-tree-option [item]="item" [(expanded)]="item.expanded">
+          {{ item.value.nomTechniqueComplet }}
+        </mdl-tree-option>
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
 </div>
 
 <mdl-table2
@@ -52,26 +70,33 @@
   [(displayedColumns)]="displayedColumns"
   selection
   matSort
-  title="Restrictions"
+  title="Séries"
+  (filterChange)="filterChanged($event)"
   class="mat-elevation-z8 flex-grow rounded-lg">
-  <ng-container matColumnDef="name">
+  <ng-container matColumnDef="nomTechniqueComplet">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
-    <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+    <td mat-cell *matCellDef="let serie; dataSource: dataSource">
+      {{ serie.nomTechniqueComplet }}
+    </td>
   </ng-container>
 
-  <ng-container matColumnDef="position">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>Position</th>
-    <td mat-cell *matCellDef="let element">{{ element.position }}</td>
+  <ng-container matColumnDef="typeSerie">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Type</th>
+    <td mat-cell *matCellDef="let serie; dataSource: dataSource">{{ serie.typeSerie }}</td>
   </ng-container>
 
-  <ng-container matColumnDef="weight">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>Weight</th>
-    <td mat-cell *matCellDef="let element">{{ element.weight }}</td>
+  <ng-container matColumnDef="codeSerieMateriel">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Code série matériel</th>
+    <td mat-cell *matCellDef="let serie; dataSource: dataSource">{{ serie.codeSerieMateriel }}</td>
   </ng-container>
 
-  <ng-container matColumnDef="symbol">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>Symbol</th>
-    <td mat-cell *matCellDef="let element">{{ element.symbol }}</td>
+  <ng-container matColumnDef="codeLcn">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Code LCN</th>
+    <td mat-cell *matCellDef="let serie; dataSource: dataSource">{{ serie.codeLcn }}</td>
+  </ng-container>
+  <ng-container matColumnDef="codeSerieMere">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Code série mère</th>
+    <td mat-cell *matCellDef="let serie; dataSource: dataSource">{{ serie.codeSerieMere }}</td>
   </ng-container>
 
   <tr class="mat-mdc-row mdc-data-table__row" *matNoDataRow>

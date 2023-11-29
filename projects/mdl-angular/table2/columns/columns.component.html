@@ -1,10 +1,10 @@
 <mat-card cdkFocusInitial>
-  <mat-card-header class="align-items-center">
+  <mat-card-header style="align-items: center">
     <mat-card-title>Gestion des colonnes</mat-card-title>
     <!-- <div class="mat-subtitle-1" style="margin-bottom: 0">    </div> -->
     <mat-checkbox
       color="primary"
-      class="ms-auto me-1"
+      style="margin-left: auto; margin-right: 4px"
       *ngIf="columns"
       (change)="onAllClicked($event)"
       [checked]="allStatus(columns)"

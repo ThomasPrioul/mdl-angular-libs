@@ -8,6 +8,7 @@ import {
   inject,
   Input,
   AfterContentInit,
+  forwardRef,
 } from '@angular/core';
 import { MatSelect } from '@angular/material/select';
 import { Subscription } from 'rxjs';
@@ -31,23 +32,23 @@ type SelectionModif<K> = {
 export class MdlTreeSelectDirective<K, T>
   implements OnInit, OnDestroy, AfterViewInit, AfterContentInit
 {
-  @ContentChildren(MdlTreeOptionComponent<K, T>, { descendants: true })
-  public treeOptions!: QueryList<MdlTreeOptionComponent<K, T>>;
-
   private ignoreSelectChange: boolean = false;
   private keyToMatOption!: Map<K, MatOption<K>>;
   private keyToTreeItemComponent!: Map<K, MdlTreeOptionComponent<K, T>>;
   private select = inject(MatSelect);
   private sub?: Subscription;
 
+  @ContentChildren(forwardRef(() => MdlTreeOptionComponent<K, T>), { descendants: true })
+  public treeOptions!: QueryList<MdlTreeOptionComponent<K, T>>;
   // * - first-level: renvoie uniquement le parent si tous ses enfants sont sélectionnés. Simplifie la liste selon la sélection active.
   // * - mixed: sélectionne le parent dès qu'un de ses enfants est sélectionné.
   /** Gestion des items sélectionnés
    * - last-level: ne renvoie que les items sélectionnés qui n'ont pas d'enfants (items de dernier niveau). Cocher une case de haut niveau peut renvoyer de nombreux éléments.
    * - none: le tree est purement esthétique, il n'y aura pas de gestion de la sélection.
    */
-  @Input() public treeSelectionHandling: 'last-level' | 'none' = 'last-level'; // | "first-level" | "mixed"
+  @Input() public treeSelectionHandling: 'last-level' | 'none' = 'last-level';
 
+  // | "first-level" | "mixed"
   protected get panelClass(): string[] {
     return ['tree', ...ngClassToArray(this.select.panelClass)];
   }
@@ -103,16 +104,16 @@ export class MdlTreeSelectDirective<K, T>
     this.sub?.unsubscribe();
   }
 
-  public getValue(key: K) {
-    return this.keyToTreeItemComponent.get(key)!.option.viewValue;
-  }
-
   public getCheckboxState(key: K, considerChecked: boolean = true) {
     if (considerChecked && this.select._selectionModel.isSelected(this.keyToMatOption.get(key)!))
       return true;
 
     const treeItem = this.keyToTreeItemComponent.get(key)!.item;
     return this.itemDescendantsChecked(treeItem);
+  }
+
+  public getValue(key: K) {
+    return this.keyToTreeItemComponent.get(key)!.option.viewValue;
   }
 
   public setActiveItem(option?: MatOption<K>) {

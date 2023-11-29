@@ -1,8 +1,9 @@
+export type TypeSerie = 'Série' | 'Sous-Série' | 'Variante';
+
 export type Serie = {
   codeLcn: string;
   codeSerieMateriel: string;
   codeSerieMere: string | null;
-  identifiantSiSerie: number;
   nomTechniqueComplet: string;
-  typeSerie: 'Série' | 'Sous-Série' | 'Variante';
+  typeSerie: TypeSerie;
 };

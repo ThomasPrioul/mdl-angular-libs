@@ -6,7 +6,7 @@ import { MdlTreeOption } from '../models/tree-option';
   name: 'mdlTreeSelectSummary',
   standalone: true,
 })
-export class TreeSelectTriggerSummaryPipe implements PipeTransform {
+export class MdlTreeSelectSummaryPipe implements PipeTransform {
   public transform(val: any, treeSelect: MdlTreeSelectDirective<any, any>) {
     if (!treeSelect.treeOptions) return null;
     const rootItems = treeSelect.treeOptions
