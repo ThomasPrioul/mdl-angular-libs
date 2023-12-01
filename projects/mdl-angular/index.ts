@@ -1,4 +1,4 @@
-export const DOES_MDL_ROCK = 'yes-it-does';
+// export const DOES_MDL_ROCK = 'yes-it-does';
 export * from './directives/styletag.directive';
 export * from './directives/typesafe-matcelldef.directive';
 export * from './helpers/material-icons';

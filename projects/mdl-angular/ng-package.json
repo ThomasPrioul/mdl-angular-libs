@@ -11,6 +11,11 @@
       "input": "assets",
       "glob": "**/*",
       "output": "assets"
+    },
+    {
+      "input": "screenshots",
+      "glob": "**/*",
+      "output": "screenshots"
     }
   ],
   "lib": {

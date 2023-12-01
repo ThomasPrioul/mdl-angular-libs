@@ -1,4 +1,3 @@
-@use "@angular/material" as mat;
 @use "mdl-angular/scss" as mdl;
 @tailwind base;
 @tailwind components;
@@ -44,11 +43,11 @@ body {
 @import "mdl-angular/scss/material/components/snack-bar";
 @import "mdl-angular/scss/material/components/form-field";
 @import "mdl-angular/scss/material/components/stepper";
+@import "mdl-angular/scss/colored-badge";
+@import "mdl-angular/scss/highlight";
+@import "mdl-angular/scss/panels";
 // @use '../../bottom-sheet/bottom-sheet-theme';
 // @use '../../chips/chips-theme';
 // @use '../../expansion/expansion-theme';
 // @use '../../grid-list/grid-list-theme';
 // @use '../../list/list-theme';
-@import "mdl-angular/scss/colored-badge";
-@import "mdl-angular/scss/highlight";
-@import "mdl-angular/scss/panels";
