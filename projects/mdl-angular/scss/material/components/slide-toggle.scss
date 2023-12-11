@@ -40,7 +40,17 @@ button.mdc-switch {
     transform: translateX(4px);
   }
 
-  &.mdc-switch--selected .mdc-switch__handle-track {
-    transform: translateX(calc(100% - 4px));
+  &.mdc-switch--selected {
+    + .mdc-label {
+      --mat-slide-toggle-label-text-weight: 500;
+    }
+
+    .mdc-switch__handle-track {
+      transform: translateX(calc(100% - 4px));
+    }
+  }
+
+  + .mdc-label {
+    padding-left: 8px;
   }
 }
