@@ -8,7 +8,7 @@
     "lib:build": "ng build mdl-angular",
     "lib:watch": "ng build mdl-angular --watch --configuration development",
     "lib:test": "ng test mdl-angular",
-    "showcase:start-waiton": "wait-on dist/mdl-angular/package.json && npm run showcase:start",
+    "showcase:start-waiton": "wait-on dist/mdl-angular/zoom-button/index.d.ts && npm run showcase:start",
     "showcase:start": "ng serve showcase",
     "showcase:build": "ng build showcase",
     "showcase:watch": "ng build showcase --watch --configuration development",
