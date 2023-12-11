@@ -27,6 +27,8 @@ import { SeriesFilterPipe } from '../pipes/series-filter.pipe';
 import { SeriesOptionsFilterPipe, SeriesOptionsPipe } from '../pipes/series-options.pipe';
 import { parseFunction } from '../utils';
 import { ChipsDemoComponent } from '../components/chips-demo/chips-demo.component';
+import { sortNomTechniqueComplet } from '../helpers/materiel-roulant';
+
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './home.component.html',
@@ -67,7 +69,9 @@ import { ChipsDemoComponent } from '../components/chips-demo/chips-demo.componen
   ],
 })
 export class HomeComponent {
-  protected readonly series: Serie[] = SERIES;
+  protected readonly series: Serie[] = SERIES.sort((a, b) =>
+    sortNomTechniqueComplet(a.nomTechniqueComplet, b.nomTechniqueComplet)
+  );
   protected readonly seriesControl = new FormControl<string[]>([]);
 
   protected codeOutput: any;

@@ -78,8 +78,8 @@ export function sortCodeSerieMateriel(codeSerieA: string, codeSerieB: string) {
 export function sortNomTechniqueComplet(nomA: string, nomB: string) {
   try {
     // Impossible d'utiliser le même object RegExp 2 fois...
-    const regexA = /(?<prefixA>[a-zA-Z])?\s(?<numA>\d+)?/g;
-    const regexB = /(?<prefixB>[a-zA-Z])?\s(?<numB>\d+)?/g;
+    const regexA = /^(?<prefixA>[a-zA-Z])?\s(?<numA>\d+)?/g;
+    const regexB = /^(?<prefixB>[a-zA-Z])?\s(?<numB>\d+)?/g;
     const { prefixA, numA } = regexA.exec(nomA)?.groups as {
       prefixA?: string;
       numA?: string;
