@@ -33,10 +33,11 @@
           >{{ column.label ?? column.name }}</mat-slide-toggle
         >
         <button
+          #btn
           style="margin-left: auto"
           mat-icon-button
           [disabled]="first"
-          (click)="moveItemUp(index)">
+          (click)="moveItemUp(index, btn)">
           <mat-icon>arrow_upward</mat-icon>
         </button>
         <button mat-icon-button [disabled]="last" (click)="moveItemDown(index)">

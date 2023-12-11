@@ -1,24 +1,15 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  EventEmitter,
-  Input,
-  Output,
-  QueryList,
-} from "@angular/core";
-import { CommonModule } from "@angular/common";
-import { MatCardModule } from "@angular/material/card";
-import { MatDividerModule } from "@angular/material/divider";
-import { MatButtonModule } from "@angular/material/button";
-import { CdkDragDrop, DragDropModule, moveItemInArray } from "@angular/cdk/drag-drop";
-import { MatCheckboxChange, MatCheckboxModule } from "@angular/material/checkbox";
-import { MatPseudoCheckboxModule } from "@angular/material/core";
-import { FormsModule } from "@angular/forms";
-import { A11yModule } from "@angular/cdk/a11y";
-import { MatIconModule } from "@angular/material/icon";
-import { MatSlideToggleModule } from "@angular/material/slide-toggle";
-import { CdkColumnDef } from "@angular/cdk/table";
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { MatCardModule } from '@angular/material/card';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatButtonModule, MatIconButton } from '@angular/material/button';
+import { CdkDragDrop, DragDropModule, moveItemInArray } from '@angular/cdk/drag-drop';
+import { MatCheckboxChange, MatCheckboxModule } from '@angular/material/checkbox';
+import { MatPseudoCheckboxModule } from '@angular/material/core';
+import { FormsModule } from '@angular/forms';
+import { A11yModule } from '@angular/cdk/a11y';
+import { MatIconModule } from '@angular/material/icon';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 export type ColumnDisplayInfo = {
   name: string;
@@ -28,7 +19,7 @@ export type ColumnDisplayInfo = {
 };
 
 @Component({
-  selector: "mdl-table-columns",
+  selector: 'mdl-table-columns',
   standalone: true,
   imports: [
     CommonModule,
@@ -43,8 +34,8 @@ export type ColumnDisplayInfo = {
     DragDropModule,
     A11yModule,
   ],
-  templateUrl: "./columns.component.html",
-  styleUrls: ["./columns.component.scss"],
+  templateUrl: './columns.component.html',
+  styleUrls: ['./columns.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ColumnsComponent {
@@ -80,8 +71,13 @@ export class ColumnsComponent {
     moveItemInArray(this._columns!, index, index + 1);
   }
 
-  protected moveItemUp(index: number) {
+  protected moveItemUp(index: number, btn: MatIconButton) {
     moveItemInArray(this._columns!, index, index - 1);
+
+    // Fix the focus when item moves "before" in the DOM
+    setTimeout(() => {
+      (btn._elementRef.nativeElement as HTMLButtonElement).focus();
+    });
   }
 
   protected onAllClicked(event: MatCheckboxChange) {
