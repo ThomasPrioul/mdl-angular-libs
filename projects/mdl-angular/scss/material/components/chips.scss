@@ -1,0 +1,15 @@
+@use "../theme";
+@use "@angular/material" as mat;
+
+@include mat.chips-density(theme.$light-theme);
+@include mat.chips-typography(theme.$light-theme);
+
+.dark,
+.light .dark {
+  @include mat.chips-color(theme.$dark-theme);
+}
+
+.light,
+.dark .light {
+  @include mat.chips-color(theme.$light-theme);
+}
