@@ -5,3 +5,4 @@ export * from './helpers/material-icons';
 export * from './helpers/ngclass';
 export * from './helpers/skip-disabled-option';
 export * from './pipes/cast.pipe';
+export * from './pipes/sorted.pipe';
