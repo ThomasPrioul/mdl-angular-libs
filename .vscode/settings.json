@@ -43,87 +43,129 @@
     },
     {
       "caption": "Constructors",
-      "memberTypes": ["constructors"]
+      "memberTypes": [
+        "constructors"
+      ]
     },
     {
       "caption": "Public Static Indexers",
-      "memberTypes": ["publicStaticIndexes"]
+      "memberTypes": [
+        "publicStaticIndexes"
+      ]
     },
     {
       "caption": "Public Indexers",
-      "memberTypes": ["publicIndexes"]
+      "memberTypes": [
+        "publicIndexes"
+      ]
     },
     {
       "caption": "Public Abstract Indexers",
-      "memberTypes": ["publicAbstractIndexes"]
+      "memberTypes": [
+        "publicAbstractIndexes"
+      ]
     },
     {
       "caption": "Protected Static Indexers",
-      "memberTypes": ["protectedStaticIndexes"]
+      "memberTypes": [
+        "protectedStaticIndexes"
+      ]
     },
     {
       "caption": "Protected Indexers",
-      "memberTypes": ["protectedIndexes"]
+      "memberTypes": [
+        "protectedIndexes"
+      ]
     },
     {
       "caption": "Protected Abstract Indexers",
-      "memberTypes": ["protectedAbstractIndexes"]
+      "memberTypes": [
+        "protectedAbstractIndexes"
+      ]
     },
     {
       "caption": "Private Static Indexers",
-      "memberTypes": ["privateStaticIndexes"]
+      "memberTypes": [
+        "privateStaticIndexes"
+      ]
     },
     {
       "caption": "Private Indexers",
-      "memberTypes": ["privateIndexes"]
+      "memberTypes": [
+        "privateIndexes"
+      ]
     },
     {
       "caption": "Private Abstract Indexers",
-      "memberTypes": ["privateAbstractIndexes"]
+      "memberTypes": [
+        "privateAbstractIndexes"
+      ]
     },
     {
       "caption": "Public Static Accessors",
-      "memberTypes": ["publicStaticGettersAndSetters"]
+      "memberTypes": [
+        "publicStaticGettersAndSetters"
+      ]
     },
     {
       "caption": "Public Accessors",
-      "memberTypes": ["publicGettersAndSetters"]
+      "memberTypes": [
+        "publicGettersAndSetters"
+      ]
     },
     {
       "caption": "Public Abstract Accessors",
-      "memberTypes": ["publicAbstractGettersAndSetters"]
+      "memberTypes": [
+        "publicAbstractGettersAndSetters"
+      ]
     },
     {
       "caption": "Protected Static Accessors",
-      "memberTypes": ["protectedStaticGettersAndSetters"]
+      "memberTypes": [
+        "protectedStaticGettersAndSetters"
+      ]
     },
     {
       "caption": "Protected Accessors",
-      "memberTypes": ["protectedGettersAndSetters"]
+      "memberTypes": [
+        "protectedGettersAndSetters"
+      ]
     },
     {
       "caption": "Protected Abstract Accessors",
-      "memberTypes": ["protectedAbstractGettersAndSetters"]
+      "memberTypes": [
+        "protectedAbstractGettersAndSetters"
+      ]
     },
     {
       "caption": "Private Static Accessors",
-      "memberTypes": ["privateStaticGettersAndSetters"]
+      "memberTypes": [
+        "privateStaticGettersAndSetters"
+      ]
     },
     {
       "caption": "Private Accessors",
-      "memberTypes": ["privateGettersAndSetters"]
+      "memberTypes": [
+        "privateGettersAndSetters"
+      ]
     },
     {
       "caption": "Private Abstract Accessors",
-      "memberTypes": ["privateAbstractGettersAndSetters"]
+      "memberTypes": [
+        "privateAbstractGettersAndSetters"
+      ]
     },
     {
       "caption": "Public Static Methods",
-      "memberTypes": ["publicStaticMethods"]
+      "memberTypes": [
+        "publicStaticMethods"
+      ]
     },
     {
       "caption": "Public Methods",
-      "memberTypes": ["publicMethods"],
+      "memberTypes": [
+        "publicMethods"
+      ],
       "placeAbove": [
         "ngOnChanges",
         "ngOnInit",
@@ -137,31 +179,45 @@
     },
     {
       "caption": "Public Abstract Methods",
-      "memberTypes": ["publicAbstractMethods"]
+      "memberTypes": [
+        "publicAbstractMethods"
+      ]
     },
     {
       "caption": "Protected Static Methods",
-      "memberTypes": ["protectedStaticMethods"]
+      "memberTypes": [
+        "protectedStaticMethods"
+      ]
     },
     {
       "caption": "Protected Methods",
-      "memberTypes": ["protectedMethods"]
+      "memberTypes": [
+        "protectedMethods"
+      ]
     },
     {
       "caption": "Protected Abstract Methods",
-      "memberTypes": ["protectedAbstractMethods"]
+      "memberTypes": [
+        "protectedAbstractMethods"
+      ]
     },
     {
       "caption": "Private Static Methods",
-      "memberTypes": ["privateStaticMethods"]
+      "memberTypes": [
+        "privateStaticMethods"
+      ]
     },
     {
       "caption": "Private Methods",
-      "memberTypes": ["privateMethods"]
+      "memberTypes": [
+        "privateMethods"
+      ]
     },
     {
       "caption": "Private Abstract Methods",
-      "memberTypes": ["privateAbstractMethods"]
+      "memberTypes": [
+        "privateAbstractMethods"
+      ]
     }
   ],
   "tsco.organizeOnSave": true,
@@ -171,5 +227,11 @@
   "typescript.inlayHints.propertyDeclarationTypes.enabled": true,
   "typescript.inlayHints.variableTypes.enabled": true,
   "typescript.preferences.quoteStyle": "single",
-  "typescript.updateImportsOnFileMove.enabled": "always"
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "angular-schematics.schematicsDefaultOptions": {
+    "angular-*": {
+      "externalTemplate": true,
+      "style": "scss"
+    }
+  }
 }
