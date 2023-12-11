@@ -57,10 +57,11 @@ export class MdlSelectFilterComponent implements AfterViewInit, OnInit, OnDestro
     if (!this.select) return;
 
     // Material 16 fix - désactive la navigation sur les items désactivés (display:none en CSS)
-    (this.select as any)._skipPredicate = skipDisabledOption;
+    //@ts-ignore(2341)
+    this.select._skipPredicate = skipDisabledOption;
 
     // Surcharge du keydown pour gérer le décalage du scroll induit par la présence de l'input de filtrage.
-    // Ce handler est appelé AVANT celui du tree-select, le defaultKeyDown appelle donc la surcharge du tree-select!
+    // Dans le cas du tree-select, ce handler est appelé AVANT celui du tree-select, le defaultKeyDown appelle donc la surcharge du tree-select!
     const defaultKeyDown = this.select._handleKeydown.bind(this.select);
     this.select._handleKeydown = (event) => {
       if (this.shouldInputHandleEvent(event)) return;

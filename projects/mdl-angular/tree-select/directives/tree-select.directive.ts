@@ -58,7 +58,8 @@ export class MdlTreeSelectDirective<K, T>
       throw new Error('mdlTreeSelect not supported on single selection trees');
 
     // Material 16 fix - désactive la navigation sur les items désactivés (display:none en CSS)
-    (this.select as any)._skipPredicate = skipDisabledOption;
+    //@ts-ignore(2341)
+    this.select._skipPredicate = skipDisabledOption;
 
     /* Surcharge du keydown pour gérer :
      * - les flèches gauche/droite, peu importe la présence de la barre de filtre,
