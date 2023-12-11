@@ -1,5 +1,5 @@
 import { OverlayContainer, FullscreenOverlayContainer } from '@angular/cdk/overlay';
-import { ApplicationConfig } from '@angular/core';
+import { APP_INITIALIZER, ApplicationConfig } from '@angular/core';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 import {
   MAT_FORM_FIELD_DEFAULT_OPTIONS,
@@ -9,6 +9,8 @@ import { MatPaginatorIntl } from '@angular/material/paginator';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { Route, provideRouter } from '@angular/router';
 import { HomeComponent } from '../pages/home.component';
+import { MAT_LUXON_DATE_ADAPTER_OPTIONS } from '@angular/material-luxon-adapter';
+import { Settings } from 'luxon';
 
 function frenchRangeLabel(page: number, pageSize: number, length: number) {
   if (length == 0 || pageSize == 0) return `0 sur ${length}`;
@@ -48,12 +50,20 @@ const routes: Route[] = [
   },
 ];
 
+const setupLuxon = () => (Settings.defaultLocale = navigator.language);
+
 export const appConfig: ApplicationConfig = {
   providers: [
     provideAnimations(),
     provideRouter(routes),
+    {
+      provide: APP_INITIALIZER,
+      useValue: setupLuxon,
+      multi: true,
+    },
     { provide: OverlayContainer, useClass: FullscreenOverlayContainer },
     { provide: MAT_DATE_LOCALE, useValue: navigator.language },
+    { provide: MAT_LUXON_DATE_ADAPTER_OPTIONS, useValue: { firstDayOfWeek: 1 } },
     { provide: MatPaginatorIntl, useValue: getFrenchPaginatorIntl() },
     {
       provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,

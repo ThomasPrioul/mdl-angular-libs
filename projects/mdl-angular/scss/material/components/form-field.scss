@@ -29,6 +29,17 @@
 
 :root {
   --mdc-shape-small: 8px;
+  // --mat-form-field-container-text-weight: 400;
+}
+
+.mdc-text-field__input::placeholder {
+  font-weight: 400;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: inherit;
+  opacity: inherit;
 }
 
 .mat-mdc-form-field {
@@ -123,7 +134,7 @@
       }
 
       .light & {
-        color: colors.$gray-light;
+        color: rgba(0, 0, 0, 0.6); // colors.$gray-light;
       }
     }
 

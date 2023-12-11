@@ -20,13 +20,13 @@
   @include mat.select-density(-4);
 }
 
-.mat-mdc-select-value {
-  color: var(--mdc-theme-primary, #{colors.$primary});
+// .mat-mdc-select-value {
+//   color: var(--mdc-theme-primary, #{colors.$primary});
 
-  .dark & {
-    color: var(--mdc-theme-primary, #{colors.$primary-dark});
-  }
-}
+//   .dark & {
+//     color: var(--mdc-theme-primary, #{colors.$primary-dark});
+//   }
+// }
 
 .mat-mdc-select-placeholder {
   color: #4d4f53;

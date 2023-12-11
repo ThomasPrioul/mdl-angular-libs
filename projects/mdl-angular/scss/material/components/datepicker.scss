@@ -1,5 +1,6 @@
 @use "../theme";
 @use "@angular/material" as mat;
+@use "../../" as mdl;
 
 @include mat.datepicker-density(theme.$light-theme);
 @include mat.datepicker-typography(theme.$light-theme);
@@ -17,4 +18,27 @@
 .mat-calendar-body-label,
 .mat-calendar-period-button {
   font-size: 14px !important;
+}
+
+.mat-datepicker-content {
+  border-radius: 8px !important;
+  box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.2), 0px 8px 10px 1px rgba(0, 0, 0, 0.14),
+    0px 3px 14px 2px rgba(0, 0, 0, 0.12) !important;
+}
+
+.mat-calendar-controls {
+  margin: 0 !important;
+}
+
+.mat-calendar-header {
+  padding: 8px 8px 8px 0 !important;
+}
+
+.mat-calendar-table-header {
+  --mat-datepicker-calendar-header-text-weight: 500;
+  --mat-datepicker-calendar-header-text-size: 13px;
+
+  .light & {
+    --mat-datepicker-calendar-header-text-color: #{mdl.$cool-gray-11};
+  }
 }
