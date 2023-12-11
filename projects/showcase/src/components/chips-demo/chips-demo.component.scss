@@ -1,0 +1,41 @@
+@use "mdl-angular/scss" as mdl;
+
+:host {
+  display: block;
+}
+
+.mat-mdc-standard-chip {
+  --mdc-chip-elevated-container-color: #{mdl.$blue} !important;
+}
+
+::ng-deep {
+  .codes-list {
+    &.mat-mdc-form-field {
+      .mat-mdc-form-field-text-prefix {
+        max-width: 50%;
+      }
+    }
+
+    &.mat-mdc-autocomplete-panel {
+      // Make hover priority higher than selected and remove selected styles
+      --mat-option-selected-state-layer-color: none;
+
+      .mat-mdc-option {
+        > span.mdc-list-item__primary-text {
+          width: 100% !important;
+          display: flex !important;
+          gap: 1rem !important;
+          align-items: center !important;
+        }
+
+        &:not(.mdc-list-item--disabled) {
+          &:focus,
+          &:hover,
+          &.mat-mdc-option-active {
+            background-color: var(--mat-option-focus-state-layer-color) !important;
+          }
+        }
+      }
+    }
+  }
+}

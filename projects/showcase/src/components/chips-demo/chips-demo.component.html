@@ -1,0 +1,39 @@
+<mat-form-field class="codes-list flex w-100">
+  <mat-label>Code(s) défaut</mat-label>
+  <mat-chip-grid #chipGrid matTextPrefix class="pb-1 dark">
+    <mat-chip-row
+      *ngFor="let item of selectedItems.selected | sorted"
+      (removed)="remove(item)"
+      [matTooltip]="allItemsMap.get(item)?.libelle ?? ''">
+      {{ item }}
+      <button matChipRemove>
+        <mat-icon>cancel</mat-icon>
+      </button>
+    </mat-chip-row>
+  </mat-chip-grid>
+  <mat-autocomplete
+    #auto="matAutocomplete"
+    class="codes-list"
+    (optionSelected)="selected($event)"
+    hideSingleSelectionIndicator>
+    <mat-option
+      [class.mdc-list-item--selected]="selectedItems.isSelected(item.code)"
+      *ngFor="let item of filteredItems | async; trackBy: trackByCode"
+      [value]="item.code">
+      <span>
+        {{ item.libelle }}
+      </span>
+      <span class="ms-auto text-right font-medium">
+        {{ item.code }}
+      </span>
+    </mat-option>
+  </mat-autocomplete>
+  <input
+    #input
+    placeholder="Tapez un code..."
+    [formControl]="inputCtrl"
+    [matChipInputFor]="chipGrid"
+    [matAutocomplete]="auto"
+    mdlAutocompleteStayOpen
+    resizeOnOptionSelected />
+</mat-form-field>

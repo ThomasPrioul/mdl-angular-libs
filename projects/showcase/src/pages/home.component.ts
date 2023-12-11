@@ -26,7 +26,7 @@ import { Serie } from '../models/serie';
 import { SeriesFilterPipe } from '../pipes/series-filter.pipe';
 import { SeriesOptionsFilterPipe, SeriesOptionsPipe } from '../pipes/series-options.pipe';
 import { parseFunction } from '../utils';
-
+import { ChipsDemoComponent } from '../components/chips-demo/chips-demo.component';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './home.component.html',
@@ -38,10 +38,10 @@ import { parseFunction } from '../utils';
     FormsModule,
     ReactiveFormsModule,
     // Material
-    MatFormFieldModule,
-    MatInputModule,
     MatButtonModule,
+    MatFormFieldModule,
     MatIconModule,
+    MatInputModule,
     MatSelectModule,
     MatSlideToggleModule,
     MatSortModule,
@@ -53,17 +53,17 @@ import { parseFunction } from '../utils';
     MdlSelectNoResultsDirective,
     MdlSpinnerComponent,
     MdlTableComponent,
-    MdlTreeSelectSummaryPipe,
     MdlTreeItemHiddenPipe,
-    MdlTreeSelectDirective,
     MdlTreeOptionComponent,
+    MdlTreeSelectDirective,
+    MdlTreeSelectSummaryPipe,
     MdlZoomButtonComponent,
     TypeSafeMatCellDef,
-
     // App
     SeriesFilterPipe,
-    SeriesOptionsPipe,
     SeriesOptionsFilterPipe,
+    SeriesOptionsPipe,
+    ChipsDemoComponent,
   ],
 })
 export class HomeComponent {
