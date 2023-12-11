@@ -1,7 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { Serie, TypeSerie } from '../models/serie';
 import { MdlTreeOption } from 'mdl-angular/tree-select';
-import { sortCodeSerieMateriel } from '../helpers/materiel-roulant';
+import { sortCodeSerieMateriel, sortNomTechniqueComplet } from '../helpers/materiel-roulant';
 
 @Pipe({
   name: 'seriesOptions',
@@ -64,7 +64,7 @@ export class SeriesOptionsPipe implements PipeTransform {
   private getChildren(serie: Serie | undefined, series: Serie[]) {
     const children = series
       .filter((s) => s.codeSerieMere === (serie?.codeSerieMateriel ?? null))
-      .sort((a, b) => sortCodeSerieMateriel(a.codeSerieMateriel, b.codeSerieMateriel));
+      .sort((a, b) => sortNomTechniqueComplet(a.nomTechniqueComplet, b.nomTechniqueComplet));
     return children;
   }
 }
