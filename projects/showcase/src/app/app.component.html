@@ -46,9 +46,11 @@
         [simple]="simpleMenu"
         [menu]="menu">
       </mdl-side-menu-item>
-      <div class="d-flex mt-auto p-3" style="align-items: center">
+      <div
+        class="flex mt-auto p-3 items-center gap-x-3"
+        [style.flex-direction]="simpleMenu ? 'column' : undefined">
         <img id="logo" class="app-logo no-path" alt="APP LOGO" />
-        <div class="ms-auto ps-3 text-align-right">{{ "prod" }} v{{ "1.0.0" }}</div>
+        <div class="ms-auto text-align-right">{{ "prod" }} v{{ "1.0.0" }}</div>
       </div>
     </div>
   </mat-sidenav>
