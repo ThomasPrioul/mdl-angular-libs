@@ -40,17 +40,19 @@
     class="app-sidenav dark"
     [class.sncf-nav]="simpleMenu"
     [style.top]="header.offsetHeight + 'px'">
-    <div class="menu prod">
+    <div class="menu" [ngClass]="appEnv">
       <mdl-side-menu-item
         *ngFor="let menu of simpleMenu ? (menus | flatten) : menus"
         [simple]="simpleMenu"
         [menu]="menu">
       </mdl-side-menu-item>
       <div
-        class="flex mt-auto p-3 items-center gap-x-3"
+        class="flex mt-auto p-3 items-center gap-3"
         [style.flex-direction]="simpleMenu ? 'column' : undefined">
         <img id="logo" class="app-logo no-path" alt="APP LOGO" />
-        <div class="ms-auto text-align-right">{{ "prod" }} v{{ "1.0.0" }}</div>
+        <button mat-button class="small ms-auto text-align-right" (click)="changeEnv()">
+          {{ appEnv }} v{{ "1.0.0" }}
+        </button>
       </div>
     </div>
   </mat-sidenav>

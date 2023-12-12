@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
@@ -15,6 +14,8 @@ import { MainSideMenuDirective } from '../directives/main-side-menu.directive';
 import { DarkModeDirective } from '../directives/dark-mode.directive';
 import { RouterOutlet } from '@angular/router';
 import { FlattenMenusPipe } from '../pipes/flatten-menus.pipe';
+
+const appEnv = ['prod', 'rec', 'dev', 'local'];
 
 @Component({
   selector: 'app-showcase',
@@ -71,6 +72,13 @@ export class AppComponent {
     // },
   ];
 
-  public fixedHeight: boolean = true;
-  public simpleMenu: boolean = false;
+  protected fixedHeight: boolean = true;
+  protected simpleMenu: boolean = false;
+  protected appEnv: string = appEnv[0];
+  private appEnvIndex: number = 0;
+
+  protected changeEnv() {
+    if (++this.appEnvIndex >= appEnv.length) this.appEnvIndex = 0;
+    this.appEnv = appEnv[this.appEnvIndex];
+  }
 }
