@@ -5,6 +5,10 @@
   height: 100%;
 }
 
+.mat-mdc-tab-nav-bar {
+  margin: 8px 16px 0;
+}
+
 .mat-mdc-tab-nav-panel {
   flex-grow: 1;
   min-height: 0;
@@ -12,7 +16,7 @@
   ::ng-deep {
     router-outlet + * {
       height: 100%;
-      padding: 1.5rem;
+      padding: 1.5rem 2.5rem 2.5rem;
     }
   }
 }
