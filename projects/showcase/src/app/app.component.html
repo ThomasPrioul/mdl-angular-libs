@@ -2,12 +2,20 @@
   <mat-toolbar>
     <mat-toolbar-row>
       <div class="logos">
-        <div class="sncf-logo">
+        <div class="sncf-logo" [class.simple-menu]="simpleMenu">
           <img alt="SNCF" src="assets/logo-sncf.svg" />
         </div>
         <button mat-button class="mdl menu-button" (click)="menuOpen = !menuOpen">
-          APP LOGO + BTN MENU
+          <mat-icon
+            style="transition: transform 175ms ease-in-out"
+            [ngStyle]="{ transform: menuOpen ? 'rotate(90deg)' : undefined }">
+            menu
+          </mat-icon>
+          MON APPLI
         </button>
+        <mat-slide-toggle color="primary" class="self-center" [(ngModel)]="simpleMenu">
+          Menu simple
+        </mat-slide-toggle>
       </div>
       <mat-slide-toggle color="primary" class="ms-auto" [(ngModel)]="fixedHeight">
         Hauteur de page fixe
@@ -26,12 +34,18 @@
 
 <mat-sidenav-container class="app-sidenav-container">
   <mat-sidenav
-    class="app-sidenav dark"
     appMainMenu
+    [simple]="simpleMenu"
     [(opened)]="menuOpen"
+    class="app-sidenav dark"
+    [class.sncf-nav]="simpleMenu"
     [style.top]="header.offsetHeight + 'px'">
     <div class="menu prod">
-      <mdl-side-menu-item *ngFor="let menu of menus" [menu]="menu"> </mdl-side-menu-item>
+      <mdl-side-menu-item
+        *ngFor="let menu of simpleMenu ? (menus | flatten) : menus"
+        [simple]="simpleMenu"
+        [menu]="menu">
+      </mdl-side-menu-item>
       <div class="d-flex mt-auto p-3" style="align-items: center">
         <img id="logo" class="app-logo no-path" alt="APP LOGO" />
         <div class="ms-auto ps-3 text-align-right">{{ "prod" }} v{{ "1.0.0" }}</div>

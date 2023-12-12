@@ -4,9 +4,9 @@
   <button
     matIconSuffix
     mat-icon-button
+    *ngIf="filter.length > 0"
     (click)="filter = ''"
-    matTooltip="Réinitialiser"
-  >
+    matTooltip="Réinitialiser">
     <mat-icon>close</mat-icon>
   </button>
 </mat-form-field>

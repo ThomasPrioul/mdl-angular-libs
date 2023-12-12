@@ -5,6 +5,18 @@
   height: 100%;
 }
 
+.mat-mdc-tab-nav-panel {
+  flex-grow: 1;
+  min-height: 0;
+
+  ::ng-deep {
+    router-outlet + * {
+      height: 100%;
+      padding: 1.5rem;
+    }
+  }
+}
+
 .mat-mdc-tab-group {
   height: 100%;
 }

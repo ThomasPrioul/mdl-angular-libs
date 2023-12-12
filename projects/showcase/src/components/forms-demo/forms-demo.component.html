@@ -1,0 +1,82 @@
+<div class="flex gap-2 gap-y-4 items-center flex-wrap">
+  <mat-form-field class="small" style="min-width: 400px">
+    <mat-label>Select avec filtre (small)</mat-label>
+    <mat-select multiple [formControl]="seriesControl" placeholder="Sélectionnez...">
+      <mdl-select-filter #filter></mdl-select-filter>
+      <div *mdlSelectNoResults="filter" class="no-data-label">Aucune série trouvée</div>
+      <mat-option
+        *ngFor="let serie of series"
+        [disabled]="!(serie | seriesFilter : filter.value)"
+        [value]="serie.codeSerieMateriel">
+        {{ serie.nomTechniqueComplet }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <!-- <div>Result: {{ seriesControl.value }}</div> -->
+  <mat-form-field style="min-width: 400px">
+    <mat-label>Tree select (avec filtre)</mat-label>
+    <mdl-spinner *ngIf="false" overlay></mdl-spinner>
+    <mat-select
+      placeholder="Filtrer par série/sous-série"
+      multiple
+      mdlTreeSelect
+      #matSelect="matSelect"
+      #tree="mdlTreeSelect">
+      <mat-select-trigger>
+        {{ matSelect.triggerValue | mdlTreeSelectSummary : tree }}
+      </mat-select-trigger>
+      <mdl-select-filter #filter2></mdl-select-filter>
+      <div *mdlSelectNoResults="filter2" class="no-data-label">Aucune série trouvée</div>
+      <mat-option
+        *ngFor="let item of series | seriesOptions"
+        [disabled]="
+          (item | mdlTreeItemHidden) || (item | seriesOptionsFilter : filter2.value) === false
+        "
+        [value]="item.key">
+        <mdl-tree-option [item]="item" [(expanded)]="item.expanded">
+          {{ item.value.nomTechniqueComplet }}
+        </mdl-tree-option>
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <app-chips-demo class="grow"></app-chips-demo>
+  <mat-form-field class="small">
+    <mat-label>Sélectionner une date</mat-label>
+    <input matInput [matDatepicker]="picker" placeholder="JJ/MM/AAAA" />
+    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Enter a date range</mat-label>
+    <mat-date-range-input [rangePicker]="picker2">
+      <input matInput matStartDate placeholder="Start" />
+      <input matInput matEndDate placeholder="End" />
+    </mat-date-range-input>
+    <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
+    <mat-date-range-picker #picker2></mat-date-range-picker>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Login</mat-label>
+    <input matInput [formControl]="form.controls.login" />
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Mot de passe</mat-label>
+    <input matInput type="password" [formControl]="form.controls.password" />
+  </mat-form-field>
+  <button style="align-self: flex-end" mat-stroked-button (click)="toggleForm()">
+    Désactiver formulaire
+  </button>
+</div>
+<div class="flex gap-2 gap-y-4 items-center flex-wrap">
+  <mat-form-field>
+    <textarea matInput #code placeholder="return 1 + 1;"></textarea>
+  </mat-form-field>
+  <button mat-raised-button color="warn" (click)="executeArbitraryCode(code.value)">
+    <span>Interpréter code</span>
+  </button>
+  <mat-form-field>
+    <input matInput [value]="codeOutput" readonly />
+    <mat-icon matIconSuffix>lock</mat-icon>
+  </mat-form-field>
+  <mdl-zoom-button></mdl-zoom-button>
+</div>

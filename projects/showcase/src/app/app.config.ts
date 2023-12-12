@@ -11,6 +11,8 @@ import { Route, provideRouter } from '@angular/router';
 import { HomeComponent } from '../pages/home.component';
 import { MAT_LUXON_DATE_ADAPTER_OPTIONS } from '@angular/material-luxon-adapter';
 import { Settings } from 'luxon';
+import { Table2DemoComponent } from '../components/table2-demo/table2-demo.component';
+import { FormsDemoComponent } from '../components/forms-demo/forms-demo.component';
 
 function frenchRangeLabel(page: number, pageSize: number, length: number) {
   if (length == 0 || pageSize == 0) return `0 sur ${length}`;
@@ -42,6 +44,21 @@ const routes: Route[] = [
   {
     path: 'home',
     component: HomeComponent,
+    children: [
+      {
+        path: 'table2',
+        component: Table2DemoComponent,
+      },
+      {
+        path: 'forms',
+        component: FormsDemoComponent,
+      },
+      {
+        path: '',
+        pathMatch: 'full',
+        redirectTo: 'table2',
+      },
+    ],
   },
   {
     path: '',

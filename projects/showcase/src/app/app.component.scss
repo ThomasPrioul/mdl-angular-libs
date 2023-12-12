@@ -27,6 +27,11 @@
     > img {
       width: 48px;
     }
+
+    &.simple-menu > img {
+      width: 70px;
+      margin-right: 1rem;
+    }
   }
 
   .menu-button {
@@ -99,6 +104,16 @@
     left: 0;
     min-width: 260px;
 
+    &.sncf-nav {
+      min-width: unset;
+      width: 101px;
+
+      .menu {
+        min-width: unset;
+        width: 100px;
+      }
+    }
+
     .menu {
       height: 100%;
       min-width: 250px;
@@ -128,8 +143,6 @@
     }
 
     .app-logo {
-      height: 20px;
-
       &.no-path {
         border: 1px solid mdl.$text-light;
       }

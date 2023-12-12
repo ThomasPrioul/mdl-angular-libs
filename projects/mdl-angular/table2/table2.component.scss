@@ -9,6 +9,7 @@ $blue-veil: color.change(colors.$primary, $alpha: 0.0625);
   position: relative;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
   min-height: 0;
   background-color: var(--mat-table-background-color);
 }
@@ -25,16 +26,15 @@ $blue-veil: color.change(colors.$primary, $alpha: 0.0625);
     flex-wrap: nowrap;
     position: relative;
     flex-grow: 1;
+    gap: 1rem;
+
+    > :first-child {
+      padding-left: 1rem;
+    }
 
     > .title {
       font-size: 20px;
       font-weight: 500;
-      padding-left: 1rem;
-      margin: auto auto auto 0;
-    }
-
-    > .searchbar {
-      width: unset;
     }
   }
 

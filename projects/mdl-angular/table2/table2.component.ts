@@ -138,6 +138,7 @@ export class MdlTableComponent<T> implements AfterContentInit, AfterViewInit, On
   private readonly _destroy = new Subject<void>();
 
   private _dataSource!: readonly T[] | MatTableDataSource<T>;
+  private _disableSearch: boolean = false;
   private _displayedColumns!: ColumnDisplayInfo[];
   private _filter: string = '';
   private _pageSizes: number[] = [10, 25, 100];
@@ -184,6 +185,11 @@ export class MdlTableComponent<T> implements AfterContentInit, AfterViewInit, On
   }
 
   @Input()
+  public get disableSearch(): BooleanInput {
+    return this._disableSearch;
+  }
+
+  @Input()
   public get displayedColumns(): ColumnDisplayInfo[] {
     return this._displayedColumns;
   }
@@ -210,6 +216,10 @@ export class MdlTableComponent<T> implements AfterContentInit, AfterViewInit, On
 
   public set dataSource(value: readonly T[] | MatTableDataSource<T>) {
     this._dataSource = value;
+  }
+
+  public set disableSearch(value: BooleanInput) {
+    this._disableSearch = coerceBooleanProperty(value);
   }
 
   public set displayedColumns(value: ColumnDisplayInfo[]) {
@@ -346,14 +356,6 @@ export class MdlTableComponent<T> implements AfterContentInit, AfterViewInit, On
       this.dataSource instanceof MatTableDataSource ? this.dataSource.data : this.dataSource;
 
     this.selectionModel.select(...dataArray);
-  }
-
-  public toggleSearch() {
-    if (this.searchbar.visible) {
-      this.searchbar.visible = false;
-    } else {
-      this.searchbar.visible = true;
-    }
   }
 
   protected expandRow(row: T) {

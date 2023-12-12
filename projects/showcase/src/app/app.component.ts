@@ -14,19 +14,20 @@ import { MdlZoomButtonComponent } from 'mdl-angular/zoom-button';
 import { MainSideMenuDirective } from '../directives/main-side-menu.directive';
 import { DarkModeDirective } from '../directives/dark-mode.directive';
 import { RouterOutlet } from '@angular/router';
+import { FlattenMenusPipe } from '../pipes/flatten-menus.pipe';
 
 @Component({
   selector: 'app-showcase',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     // NG
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
     RouterOutlet,
-
     // MAT
     MatButtonModule,
     MatIconModule,
@@ -34,17 +35,15 @@ import { RouterOutlet } from '@angular/router';
     MatSlideToggleModule,
     MatToolbarModule,
     MatTooltipModule,
-
     // MDL
     MdlSideMenuItemComponent,
     MdlTableComponent,
     MdlZoomButtonComponent,
-
     // APP
     DarkModeDirective,
     MainSideMenuDirective,
+    FlattenMenusPipe,
   ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent {
   protected menuOpen: boolean = false;
@@ -52,22 +51,26 @@ export class AppComponent {
     {
       text: 'Accueil',
       link: '/home',
+      icon: 'home',
       children: [
         {
-          text: 'Sous-feature 1/1',
-          link: '/home/subfeature1',
+          text: 'Table2',
+          link: '/home/table2',
+          icon: 'table_rows',
         },
         {
-          text: 'Sous-feature 1/2',
-          link: '/home/subfeature2',
+          text: 'Forms',
+          link: '/home/forms',
+          icon: 'list',
         },
       ],
     },
-    {
-      text: 'Paramètres',
-      link: '/settings/',
-    },
+    // {
+    //   text: 'Paramètres',
+    //   link: '/settings/',
+    // },
   ];
 
   public fixedHeight: boolean = true;
+  public simpleMenu: boolean = false;
 }

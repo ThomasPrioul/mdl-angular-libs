@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, Input, ViewChild } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatRippleModule } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
@@ -27,6 +27,13 @@ export class MdlSideMenuItemComponent {
   public level: number = 0;
   @Input()
   public menu!: SideMenu;
+
+  @Input()
+  public simple: boolean = false;
+
+  @HostBinding('class.simple') private get _simple() {
+    return this.simple;
+  }
 
   protected get expanded() {
     return this.menu.expanded || (this.rla && this.rla.isActive);

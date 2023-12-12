@@ -31,6 +31,9 @@ import { SeriesFilterPipe } from '../pipes/series-filter.pipe';
 import { SeriesOptionsFilterPipe, SeriesOptionsPipe } from '../pipes/series-options.pipe';
 import { parseFunction } from '../utils';
 import { MatLuxonDateModule } from '@angular/material-luxon-adapter';
+import { Table2DemoComponent } from '../components/table2-demo/table2-demo.component';
+import { FormsDemoComponent } from '../components/forms-demo/forms-demo.component';
+import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -40,89 +43,15 @@ import { MatLuxonDateModule } from '@angular/material-luxon-adapter';
   imports: [
     // NG
     CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
+    RouterLinkActive,
+    RouterLink,
+    RouterOutlet,
+
     // Material
-    MatButtonModule,
-    MatDatepickerModule,
-    MatFormFieldModule,
-    MatIconModule,
-    MatInputModule,
-    MatLuxonDateModule,
-    MatSelectModule,
-    MatSlideToggleModule,
-    MatSortModule,
-    MatTableModule,
     MatTabsModule,
-    MatTooltipModule,
-    // MDL
-    MdlCastPipe,
-    MdlSelectFilterComponent,
-    MdlSelectNoResultsDirective,
-    MdlSpinnerComponent,
-    MdlTableComponent,
-    MdlTreeItemHiddenPipe,
-    MdlTreeOptionComponent,
-    MdlTreeSelectDirective,
-    MdlTreeSelectSummaryPipe,
-    MdlZoomButtonComponent,
-    TypeSafeMatCellDef,
-    // App
-    SeriesFilterPipe,
-    SeriesOptionsFilterPipe,
-    SeriesOptionsPipe,
-    ChipsDemoComponent,
+
+    Table2DemoComponent,
+    FormsDemoComponent,
   ],
 })
-export class HomeComponent {
-  protected toggleForm() {
-    if (this.form.enabled) this.form.disable();
-    else this.form.enable();
-  }
-  protected readonly series: Serie[] = SERIES.sort((a, b) =>
-    sortNomTechniqueComplet(a.nomTechniqueComplet, b.nomTechniqueComplet)
-  );
-  protected readonly seriesControl = new FormControl<string[]>([]);
-
-  protected readonly form = new FormGroup({
-    login: new FormControl<string>(''),
-    password: new FormControl<string>(''),
-  });
-
-  protected codeOutput: any;
-  protected dataSource = new MatTableDataSource<Serie>();
-  protected displayedColumns: ColumnDisplayInfo[] = [
-    { name: 'nomTechniqueComplet', canHide: false, visible: true },
-    { name: 'typeSerie', canHide: false, visible: true },
-    { name: 'codeSerieMateriel', canHide: true, visible: true },
-    { name: 'codeLcn', canHide: true, visible: true },
-    { name: 'codeSerieMere', canHide: false, visible: true },
-  ];
-  protected loading = signal<boolean | null>(null);
-
-  protected readonly Serie = () => <Serie>{};
-
-  protected filterChanged(filter: string) {
-    this.dataSource.filter = filter;
-  }
-
-  protected executeArbitraryCode(code: string) {
-    this.codeOutput = parseFunction(code)?.call(undefined);
-  }
-
-  protected loadData() {
-    this.loading.set(true);
-    setTimeout(() => {
-      this.dataSource.data = SERIES;
-      this.loading.set(false);
-    }, 2000);
-  }
-
-  protected loadEmptyData() {
-    this.loading.set(true);
-    setTimeout(() => {
-      this.dataSource.data = [];
-      this.loading.set(false);
-    }, 2000);
-  }
-}
+export class HomeComponent {}

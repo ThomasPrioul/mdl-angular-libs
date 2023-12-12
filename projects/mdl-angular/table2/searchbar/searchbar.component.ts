@@ -33,41 +33,17 @@ import { MatTooltipModule } from '@angular/material/tooltip';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SearchbarComponent {
-  @ViewChild(MatInput) private input!: MatInput;
-
   private _filter!: string;
-  private _visible = false;
 
   @Output() public filterChange = new EventEmitter<string>();
-  @Output()
-  public visibleChange = new EventEmitter<boolean>();
-
-  @HostBinding('style.display') public get hidden() {
-    return this.visible ? 'block' : 'none';
-  }
 
   @Input()
   public get filter(): string {
     return this._filter;
   }
 
-  @Input()
-  public get visible() {
-    return this._visible;
-  }
-
   public set filter(value: string) {
     this._filter = value;
     this.filterChange.emit(value);
-  }
-
-  public set visible(value) {
-    this._visible = value;
-    this.visibleChange.emit(value);
-    if (value) {
-      setTimeout(() => {
-        this.input.focus();
-      });
-    }
   }
 }

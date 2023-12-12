@@ -13,6 +13,10 @@ body {
   font-family: mdl.$font-sans-serif, "Helvetica Neue", sans-serif;
 }
 
+router-outlet {
+  display: none;
+}
+
 @import "mdl-angular/scss/fonts";
 @import "mdl-angular/scss/material/core";
 @import "mdl-angular/scss/material/components/autocomplete";

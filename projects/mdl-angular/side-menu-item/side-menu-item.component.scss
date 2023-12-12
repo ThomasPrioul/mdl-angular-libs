@@ -3,6 +3,21 @@
 :host {
   display: block;
   transition: max-height mdl.$animation;
+  font-size: 1rem;
+
+  &.simple {
+    font-size: 0.75rem;
+
+    .menu-item-content {
+      height: 81px;
+      border-left-width: 0;
+
+      a {
+        flex-direction: column;
+        justify-content: center;
+      }
+    }
+  }
 }
 
 .menu-item-content {
@@ -20,6 +35,7 @@
   a {
     display: flex;
     flex-grow: 1;
+    column-gap: 0.75rem;
     align-items: center;
     text-decoration: none;
     color: inherit;
@@ -28,7 +44,7 @@
   &.active {
     background-color: rgba(255, 255, 255, 0.2);
     font-weight: bold;
-    border-left: 6px solid currentColor;
+    border-left-color: currentColor;
   }
 
   &:hover {

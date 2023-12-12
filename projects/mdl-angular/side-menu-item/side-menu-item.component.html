@@ -10,25 +10,21 @@
       matrixParams: 'ignored',
       fragment: 'ignored'
     }"
-    [ngStyle]="{ 'padding-left.px': 10 + 16 * level }"
+    [ngStyle]="{ 'padding-left.px': !simple ? 10 + 16 * level : 0 }"
     routerLinkActive="active"
     #rla="routerLinkActive">
     <mat-icon
-      style="margin-right: 12px"
       *ngIf="menu.icon && menu.icon.startsWith('sncf')"
       [svgIcon]="menu.icon"
       [style]="menu.style">
     </mat-icon>
-    <mat-icon
-      style="margin-right: 12px"
-      *ngIf="menu.icon && !menu.icon.startsWith('sncf')"
-      [style]="menu.style"
-      >{{ menu.icon }}</mat-icon
-    >
+    <mat-icon *ngIf="menu.icon && !menu.icon.startsWith('sncf')" [style]="menu.style">{{
+      menu.icon
+    }}</mat-icon>
     <div class="content">{{ menu.text }}</div>
   </a>
   <button
-    *ngIf="menu.children && menu.children!.length > 0"
+    *ngIf="!simple && menu.children && menu.children!.length > 0"
     [disabled]="rla.isActive"
     class="menu-item-expand-button"
     (click)="toggleItem($event)"
@@ -39,7 +35,7 @@
     </mat-icon>
   </button>
 </div>
-<ng-container *ngIf="expanded">
+<ng-container *ngIf="!simple && expanded">
   <mdl-side-menu-item
     class="child"
     *ngFor="let menuChild of menu.children ?? []"
