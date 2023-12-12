@@ -126,15 +126,25 @@ textarea::placeholder {
       }
     }
 
-    &:not(.mdc-text-field--disabled) .mdc-text-field__input::placeholder {
-      color: colors.$gray-light;
+    &:not(.mdc-text-field--disabled) .mdc-text-field__input {
+      &[type="password"] {
+        color: colors.$primary;
 
-      .dark & {
-        color: colors.$cool-gray-1;
+        .dark & {
+          color: colors.$primary-dark;
+        }
       }
 
-      .light & {
-        color: rgba(0, 0, 0, 0.6); // colors.$gray-light;
+      &::placeholder {
+        color: colors.$gray-light;
+
+        .dark & {
+          color: colors.$cool-gray-1;
+        }
+
+        .light & {
+          color: rgba(0, 0, 0, 0.6); // colors.$gray-light;
+        }
       }
     }
 

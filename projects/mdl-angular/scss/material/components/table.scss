@@ -43,27 +43,26 @@ tr.mat-mdc-no-data-row {
     --mat-table-header-headline-color: #fff;
   }
 
-  > thead[role="rowgroup"] {
-    > tr > th {
-      background: colors.$cool-gray-0;
+  .mat-mdc-header-cell {
+    background: colors.$cool-gray-0 !important;
 
-      &:first-child {
-        border-top-left-radius: 8px;
-        border-bottom-left-radius: 8px;
-      }
+    &:first-child {
+      border-top-left-radius: 8px;
+      border-bottom-left-radius: 8px;
+    }
 
-      &:last-child {
-        border-top-right-radius: 8px;
-        border-bottom-right-radius: 8px;
-      }
+    &:last-child {
+      border-top-right-radius: 8px;
+      border-bottom-right-radius: 8px;
+    }
 
-      .dark & {
-        background: colors.$carbon;
-      }
+    .dark & {
+      background: colors.$carbon !important;
     }
   }
 }
 
+/* Deprecated */
 .mdl {
   --mdc-typography-body2-font-size: 16px;
   --mdc-typography-subtitle2-font-size: 16px;

@@ -13,3 +13,11 @@
 .dark .light {
   @include mat.chips-color(theme.$light-theme);
 }
+
+.mdc-evolution-chip-set__chips {
+  padding-right: 8px;
+}
+
+input.mat-mdc-chip-input {
+  margin-left: 0 !important;
+}

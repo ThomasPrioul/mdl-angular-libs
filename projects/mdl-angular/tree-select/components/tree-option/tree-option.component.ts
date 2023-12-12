@@ -32,11 +32,11 @@ const checkboxPadding = 12;
   imports: [CommonModule, MatIconModule, MatButtonModule, MatPseudoCheckboxModule],
 })
 export class MdlTreeOptionComponent<K, T> implements AfterContentInit, OnInit {
-  private _expanded: boolean = false;
-  private _state: boolean | null = false;
   private static _iconInitialized = false;
 
-  @Input() public checkedState: MatPseudoCheckboxState = 'unchecked';
+  private _expanded: boolean = false;
+  private _state: boolean | null = false;
+
   @Input() public expandable: boolean = false;
   @Input() public item!: MdlTreeOption<K, T>;
   @Input() public level?: number;
@@ -80,6 +80,10 @@ export class MdlTreeOptionComponent<K, T> implements AfterContentInit, OnInit {
 
   @HostBinding('class.expandable') private get isExpandable() {
     return this.expandable;
+  }
+
+  @HostBinding('style.font-weight') private get isSelected() {
+    return this.state !== false ? '500' : undefined;
   }
 
   public ngOnInit(): void {

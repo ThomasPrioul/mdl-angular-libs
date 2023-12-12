@@ -15,7 +15,17 @@
 }
 
 .mat-mdc-option {
-  --mdc-theme-text-primary-on-background: #{colors.$carbon};
+  --mdc-theme-text-primary-on-background: #{colors.$cool-gray-11};
+
+  .light & {
+    --mat-option-selected-state-label-text-color: #{colors.$carbon};
+  }
+
+  .dark & {
+    --mat-option-selected-state-label-text-color: white;
+  }
+
+  --mat-option-label-text-weight: 400;
   border-radius: var(--mdc-shape-small);
   margin: 0 var(--mdc-shape-small);
   // min-height: 48px !important;
@@ -23,11 +33,15 @@
   // padding-bottom: var(--mdc-shape-small) !important;
   // background: white;
 
+  &.mdc-list-item--selected {
+    --mat-option-label-text-weight: 500;
+  }
+
   &:hover:not(.mdc-list-item--disabled),
   &:focus:not(.mdc-list-item--disabled),
   &.mat-mdc-option-active,
   &.mdc-list-item--selected:not(.mat-mdc-option-multiple):not(.mdc-list-item--disabled) {
-    background: colors.$cool-gray-0;
+    // background: colors.$cool-gray-0;
   }
 
   .mat-pseudo-checkbox {
