@@ -13,7 +13,8 @@
     "showcase:build": "ng build showcase",
     "showcase:watch": "ng build showcase --watch --configuration development",
     "showcase:test": "ng test showcase",
-    "clean": "rimraf dist"
+    "clean": "rimraf dist",
+    "publish": "npm run lib:build && cp README.md dist/mdl-angular/ && npm publish dist/mdl-angular/"
   },
   "private": true,
   "dependencies": {

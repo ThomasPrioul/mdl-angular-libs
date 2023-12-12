@@ -1,6 +1,15 @@
 {
   "name": "mdl-angular",
-  "version": "0.0.3",
+  "version": "0.0.6",
+  "description": "Librairie de composants et styles Angular Material respectant le design system SNCF",
+  "author": {
+    "name": "Thomas Prioul (MASTERIS)",
+    "email": "thomas.prioul@masteris.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "github:ThomasPrioul/mdl-angular-libs"
+  },
   "exports": {
     ".": {
       "sass": "./scss/"

@@ -1,55 +1,95 @@
 # mdl-angular
 
-Librairie de components Angular style SNCF / Maintenance Data Lab à utiliser en tant que sous-module git dans votre projet Angular + Material.
+Librairie de components Angular style SNCF / Maintenance Data Lab à utiliser dans votre projet Angular + Material.
 
-Vous y trouverez :
+## Points d'entrée
 
-- Beaucoup de CSS, pour styliser une application "Material" au design guide SNCF.
-- Une input "mdl-search-mr" avec autocomplétion pour rechercher des MR (à alimenter avec vos données applicatives)  
-  ![Photo mdl-search-mr](./screenshots/mdl-search-mr.png)
-- Une input "mdl-tree-select" pour afficher et sélectionner des données arrangées en arborescence (séries d'engin, stfs/flottes) à alimenter via une directive dans votre code applicatif (voir code MRveille pour exemple)  
-  ![Photo mdl-tree-select](./screenshots/mdl-tree-select.png)
-- Une input "mdl-date-range-input" pour sélectionner des plages de date avec raccourcis personnalisables.  
-  ![Photo mdl-date-range-input](./screenshots/mdl-date-range-input.png)
-- Un spinner (copié de wcs) avec une directive (mdlLoading) pour l'ajouter facilement à n'importe quel élément.
-- Une table "mdl-table" stylisée design guide avec un support de templates de colonne en code ou ng-template, tri personnalisé, filtrage, pagination, lignes "expandable", sélection.  
-  ![Photo mdl-table](./screenshots/mdl-table.png)
+Vous y trouverez plusieurs points d'entrées :
 
-Cette librairie n'est pas un package npm, ce n'est qu'un ensemble de fichiers de code à importer dans votre projet via un sous-module git.
-Elle est testée dans les projets MRveille (anciennement WebMaT) et SFMR avec les dépendances suivantes :
+### mdl-angular
+
+Contient toutes les fonts, feuilles SCSS, pour styliser une application "Material" au design SNCF.
+
+Des helpers, pipes et directives:
+
+- directive **mdlStyleTag** : gère dynamiquement une balise `<style>` enfant de l'objet DOM ciblé.
+- directive **TypeSafeMatCellDef** : classe qui permet de fortement typer les valeurs utilisées dans vos définitions de colonnes mat-table.
+- helper **registerMaterialIcons** : pour enregistrer vos propres svg (inline ou fichier) pour utilisation avec `<mat-icon svgIcon="monIcone">`
+- helper **ngClassToArray** : normalise la donnée d'entrée d'une ngClass en string[].
+- pipe **mdlCast** : pour caster une donnée dans un ng-template (passer de **any** à un typage fort)
+
+### mdl-angular/spinner
+
+Un component spinner autonome **mdl-spinner**, et une directive **mdlLoading** pour ajouter un overlay loading centré à n'importe quoi.
+
+### mdl-angular/zoom-button
+
+Un bouton à trois zones pour gérer un niveau de zoom.
+
+![Photo mdl-tree-select](./screenshots/mdl-zoom-button.png)
+
+### mdl-angular/breadcrumbs
+
+Un ensemble de boutons de navigation en fil d'Ariane à utiliser dans votre navbar.
+
+### mdl-angular/fullscreen
+
+Un service et une directive pour gérer l'API fullscreen sur n'importe quel élément du DOM.
+
+### mdl-angular/side-menu-item
+
+Un component menu-item récursif pour gérer des menus multi-niveaux sur un panneau à gauche de votre application (via un mat-drawer par exemple).
+
+![Photo mdl-tree-select](./screenshots/mdl-side-menu-item.png)
+
+### mdl-angular/select-filter
+
+Un component et une directive structurelle pour ajouter un filtre à un mat-select.
+Il faut ajouter un pipe côté applicatif pour agir sur la valeur du filtre (en supprimant/masquant des mat-option).
+
+![Photo mdl-tree-select](./screenshots/mdl-select-filter.png)
+
+### mdl-angular/tree-select
+
+Directive, components et pipes pour transformer un mat-select en tree-select avec navigation au clavier, peut être cumulé au select-filter.
+
+![Photo mdl-tree-select](./screenshots/mdl-tree-select.png)
+
+### mdl-angular/table2
+
+Extension du mat-table pour gérer le mode frontend/backend pour la pagination, ajout d'une toolbar, bouton plein écran, gestion de la sélection des lignes, etc.
+
+![Photo mdl-tree-select](./screenshots/mdl-table2.png)
+
+## Dépendances
+
+Cette librairie a les dépendances suivantes :
 
 - @angular ^16.2.0
 - @angular/material ^16.2.0
 
 Il n'y a pas de dépendance sur les librairies wcs-core et wcs-angular.
 
-Il est prévu de créer un package NPM pour simplifier la mise en place de la librairie.
-
 ## Mise en place
 
-### Récupération des fichiers
+### Installation du package
 
-Depuis votre dossier d'application existante :
-
-```shell
-cd <dossierAppli>
-mkdir lib && cd lib
-git submodule add https://gitlab-repo-mob.apps.eul.sncf.fr/dsit-mat/cds-spdc/05668/commun/mdl-angular.git mdl
+```bash
+npm i mdl-angular
 ```
 
-Vous avez maintenant un dossier lib/mdl dans votre application.
-
-⚠️ Attention, si vous avez un déploiement via Jenkins ou autre, faire attention à activer l'option "checkout submodules" lors de l'étape "checkout SCM" sous peine d'avoir des builds en échec pour fichiers manquants.
-
-⚠️ Préciser dans le readme de votre projet de faire un clone avec sous-modules:
-`git clone --recurse-submodules`
-
-### Ajouter les styles MDL dans le fichier sass racine (styles.scss)
+### Ajout des styles dans le fichier sass racine (styles.scss)
 
 ```scss
-@use "/lib/mdl/scss/colors";
-@use "/lib/mdl/scss/vars";
-// ... Votre CSS utilisant des variables MDL
+@use "mdl-angular/scss" as mdl;
+/* ... Votre CSS utilisant des variables MDL */
+
+/* Ajout des feuilles de styles MDL */
+@import "mdl-angular/scss/fonts";
+@import "mdl-angular/scss/material/core";
+@import "mdl-angular/scss/colored-badge";
+@import "mdl-angular/scss/highlight";
+@import "mdl-angular/scss/panels";
 ```
 
 ### Ajouter les styles pour chaque composant Material utilisé
@@ -60,68 +100,52 @@ Quand vous utilisez un style SNCF, pas besoin de préimporter le style material,
 A ce jour, tous les styles ne sont pas encore migrés en mode MDL, et il n'y pas d'import en une seule ligne.
 
 ```scss
-@import "/lib/mdl/scss/fonts";
-@import "/lib/mdl/scss/material/core";
-@import "/lib/mdl/scss/material/components/autocomplete";
-@import "/lib/mdl/scss/material/components/badge";
-@import "/lib/mdl/scss/material/components/button";
-@import "/lib/mdl/scss/material/components/card";
-@import "/lib/mdl/scss/material/components/checkbox";
-@import "/lib/mdl/scss/material/components/dialog";
-@import "/lib/mdl/scss/material/components/table";
-@import "/lib/mdl/scss/material/components/datepicker";
-@import "/lib/mdl/scss/material/components/divider";
-@import "/lib/mdl/scss/material/components/input";
-@import "/lib/mdl/scss/material/components/menu";
-@import "/lib/mdl/scss/material/components/option";
-@import "/lib/mdl/scss/material/components/paginator";
-@import "/lib/mdl/scss/material/components/progress-bar";
-@import "/lib/mdl/scss/material/components/progress-spinner";
-@import "/lib/mdl/scss/material/components/radio";
-@import "/lib/mdl/scss/material/components/select";
-@import "/lib/mdl/scss/material/components/slide-toggle";
-@import "/lib/mdl/scss/material/components/slider";
-@import "/lib/mdl/scss/material/components/sidenav";
-@import "/lib/mdl/scss/material/components/sort";
-@import "/lib/mdl/scss/material/components/tabs";
-@import "/lib/mdl/scss/material/components/toolbar";
-@import "/lib/mdl/scss/material/components/tooltip";
-@import "/lib/mdl/scss/material/components/tree";
-@import "/lib/mdl/scss/material/components/snack-bar";
-@import "/lib/mdl/scss/material/components/form-field";
-// @import "/lib/mdl/scss/material/components/stepper";
-
-// @use '../../bottom-sheet/bottom-sheet-theme';
-// @use '../../chips/chips-theme';
-// @use '../../expansion/expansion-theme';
-// @use '../../grid-list/grid-list-theme';
-// @use '../../list/list-theme';
-
-@import "/lib/mdl/scss/colored-badge";
-@import "/lib/mdl/scss/highlight";
-@import "/lib/mdl/scss/panels";
+@import "mdl-angular/scss/material/components/autocomplete";
+@import "mdl-angular/scss/material/components/badge";
+@import "mdl-angular/scss/material/components/button";
+@import "mdl-angular/scss/material/components/card";
+@import "mdl-angular/scss/material/components/chips";
+@import "mdl-angular/scss/material/components/checkbox";
+@import "mdl-angular/scss/material/components/dialog";
+@import "mdl-angular/scss/material/components/table";
+@import "mdl-angular/scss/material/components/datepicker";
+@import "mdl-angular/scss/material/components/divider";
+@import "mdl-angular/scss/material/components/input";
+@import "mdl-angular/scss/material/components/menu";
+@import "mdl-angular/scss/material/components/option";
+@import "mdl-angular/scss/material/components/paginator";
+@import "mdl-angular/scss/material/components/progress-bar";
+@import "mdl-angular/scss/material/components/progress-spinner";
+@import "mdl-angular/scss/material/components/radio";
+@import "mdl-angular/scss/material/components/select";
+@import "mdl-angular/scss/material/components/slide-toggle";
+@import "mdl-angular/scss/material/components/slider";
+@import "mdl-angular/scss/material/components/sidenav";
+@import "mdl-angular/scss/material/components/sort";
+@import "mdl-angular/scss/material/components/tabs";
+@import "mdl-angular/scss/material/components/toolbar";
+@import "mdl-angular/scss/material/components/tooltip";
+@import "mdl-angular/scss/material/components/tree";
+@import "mdl-angular/scss/material/components/snack-bar";
+@import "mdl-angular/scss/material/components/form-field";
+@import "mdl-angular/scss/material/components/stepper";
 ```
 
 ### Polices
 
-Pour utiliser la police Avenir, veillez à importer le fichier "/lib/mdl/scss/fonts" dans votre fichier de styles global, puis modifier la balise assets dans angular.json:
+Pour utiliser la police Avenir, veillez à bien importer le fichier "mdl-angular/scss/fonts" dans votre fichier de styles racine.
+
+### Logo SNCF
+
+La librairie embarque le logo SNCF en SVG, pour l'utiliser dans votre HTML, modifiez la balise assets dans angular.json:
 
 ```json
 "assets": [
+  // ... autres assets
   {
-    "glob": "**/favicon.ico",
-    "input": "src",
-    "output": ""
-  },
-  {
-    "glob": "**/*",
-    "input": "src/assets",
-    "output": "assets"
-  },
-  {
-    "glob": "**/*",
-    "input": "lib/mdl/assets",
-    "output": "assets"
+    "glob": "*.svg",
+    "input": "projects/mdl-angular/assets/",
+    "output": "/assets/"
   }
 ],
 ```
@@ -131,44 +155,27 @@ Pour utiliser la police Avenir, veillez à importer le fichier "/lib/mdl/scss/fo
 La nouvelle style guide SNCF utilise des form fields entourés, plutôt qu'avec un fond grisé et une bordure basse.
 MDL gère les deux mais il vaut mieux [configurer material en mode outline](https://material.angular.io/components/form-field/overview#form-field-appearance-variants).
 
-Créer ou modifier un fichier contenant vos customizations Material:
+Créez ou modifiez un fichier contenant vos customizations Material:
 
 ```ts
-// defaults.ts
-export const MATERIAL_PROVIDERS = [
-  {
-    provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
-    useValue: <MatFormFieldDefaultOptions>{
-      appearance: "outline",
-      color: "primary",
-      subscriptSizing: "dynamic",
-      floatLabel: "always",
-    },
+{
+  provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
+  useValue: <MatFormFieldDefaultOptions>{
+    appearance: "outline",
+    color: "primary",
+    subscriptSizing: "dynamic",
+    floatLabel: "always",
   },
-];
+}
 ```
 
 Importez ce provider dans votre bootstrap module ou votre app.component standalone avec bootstrapApplication(); Cela forcera les form fields en mode "outline".
 
-La librairie utilise également des icones SVG inline à ajouter à Material.
+### Light/dark mode
 
-```ts
-import { inlineSvgs } from "/lib/mdl/helpers/material-icons";
+Le mode dark/light doit être spécifié explicitement au niveau d'un conteneur HTML, cela peut être un div spécifique ou le body du HTML, vous pouvez inverser le thème au niveau d'un sous-conteneur.
 
-// Dans le constructeur d'un NgModule ou APP_INITIALIZER
-const mat = inject(MatIconRegistry);
-
-mat.addSvgIconLiteral(icon, dom.bypassSecurityTrustHtml(inlineSvgs.expand_more));
-
-// Optionnel: icone MS teams pour le support
-mat.addSvgIconLiteral(icon, dom.bypassSecurityTrustHtml(inlineSvgs.ms_teams));
-```
-
-### Dark/light mode
-
-Le mode dark/light peut être activé de façon conditionnelle à un conteneur, cela peut être un div spécifique ou le body du HTML.
-
-Pour bien gérer le dark mode au global, veillez à bien utiliser la classe mat-app-background dans votre fichier index.html :
+Pour le gérer au global dans l'application, veillez à bien utiliser la classe mat-app-background dans votre fichier index.html :
 
 ```html
 <!DOCTYPE html>
@@ -179,16 +186,18 @@ Pour bien gérer le dark mode au global, veillez à bien utiliser la classe mat-
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/x-icon" href="favicon.ico" />
   </head>
-  <body class="mat-app-background">
+  <body class="mat-app-background light">
     <app-mrveille></app-mrveille>
   </body>
 </html>
 ```
 
-Vous pouvez par exemple faire un dark mode global en ajoutant une classe 'dark' à la balise body (hors périmètre de votre appli donc via la classe Renderer2):
+Ici la présence de la classe **light** force toute l'application en mode **light**.
+
+Pour gérer dynamiquement cette classe sur l'élément body, on ne peut pas directement utiliser un binding, mais on peut utiliser une directive sur le bouton qui va permettre de changer le thème et utiliser la classe Renderer2:
 
 ```ts
-// Fichier dark-mode.directive.ts dans votre projet
+// Créer un fichier dark-mode.directive.ts dans votre projet
 import { coerceBooleanProperty } from "@angular/cdk/coercion";
 import { Directive, Injectable, Input, Renderer2, inject } from "@angular/core";
 
@@ -208,7 +217,9 @@ export class DarkModeDirective {
   public set enabled(value: boolean) {
     this._enabled = value;
     localStorage.setItem("dark", `${this.enabled}`);
-    value ? this.renderer.addClass(document.body, "dark") : this.renderer.removeClass(document.body, "dark");
+
+    this.renderer.addClass(document.body, value ? "dark" : "light");
+    this.renderer.removeClass(document.body, value ? "light" : "dark");
   }
 }
 ```
@@ -221,42 +232,13 @@ export class DarkModeDirective {
 </button>
 ```
 
-### (Optionnel) Ajouter un chemin racine dans tsconfig.json pour les fichiers TypeScript de MDL
+## Démonstrateur
 
-Ajoutez cet extrait dans tsconfig.json.
+Ce repo contient une application exemple, pour la tester, cloner ce dépôt puis lancez :
 
-```json
-{
-  "compilerOptions": {
-    "baseUrl": "./",
-    "paths": {
-      "app/*": ["src/app/*"],
-      "src/*": ["src/*"],
-      "*": ["lib/*"]
-    }
-  }
-}
+```bash
+npm i
+npm start
 ```
 
-Cet extrait vous permet d'utiliser des imports "courts" tels que :
-
-```typescript
-import { MyClass } from "app/my-class";
-import { MdlSpinnerComponent } from "mdl";
-```
-
-### (Optionnel) Ajouter un chemin racine dans angular.json pour les fichiers sass
-
-Dans projects.\<app\>.architect.build.options :
-
-```json
-"stylePreprocessorOptions": {
-  "includePaths": ["lib", "src/app", "node_modules"]
-}
-```
-
-Cet extrait vous permet d'utiliser des imports "courts" dans les fichier sass aussi.
-
-## Utilisation
-
-Les components sont "standalone". Vous devez donc les importer dans chacuns des components standalone dans lequel ils seront utilisés, ou alors dans le NgModule qui importe le composant utilisateur.
+Et allez sur http://localhost:4200.
