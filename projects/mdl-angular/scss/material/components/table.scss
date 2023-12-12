@@ -15,6 +15,10 @@
 .light,
 .dark .light {
   @include mat.table-color(map.set(theme.$light-theme, "density", -1));
+
+  .mat-sort-header-arrow {
+    color: colors.$primary !important;
+  }
 }
 
 .table-host {
