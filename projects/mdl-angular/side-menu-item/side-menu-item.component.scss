@@ -9,7 +9,7 @@
     font-size: 0.75rem;
 
     .menu-item-content {
-      height: 81px;
+      height: 80px;
       border-left-width: 0;
 
       a {
@@ -43,13 +43,13 @@
   }
 
   &.active {
-    background-color: rgba(255, 255, 255, 0.2);
+    background-color: rgba(0, 0, 0, 0.15);
     font-weight: bold;
     border-left-color: currentColor;
   }
 
   &:hover {
-    background-color: rgba(255, 255, 255, 0.15);
+    background-color: rgba(0, 0, 0, 0.2);
   }
 
   .menu-item-expand-button {

@@ -1,3 +1,6 @@
+<!-- Items : {{ (filteredItems | async)?.length }} <br /> -->
+<!-- IsOpen : {{ isOpen() }} -->
+
 <mat-form-field class="codes-list flex w-full">
   <mat-label>Code(s) défaut</mat-label>
   <mat-chip-grid #chipGrid matTextPrefix class="pb-1 dark">
@@ -14,18 +17,22 @@
   <mat-autocomplete
     #auto="matAutocomplete"
     class="codes-list"
+    (opened)="isOpen.set(true)"
+    (closed)="isOpen.set(false)"
     (optionSelected)="selected($event)"
     hideSingleSelectionIndicator>
+    <!-- *ngIf="(filteredItems | async) === null" -->
+    <!-- <mat-option disabled *ngIf="!allLoaded()">
+      <mdl-spinner></mdl-spinner>
+      Chargement...
+    </mat-option> -->
     <mat-option
       [class.mdc-list-item--selected]="selectedItems.isSelected(item.code)"
       *ngFor="let item of filteredItems | async; trackBy: trackByCode"
       [value]="item.code">
-      <span>
-        {{ item.libelle }}
-      </span>
-      <span class="ms-auto text-right">
-        {{ item.code }}
-      </span>
+      <span [innerHTML]="item.libelle"> </span>
+      <!-- | highlightWith : input.value -->
+      <span class="ms-auto text-right" [innerHTML]="item.code"> </span>
     </mat-option>
   </mat-autocomplete>
   <input

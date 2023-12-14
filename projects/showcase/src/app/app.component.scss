@@ -103,10 +103,25 @@
     bottom: 0;
     left: 0;
     min-width: 260px;
+    border-right: 0;
 
     &.sncf-nav {
       min-width: unset;
-      width: 101px;
+      width: 100px;
+
+      .menu-group {
+        > * {
+          border-top: 1px solid rgba(255, 255, 255, 0.3);
+
+          &:last-of-type {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+          }
+        }
+
+        &:first-child > *:first-child {
+          border-top: 0;
+        }
+      }
 
       .menu {
         min-width: unset;

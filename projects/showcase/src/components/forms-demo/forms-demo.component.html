@@ -1,4 +1,4 @@
-<div class="flex gap-2 gap-y-4 items-center flex-wrap">
+<div id="trees">
   <mat-form-field class="small" style="min-width: 400px">
     <mat-label>Select avec filtre (small)</mat-label>
     <mat-select multiple [formControl]="seriesControl" placeholder="Sélectionnez...">
@@ -12,7 +12,6 @@
       </mat-option>
     </mat-select>
   </mat-form-field>
-  <!-- <div>Result: {{ seriesControl.value }}</div> -->
   <mat-form-field style="min-width: 400px">
     <mat-label>Tree select (avec filtre)</mat-label>
     <mdl-spinner *ngIf="false" overlay></mdl-spinner>
@@ -39,15 +38,13 @@
       </mat-option>
     </mat-select>
   </mat-form-field>
+</div>
+<div id="chips-autocomplete">
   <app-chips-demo class="grow"></app-chips-demo>
-  <mat-form-field class="small">
-    <mat-label>Sélectionner une date</mat-label>
-    <input matInput [matDatepicker]="picker" placeholder="JJ/MM/AAAA" />
-    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-    <mat-datepicker #picker></mat-datepicker>
-  </mat-form-field>
+</div>
+<div id="date-pickers">
   <mat-form-field>
-    <mat-label>Enter a date range</mat-label>
+    <mat-label>Plage de date</mat-label>
     <mat-date-range-input [rangePicker]="picker2">
       <input matInput matStartDate placeholder="Start" />
       <input matInput matEndDate placeholder="End" />
@@ -55,19 +52,39 @@
     <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
     <mat-date-range-picker #picker2></mat-date-range-picker>
   </mat-form-field>
+  <mat-form-field class="small">
+    <mat-label>Sélectionner une date</mat-label>
+    <input matInput [matDatepicker]="picker" placeholder="JJ/MM/AAAA" />
+    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+</div>
+<div id="login-form">
   <mat-form-field>
-    <mat-label>Login</mat-label>
-    <input matInput [formControl]="form.controls.login" />
+    <mat-label>Email</mat-label>
+    <input
+      matInput
+      id="email"
+      name="email"
+      type="email"
+      autocomplete="username"
+      [formControl]="form.controls.login" />
   </mat-form-field>
   <mat-form-field>
     <mat-label>Mot de passe</mat-label>
-    <input matInput type="password" [formControl]="form.controls.password" />
+    <input
+      matInput
+      id="current-password"
+      name="current-password"
+      type="password"
+      autocomplete="current-password"
+      [formControl]="form.controls.password" />
   </mat-form-field>
   <button style="align-self: flex-end" mat-stroked-button (click)="toggleForm()">
-    Désactiver formulaire
+    {{ form.enabled ? "Désactiver" : "Activer" }} formulaire
   </button>
 </div>
-<div class="flex gap-2 gap-y-4 items-center flex-wrap">
+<div id="code-run-demo">
   <mat-form-field>
     <textarea matInput #code placeholder="return 1 + 1;"></textarea>
   </mat-form-field>
@@ -78,5 +95,5 @@
     <input matInput [value]="codeOutput" readonly />
     <mat-icon matIconSuffix>lock</mat-icon>
   </mat-form-field>
-  <mdl-zoom-button></mdl-zoom-button>
 </div>
+<mdl-zoom-button></mdl-zoom-button>

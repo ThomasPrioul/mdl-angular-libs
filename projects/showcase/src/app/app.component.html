@@ -41,18 +41,22 @@
     [class.sncf-nav]="simpleMenu"
     [style.top]="header.offsetHeight + 'px'">
     <div class="menu" [ngClass]="appEnv">
-      <mdl-side-menu-item
-        *ngFor="let menu of simpleMenu ? (menus | flatten) : menus"
-        [simple]="simpleMenu"
-        [menu]="menu">
-      </mdl-side-menu-item>
-      <div
-        class="flex mt-auto p-3 items-center gap-3"
-        [style.flex-direction]="simpleMenu ? 'column' : undefined">
-        <img id="logo" class="app-logo no-path" alt="APP LOGO" />
-        <button mat-button class="small ms-auto text-align-right" (click)="changeEnv()">
-          {{ appEnv }} v{{ "1.0.0" }}
-        </button>
+      <div class="menu-group">
+        <mdl-side-menu-item
+          *ngFor="let menu of simpleMenu ? (menus | flatten) : menus"
+          [simple]="simpleMenu"
+          [menu]="menu">
+        </mdl-side-menu-item>
+      </div>
+      <div class="menu-group mt-auto">
+        <div
+          class="flex p-3 items-center gap-3"
+          [style.flex-direction]="simpleMenu ? 'column' : undefined">
+          <img id="logo" class="app-logo no-path" alt="APP LOGO" />
+          <button mat-button class="small ms-auto text-align-right" (click)="changeEnv()">
+            {{ appEnv }} v{{ "1.0.0" }}
+          </button>
+        </div>
       </div>
     </div>
   </mat-sidenav>

@@ -3,13 +3,16 @@ import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
   OnDestroy,
   OnInit,
   ViewChild,
   inject,
+  signal,
 } from '@angular/core';
+import { toObservable } from '@angular/core/rxjs-interop';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   MatAutocompleteModule,
@@ -19,12 +22,40 @@ import { MatChipInputEvent, MatChipsModule } from '@angular/material/chips';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { MdlAutocompleteStayOpenDirective, MdlSortedArrayPipe } from 'mdl-angular';
-import { Observable, Subject } from 'rxjs';
-import { delay, map, startWith, takeUntil, tap } from 'rxjs/operators';
+import {
+  MdlAutocompleteStayOpenDirective,
+  MdlSortedArrayPipe,
+  MdlHighlightWithPipe,
+} from 'mdl-angular';
+import { Observable, Subject, combineLatest, of, timer } from 'rxjs';
+import {
+  debounceTime,
+  delay,
+  distinctUntilChanged,
+  filter,
+  finalize,
+  map,
+  scan,
+  share,
+  shareReplay,
+  startWith,
+  switchMap,
+  take,
+  takeUntil,
+  tap,
+} from 'rxjs/operators';
 import { CODES, Code } from './codes';
+import { MdlSpinnerComponent } from 'mdl-angular/spinner';
 
 CODES.sort((a, b) => a.code - b.code);
+
+function arrayChunks<T>(array: T[], chunk_size: number) {
+  return [
+    ...Array<number>(Math.ceil(array.length / chunk_size))
+      .fill(0)
+      .map((_, index) => index * chunk_size),
+  ];
+}
 
 /**
  * @title Chips Autocomplete
@@ -34,6 +65,7 @@ CODES.sort((a, b) => a.code - b.code);
   templateUrl: 'chips-demo.component.html',
   styleUrls: ['chips-demo.component.scss'],
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     CommonModule,
     FormsModule,
@@ -43,9 +75,10 @@ CODES.sort((a, b) => a.code - b.code);
     MatFormFieldModule,
     MatIconModule,
     MatTooltipModule,
-
     MdlAutocompleteStayOpenDirective,
+    MdlHighlightWithPipe,
     MdlSortedArrayPipe,
+    MdlSpinnerComponent,
   ],
 })
 export class ChipsDemoComponent {
@@ -60,11 +93,48 @@ export class ChipsDemoComponent {
   protected inputCtrl = new FormControl<string | number | null>(null);
   protected selectedItems = new SelectionModel<number>(true, [CODES[0].code]);
   protected separatorKeysCodes: number[] = [ENTER, COMMA];
+  protected isOpen = signal<boolean>(false);
+  protected allLoaded = signal<boolean>(false);
 
   constructor() {
-    this.filteredItems = this.inputCtrl.valueChanges.pipe(
-      startWith(null),
-      map((search) => this._filter(search))
+    this.filteredItems = combineLatest([
+      toObservable(this.isOpen).pipe(
+        // debounceTime(100),
+        distinctUntilChanged(),
+        tap((val) => console.log('isOpen=' + val))
+      ),
+      this.inputCtrl.valueChanges.pipe(
+        debounceTime(500),
+        startWith(null),
+        map((search) => {
+          if (search === null || search === '') return '';
+          return (typeof search === 'number' ? search.toString() : search).toLowerCase();
+        }),
+        distinctUntilChanged(),
+        tap((search) => console.log('filter=' + search))
+      ),
+    ]).pipe(
+      switchMap(([isOpen, search]) => {
+        console.log('Calculating items');
+        const chunkSize = 20;
+        const chunks = arrayChunks(this.allItems, chunkSize);
+
+        return timer(0, 0).pipe(
+          scan((acc: Code[], i: number) => {
+            if (i === 0 && isOpen) this.allLoaded.set(false);
+            const newItems = this.allItems
+              .slice(chunks[i], chunks[i] + chunkSize)
+              .filter((item) => this.filterCode(search, item));
+            acc.push(...newItems);
+            return acc;
+          }, []),
+          take(isOpen ? chunks.length : 1),
+          finalize(() => {
+            if (isOpen) return this.allLoaded.set(true);
+          })
+        );
+      }),
+      shareReplay()
     );
   }
 
@@ -109,12 +179,7 @@ export class ChipsDemoComponent {
     return item.code;
   }
 
-  private _filter(value: string | number | null): Code[] {
-    if (value === null || value === '') return this.allItems;
-    const filterValue = (typeof value === 'number' ? value.toString() : value).toLowerCase();
-
-    return this.allItems.filter((item) =>
-      (item.code + ' ' + item.libelle).toLowerCase().includes(filterValue)
-    );
+  private filterCode(value: string, item: Code): boolean {
+    return !value ? true : (item.code + ' ' + item.libelle).toLowerCase().includes(value);
   }
 }
