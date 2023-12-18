@@ -6,7 +6,7 @@ import {
   MatAutocompleteTrigger,
 } from '@angular/material/autocomplete';
 import { _MatOptionBase, _getOptionScrollPosition } from '@angular/material/core';
-import { Subscription, take } from 'rxjs';
+import { Subscription } from 'rxjs';
 
 @Directive({
   selector: '[mdlAutocompleteStayOpen]',
