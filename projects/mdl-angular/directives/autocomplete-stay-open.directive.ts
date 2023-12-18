@@ -6,10 +6,11 @@ import {
   MatAutocompleteTrigger,
 } from '@angular/material/autocomplete';
 import { _MatOptionBase, _getOptionScrollPosition } from '@angular/material/core';
-import { Subscription } from 'rxjs';
+import { Subscription, take } from 'rxjs';
 
 @Directive({
   selector: '[mdlAutocompleteStayOpen]',
+  exportAs: 'mdlAutocompleteStayOpen',
   standalone: true,
 })
 export class MdlAutocompleteStayOpenDirective implements AfterViewInit, OnDestroy {
@@ -18,15 +19,12 @@ export class MdlAutocompleteStayOpenDirective implements AfterViewInit, OnDestro
   private defaultHandleKeyDown!: (event: KeyboardEvent) => void;
   private defaultResetActiveItem!: () => void;
   private defaultUpdatePanelState!: () => void;
-  private optionActivatedSub?: Subscription;
-
-  constructor(private trigger: MatAutocompleteTrigger) {}
-  public ngOnDestroy(): void {
-    this.optionActivatedSub?.unsubscribe();
-  }
+  private sub?: Subscription;
 
   /** When used, will scroll the virtual scroll panel to copy "normal" behavior. */
   @Input() virtualScrollPanel?: CdkVirtualScrollViewport;
+
+  constructor(private trigger: MatAutocompleteTrigger) {}
 
   /** Set this input if your text input with an autocomplete needs a resize when the selection changes. */
   @Input()
@@ -56,40 +54,36 @@ export class MdlAutocompleteStayOpenDirective implements AfterViewInit, OnDestro
       this.defaultHandleKeyDown.bind(this.trigger)(event);
     };
 
+    this.sub = this.trigger.autocomplete.optionSelected.subscribe((evt) => this.itemSelected(evt));
+
     if (this.virtualScrollPanel) {
       //@ts-ignore
       this.trigger.autocomplete._scrollToOption = function (index: number) {};
       this.trigger.autocomplete._keyManager.withWrap(false);
 
-      this.optionActivatedSub = this.trigger.autocomplete.optionActivated.subscribe((event) => {
-        if (!event.option) return;
-        const index = parseInt(event.option._getHostElement().getAttribute('option-index')!);
-        this._scrollToOption(index, event.option);
-      });
+      this.sub.add(
+        this.trigger.autocomplete.optionActivated.subscribe((event) => {
+          if (!event.option) return;
+          this.scrollToOption(event.option);
+        })
+      );
+
+      this.sub.add(
+        this.virtualScrollPanel.scrolledIndexChange.subscribe((index) => {
+          if (index === 0) this.resetScroll();
+        })
+      );
+
+      this.sub.add(this.trigger.autocomplete.opened.subscribe(() => this.resetScroll()));
     }
   }
 
-  private _scrollToOption(scrollIndex: number, option: _MatOptionBase) {
-    const autocomplete = this.trigger.autocomplete;
-    if (scrollIndex === 0) {
-      this.virtualScrollPanel!.scrollToOffset(0, 'instant');
-    } else if (autocomplete.panel) {
-      const element = option._getHostElement();
-      const newScrollPosition = _getOptionScrollPosition(
-        element.offsetTop,
-        element.offsetHeight,
-        this.virtualScrollPanel!.measureScrollOffset('top'),
-        240
-      );
-      setTimeout(() => {
-        this.virtualScrollPanel!.scrollToOffset(newScrollPosition, 'instant');
-        this.virtualScrollPanel!.checkViewportSize();
-      }, 30);
-    }
+  public ngOnDestroy(): void {
+    this.sub?.unsubscribe();
   }
 
   /** Overrides default autocomplete behavior and resets it when the callback has "passed" */
-  public itemSelected(event: MatAutocompleteSelectedEvent) {
+  private itemSelected(event: MatAutocompleteSelectedEvent) {
     const autocomplete = event.source;
     autocomplete._keyManager.setActiveItem(event.option);
 
@@ -127,11 +121,18 @@ export class MdlAutocompleteStayOpenDirective implements AfterViewInit, OnDestro
     }
   }
 
-  public collectionChanged() {
+  private resetScroll() {
     this.virtualScrollPanel?.scrollToOffset(0);
     this.virtualScrollPanel?.checkViewportSize();
+
     setTimeout(() => {
-      this.trigger.autocomplete._keyManager.setFirstItemActive();
-    });
+      this.trigger.autocomplete._keyManager.setActiveItem(
+        this.trigger.autocomplete.autoActiveFirstOption ? 0 : -1
+      );
+    }, 80);
+  }
+
+  private scrollToOption(option: _MatOptionBase) {
+    option._getHostElement().scrollIntoView({ block: 'nearest', inline: 'start' });
   }
 }

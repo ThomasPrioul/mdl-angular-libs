@@ -102,10 +102,6 @@ function arrayChunks<T>(array: T[], chunkSize: number) {
 export class ChipsDemoComponent {
   @ViewChild('input')
   private readonly input!: ElementRef<HTMLInputElement>;
-  @ViewChild(MdlAutocompleteStayOpenDirective)
-  private readonly stayOpen!: MdlAutocompleteStayOpenDirective;
-
-  @ViewChild(CdkVirtualScrollViewport) virtualScroller!: CdkVirtualScrollViewport;
 
   protected allItems = prodCodes;
   protected allItemsMap = new Map(prodCodes.map((code) => [code.code, code]));
@@ -125,8 +121,6 @@ export class ChipsDemoComponent {
       distinctUntilChanged(),
       map((search) => this.allItems.filter((item) => this.filterCode(search, item)))
     );
-
-    this.filteredItems$.subscribe(() => this.stayOpen.collectionChanged());
   }
 
   /*
@@ -153,17 +147,14 @@ export class ChipsDemoComponent {
   }
 
   protected selected(event: MatAutocompleteSelectedEvent): void {
+    // Reset form control and input text
+    this.inputCtrl.setValue(this.input.nativeElement.value);
+
     // Toggle item in selection list
     const value = event.option.value;
     this.selectedItems.isSelected(value)
       ? this.selectedItems.deselect(value)
       : this.selectedItems.select(value);
-
-    // Reset form control and input text
-    this.inputCtrl.setValue(null);
-    // this.input.nativeElement.value = '';
-
-    this.stayOpen.itemSelected(event);
   }
 
   protected trackByCode(index: number, item: Code) {

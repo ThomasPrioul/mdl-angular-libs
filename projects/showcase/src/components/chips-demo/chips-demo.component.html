@@ -17,13 +17,14 @@
     #auto="matAutocomplete"
     class="codes-list"
     (optionSelected)="selected($event)"
+    autoActiveFirstOption
     hideSingleSelectionIndicator>
     <cdk-virtual-scroll-viewport
       #scrollPanel
       itemSize="48"
-      minBufferPx="144"
-      maxBufferPx="960"
-      [style.height.px]="240">
+      [minBufferPx]="5 * 48"
+      [maxBufferPx]="20 * 48"
+      [style.height.px]="5 * 48">
       <mat-option
         *cdkVirtualFor="
           let item of filteredItems$ | async;
@@ -33,8 +34,6 @@
           trackBy: trackByCode
         "
         [class.mdc-list-item--selected]="selectedItems.isSelected(item.code)"
-        [attr.option-index]="index.toString()"
-        [attr.last-option]="last ? 'true' : undefined"
         [value]="item.code">
         <span [innerHTML]="item.libelle | highlightWith : input.value"> </span>
         <span class="ms-auto text-right" [innerHTML]="item.code | highlightWith : input.value">
@@ -49,6 +48,6 @@
     [matChipInputFor]="chipGrid"
     [matAutocomplete]="auto"
     mdlAutocompleteStayOpen
-    [virtualScrollPanel]="scrollPanel"
-    [resizeOnOptionSelected]="false" />
+    resizeOnOptionSelected
+    [virtualScrollPanel]="scrollPanel" />
 </mat-form-field>
