@@ -6,7 +6,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class MdlHighlightWithPipe implements PipeTransform {
   public transform(value?: string | number, filter?: string, klass?: string) {
-    if (!value) return '';
+    if (!value) return value;
     if (typeof value === 'number') value = value.toString();
     if (!filter || typeof value !== 'string' || typeof filter !== 'string') {
       return value;

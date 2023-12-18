@@ -1,23 +1,32 @@
 import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
-import { AfterViewInit, Directive, Input } from '@angular/core';
+import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
+import { AfterViewInit, Directive, Input, OnDestroy } from '@angular/core';
 import {
   MatAutocompleteSelectedEvent,
   MatAutocompleteTrigger,
 } from '@angular/material/autocomplete';
+import { _MatOptionBase, _getOptionScrollPosition } from '@angular/material/core';
+import { Subscription } from 'rxjs';
 
 @Directive({
   selector: '[mdlAutocompleteStayOpen]',
   standalone: true,
 })
-export class MdlAutocompleteStayOpenDirective implements AfterViewInit {
+export class MdlAutocompleteStayOpenDirective implements AfterViewInit, OnDestroy {
   private _resizeOnOptionSelected: boolean = false;
-
   private defaultClose!: () => void;
   private defaultHandleKeyDown!: (event: KeyboardEvent) => void;
   private defaultResetActiveItem!: () => void;
   private defaultUpdatePanelState!: () => void;
+  private optionActivatedSub?: Subscription;
 
   constructor(private trigger: MatAutocompleteTrigger) {}
+  public ngOnDestroy(): void {
+    this.optionActivatedSub?.unsubscribe();
+  }
+
+  /** When used, will scroll the virtual scroll panel to copy "normal" behavior. */
+  @Input() virtualScrollPanel?: CdkVirtualScrollViewport;
 
   /** Set this input if your text input with an autocomplete needs a resize when the selection changes. */
   @Input()
@@ -46,6 +55,37 @@ export class MdlAutocompleteStayOpenDirective implements AfterViewInit {
       this.trigger._resetActiveItem = () => {};
       this.defaultHandleKeyDown.bind(this.trigger)(event);
     };
+
+    if (this.virtualScrollPanel) {
+      //@ts-ignore
+      this.trigger.autocomplete._scrollToOption = function (index: number) {};
+      this.trigger.autocomplete._keyManager.withWrap(false);
+
+      this.optionActivatedSub = this.trigger.autocomplete.optionActivated.subscribe((event) => {
+        if (!event.option) return;
+        const index = parseInt(event.option._getHostElement().getAttribute('option-index')!);
+        this._scrollToOption(index, event.option);
+      });
+    }
+  }
+
+  private _scrollToOption(scrollIndex: number, option: _MatOptionBase) {
+    const autocomplete = this.trigger.autocomplete;
+    if (scrollIndex === 0) {
+      this.virtualScrollPanel!.scrollToOffset(0, 'instant');
+    } else if (autocomplete.panel) {
+      const element = option._getHostElement();
+      const newScrollPosition = _getOptionScrollPosition(
+        element.offsetTop,
+        element.offsetHeight,
+        this.virtualScrollPanel!.measureScrollOffset('top'),
+        240
+      );
+      setTimeout(() => {
+        this.virtualScrollPanel!.scrollToOffset(newScrollPosition, 'instant');
+        this.virtualScrollPanel!.checkViewportSize();
+      }, 30);
+    }
   }
 
   /** Overrides default autocomplete behavior and resets it when the callback has "passed" */
@@ -82,7 +122,16 @@ export class MdlAutocompleteStayOpenDirective implements AfterViewInit {
       setTimeout(() => {
         //@ts-ignore(2341)
         this.trigger._overlayRef.updateSize({ width: this.trigger._getPanelWidth() });
+        this.virtualScrollPanel?.checkViewportSize();
       });
     }
+  }
+
+  public collectionChanged() {
+    this.virtualScrollPanel?.scrollToOffset(0);
+    this.virtualScrollPanel?.checkViewportSize();
+    setTimeout(() => {
+      this.trigger.autocomplete._keyManager.setFirstItemActive();
+    });
   }
 }

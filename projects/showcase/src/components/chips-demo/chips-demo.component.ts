@@ -1,24 +1,15 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { CommonModule } from '@angular/common';
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  OnDestroy,
-  OnInit,
-  ViewChild,
-  inject,
-  signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, ViewChild, signal } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
+  MatAutocompleteActivatedEvent,
   MatAutocompleteModule,
   MatAutocompleteSelectedEvent,
 } from '@angular/material/autocomplete';
-import { MatChipInputEvent, MatChipsModule } from '@angular/material/chips';
+import { MatChipsModule } from '@angular/material/chips';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -27,34 +18,59 @@ import {
   MdlSortedArrayPipe,
   MdlHighlightWithPipe,
 } from 'mdl-angular';
-import { Observable, Subject, combineLatest, of, timer } from 'rxjs';
+import { Observable, combineLatest, timer } from 'rxjs';
 import {
   debounceTime,
-  delay,
   distinctUntilChanged,
-  filter,
   finalize,
   map,
   scan,
-  share,
   shareReplay,
   startWith,
   switchMap,
   take,
-  takeUntil,
   tap,
 } from 'rxjs/operators';
 import { CODES, Code } from './codes';
 import { MdlSpinnerComponent } from 'mdl-angular/spinner';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import {
+  CdkFixedSizeVirtualScroll,
+  CdkVirtualScrollViewport,
+  ScrollingModule,
+} from '@angular/cdk/scrolling';
 
 CODES.sort((a, b) => a.code - b.code);
 
-function arrayChunks<T>(array: T[], chunk_size: number) {
-  return [
-    ...Array<number>(Math.ceil(array.length / chunk_size))
-      .fill(0)
-      .map((_, index) => index * chunk_size),
+const prodCodes = CODES;
+
+// const prodCodes: Code[] = Array(8)
+//   .fill(0)
+//   .flatMap((i) =>
+//     CODES.map((code) => ({
+//       ...code,
+//       code: code.code + 100000 * i,
+//       libelle: code.libelle + `(${i})`,
+//     }))
+//   );
+
+function arrayChunks<T>(array: T[], chunkSize: number) {
+  let target = chunkSize;
+
+  const indexes = [
+    0,
+    ...array.reduce((acc: number[], val, i) => {
+      if (i === target) {
+        acc.push(i);
+        chunkSize *= 2;
+        target = i + chunkSize;
+      }
+      return acc;
+    }, []),
   ];
+
+  if (target !== array.length - 1) indexes.push(array.length);
+  return indexes;
 }
 
 /**
@@ -69,11 +85,13 @@ function arrayChunks<T>(array: T[], chunk_size: number) {
   imports: [
     CommonModule,
     FormsModule,
+    ScrollingModule,
     ReactiveFormsModule,
     MatAutocompleteModule,
     MatChipsModule,
     MatFormFieldModule,
     MatIconModule,
+    MatProgressBarModule,
     MatTooltipModule,
     MdlAutocompleteStayOpenDirective,
     MdlHighlightWithPipe,
@@ -87,55 +105,28 @@ export class ChipsDemoComponent {
   @ViewChild(MdlAutocompleteStayOpenDirective)
   private readonly stayOpen!: MdlAutocompleteStayOpenDirective;
 
-  protected allItems = CODES;
-  protected allItemsMap = new Map(CODES.map((code) => [code.code, code]));
-  protected filteredItems: Observable<Code[]>;
+  @ViewChild(CdkVirtualScrollViewport) virtualScroller!: CdkVirtualScrollViewport;
+
+  protected allItems = prodCodes;
+  protected allItemsMap = new Map(prodCodes.map((code) => [code.code, code]));
+  protected filteredItems$: Observable<Code[]>;
   protected inputCtrl = new FormControl<string | number | null>(null);
-  protected selectedItems = new SelectionModel<number>(true, [CODES[0].code]);
+  protected selectedItems = new SelectionModel<number>(true, [prodCodes[0].code]);
   protected separatorKeysCodes: number[] = [ENTER, COMMA];
-  protected isOpen = signal<boolean>(false);
-  protected allLoaded = signal<boolean>(false);
 
   constructor() {
-    this.filteredItems = combineLatest([
-      toObservable(this.isOpen).pipe(
-        // debounceTime(100),
-        distinctUntilChanged(),
-        tap((val) => console.log('isOpen=' + val))
-      ),
-      this.inputCtrl.valueChanges.pipe(
-        debounceTime(500),
-        startWith(null),
-        map((search) => {
-          if (search === null || search === '') return '';
-          return (typeof search === 'number' ? search.toString() : search).toLowerCase();
-        }),
-        distinctUntilChanged(),
-        tap((search) => console.log('filter=' + search))
-      ),
-    ]).pipe(
-      switchMap(([isOpen, search]) => {
-        console.log('Calculating items');
-        const chunkSize = 20;
-        const chunks = arrayChunks(this.allItems, chunkSize);
-
-        return timer(0, 0).pipe(
-          scan((acc: Code[], i: number) => {
-            if (i === 0 && isOpen) this.allLoaded.set(false);
-            const newItems = this.allItems
-              .slice(chunks[i], chunks[i] + chunkSize)
-              .filter((item) => this.filterCode(search, item));
-            acc.push(...newItems);
-            return acc;
-          }, []),
-          take(isOpen ? chunks.length : 1),
-          finalize(() => {
-            if (isOpen) return this.allLoaded.set(true);
-          })
-        );
+    this.filteredItems$ = this.inputCtrl.valueChanges.pipe(
+      debounceTime(500),
+      startWith(null),
+      map((search) => {
+        if (search === null || search === '') return '';
+        return (typeof search === 'number' ? search.toString() : search).toLowerCase();
       }),
-      shareReplay()
+      distinctUntilChanged(),
+      map((search) => this.allItems.filter((item) => this.filterCode(search, item)))
     );
+
+    this.filteredItems$.subscribe(() => this.stayOpen.collectionChanged());
   }
 
   /*
@@ -158,7 +149,7 @@ export class ChipsDemoComponent {
   */
   protected remove(item: number): void {
     this.selectedItems.deselect(item);
-    this.inputCtrl.setValue(null);
+    // this.inputCtrl.setValue(null);
   }
 
   protected selected(event: MatAutocompleteSelectedEvent): void {
@@ -170,7 +161,7 @@ export class ChipsDemoComponent {
 
     // Reset form control and input text
     this.inputCtrl.setValue(null);
-    this.input.nativeElement.value = '';
+    // this.input.nativeElement.value = '';
 
     this.stayOpen.itemSelected(event);
   }

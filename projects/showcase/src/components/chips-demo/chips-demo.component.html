@@ -1,5 +1,4 @@
 <!-- Items : {{ (filteredItems | async)?.length }} <br /> -->
-<!-- IsOpen : {{ isOpen() }} -->
 
 <mat-form-field class="codes-list flex w-full">
   <mat-label>Code(s) défaut</mat-label>
@@ -17,23 +16,31 @@
   <mat-autocomplete
     #auto="matAutocomplete"
     class="codes-list"
-    (opened)="isOpen.set(true)"
-    (closed)="isOpen.set(false)"
     (optionSelected)="selected($event)"
     hideSingleSelectionIndicator>
-    <!-- *ngIf="(filteredItems | async) === null" -->
-    <!-- <mat-option disabled *ngIf="!allLoaded()">
-      <mdl-spinner></mdl-spinner>
-      Chargement...
-    </mat-option> -->
-    <mat-option
-      [class.mdc-list-item--selected]="selectedItems.isSelected(item.code)"
-      *ngFor="let item of filteredItems | async; trackBy: trackByCode"
-      [value]="item.code">
-      <span [innerHTML]="item.libelle"> </span>
-      <!-- | highlightWith : input.value -->
-      <span class="ms-auto text-right" [innerHTML]="item.code"> </span>
-    </mat-option>
+    <cdk-virtual-scroll-viewport
+      #scrollPanel
+      itemSize="48"
+      minBufferPx="144"
+      maxBufferPx="960"
+      [style.height.px]="240">
+      <mat-option
+        *cdkVirtualFor="
+          let item of filteredItems$ | async;
+          let last = last;
+          let index = index;
+          templateCacheSize: 20;
+          trackBy: trackByCode
+        "
+        [class.mdc-list-item--selected]="selectedItems.isSelected(item.code)"
+        [attr.option-index]="index.toString()"
+        [attr.last-option]="last ? 'true' : undefined"
+        [value]="item.code">
+        <span [innerHTML]="item.libelle | highlightWith : input.value"> </span>
+        <span class="ms-auto text-right" [innerHTML]="item.code | highlightWith : input.value">
+        </span>
+      </mat-option>
+    </cdk-virtual-scroll-viewport>
   </mat-autocomplete>
   <input
     #input
@@ -42,5 +49,6 @@
     [matChipInputFor]="chipGrid"
     [matAutocomplete]="auto"
     mdlAutocompleteStayOpen
-    resizeOnOptionSelected />
+    [virtualScrollPanel]="scrollPanel"
+    [resizeOnOptionSelected]="false" />
 </mat-form-field>

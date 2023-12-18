@@ -12,3 +12,7 @@
 .dark .light {
   @include mat.autocomplete-color(theme.$light-theme);
 }
+
+.mat-mdc-autocomplete-panel {
+  position: relative !important;
+}

@@ -19,8 +19,13 @@
     &.mat-mdc-autocomplete-panel {
       // Make hover priority higher than selected and remove selected styles
       --mat-option-selected-state-layer-color: none;
+      // padding-top: 0px;
 
       .mat-mdc-option {
+        // &:first-of-type {
+        //   margin-top: 8px;
+        // }
+
         > span.mdc-list-item__primary-text {
           width: 100% !important;
           display: flex !important;
