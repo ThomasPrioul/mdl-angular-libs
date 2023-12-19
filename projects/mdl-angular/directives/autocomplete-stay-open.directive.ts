@@ -19,7 +19,8 @@ export class MdlAutocompleteStayOpenDirective implements AfterViewInit, OnDestro
   private defaultHandleKeyDown!: (event: KeyboardEvent) => void;
   private defaultResetActiveItem!: () => void;
   private defaultUpdatePanelState!: () => void;
-  private sub?: Subscription;
+  private skipOptionActivatedCallback = false;
+  private sub = new Subscription();
 
   /** When used, will scroll the virtual scroll panel to copy "normal" behavior. */
   @Input() virtualScrollPanel?: CdkVirtualScrollViewport;
@@ -38,10 +39,10 @@ export class MdlAutocompleteStayOpenDirective implements AfterViewInit, OnDestro
 
   /** Registers built-in autocomplete functionality into private variables, to later toggle some of them off for a specific moment. */
   public ngAfterViewInit(): void {
-    //@ts-ignore(2341)
+    //@ts-ignore(2341) ⚠️
     this.defaultResetActiveItem = this.trigger._resetActiveItem;
 
-    //@ts-ignore(2341)
+    //@ts-ignore(2341) ⚠️
     this.defaultUpdatePanelState = this.trigger._updatePanelState;
 
     this.defaultClose = this.trigger.closePanel;
@@ -49,37 +50,60 @@ export class MdlAutocompleteStayOpenDirective implements AfterViewInit, OnDestro
 
     // On keydown, disable resetActiveItem callback
     this.trigger._handleKeydown = (event) => {
-      //@ts-ignore(2341)
+      //@ts-ignore(2341) ⚠️
       this.trigger._resetActiveItem = () => {};
       this.defaultHandleKeyDown.bind(this.trigger)(event);
     };
 
-    this.sub = this.trigger.autocomplete.optionSelected.subscribe((evt) => this.itemSelected(evt));
+    this.sub.add(
+      this.trigger.autocomplete.optionSelected.subscribe((evt) => {
+        this.skipOptionActivatedCallback = true;
+        return this.itemSelected(evt);
+      })
+    );
 
-    if (this.virtualScrollPanel) {
-      //@ts-ignore
-      this.trigger.autocomplete._scrollToOption = function (index: number) {};
-      this.trigger.autocomplete._keyManager.withWrap(false);
-
-      this.sub.add(
-        this.trigger.autocomplete.optionActivated.subscribe((event) => {
-          if (!event.option) return;
-          this.scrollToOption(event.option);
-        })
-      );
-
-      this.sub.add(
-        this.virtualScrollPanel.scrolledIndexChange.subscribe((index) => {
-          if (index === 0) this.resetScroll();
-        })
-      );
-
-      this.sub.add(this.trigger.autocomplete.opened.subscribe(() => this.resetScroll()));
-    }
+    if (this.virtualScrollPanel) this.handleVirtualizedPanel(this.virtualScrollPanel);
   }
 
   public ngOnDestroy(): void {
-    this.sub?.unsubscribe();
+    this.sub.unsubscribe();
+  }
+
+  /** Registers all handlers to replicate normal behavior (keyboard, scroll) when using a virtual scroll panel. */
+  private handleVirtualizedPanel(virtualScrollPanel: CdkVirtualScrollViewport) {
+    //@ts-ignore ⚠️
+    this.trigger._scrollToOption = function (index: number) {};
+
+    // Remove wrap behavior
+    this.trigger.autocomplete._keyManager.withWrap(false);
+
+    // Don't change active index when options QueryList changes, otherwise this will create an infinite scrolling reset loop
+    this.sub.add(
+      this.trigger.autocomplete.options.changes.subscribe(() => {
+        this.skipOptionActivatedCallback = true;
+      })
+    );
+
+    this.sub.add(
+      this.trigger.autocomplete.optionActivated.subscribe((event) => {
+        // Don't scroll when not desired
+        if (this.skipOptionActivatedCallback) {
+          this.skipOptionActivatedCallback = false;
+          return;
+        }
+
+        if (event.option) this.scrollToOption(event.option);
+      })
+    );
+
+    // ⚠️ Subscribe to internal cdkNgForOf data changed stream
+    this.sub.add(
+      (virtualScrollPanel.scrollable as any)._forOf.dataStream.subscribe(() => {
+        if (this.trigger.autocomplete.isOpen) this.resetScroll();
+      })
+    );
+
+    this.sub.add(this.trigger.autocomplete.opened.subscribe(() => this.resetScroll()));
   }
 
   /** Overrides default autocomplete behavior and resets it when the callback has "passed" */
@@ -114,7 +138,7 @@ export class MdlAutocompleteStayOpenDirective implements AfterViewInit, OnDestro
 
     if (this.resizeOnOptionSelected) {
       setTimeout(() => {
-        //@ts-ignore(2341)
+        //@ts-ignore(2341) ⚠️
         this.trigger._overlayRef.updateSize({ width: this.trigger._getPanelWidth() });
         this.virtualScrollPanel?.checkViewportSize();
       });
@@ -122,9 +146,8 @@ export class MdlAutocompleteStayOpenDirective implements AfterViewInit, OnDestro
   }
 
   private resetScroll() {
-    this.virtualScrollPanel?.scrollToOffset(0);
+    this.virtualScrollPanel?.scrollToOffset(0, 'instant');
     this.virtualScrollPanel?.checkViewportSize();
-
     setTimeout(() => {
       this.trigger.autocomplete._keyManager.setActiveItem(
         this.trigger.autocomplete.autoActiveFirstOption ? 0 : -1
@@ -132,7 +155,15 @@ export class MdlAutocompleteStayOpenDirective implements AfterViewInit, OnDestro
     }, 80);
   }
 
-  private scrollToOption(option: _MatOptionBase) {
-    option._getHostElement().scrollIntoView({ block: 'nearest', inline: 'start' });
+  private scrollToOption(option: _MatOptionBase<any>) {
+    const element = option._getHostElement();
+    // const newScrollPosition = _getOptionScrollPosition(
+    //   element.offsetTop,
+    //   element.offsetHeight,
+    //   this.virtualScrollPanel!.measureScrollOffset(),
+    //   this.virtualScrollPanel!.getViewportSize()
+    // );
+    // this.virtualScrollPanel!.scrollToOffset(newScrollPosition);
+    element.scrollIntoView({ block: 'nearest', inline: 'start' });
   }
 }
