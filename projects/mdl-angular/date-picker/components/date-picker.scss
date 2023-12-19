@@ -1,0 +1,53 @@
+$padding: 8px;
+
+.mdl-date-picker {
+  .side-buttons {
+    display: none;
+  }
+}
+
+.mat-datepicker-popup.with-presets .mat-datepicker-content-container-with-actions {
+  > .mat-calendar {
+    position: absolute;
+    right: $padding;
+    top: $padding;
+  }
+
+  .mdl-date-picker {
+    display: grid;
+    justify-content: unset;
+    grid-template:
+      "side-buttons calendar" 1fr
+      "side-buttons bottom-buttons" auto
+      / auto 1fr;
+    padding: $padding;
+    align-items: unset;
+
+    .calendars {
+      display: flex;
+    }
+
+    .side-buttons {
+      grid-area: side-buttons;
+
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+
+      overflow-y: auto;
+      max-height: 400px;
+
+      padding-right: 0.5rem;
+      border-right: 1px solid var(--mat-divider-color);
+      width: 160px;
+    }
+
+    .mat-datepicker-actions {
+      grid-area: bottom-buttons;
+      padding: 0.5rem;
+
+      display: flex;
+      border-top: 1px solid var(--mat-divider-color);
+    }
+  }
+}

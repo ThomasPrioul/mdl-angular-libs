@@ -10,7 +10,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { MdlCastPipe, TypeSafeMatCellDef } from 'dist/mdl-angular';
+import { MdlCastPipe, TypeSafeMatCellDef } from 'mdl-angular';
 import { MdlSelectFilterComponent, MdlSelectNoResultsDirective } from 'mdl-angular/select-filter';
 import { MdlSpinnerComponent } from 'mdl-angular/spinner';
 import {
@@ -27,6 +27,7 @@ import { sortNomTechniqueComplet } from '../../helpers/materiel-roulant';
 import { Serie } from '../../models/serie';
 import { parseFunction } from '../../utils';
 import { ChipsDemoComponent } from '../chips-demo/chips-demo.component';
+import { MdlDatePicker } from 'mdl-angular/date-picker';
 
 @Component({
   selector: 'app-forms-demo',
@@ -51,6 +52,7 @@ import { ChipsDemoComponent } from '../chips-demo/chips-demo.component';
     MatTooltipModule,
     // MDL
     MdlCastPipe,
+    MdlDatePicker,
     MdlSelectFilterComponent,
     MdlSelectNoResultsDirective,
     MdlSpinnerComponent,

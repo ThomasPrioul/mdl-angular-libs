@@ -50,13 +50,18 @@
       <input matInput matEndDate placeholder="End" />
     </mat-date-range-input>
     <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
-    <mat-date-range-picker #picker2></mat-date-range-picker>
+    <mat-date-range-picker panelClass="with-presets" #picker2>
+      <mdl-date-picker showPreviousMonthCalendar>
+        <button class="ms-auto" mat-button matDateRangePickerCancel>Cancel</button>
+        <button mat-raised-button color="primary" matDateRangePickerApply>Apply</button>
+      </mdl-date-picker>
+    </mat-date-range-picker>
   </mat-form-field>
   <mat-form-field class="small">
     <mat-label>Sélectionner une date</mat-label>
     <input matInput [matDatepicker]="picker" placeholder="JJ/MM/AAAA" />
-    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
     <mat-datepicker #picker></mat-datepicker>
+    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
   </mat-form-field>
 </div>
 <div id="login-form">

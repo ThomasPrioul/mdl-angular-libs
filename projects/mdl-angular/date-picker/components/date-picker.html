@@ -1,0 +1,24 @@
+<ng-template>
+  <div class="mdl-date-picker">
+    <div class="side-buttons small small-btn-text">
+      <button mat-button>Le mois dernier</button>
+      <button mat-button>2 dernières sem.</button>
+      <button mat-button>7 derniers jours</button>
+      <button mat-button>Hier</button>
+      <button mat-button>Aujourd'hui</button>
+      <button mat-button>Demain</button>
+    </div>
+    <div class="calendars">
+      <mat-calendar
+        *ngIf="showPreviousMonthCalendar"
+        [headerComponent]="EmptyCalendarHeaderComponent"
+        class="placeholder mat-calendar"
+        [startAt]="dateAdapter.addCalendarMonths(dateAdapter.today(), -1)">
+      </mat-calendar>
+      <div class="placeholder mat-calendar"></div>
+    </div>
+    <div class="mat-datepicker-actions">
+      <ng-content></ng-content>
+    </div>
+  </div>
+</ng-template>
