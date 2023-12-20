@@ -69,3 +69,9 @@ mdl-date-picker {
     }
   }
 }
+
+.mat-datepicker-dialog.with-presets {
+  .calendars {
+    display: none;
+  }
+}
