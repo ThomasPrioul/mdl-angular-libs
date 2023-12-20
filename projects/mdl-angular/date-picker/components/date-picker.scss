@@ -36,11 +36,18 @@ mdl-date-picker {
     display: grid;
     justify-content: unset;
     grid-template:
-      "side-buttons calendar" 1fr
-      "side-buttons bottom-buttons" auto
+      "calendar" 1fr
+      "bottom-buttons" auto
       / auto 1fr;
     padding: $padding;
     align-items: unset;
+
+    &.has-presets {
+      grid-template:
+        "side-buttons calendar" 1fr
+        "side-buttons bottom-buttons" auto
+        / auto 1fr;
+    }
 
     .calendars {
       display: flex;

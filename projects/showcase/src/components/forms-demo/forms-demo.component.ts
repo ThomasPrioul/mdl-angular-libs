@@ -27,8 +27,70 @@ import { sortNomTechniqueComplet } from '../../helpers/materiel-roulant';
 import { Serie } from '../../models/serie';
 import { parseFunction } from '../../utils';
 import { ChipsDemoComponent } from '../chips-demo/chips-demo.component';
-import { MdlDatePicker } from 'mdl-angular/date-picker';
+import { DATE_RANGE_PRESETS, DateRangePreset, MdlDatePicker } from 'mdl-angular/date-picker';
 import { DateTime } from 'luxon';
+
+const CD_DATE_RANGE_PRESETS: DateRangePreset<DateTime>[] = [
+  {
+    name: "Aujourd'hui",
+    calculateDateRange: (dateAdapter) => {
+      let today = dateAdapter.today().set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
+      return { start: today, end: today };
+    },
+  },
+  {
+    name: 'Hier',
+    calculateDateRange: (dateAdapter) => {
+      let yesterday = dateAdapter
+        .today()
+        .set({ hour: 0, minute: 0, second: 0, millisecond: 0 })
+        .minus({ day: 1 });
+      return { start: yesterday, end: yesterday };
+    },
+  },
+  {
+    name: '7 derniers jours',
+    calculateDateRange: (dateAdapter) => {
+      let today = dateAdapter.today().set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
+      return { start: today.minus({ day: 7 }), end: today };
+    },
+  },
+  {
+    name: 'Le mois dernier',
+    calculateDateRange: (dateAdapter) => {
+      let today = dateAdapter.today().set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
+      return { start: today.minus({ month: 1 }), end: today };
+    },
+  },
+  {
+    name: '3 derniers mois',
+    calculateDateRange: (dateAdapter) => {
+      let today = dateAdapter.today().set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
+      return { start: today.minus({ month: 3 }), end: today };
+    },
+  },
+  {
+    name: '6 derniers mois',
+    calculateDateRange: (dateAdapter) => {
+      let today = dateAdapter.today().set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
+      return { start: today.minus({ month: 6 }), end: today };
+    },
+  },
+  {
+    name: '12 derniers mois',
+    calculateDateRange: (dateAdapter) => {
+      let today = dateAdapter.today().set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
+      return { start: today.minus({ month: 12 }), end: today };
+    },
+  },
+  {
+    name: '18 derniers mois',
+    calculateDateRange: (dateAdapter) => {
+      let today = dateAdapter.today().set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
+      return { start: today.minus({ month: 18 }), end: today };
+    },
+  },
+];
 
 @Component({
   selector: 'app-forms-demo',
@@ -69,23 +131,24 @@ import { DateTime } from 'luxon';
     SeriesOptionsPipe,
     ChipsDemoComponent,
   ],
+  providers: [{ provide: DATE_RANGE_PRESETS, useValue: CD_DATE_RANGE_PRESETS }],
 })
 export class FormsDemoComponent {
-  protected readonly form = new FormGroup({
-    login: new FormControl<string>(''),
-    password: new FormControl<string>(''),
-  });
   protected readonly dateForm = new FormGroup({
     start: new FormControl<DateTime | null>(null),
     end: new FormControl<DateTime | null>(null),
   });
-  protected readonly today = DateTime.now();
+  protected readonly form = new FormGroup({
+    login: new FormControl<string>(''),
+    password: new FormControl<string>(''),
+  });
   protected readonly maxDate = DateTime.now().plus({ week: 1 });
   protected readonly minDate = DateTime.now().minus({ month: 3 });
   protected readonly series: Serie[] = SERIES.sort((a, b) =>
     sortNomTechniqueComplet(a.nomTechniqueComplet, b.nomTechniqueComplet)
   );
   protected readonly seriesControl = new FormControl<string[]>([]);
+  protected readonly today = DateTime.now();
 
   protected codeOutput: any;
 

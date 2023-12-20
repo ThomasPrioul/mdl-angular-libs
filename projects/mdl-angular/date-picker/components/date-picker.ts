@@ -1,6 +1,6 @@
 import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
 import { TemplatePortal } from '@angular/cdk/portal';
-import { NgIf } from '@angular/common';
+import { NgFor, NgIf } from '@angular/common';
 import {
   Component,
   ChangeDetectionStrategy,
@@ -13,8 +13,7 @@ import {
   Optional,
   Input,
   ComponentRef,
-  OnInit,
-  ChangeDetectorRef,
+  Inject,
 } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { DateAdapter } from '@angular/material/core';
@@ -26,68 +25,56 @@ import {
   MatCalendar,
 } from '@angular/material/datepicker';
 import { Subscription, startWith } from 'rxjs';
-
-@Component({
-  selector: 'mdl-empty-calendar-header',
-  template: '',
-  styles: [
-    `
-      :host {
-        height: 64px;
-        display: block;
-      }
-    `,
-  ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-})
-export class EmptyCalendarHeaderComponent {}
+import { DATE_RANGE_PRESETS, DateRangePreset } from '../utilities';
+import { EmptyCalendarHeaderComponent } from './empty-calendar-header.component';
 
 /**
- * Special component to add as a child of a date picker to add presets on the left, works the same as mat-picker-actions for the ng-content.
+ * Special component to add as a child of a mat-date-picker to add preset buttons and an optional secondary calendar panel.
+ * Forces the user to define action buttons as child content like the mat-picker-actions component.
  */
 @Component({
   selector: 'mdl-date-picker',
   styleUrls: ['date-picker.scss'],
   templateUrl: 'date-picker.html',
-  imports: [NgIf, MatButtonModule, MatDatepickerModule, EmptyCalendarHeaderComponent],
+  imports: [NgIf, NgFor, MatButtonModule, MatDatepickerModule, EmptyCalendarHeaderComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   standalone: true,
 })
-export class MdlDatePicker implements AfterViewInit, OnDestroy {
+export class MdlDatePicker<D> implements AfterViewInit, OnDestroy {
   private _portal!: TemplatePortal;
   private _showPreviousMonthCalendar: boolean = false;
-  protected srcCalendar?: MatCalendar<any>;
   private sub = new Subscription();
 
   protected EmptyCalendarHeaderComponent = EmptyCalendarHeaderComponent;
-  protected datepicker: MatDateRangePicker<any> | MatDatepicker<any>;
-  protected leftCalendar?: MatCalendar<any>;
+  protected datepicker: MatDateRangePicker<D> | MatDatepicker<D>;
+  protected datepickerContent?: any;
+  protected leftCalendar?: MatCalendar<D>;
+  protected srcCalendar?: MatCalendar<D>;
 
+  @Input() presets?: DateRangePreset<D>[];
   @ViewChild(TemplateRef) _template!: TemplateRef<unknown>;
 
-  protected datepickerContent?: any;
-
   constructor(
-    @Optional() daterangepicker: MatDateRangePicker<any> | null,
-    @Optional() datepicker: MatDatepicker<any> | null,
-    protected dateAdapter: DateAdapter<any>,
-    private _viewContainerRef: ViewContainerRef
+    @Optional() private daterangepicker: MatDateRangePicker<D> | null,
+    @Optional() private singledatepicker: MatDatepicker<D> | null,
+    protected dateAdapter: DateAdapter<D>,
+    private _viewContainerRef: ViewContainerRef,
+    @Optional() @Inject(DATE_RANGE_PRESETS) private providedPresets?: DateRangePreset<D>[]
   ) {
-    if (datepicker === null && daterangepicker === null) {
+    if (singledatepicker === null && daterangepicker === null) {
       throw new Error(
         'Please use this component inside a mat-date-picker or mat-date-range-picker'
       );
     }
-    this.datepicker = datepicker ?? daterangepicker!;
+    this.datepicker = singledatepicker ?? daterangepicker!;
     this.sub.add(
       this.datepicker.openedStream.subscribe(() => {
         // @ts-ignore
         (this.datepicker._overlayRef as OverlayRef).addPanelClass('with-presets');
 
         this.datepickerContent = // @ts-ignore
-        (this.datepicker._componentRef as ComponentRef<MatDatepickerContent<any, any>>).instance;
+          (this.datepicker._componentRef as ComponentRef<MatDatepickerContent<any, any>>).instance;
         setTimeout(() => {
           // @ts-ignore
           this.srcCalendar = this.datepickerContent._calendar;
@@ -102,6 +89,7 @@ export class MdlDatePicker implements AfterViewInit, OnDestroy {
     );
     this.sub.add(
       this.datepicker.closedStream.subscribe(() => {
+        this.datepickerContent = undefined;
         this.srcCalendar = undefined;
         this.leftCalendar = undefined;
       })
@@ -117,6 +105,10 @@ export class MdlDatePicker implements AfterViewInit, OnDestroy {
     this._showPreviousMonthCalendar = coerceBooleanProperty(value);
   }
 
+  protected get presetsToShow() {
+    return this.presets ?? this.providedPresets;
+  }
+
   public ngAfterViewInit() {
     this._portal = new TemplatePortal(this._template, this._viewContainerRef);
     this.datepicker.registerActions(this._portal);
@@ -130,6 +122,18 @@ export class MdlDatePicker implements AfterViewInit, OnDestroy {
     // Needs to be null checked since we initialize it in `ngAfterViewInit`.
     if (this._portal && this._portal.isAttached) {
       this._portal?.detach();
+    }
+  }
+
+  protected applyPreset(preset: DateRangePreset<D>) {
+    const range = preset.calculateDateRange(this.dateAdapter);
+    if (!this.srcCalendar) return;
+    if (this.daterangepicker) {
+      this.datepickerContent._handleUserSelection({ value: null });
+      this.datepickerContent._handleUserSelection({ value: range.start });
+      this.datepickerContent._handleUserSelection({ value: range.end });
+    } else if (this.singledatepicker) {
+      this.datepickerContent._handleUserSelection({ value: range.start });
     }
   }
 

@@ -1,17 +1,15 @@
 <ng-template>
-  <div class="mdl-date-picker">
+  <div class="mdl-date-picker" [class.has-presets]="presetsToShow">
     <div class="mat-datepicker-actions">
       <ng-content></ng-content>
     </div>
-    <div class="side-buttons small small-btn-text">
-      <button mat-button>Le mois dernier</button>
-      <button mat-button>2 dernières sem.</button>
-      <button mat-button>7 derniers jours</button>
-      <button mat-button>Hier</button>
-      <button mat-button>Aujourd'hui</button>
-      <button mat-button>Demain</button>
+    <div class="side-buttons small small-btn-text" *ngIf="presetsToShow; let presets">
+      <button mat-button *ngFor="let preset of presets" (click)="applyPreset(preset)">
+        {{preset.name}}
+      </button>
     </div>
     <div class="calendars">
+      <!-- All inputs and handlers directly copied from Material src code -->
       <mat-calendar
         #prev
         *ngIf="showPreviousMonthCalendar && datepickerContent"

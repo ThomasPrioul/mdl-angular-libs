@@ -52,10 +52,16 @@
     <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
     <mat-date-range-picker #picker2 [startAt]="dateForm.controls.end.value ?? today">
       <mdl-date-picker showPreviousMonthCalendar>
-        <div class="flex gap-2 items-end">
-          <button mat-stroked-button color="primary" class="ms-auto" matDateRangePickerCancel>
-            Annuler
+        <div class="flex gap-2 justify-end">
+          <button
+            *ngIf="dateForm.controls.start.value || dateForm.controls.end.value"
+            mat-stroked-button
+            color="warn"
+            (click)="picker2.close(); dateForm.reset()">
+            <mat-icon>delete</mat-icon>
+            Supprimer
           </button>
+          <button mat-stroked-button color="primary" matDateRangePickerCancel>Annuler</button>
           <button mat-flat-button color="primary" matDateRangePickerApply>Modifier</button>
         </div>
       </mdl-date-picker>
@@ -64,7 +70,12 @@
   <mat-form-field class="small">
     <mat-label>Sélectionner une date</mat-label>
     <input matInput [matDatepicker]="picker" placeholder="JJ/MM/AAAA" />
-    <mat-datepicker #picker></mat-datepicker>
+    <mat-datepicker #picker>
+      <mat-datepicker-actions>
+        <button mat-stroked-button color="primary" matDatepickerCancel>Annuler</button>
+        <button mat-flat-button color="primary" matDatepickerApply>Modifier</button>
+      </mat-datepicker-actions>
+    </mat-datepicker>
     <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
   </mat-form-field>
 </div>
