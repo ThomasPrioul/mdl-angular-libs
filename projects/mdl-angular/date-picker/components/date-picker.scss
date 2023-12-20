@@ -1,5 +1,9 @@
 $padding: 8px;
 
+mdl-date-picker {
+  display: none;
+}
+
 .mdl-date-picker {
   .side-buttons {
     display: none;
@@ -7,10 +11,25 @@ $padding: 8px;
 }
 
 .mat-datepicker-popup.with-presets .mat-datepicker-content-container-with-actions {
+  position: relative;
+
+  .mat-mdc-icon-button:disabled {
+    opacity: var(--mdc-icon-button-disabled-icon-opacity) !important;
+  }
+
   > .mat-calendar {
     position: absolute;
     right: $padding;
     top: $padding;
+  }
+
+  .mat-calendar {
+    width: 230px;
+    height: 290px;
+
+    .mat-calendar-header {
+      padding-right: 0 !important;
+    }
   }
 
   .mdl-date-picker {
@@ -44,9 +63,8 @@ $padding: 8px;
 
     .mat-datepicker-actions {
       grid-area: bottom-buttons;
+      display: block;
       padding: 0.5rem;
-
-      display: flex;
       border-top: 1px solid var(--mat-divider-color);
     }
   }

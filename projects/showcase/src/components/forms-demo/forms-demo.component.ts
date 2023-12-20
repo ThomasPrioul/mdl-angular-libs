@@ -28,6 +28,7 @@ import { Serie } from '../../models/serie';
 import { parseFunction } from '../../utils';
 import { ChipsDemoComponent } from '../chips-demo/chips-demo.component';
 import { MdlDatePicker } from 'mdl-angular/date-picker';
+import { DateTime } from 'luxon';
 
 @Component({
   selector: 'app-forms-demo',
@@ -70,14 +71,17 @@ import { MdlDatePicker } from 'mdl-angular/date-picker';
   ],
 })
 export class FormsDemoComponent {
-  protected toggleForm() {
-    if (this.form.enabled) this.form.disable();
-    else this.form.enable();
-  }
   protected readonly form = new FormGroup({
     login: new FormControl<string>(''),
     password: new FormControl<string>(''),
   });
+  protected readonly dateForm = new FormGroup({
+    start: new FormControl<DateTime | null>(null),
+    end: new FormControl<DateTime | null>(null),
+  });
+  protected readonly today = DateTime.now();
+  protected readonly maxDate = DateTime.now().plus({ week: 1 });
+  protected readonly minDate = DateTime.now().minus({ month: 3 });
   protected readonly series: Serie[] = SERIES.sort((a, b) =>
     sortNomTechniqueComplet(a.nomTechniqueComplet, b.nomTechniqueComplet)
   );
@@ -89,5 +93,10 @@ export class FormsDemoComponent {
 
   protected executeArbitraryCode(code: string) {
     this.codeOutput = parseFunction(code)?.call(undefined);
+  }
+
+  protected toggleForm() {
+    if (this.form.enabled) this.form.disable();
+    else this.form.enable();
   }
 }

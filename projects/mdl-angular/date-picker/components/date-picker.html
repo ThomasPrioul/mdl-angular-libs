@@ -1,5 +1,8 @@
 <ng-template>
   <div class="mdl-date-picker">
+    <div class="mat-datepicker-actions">
+      <ng-content></ng-content>
+    </div>
     <div class="side-buttons small small-btn-text">
       <button mat-button>Le mois dernier</button>
       <button mat-button>2 dernières sem.</button>
@@ -10,15 +13,28 @@
     </div>
     <div class="calendars">
       <mat-calendar
-        *ngIf="showPreviousMonthCalendar"
+        #prev
+        *ngIf="showPreviousMonthCalendar && datepickerContent"
+        [startAt]="dateAdapter.addCalendarMonths(datepicker.startAt ?? dateAdapter.today(), -1)"
+        [startView]="datepicker.startView"
+        [minDate]="datepicker._getMinDate()"
+        [maxDate]="datepicker._getMaxDate()"
+        [dateFilter]="datepicker._getDateFilter()"
         [headerComponent]="EmptyCalendarHeaderComponent"
-        class="placeholder mat-calendar"
-        [startAt]="dateAdapter.addCalendarMonths(dateAdapter.today(), -1)">
+        [selected]="datepickerContent._getSelected()"
+        [dateClass]="datepicker.dateClass"
+        [comparisonStart]="datepickerContent.comparisonStart"
+        [comparisonEnd]="datepickerContent.comparisonEnd"
+        [startDateAccessibleName]="datepickerContent.startDateAccessibleName"
+        [endDateAccessibleName]="datepickerContent.endDateAccessibleName"
+        (yearSelected)="datepicker._selectYear($event)"
+        (monthSelected)="datepicker._selectMonth($event)"
+        (viewChanged)="datepicker._viewChanged($event)"
+        (_userSelection)="datepickerContent._handleUserSelection($event)"
+        (_userDragDrop)="datepickerContent._handleUserDragDrop($event)">
+        {{registerCalendar(prev)}}
       </mat-calendar>
       <div class="placeholder mat-calendar"></div>
-    </div>
-    <div class="mat-datepicker-actions">
-      <ng-content></ng-content>
     </div>
   </div>
 </ng-template>

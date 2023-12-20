@@ -45,15 +45,19 @@
 <div id="date-pickers">
   <mat-form-field>
     <mat-label>Plage de date</mat-label>
-    <mat-date-range-input [rangePicker]="picker2">
-      <input matInput matStartDate placeholder="Start" />
-      <input matInput matEndDate placeholder="End" />
+    <mat-date-range-input [rangePicker]="picker2" [min]="minDate" [max]="maxDate">
+      <input matInput matStartDate placeholder="Start" [formControl]="dateForm.controls.start" />
+      <input matInput matEndDate placeholder="End" [formControl]="dateForm.controls.end" />
     </mat-date-range-input>
     <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
-    <mat-date-range-picker panelClass="with-presets" #picker2>
+    <mat-date-range-picker #picker2 [startAt]="dateForm.controls.end.value ?? today">
       <mdl-date-picker showPreviousMonthCalendar>
-        <button class="ms-auto" mat-button matDateRangePickerCancel>Cancel</button>
-        <button mat-raised-button color="primary" matDateRangePickerApply>Apply</button>
+        <div class="flex gap-2 items-end">
+          <button mat-stroked-button color="primary" class="ms-auto" matDateRangePickerCancel>
+            Annuler
+          </button>
+          <button mat-flat-button color="primary" matDateRangePickerApply>Modifier</button>
+        </div>
       </mdl-date-picker>
     </mat-date-range-picker>
   </mat-form-field>

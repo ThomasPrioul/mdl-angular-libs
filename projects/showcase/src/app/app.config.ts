@@ -13,6 +13,7 @@ import { MAT_LUXON_DATE_ADAPTER_OPTIONS } from '@angular/material-luxon-adapter'
 import { Settings } from 'luxon';
 import { Table2DemoComponent } from '../components/table2-demo/table2-demo.component';
 import { FormsDemoComponent } from '../components/forms-demo/forms-demo.component';
+import { MatDatepickerIntl, MatDatepickerModule } from '@angular/material/datepicker';
 
 function frenchRangeLabel(page: number, pageSize: number, length: number) {
   if (length == 0 || pageSize == 0) return `0 sur ${length}`;
@@ -28,16 +29,25 @@ function frenchRangeLabel(page: number, pageSize: number, length: number) {
 }
 
 function getFrenchPaginatorIntl() {
-  const paginatorIntl = new MatPaginatorIntl();
+  const intl = new MatPaginatorIntl();
 
-  paginatorIntl.firstPageLabel = 'Première page';
-  paginatorIntl.lastPageLabel = 'Dernière page';
-  paginatorIntl.itemsPerPageLabel = 'Éléments par page :';
-  paginatorIntl.nextPageLabel = 'Page suivante';
-  paginatorIntl.previousPageLabel = 'Page précédente';
-  paginatorIntl.getRangeLabel = frenchRangeLabel;
+  intl.firstPageLabel = 'Première page';
+  intl.lastPageLabel = 'Dernière page';
+  intl.itemsPerPageLabel = 'Éléments par page :';
+  intl.nextPageLabel = 'Page suivante';
+  intl.previousPageLabel = 'Page précédente';
+  intl.getRangeLabel = frenchRangeLabel;
 
-  return paginatorIntl;
+  return intl;
+}
+
+function getFrenchDatePickerIntl() {
+  const intl = new MatDatepickerIntl();
+
+  intl.closeCalendarLabel = 'Fermer le calendrier';
+  intl.changes.next();
+
+  return intl;
 }
 
 const routes: Route[] = [
@@ -82,6 +92,7 @@ export const appConfig: ApplicationConfig = {
     { provide: MAT_DATE_LOCALE, useValue: navigator.language },
     { provide: MAT_LUXON_DATE_ADAPTER_OPTIONS, useValue: { firstDayOfWeek: 1 } },
     { provide: MatPaginatorIntl, useValue: getFrenchPaginatorIntl() },
+    { provide: MatDatepickerIntl, useValue: getFrenchDatePickerIntl() },
     {
       provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
       useValue: <MatFormFieldDefaultOptions>{
