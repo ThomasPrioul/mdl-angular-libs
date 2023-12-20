@@ -27,6 +27,7 @@ import {
 import { Subscription, startWith } from 'rxjs';
 import { DATE_RANGE_PRESETS, DateRangePreset } from '../../utilities';
 import { EmptyCalendarHeaderComponent } from '../empty-calendar-header.component';
+import { MatListModule } from '@angular/material/list';
 
 /**
  * Special component to add as a child of a mat-date-picker to add preset buttons and an optional secondary calendar panel.
@@ -36,10 +37,17 @@ import { EmptyCalendarHeaderComponent } from '../empty-calendar-header.component
   selector: 'mdl-date-picker',
   styleUrls: ['date-picker.component.scss'],
   templateUrl: 'date-picker.component.html',
-  imports: [NgIf, NgFor, MatButtonModule, MatDatepickerModule, EmptyCalendarHeaderComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   standalone: true,
+  imports: [
+    NgIf,
+    NgFor,
+    MatButtonModule,
+    MatDatepickerModule,
+    EmptyCalendarHeaderComponent,
+    MatListModule,
+  ],
 })
 export class MdlDatePicker<D> implements AfterViewInit, OnDestroy {
   private _portal!: TemplatePortal;

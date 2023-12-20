@@ -52,7 +52,7 @@
     <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
     <mat-date-range-picker #picker2 [startAt]="dateForm.controls.end.value ?? today">
       <mdl-date-picker showPreviousMonthCalendar>
-        <div class="flex gap-2 justify-end">
+        <div class="flex gap-1 justify-end">
           <button
             *ngIf="dateForm.controls.start.value || dateForm.controls.end.value"
             mat-stroked-button

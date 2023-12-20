@@ -1,0 +1,15 @@
+@use "../theme";
+@use "@angular/material" as mat;
+
+@include mat.list-density(theme.$light-theme);
+@include mat.list-typography(theme.$light-theme);
+
+.dark,
+.light .dark {
+  @include mat.list-color(theme.$dark-theme);
+}
+
+.light,
+.dark .light {
+  @include mat.list-color(theme.$light-theme);
+}

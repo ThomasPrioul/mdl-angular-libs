@@ -3,10 +3,15 @@
     <div class="mat-datepicker-actions">
       <ng-content></ng-content>
     </div>
-    <div class="side-buttons small small-btn-text" *ngIf="presetsToShow; let presets">
-      <button mat-button *ngFor="let preset of presets" (click)="applyPreset(preset)">
-        {{preset.name}}
-      </button>
+    <div class="side-buttons" *ngIf="presetsToShow; let presets">
+      <h3 class="mat-h3" style="padding-left: 0.5rem; margin-bottom: 0">Choix rapide</h3>
+      <mat-selection-list
+        [multiple]="false"
+        (selectionChange)="applyPreset($event.options[0].value)">
+        <mat-list-option *ngFor="let preset of presets" [value]="preset">
+          {{ preset.name }}
+        </mat-list-option>
+      </mat-selection-list>
     </div>
     <div class="calendars">
       <!-- All inputs and handlers directly copied from Material src code -->
@@ -30,7 +35,7 @@
         (viewChanged)="datepicker._viewChanged($event)"
         (_userSelection)="datepickerContent._handleUserSelection($event)"
         (_userDragDrop)="datepickerContent._handleUserDragDrop($event)">
-        {{registerCalendar(prev)}}
+        {{ registerCalendar(prev) }}
       </mat-calendar>
       <div class="placeholder mat-calendar"></div>
     </div>

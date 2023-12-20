@@ -1,3 +1,2 @@
-export * from './components/date-picker';
-// export * from './components/empty-calendar-header.component';
+export * from './components/date-picker/date-picker.component';
 export * from './utilities';
