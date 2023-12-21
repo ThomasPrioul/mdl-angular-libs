@@ -43,3 +43,11 @@
     --mat-datepicker-calendar-header-text-color: #{mdl.$cool-gray-11};
   }
 }
+
+.mat-date-range-input {
+  vertical-align: middle;
+
+  .mat-date-range-input-separator {
+    margin-top: -4px;
+  }
+}

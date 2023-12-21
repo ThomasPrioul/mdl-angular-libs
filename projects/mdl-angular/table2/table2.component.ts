@@ -137,13 +137,16 @@ export class WithSelectionPipe implements PipeTransform {
 export class MdlTableComponent<T> implements AfterContentInit, AfterViewInit, OnDestroy {
   private readonly _destroy = new Subject<void>();
 
+  private _actionButtons: boolean | undefined;
+  private _columnsEditor: boolean = false;
   private _dataSource!: readonly T[] | MatTableDataSource<T>;
-  private _disableSearch: boolean = false;
   private _displayedColumns!: ColumnDisplayInfo[];
   private _filter: string = '';
+  private _fullscreenButton: boolean = false;
+  private _header: boolean | undefined = undefined;
   private _pageSizes: number[] = [10, 25, 100];
+  private _searchBar: boolean = false;
   private _selection = false;
-  private _toolbar = true;
 
   @ViewChild(SearchbarComponent)
   protected readonly searchbar!: SearchbarComponent;
@@ -180,13 +183,18 @@ export class MdlTableComponent<T> implements AfterContentInit, AfterViewInit, On
   ) {}
 
   @Input()
-  public get dataSource(): readonly T[] | MatTableDataSource<T> {
-    return this._dataSource;
+  public get actionButtons(): BooleanInput {
+    return this._actionButtons;
   }
 
   @Input()
-  public get disableSearch(): BooleanInput {
-    return this._disableSearch;
+  public get columnsEditor(): BooleanInput {
+    return this._columnsEditor;
+  }
+
+  @Input()
+  public get dataSource(): readonly T[] | MatTableDataSource<T> {
+    return this._dataSource;
   }
 
   @Input()
@@ -200,8 +208,23 @@ export class MdlTableComponent<T> implements AfterContentInit, AfterViewInit, On
   }
 
   @Input()
+  public get fullscreenButton(): BooleanInput {
+    return this._fullscreenButton;
+  }
+
+  @Input()
+  public get header() {
+    return this._header;
+  }
+
+  @Input()
   public get pageSizes(): number[] {
     return this._pageSizes;
+  }
+
+  @Input()
+  public get searchBar(): BooleanInput {
+    return this._searchBar;
   }
 
   @Input()
@@ -209,17 +232,16 @@ export class MdlTableComponent<T> implements AfterContentInit, AfterViewInit, On
     return this._selection;
   }
 
-  @Input()
-  public get toolbar() {
-    return this._toolbar;
+  public set actionButtons(value: BooleanInput) {
+    this._actionButtons = coerceBooleanProperty(value);
+  }
+
+  public set columnsEditor(value: BooleanInput) {
+    this._columnsEditor = coerceBooleanProperty(value);
   }
 
   public set dataSource(value: readonly T[] | MatTableDataSource<T>) {
     this._dataSource = value;
-  }
-
-  public set disableSearch(value: BooleanInput) {
-    this._disableSearch = coerceBooleanProperty(value);
   }
 
   public set displayedColumns(value: ColumnDisplayInfo[]) {
@@ -231,12 +253,24 @@ export class MdlTableComponent<T> implements AfterContentInit, AfterViewInit, On
     this.filterChange.emit((this._filter = value));
   }
 
+  public set fullscreenButton(value: BooleanInput) {
+    this._fullscreenButton = coerceBooleanProperty(value);
+  }
+
+  public set header(value: BooleanInput) {
+    this._header = coerceBooleanProperty(value);
+  }
+
   /** Array with page sizes. */
   public set pageSizes(value: number[]) {
     if (value.length === 0) throw new Error('Page length options cannot be empty');
     if (value.some((x) => x <= 0))
       throw new Error('Page length options cannot contain 0 or negative values');
     this._pageSizes = value;
+  }
+
+  public set searchBar(value: BooleanInput) {
+    this._searchBar = coerceBooleanProperty(value);
   }
 
   public get selected() {
@@ -249,10 +283,6 @@ export class MdlTableComponent<T> implements AfterContentInit, AfterViewInit, On
 
   public get sort() {
     return this._sort;
-  }
-
-  public set toolbar(value: BooleanInput) {
-    this._toolbar = coerceBooleanProperty(value);
   }
 
   public ngAfterContentInit() {

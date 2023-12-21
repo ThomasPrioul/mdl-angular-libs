@@ -1,5 +1,8 @@
 # mdl-angular
 
+[![GitHub release](https://img.shields.io/github/release/ThomasPrioul/mdl-angular-libs?include_prereleases=&sort=semver&color=blue)](https://github.com/ThomasPrioul/mdl-angular-libs/releases/)
+[![npm - mdl-angular](https://img.shields.io/badge/npm-mdl--angular-2ea44f)](https://npmjs.com/package/mdl-angular)
+
 Librairie de components Angular style SNCF / Maintenance Data Lab à utiliser dans votre projet Angular + Material.
 
 ## Points d'entrée

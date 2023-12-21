@@ -10,13 +10,30 @@
     <span>Charger données vides</span>
   </button>
 </div>
+<div class="flex gap-3 items-center flex-wrap">
+  <mat-slide-toggle #disableHeader color="primary">Désactiver header</mat-slide-toggle>
+  <mat-slide-toggle #enableTitle color="primary" [checked]="true">Titre</mat-slide-toggle>
+  <mat-slide-toggle #enableSearchBar color="primary" [checked]="true"
+    >Barre de recherche</mat-slide-toggle
+  >
+  <!-- <mat-checkbox [] #enableActions [indeterminate]="table.actionButtons === undefined">Actions</mat-checkbox> -->
+  <mat-slide-toggle #enableColumns color="primary" [checked]="true"
+    >Éditeur de colonnes</mat-slide-toggle
+  >
+  <mat-slide-toggle #enableFullscreen color="primary" [checked]="true">Fullscreen</mat-slide-toggle>
+</div>
 <mdl-table2
+  #table
   [dataSource]="dataSource"
   [loading]="loading()"
   [(displayedColumns)]="displayedColumns"
   selection
   matSort
-  title="Séries"
+  [title]="enableTitle.checked ? 'Séries' : undefined"
+  [header]="disableHeader.checked ? false : true"
+  [searchBar]="enableSearchBar.checked"
+  [columnsEditor]="enableColumns.checked"
+  [fullscreenButton]="enableFullscreen.checked"
   (filterChange)="filterChanged($event)"
   class="mat-elevation-z8 flex-grow rounded-lg">
   <ng-container matColumnDef="nomTechniqueComplet">

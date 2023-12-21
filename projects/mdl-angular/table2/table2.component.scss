@@ -20,6 +20,7 @@ $blue-veil: color.change(colors.$primary, $alpha: 0.0625);
   align-items: center;
   padding: 0.5rem 0;
   gap: 0.5rem;
+  margin-right: 0.5rem;
 
   > .left-side {
     display: flex;
@@ -27,6 +28,10 @@ $blue-veil: color.change(colors.$primary, $alpha: 0.0625);
     position: relative;
     flex-grow: 1;
     gap: 1rem;
+
+    &:last-child {
+      margin-right: 0.5rem;
+    }
 
     > :first-child {
       padding-left: 1rem;
@@ -40,7 +45,6 @@ $blue-veil: color.change(colors.$primary, $alpha: 0.0625);
 
   > .action-buttons {
     @include mat.icon-button-density(-2);
-    margin-right: 0.5rem;
   }
 }
 

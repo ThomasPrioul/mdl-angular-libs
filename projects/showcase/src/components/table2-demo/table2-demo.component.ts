@@ -7,6 +7,8 @@ import { Serie } from '../../models/serie';
 import { MatSortModule } from '@angular/material/sort';
 import { MatButtonModule } from '@angular/material/button';
 import { TypeSafeMatCellDef } from 'mdl-angular';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @Component({
   selector: 'app-table2-demo',
@@ -15,6 +17,8 @@ import { TypeSafeMatCellDef } from 'mdl-angular';
     CommonModule,
     MdlTableComponent,
     MatButtonModule,
+    MatCheckboxModule,
+    MatSlideToggleModule,
     MatSortModule,
     MatTableModule,
     TypeSafeMatCellDef,
