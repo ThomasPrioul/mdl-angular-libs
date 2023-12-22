@@ -142,7 +142,7 @@ export class FormsDemoComponent {
     login: new FormControl<string>(''),
     password: new FormControl<string>(''),
   });
-  protected readonly maxDate = DateTime.now().plus({ week: 1 });
+  protected readonly maxDate = DateTime.now().plus({ month: 3 });
   protected readonly minDate = DateTime.now().minus({ month: 3 });
   protected readonly series: Serie[] = SERIES.sort((a, b) =>
     sortNomTechniqueComplet(a.nomTechniqueComplet, b.nomTechniqueComplet)

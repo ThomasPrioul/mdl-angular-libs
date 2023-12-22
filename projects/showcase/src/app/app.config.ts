@@ -1,6 +1,6 @@
 import { OverlayContainer, FullscreenOverlayContainer } from '@angular/cdk/overlay';
 import { APP_INITIALIZER, ApplicationConfig } from '@angular/core';
-import { MAT_DATE_LOCALE } from '@angular/material/core';
+import { MAT_DATE_FORMATS, MAT_DATE_LOCALE, MatDateFormats } from '@angular/material/core';
 import {
   MAT_FORM_FIELD_DEFAULT_OPTIONS,
   MatFormFieldDefaultOptions,
@@ -9,7 +9,11 @@ import { MatPaginatorIntl } from '@angular/material/paginator';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { Route, provideRouter } from '@angular/router';
 import { HomeComponent } from '../pages/home.component';
-import { MAT_LUXON_DATE_ADAPTER_OPTIONS } from '@angular/material-luxon-adapter';
+import {
+  MAT_LUXON_DATE_ADAPTER_OPTIONS,
+  MAT_LUXON_DATE_FORMATS,
+  MatLuxonDateAdapterOptions,
+} from '@angular/material-luxon-adapter';
 import { Settings } from 'luxon';
 import { Table2DemoComponent } from '../components/table2-demo/table2-demo.component';
 import { FormsDemoComponent } from '../components/forms-demo/forms-demo.component';
@@ -90,7 +94,23 @@ export const appConfig: ApplicationConfig = {
     },
     { provide: OverlayContainer, useClass: FullscreenOverlayContainer },
     { provide: MAT_DATE_LOCALE, useValue: navigator.language },
-    { provide: MAT_LUXON_DATE_ADAPTER_OPTIONS, useValue: { firstDayOfWeek: 1 } },
+    {
+      provide: MAT_LUXON_DATE_ADAPTER_OPTIONS,
+      useValue: <MatLuxonDateAdapterOptions>{ firstDayOfWeek: 1 },
+    },
+    // {
+    //   provide: MatDatepickerModule,
+    // },
+    // {
+    //   provide: MAT_DATE_FORMATS,
+    //   useValue: <MatDateFormats>{
+    //     ...MAT_LUXON_DATE_FORMATS,
+    //     display: {
+    //       ...MAT_LUXON_DATE_FORMATS.display,
+    //       monthLabel: 'LLL yyyy',
+    //     },
+    //   },
+    // },
     { provide: MatPaginatorIntl, useValue: getFrenchPaginatorIntl() },
     { provide: MatDatepickerIntl, useValue: getFrenchDatePickerIntl() },
     {
