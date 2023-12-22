@@ -1,5 +1,5 @@
 import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
-import { TemplatePortal } from '@angular/cdk/portal';
+import { ComponentType, TemplatePortal } from '@angular/cdk/portal';
 import { NgFor, NgIf } from '@angular/common';
 import {
   Component,
@@ -15,6 +15,8 @@ import {
   ComponentRef,
   Inject,
   OnInit,
+  OnChanges,
+  SimpleChanges,
 } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { DateAdapter } from '@angular/material/core';
@@ -51,9 +53,10 @@ import { DoubleCalendarHeaderComponent } from '../double-calendar-header.compone
     MatListModule,
   ],
 })
-export class MdlDatePicker<D> implements AfterViewInit, OnInit, OnDestroy {
+export class MdlDatePicker<D> implements AfterViewInit, OnInit, OnDestroy, OnChanges {
   private _portal!: TemplatePortal;
   private _showPreviousMonthCalendar: boolean = false;
+  private originalCalendarType!: ComponentType<any>;
   private sub = new Subscription();
 
   protected DoubleCalendarHeaderComponent = DoubleCalendarHeaderComponent;
@@ -119,10 +122,15 @@ export class MdlDatePicker<D> implements AfterViewInit, OnInit, OnDestroy {
     return this.presets ?? this.providedPresets;
   }
 
+  public ngOnChanges(changes: SimpleChanges): void {
+    if (!changes['showPreviousMonthCalendar']) return;
+    this.datepicker.calendarHeaderComponent = this.showPreviousMonthCalendar
+      ? EmptyCalendarHeaderComponent
+      : this.originalCalendarType;
+  }
+
   public ngOnInit(): void {
-    if (this.showPreviousMonthCalendar) {
-      this.datepicker.calendarHeaderComponent = EmptyCalendarHeaderComponent;
-    }
+    this.originalCalendarType = this.datepicker.calendarHeaderComponent;
   }
 
   public ngAfterViewInit() {
