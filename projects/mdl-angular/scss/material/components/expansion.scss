@@ -1,0 +1,15 @@
+@use "../theme";
+@use "@angular/material" as mat;
+
+@include mat.expansion-density(theme.$light-theme);
+@include mat.expansion-typography(theme.$light-theme);
+
+.dark,
+.light .dark {
+  @include mat.expansion-color(theme.$dark-theme);
+}
+
+.light,
+.dark .light {
+  @include mat.expansion-color(theme.$light-theme);
+}

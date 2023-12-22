@@ -26,6 +26,7 @@ router-outlet {
 @import "mdl-angular/scss/material/components/chips";
 @import "mdl-angular/scss/material/components/checkbox";
 @import "mdl-angular/scss/material/components/dialog";
+@import "mdl-angular/scss/material/components/expansion";
 @import "mdl-angular/scss/material/components/table";
 @import "mdl-angular/scss/material/components/datepicker";
 @import "mdl-angular/scss/material/components/divider";
@@ -53,5 +54,4 @@ router-outlet {
 @import "mdl-angular/scss/highlight";
 @import "mdl-angular/scss/panels";
 // @use '../../bottom-sheet/bottom-sheet-theme';
-// @use '../../expansion/expansion-theme';
 // @use '../../grid-list/grid-list-theme';
