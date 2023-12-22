@@ -12,6 +12,8 @@
 .mat-mdc-tab-nav-panel {
   flex-grow: 1;
   min-height: 0;
+  overflow-y: auto;
+  padding-bottom: 1.5rem;
 
   ::ng-deep {
     router-outlet + * {

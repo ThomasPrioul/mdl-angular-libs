@@ -1,84 +1,117 @@
-<div id="trees">
-  <mat-form-field class="small" style="min-width: 400px">
-    <mat-label>Select avec filtre (small)</mat-label>
-    <mat-select multiple [formControl]="seriesControl" placeholder="Sélectionnez...">
-      <mdl-select-filter #filter></mdl-select-filter>
-      <div *mdlSelectNoResults="filter" class="no-data-label">Aucune série trouvée</div>
-      <mat-option
-        *ngFor="let serie of series"
-        [disabled]="!(serie | seriesFilter : filter.value)"
-        [value]="serie.codeSerieMateriel">
-        {{ serie.nomTechniqueComplet }}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
-  <mat-form-field style="min-width: 400px">
-    <mat-label>Tree select (avec filtre)</mat-label>
-    <mdl-spinner *ngIf="false" overlay></mdl-spinner>
-    <mat-select
-      placeholder="Filtrer par série/sous-série"
-      multiple
-      mdlTreeSelect
-      #matSelect="matSelect"
-      #tree="mdlTreeSelect">
-      <mat-select-trigger>
-        {{ matSelect.triggerValue | mdlTreeSelectSummary : tree }}
-      </mat-select-trigger>
-      <mdl-select-filter #filter2></mdl-select-filter>
-      <div *mdlSelectNoResults="filter2" class="no-data-label">Aucune série trouvée</div>
-      <mat-option
-        *ngFor="let item of series | seriesOptions"
-        [disabled]="
-          (item | mdlTreeItemHidden) || (item | seriesOptionsFilter : filter2.value) === false
-        "
-        [value]="item.key">
-        <mdl-tree-option [item]="item" [(expanded)]="item.expanded">
-          {{ item.value.nomTechniqueComplet }}
-        </mdl-tree-option>
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
-</div>
-<div id="chips-autocomplete">
-  <app-chips-demo class="grow"></app-chips-demo>
-</div>
-<div id="date-pickers">
-  <mat-form-field>
-    <mat-label>Plage de date</mat-label>
-    <mat-date-range-input [rangePicker]="picker2" [min]="minDate" [max]="maxDate">
-      <input matInput matStartDate placeholder="Start" [formControl]="dateForm.controls.start" />
-      <input matInput matEndDate placeholder="End" [formControl]="dateForm.controls.end" />
-    </mat-date-range-input>
-    <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
-    <mat-date-range-picker #picker2 [startAt]="dateForm.controls.end.value ?? today">
-      <mdl-date-picker showPreviousMonthCalendar>
-        <div class="flex gap-1 justify-end">
-          <button
-            *ngIf="dateForm.controls.start.value || dateForm.controls.end.value"
-            mat-stroked-button
-            color="warn"
-            (click)="picker2.close(); dateForm.reset()">
-            <mat-icon>delete</mat-icon>
-            Supprimer
-          </button>
-          <button mat-stroked-button color="primary" matDateRangePickerCancel>Annuler</button>
-          <button mat-flat-button color="primary" matDateRangePickerApply>Modifier</button>
-        </div>
-      </mdl-date-picker>
-    </mat-date-range-picker>
-  </mat-form-field>
-  <mat-form-field class="small">
-    <mat-label>Sélectionner une date</mat-label>
-    <input matInput [matDatepicker]="picker" placeholder="JJ/MM/AAAA" />
-    <mat-datepicker #picker>
-      <mat-datepicker-actions>
-        <button mat-stroked-button color="primary" matDatepickerCancel>Annuler</button>
-        <button mat-flat-button color="primary" matDatepickerApply>Modifier</button>
-      </mat-datepicker-actions>
-    </mat-datepicker>
-    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-  </mat-form-field>
-</div>
+<mat-accordion multi>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title> Select & multi-select </mat-panel-title>
+      <mat-panel-description>
+        Select material & extension tree-select with filter
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+
+    <div class="container">
+      <mat-form-field class="small" style="min-width: 400px">
+        <mat-label>Select avec filtre (small)</mat-label>
+        <mat-select multiple [formControl]="seriesControl" placeholder="Sélectionnez...">
+          <mdl-select-filter #filter></mdl-select-filter>
+          <div *mdlSelectNoResults="filter" class="no-data-label">Aucune série trouvée</div>
+          <mat-option
+            *ngFor="let serie of series"
+            [disabled]="!(serie | seriesFilter : filter.value)"
+            [value]="serie.codeSerieMateriel">
+            {{ serie.nomTechniqueComplet }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field style="min-width: 400px">
+        <mat-label>Tree select (avec filtre)</mat-label>
+        <mdl-spinner *ngIf="false" overlay></mdl-spinner>
+        <mat-select
+          placeholder="Filtrer par série/sous-série"
+          multiple
+          mdlTreeSelect
+          #matSelect="matSelect"
+          #tree="mdlTreeSelect">
+          <mat-select-trigger>
+            {{ matSelect.triggerValue | mdlTreeSelectSummary : tree }}
+          </mat-select-trigger>
+          <mdl-select-filter #filter2></mdl-select-filter>
+          <div *mdlSelectNoResults="filter2" class="no-data-label">Aucune série trouvée</div>
+          <mat-option
+            *ngFor="let item of series | seriesOptions"
+            [disabled]="
+              (item | mdlTreeItemHidden) || (item | seriesOptionsFilter : filter2.value) === false
+            "
+            [value]="item.key">
+            <mdl-tree-option [item]="item" [(expanded)]="item.expanded">
+              {{ item.value.nomTechniqueComplet }}
+            </mdl-tree-option>
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </mat-expansion-panel>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title> Autocomplete/stay-open/chips </mat-panel-title>
+      <mat-panel-description>
+        Example autocomplete with stay-open behavior (select-like) with chips indicator
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+
+    <app-chips-demo class="grow"></app-chips-demo>
+  </mat-expansion-panel>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title> Date pickers </mat-panel-title>
+      <mat-panel-description>
+        Custom date pickers with presets and optional double calendar view
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <mat-slide-toggle #doubleCal class="self-center mb-4">Double calendrier ?</mat-slide-toggle>
+    <div class="container">
+      <mat-form-field>
+        <mat-label>Plage de date</mat-label>
+        <mat-date-range-input [rangePicker]="picker2" [min]="minDate" [max]="maxDate">
+          <input
+            matInput
+            matStartDate
+            placeholder="Start"
+            [formControl]="dateForm.controls.start" />
+          <input matInput matEndDate placeholder="End" [formControl]="dateForm.controls.end" />
+        </mat-date-range-input>
+        <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
+        <mat-date-range-picker #picker2 [startAt]="dateForm.controls.end.value ?? today">
+          <mdl-date-picker [showPreviousMonthCalendar]="doubleCal.checked">
+            <div class="flex flex-wrap gap-y-2 justify-end" style="max-width: 214px">
+              <button
+                *ngIf="dateForm.controls.start.value || dateForm.controls.end.value"
+                mat-stroked-button
+                color="warn"
+                (click)="picker2.close(); dateForm.reset()">
+                <mat-icon>delete</mat-icon>
+                Supprimer
+              </button>
+              <button mat-stroked-button color="primary" matDateRangePickerCancel>Annuler</button>
+              <button mat-flat-button color="primary" matDateRangePickerApply>Modifier</button>
+            </div>
+          </mdl-date-picker>
+        </mat-date-range-picker>
+      </mat-form-field>
+      <mat-form-field class="small">
+        <mat-label>Sélectionner une date</mat-label>
+        <input matInput [matDatepicker]="picker" placeholder="JJ/MM/AAAA" />
+        <mat-datepicker #picker>
+          <mat-datepicker-actions>
+            <button mat-stroked-button color="primary" matDatepickerCancel>Annuler</button>
+            <button mat-flat-button color="primary" matDatepickerApply>Modifier</button>
+          </mat-datepicker-actions>
+        </mat-datepicker>
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      </mat-form-field>
+    </div>
+  </mat-expansion-panel>
+</mat-accordion>
+
 <div id="login-form">
   <mat-form-field>
     <mat-label>Email</mat-label>

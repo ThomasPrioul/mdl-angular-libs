@@ -13,6 +13,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MdlCastPipe, TypeSafeMatCellDef } from 'mdl-angular';
 import { MdlSelectFilterComponent, MdlSelectNoResultsDirective } from 'mdl-angular/select-filter';
 import { MdlSpinnerComponent } from 'mdl-angular/spinner';
+import { MatExpansionModule } from '@angular/material/expansion';
 import {
   MdlTreeItemHiddenPipe,
   MdlTreeOptionComponent,
@@ -106,6 +107,7 @@ const CD_DATE_RANGE_PRESETS: DateRangePreset<DateTime>[] = [
     // Material
     MatButtonModule,
     MatDatepickerModule,
+    MatExpansionModule,
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
