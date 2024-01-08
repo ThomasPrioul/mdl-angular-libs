@@ -10,3 +10,14 @@
     align-items: center;
   }
 }
+
+.filter-with-checkbox {
+  display: flex;
+  gap: 0.5rem;
+  background: var(--mat-select-panel-background-color);
+
+  align-items: center;
+  position: sticky;
+  z-index: 1;
+  top: 0px;
+}

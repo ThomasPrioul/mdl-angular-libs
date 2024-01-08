@@ -45,7 +45,7 @@ Un component menu-item récursif pour gérer des menus multi-niveaux sur un pann
 
 ![Photo mdl-tree-select](./screenshots/mdl-side-menu-item.png)
 
-### mdl-angular/select-filter
+### mdl-angular/select
 
 Un component et une directive structurelle pour ajouter un filtre à un mat-select.
 Il faut ajouter un pipe côté applicatif pour agir sur la valeur du filtre (en supprimant/masquant des mat-option).

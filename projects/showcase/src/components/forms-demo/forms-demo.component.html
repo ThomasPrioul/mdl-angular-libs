@@ -11,8 +11,10 @@
       <mat-form-field class="small" style="min-width: 400px">
         <mat-label>Select avec filtre (small)</mat-label>
         <mat-select multiple [formControl]="seriesControl" placeholder="Sélectionnez...">
-          <mdl-select-filter #filter></mdl-select-filter>
+          <mdl-select-filter withCheckAll #filter></mdl-select-filter>
           <div *mdlSelectNoResults="filter" class="no-data-label">Aucune série trouvée</div>
+          <!-- <button mdlSelectAll>Tout sélectionner</button>
+          <button mdlSelectClearAll>Tout désélectionner</button> -->
           <mat-option
             *ngFor="let serie of series"
             [disabled]="!(serie | seriesFilter : filter.value)"

@@ -11,7 +11,13 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MdlCastPipe, TypeSafeMatCellDef } from 'mdl-angular';
-import { MdlSelectFilterComponent, MdlSelectNoResultsDirective } from 'mdl-angular/select-filter';
+import {
+  MdlSelectFilterComponent,
+  MdlSelectNoResultsDirective,
+  MdlSelectAllDirective,
+  MdlSelectClearAllDirective,
+  MdlSelectGlobalCheckboxDirective,
+} from 'mdl-angular/select';
 import { MdlSpinnerComponent } from 'mdl-angular/spinner';
 import { MatExpansionModule } from '@angular/material/expansion';
 import {
@@ -30,6 +36,7 @@ import { parseFunction } from '../../utils';
 import { ChipsDemoComponent } from '../chips-demo/chips-demo.component';
 import { DATE_RANGE_PRESETS, DateRangePreset, MdlDatePicker } from 'mdl-angular/date-picker';
 import { DateTime } from 'luxon';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 const CD_DATE_RANGE_PRESETS: DateRangePreset<DateTime>[] = [
   {
@@ -106,6 +113,7 @@ const CD_DATE_RANGE_PRESETS: DateRangePreset<DateTime>[] = [
     ReactiveFormsModule,
     // Material
     MatButtonModule,
+    MatCheckboxModule,
     MatDatepickerModule,
     MatExpansionModule,
     MatFormFieldModule,
@@ -118,6 +126,9 @@ const CD_DATE_RANGE_PRESETS: DateRangePreset<DateTime>[] = [
     // MDL
     MdlCastPipe,
     MdlDatePicker,
+    MdlSelectGlobalCheckboxDirective,
+    MdlSelectAllDirective,
+    MdlSelectClearAllDirective,
     MdlSelectFilterComponent,
     MdlSelectNoResultsDirective,
     MdlSpinnerComponent,

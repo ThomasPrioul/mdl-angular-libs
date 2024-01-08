@@ -18,6 +18,9 @@ import { MatSelect } from '@angular/material/select';
 import { Subscription } from 'rxjs';
 import { MatOption, _getOptionScrollPosition } from '@angular/material/core';
 import { ngClassToArray, skipDisabledOption } from 'mdl-angular';
+import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
+import { MatCheckbox, MatCheckboxModule } from '@angular/material/checkbox';
+import { MdlSelectGlobalCheckboxDirective } from '../../directives/global-checker.directive';
 
 const cssClass = 'with-filter-host';
 const verticalNavKeys = ['ArrowUp', 'ArrowDown', 'PageUp', 'PageDown'];
@@ -25,7 +28,15 @@ const verticalNavKeys = ['ArrowUp', 'ArrowDown', 'PageUp', 'PageDown'];
 @Component({
   selector: 'mdl-select-filter',
   standalone: true,
-  imports: [CommonModule, MatFormFieldModule, MatInputModule, MatIconModule, MatButtonModule],
+  imports: [
+    CommonModule,
+    MatCheckboxModule,
+    MdlSelectGlobalCheckboxDirective,
+    MatFormFieldModule,
+    MatInputModule,
+    MatIconModule,
+    MatButtonModule,
+  ],
   templateUrl: './select-filter.component.html',
   styleUrls: ['./select-filter.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -34,12 +45,20 @@ export class MdlSelectFilterComponent implements AfterViewInit, OnInit, OnDestro
   @ViewChild('searchInput', { static: true })
   private readonly _input!: ElementRef<HTMLInputElement>;
 
+  private _withCheckAll: boolean = false;
   private oldValue: string = '';
   private sub?: Subscription;
+
+  @ViewChild(MatCheckbox) private checkAllComponent?: MatCheckbox;
 
   @Input() public placeholder?: string = 'Recherche';
 
   constructor(private ref: ElementRef<HTMLElement>, @Optional() private select?: MatSelect) {}
+
+  @Input()
+  public get withCheckAll(): BooleanInput {
+    return this._withCheckAll;
+  }
 
   public get input() {
     return this._input.nativeElement;
@@ -51,6 +70,10 @@ export class MdlSelectFilterComponent implements AfterViewInit, OnInit, OnDestro
 
   public get value() {
     return this._input.nativeElement.value;
+  }
+
+  public set withCheckAll(value: BooleanInput) {
+    this._withCheckAll = coerceBooleanProperty(value);
   }
 
   public ngOnInit() {
@@ -158,6 +181,20 @@ export class MdlSelectFilterComponent implements AfterViewInit, OnInit, OnDestro
       event.key === 'ArrowUp'
     ) {
       this.input.focus();
+    } else if (this.withCheckAll && newActiveItem === null && this.checkAllComponent) {
+      if (
+        this.input === document.activeElement &&
+        !this.input.selectionStart &&
+        event.key === 'ArrowLeft'
+      )
+        this.checkAllComponent.focus();
+      else if (
+        this.checkAllComponent?._inputElement.nativeElement === document.activeElement &&
+        event.key === 'ArrowRight'
+      ) {
+        this.input.focus();
+        setTimeout(() => this.input.setSelectionRange(0, 0));
+      }
     }
   }
 

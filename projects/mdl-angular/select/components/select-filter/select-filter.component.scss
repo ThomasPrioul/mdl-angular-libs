@@ -1,0 +1,18 @@
+:host {
+  display: flex;
+  position: sticky;
+  z-index: 1;
+  background: var(--mat-select-panel-background-color);
+  padding: 0.5rem;
+  top: 0px;
+  gap: 0.5rem;
+
+  .mat-mdc-checkbox {
+    margin-left: 3px;
+  }
+
+  .select-filter-input {
+    display: block;
+    flex-grow: 1;
+  }
+}
