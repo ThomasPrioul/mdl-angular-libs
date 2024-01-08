@@ -41,6 +41,10 @@ mdl-date-picker {
         "side-buttons calendar" 1fr
         "side-buttons bottom-buttons" auto
         / auto 1fr;
+
+      .mat-datepicker-actions {
+        max-width: 230px;
+      }
     }
 
     .calendars {
