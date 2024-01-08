@@ -36,7 +36,7 @@
           <mat-select-trigger>
             {{ matSelect.triggerValue | mdlTreeSelectSummary : tree }}
           </mat-select-trigger>
-          <mdl-select-filter #filter2></mdl-select-filter>
+          <mdl-select-filter withCheckAll #filter2></mdl-select-filter>
           <div *mdlSelectNoResults="filter2" class="no-data-label">Aucune série trouvée</div>
           <mat-option
             *ngFor="let item of series | seriesOptions"

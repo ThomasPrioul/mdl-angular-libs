@@ -11,7 +11,7 @@ import {
   forwardRef,
 } from '@angular/core';
 import { MatSelect } from '@angular/material/select';
-import { Subscription } from 'rxjs';
+import { Subscription, debounceTime } from 'rxjs';
 import { MatOption, _getOptionScrollPosition } from '@angular/material/core';
 import { SelectionChange } from '@angular/cdk/collections';
 import { ngClassToArray, skipDisabledOption } from 'mdl-angular';
@@ -98,7 +98,11 @@ export class MdlTreeSelectDirective<K, T>
     this.sub?.add(
       this.select._selectionModel.changed.subscribe(this.onSelectionModelChanged.bind(this))
     );
-    this.sub?.add(this.select.selectionChange.subscribe(() => this.refreshCheckStates()));
+    this.sub?.add(
+      this.select._selectionModel.changed
+        .pipe(debounceTime(50))
+        .subscribe(() => this.refreshCheckStates())
+    );
   }
 
   public ngOnDestroy() {
@@ -152,9 +156,8 @@ export class MdlTreeSelectDirective<K, T>
     }
 
     // Set value
-    this.select._selectionModel.select(...optToSelect);
-    this.select._selectionModel.deselect(...optToDeselect);
-    this.refreshCheckStates();
+    // this.select._selectionModel.select(...optToSelect);
+    // this.select._selectionModel.deselect(...optToDeselect);
     this.select.value = selection;
 
     // Fix active item styles
