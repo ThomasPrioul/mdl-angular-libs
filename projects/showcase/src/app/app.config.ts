@@ -1,6 +1,6 @@
 import { OverlayContainer, FullscreenOverlayContainer } from '@angular/cdk/overlay';
 import { APP_INITIALIZER, ApplicationConfig } from '@angular/core';
-import { MAT_DATE_FORMATS, MAT_DATE_LOCALE, MatDateFormats } from '@angular/material/core';
+import { MAT_DATE_LOCALE } from '@angular/material/core';
 import {
   MAT_FORM_FIELD_DEFAULT_OPTIONS,
   MatFormFieldDefaultOptions,
@@ -8,16 +8,12 @@ import {
 import { MatPaginatorIntl } from '@angular/material/paginator';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { Route, provideRouter } from '@angular/router';
-import { HomeComponent } from '../pages/home.component';
 import {
   MAT_LUXON_DATE_ADAPTER_OPTIONS,
-  MAT_LUXON_DATE_FORMATS,
   MatLuxonDateAdapterOptions,
 } from '@angular/material-luxon-adapter';
 import { Settings } from 'luxon';
-import { Table2DemoComponent } from '../components/table2-demo/table2-demo.component';
-import { FormsDemoComponent } from '../components/forms-demo/forms-demo.component';
-import { MatDatepickerIntl, MatDatepickerModule } from '@angular/material/datepicker';
+import { MatDatepickerIntl } from '@angular/material/datepicker';
 
 function frenchRangeLabel(page: number, pageSize: number, length: number) {
   if (length == 0 || pageSize == 0) return `0 sur ${length}`;
@@ -57,15 +53,19 @@ function getFrenchDatePickerIntl() {
 const routes: Route[] = [
   {
     path: 'home',
-    component: HomeComponent,
+    loadComponent: () => import('../pages/home.component').then((c) => c.HomeComponent),
     children: [
       {
         path: 'table2',
-        component: Table2DemoComponent,
+        loadComponent: () =>
+          import('../components/table2-demo/table2-demo.component').then(
+            (c) => c.Table2DemoComponent
+          ),
       },
       {
         path: 'forms',
-        component: FormsDemoComponent,
+        loadComponent: () =>
+          import('../components/forms-demo/forms-demo.component').then((c) => c.FormsDemoComponent),
       },
       {
         path: '',

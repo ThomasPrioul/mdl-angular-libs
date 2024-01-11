@@ -1,19 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatTooltipModule } from '@angular/material/tooltip';
 import { MdlSideMenuItemComponent, SideMenu } from 'mdl-angular/side-menu-item';
-import { MdlTableComponent } from 'mdl-angular/table2';
-import { MdlZoomButtonComponent } from 'mdl-angular/zoom-button';
 import { MainSideMenuDirective } from '../directives/main-side-menu.directive';
-import { DarkModeDirective } from '../directives/dark-mode.directive';
 import { RouterOutlet } from '@angular/router';
 import { FlattenMenusPipe } from '../pipes/flatten-menus.pipe';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { appConfig } from './app.config';
+import { HeaderComponent } from '../components/header/header.component';
 
 const appEnv = ['prod', 'rec', 'dev', 'local'];
 
@@ -26,24 +20,15 @@ const appEnv = ['prod', 'rec', 'dev', 'local'];
   imports: [
     // NG
     CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
     RouterOutlet,
     // MAT
-    MatButtonModule,
-    MatIconModule,
     MatSidenavModule,
-    MatSlideToggleModule,
-    MatToolbarModule,
-    MatTooltipModule,
     // MDL
     MdlSideMenuItemComponent,
-    MdlTableComponent,
-    MdlZoomButtonComponent,
     // APP
-    DarkModeDirective,
     MainSideMenuDirective,
     FlattenMenusPipe,
+    HeaderComponent,
   ],
 })
 export class AppComponent {
@@ -81,4 +66,8 @@ export class AppComponent {
     if (++this.appEnvIndex >= appEnv.length) this.appEnvIndex = 0;
     this.appEnv = appEnv[this.appEnvIndex];
   }
+}
+
+export function launchApp() {
+  bootstrapApplication(AppComponent, appConfig).catch((err) => console.error(err));
 }

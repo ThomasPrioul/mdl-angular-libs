@@ -1,45 +1,18 @@
-<div #header class="app-header dark">
-  <mat-toolbar>
-    <mat-toolbar-row>
-      <div class="logos">
-        <div class="sncf-logo" [class.simple-menu]="simpleMenu">
-          <img alt="SNCF" src="assets/logo-sncf.svg" />
-        </div>
-        <button mat-button class="mdl menu-button" (click)="menuOpen = !menuOpen">
-          <mat-icon
-            style="transition: transform 175ms ease-in-out"
-            [ngStyle]="{ transform: menuOpen ? 'rotate(90deg)' : undefined }">
-            menu
-          </mat-icon>
-          MON APPLI
-        </button>
-        <mat-slide-toggle color="primary" class="self-center" [(ngModel)]="simpleMenu">
-          Menu simple
-        </mat-slide-toggle>
-      </div>
-      <mat-slide-toggle color="primary" class="ms-auto" [(ngModel)]="fixedHeight">
-        Hauteur de page fixe
-      </mat-slide-toggle>
-      <button
-        appDarkMode
-        #dark="darkMode"
-        mat-icon-button
-        [matTooltip]="dark.enabled ? 'Mode clair' : 'Mode sombre'"
-        (click)="dark.enabled = !dark.enabled">
-        <mat-icon [innerText]="dark.enabled ? 'light_mode' : 'dark_mode'"></mat-icon>
-      </button>
-    </mat-toolbar-row>
-  </mat-toolbar>
-</div>
+<app-header
+  #header
+  class="app-header dark"
+  [(fixedHeight)]="fixedHeight"
+  [(simpleMenu)]="simpleMenu"
+  [(menuOpen)]="menuOpen"></app-header>
 
 <mat-sidenav-container class="app-sidenav-container">
   <mat-sidenav
     appMainMenu
+    class="app-sidenav dark"
     [simple]="simpleMenu"
     [(opened)]="menuOpen"
-    class="app-sidenav dark"
     [class.sncf-nav]="simpleMenu"
-    [style.top]="header.offsetHeight + 'px'">
+    [style.top]="header.hostElement.nativeElement.offsetHeight + 'px'">
     <div class="menu" [ngClass]="appEnv">
       <div class="menu-group">
         <mdl-side-menu-item
@@ -53,15 +26,18 @@
           class="flex p-3 items-center gap-3"
           [style.flex-direction]="simpleMenu ? 'column' : undefined">
           <img id="logo" class="app-logo no-path" alt="APP LOGO" />
-          <button mat-button class="small ms-auto text-align-right" (click)="changeEnv()">
+          <div class="small ms-auto text-align-right" (click)="changeEnv()">
             {{ appEnv }} v{{ "1.0.0" }}
-          </button>
+          </div>
         </div>
       </div>
     </div>
   </mat-sidenav>
   <mat-sidenav-content>
-    <main [style.height]="fixedHeight ? 'calc(100vh - ' + header.offsetHeight + 'px)' : null">
+    <main
+      [style.height]="
+        fixedHeight ? 'calc(100vh - ' + header.hostElement.nativeElement.offsetHeight + 'px)' : null
+      ">
       <router-outlet></router-outlet>
     </main>
   </mat-sidenav-content>
