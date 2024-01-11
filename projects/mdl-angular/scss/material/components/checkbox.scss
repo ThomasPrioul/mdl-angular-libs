@@ -1,6 +1,7 @@
 @use "../theme";
 @use "@angular/material" as mat;
 
+@include mat.checkbox-base(theme.$light-theme);
 @include mat.checkbox-density(theme.$light-theme);
 @include mat.checkbox-typography(theme.$light-theme);
 

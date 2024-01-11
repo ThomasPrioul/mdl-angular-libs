@@ -4,6 +4,7 @@
 @use "../theme";
 @use "@angular/material" as mat;
 
+@include mat.table-base(map.set(theme.$light-theme, "density", -1));
 @include mat.table-density(map.set(theme.$light-theme, "density", -1));
 @include mat.table-typography(map.set(theme.$light-theme, "density", -1));
 

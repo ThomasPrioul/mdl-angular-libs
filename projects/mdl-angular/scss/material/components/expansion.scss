@@ -1,6 +1,7 @@
 @use "../theme";
 @use "@angular/material" as mat;
 
+@include mat.expansion-base(theme.$light-theme);
 @include mat.expansion-density(theme.$light-theme);
 @include mat.expansion-typography(theme.$light-theme);
 

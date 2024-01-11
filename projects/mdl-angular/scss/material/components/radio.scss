@@ -1,6 +1,7 @@
 @use "../theme";
 @use "@angular/material" as mat;
 
+@include mat.radio-base(theme.$light-theme);
 @include mat.radio-density(theme.$light-theme);
 @include mat.radio-typography(theme.$light-theme);
 

@@ -1,6 +1,7 @@
 @use "../theme";
 @use "@angular/material" as mat;
 
+@include mat.sidenav-base(theme.$light-theme);
 @include mat.sidenav-density(theme.$light-theme);
 @include mat.sidenav-typography(theme.$light-theme);
 

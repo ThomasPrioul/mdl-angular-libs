@@ -4,6 +4,7 @@
 @use "../../material/palettes.scss";
 @use "@angular/material" as mat;
 
+@include mat.button-base(theme.$light-theme);
 @include mat.button-density(theme.$light-theme);
 @include mat.button-typography(theme.$light-theme);
 
@@ -17,6 +18,18 @@
 
 @include mat.fab-density(theme.$light-theme);
 @include mat.fab-typography(theme.$light-theme);
+
+.mat-mdc-unelevated-button {
+  --mdc-filled-button-container-shape: 0.5rem !important;
+}
+
+.mat-mdc-outlined-button {
+  --mdc-outlined-button-container-shape: 0.5rem !important;
+}
+
+.mat-mdc-raised-button {
+  --mdc-protected-button-container-shape: 0.5rem !important;
+}
 
 .dark,
 .light .dark {
@@ -79,6 +92,7 @@
 
 .mdc-button.mat-mdc-button {
   padding: 0 1rem;
+  --mdc-text-button-container-shape: 0.5rem;
 }
 
 :not(.small) .mdc-button,
@@ -113,7 +127,7 @@
 }
 
 .mat-mdc-button.mat-unthemed {
-  --mdc-text-button-label-text-color: #{colors.$carbon};
+  --mdc-text-button-label-text-color: currentColor;
 }
 
 /* BUTTON TOGGLE */

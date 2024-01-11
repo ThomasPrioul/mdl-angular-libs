@@ -2,7 +2,9 @@
 @use "sass:map";
 @use "@angular/material" as mat;
 
-@include mat.tree-theme(map.set(theme.$light-theme, "density", -2));
+@include mat.tree-base(map.set(theme.$light-theme, "density", -2));
+@include mat.tree-density(map.set(theme.$light-theme, "density", -2));
+@include mat.tree-typography(map.set(theme.$light-theme, "density", -2));
 
 .dark,
 .light .dark {

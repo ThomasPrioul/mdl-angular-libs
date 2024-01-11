@@ -5,6 +5,7 @@
 
 $density-input: -2;
 
+@include mat.input-base(map.set(theme.$light-theme, "density", $density-input));
 @include mat.input-density(map.set(theme.$light-theme, "density", $density-input));
 @include mat.input-typography(map.set(theme.$light-theme, "density", $density-input));
 .dark,

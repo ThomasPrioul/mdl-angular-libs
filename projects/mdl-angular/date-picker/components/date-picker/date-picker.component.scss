@@ -42,8 +42,12 @@ mdl-date-picker {
         "side-buttons bottom-buttons" auto
         / auto 1fr;
 
-      .mat-datepicker-actions {
+      &:not(.with-previous-month) .mat-datepicker-actions {
         max-width: 230px;
+      }
+
+      &.with-previous-month .mat-datepicker-actions {
+        max-width: 560px;
       }
     }
 

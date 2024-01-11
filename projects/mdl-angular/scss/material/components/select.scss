@@ -3,6 +3,7 @@
 @use "../../colors";
 @use "@angular/material" as mat;
 
+@include mat.select-base(map.set(theme.$light-theme, "density", -2));
 @include mat.select-density(map.set(theme.$light-theme, "density", -2));
 @include mat.select-typography(map.set(theme.$light-theme, "density", -2));
 

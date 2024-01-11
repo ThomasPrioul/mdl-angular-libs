@@ -1,6 +1,7 @@
 @use "../theme";
 @use "@angular/material" as mat;
 
+@include mat.paginator-base(theme.$light-theme);
 @include mat.paginator-density(theme.$light-theme);
 @include mat.paginator-typography(theme.$light-theme);
 

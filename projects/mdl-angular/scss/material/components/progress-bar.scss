@@ -1,6 +1,7 @@
 @use "../theme";
 @use "@angular/material" as mat;
 
+@include mat.progress-bar-base(theme.$light-theme);
 @include mat.progress-bar-density(theme.$light-theme);
 @include mat.progress-bar-typography(theme.$light-theme);
 

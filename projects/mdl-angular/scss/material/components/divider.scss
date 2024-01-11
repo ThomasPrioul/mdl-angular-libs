@@ -1,6 +1,7 @@
 @use "../theme";
 @use "@angular/material" as mat;
 
+@include mat.divider-base(theme.$light-theme);
 @include mat.divider-density(theme.$light-theme);
 @include mat.divider-typography(theme.$light-theme);
 

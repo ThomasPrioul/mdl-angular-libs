@@ -3,6 +3,7 @@
 @use "../theme";
 @use "@angular/material" as mat;
 
+@include mat.dialog-base(theme.$light-theme);
 @include mat.dialog-density(theme.$light-theme);
 @include mat.dialog-typography(theme.$light-theme);
 .dark,

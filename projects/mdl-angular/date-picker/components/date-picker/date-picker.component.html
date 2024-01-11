@@ -1,5 +1,8 @@
 <ng-template>
-  <div class="mdl-date-picker" [class.has-presets]="presetsToShow">
+  <div
+    class="mdl-date-picker"
+    [class.has-presets]="presetsToShow"
+    [class.with-previous-month]="showPreviousMonthCalendar">
     <div class="mat-datepicker-actions">
       <ng-content></ng-content>
     </div>
