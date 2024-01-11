@@ -1,6 +1,6 @@
 {
   "name": "mdl-angular",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "Librairie de composants et styles Angular Material respectant le design system SNCF",
   "author": {
     "name": "Thomas Prioul (MASTERIS)",
@@ -24,8 +24,8 @@
   },
   "peerDependencies": {
     "@angular/cdk": "^16.2.0",
-    "@angular/common": "^16.2.0",
-    "@angular/core": "^16.2.0",
+    "@angular/common": ">=16.2.0",
+    "@angular/core": ">=16.2.0",
     "@angular/material": "^16.2.0"
   },
   "dependencies": {
