@@ -2,6 +2,7 @@
 @use "../../colors";
 @use "@angular/material" as mat;
 
+@include mat.snack-bar-base(theme.$light-theme);
 @include mat.snack-bar-density(theme.$light-theme);
 @include mat.snack-bar-typography(theme.$light-theme);
 

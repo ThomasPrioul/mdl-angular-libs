@@ -1,6 +1,7 @@
 @use "../theme";
 @use "@angular/material" as mat;
 
+@include mat.tabs-base(theme.$light-theme);
 @include mat.tabs-density(theme.$light-theme);
 @include mat.tabs-typography(theme.$light-theme);
 
@@ -17,4 +18,8 @@
 .mdc-tab-indicator .mdc-tab-indicator__content--underline {
   border-top-width: 4px !important;
   border-radius: 40px;
+}
+
+.mat-mdc-tab-nav-bar {
+  --mat-tab-header-divider-height: 0;
 }

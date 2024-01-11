@@ -5,7 +5,7 @@ import {
   MatAutocompleteSelectedEvent,
   MatAutocompleteTrigger,
 } from '@angular/material/autocomplete';
-import { _MatOptionBase, _getOptionScrollPosition } from '@angular/material/core';
+import { MatOption, _getOptionScrollPosition } from '@angular/material/core';
 import { Subscription } from 'rxjs';
 
 @Directive({
@@ -23,7 +23,7 @@ export class MdlAutocompleteStayOpenDirective implements AfterViewInit, OnDestro
   private sub = new Subscription();
 
   /** When used, will scroll the virtual scroll panel to copy "normal" behavior. */
-  @Input() virtualScrollPanel?: CdkVirtualScrollViewport;
+  @Input() public virtualScrollPanel?: CdkVirtualScrollViewport;
 
   constructor(private trigger: MatAutocompleteTrigger) {}
 
@@ -155,7 +155,7 @@ export class MdlAutocompleteStayOpenDirective implements AfterViewInit, OnDestro
     }, 80);
   }
 
-  private scrollToOption(option: _MatOptionBase<any>) {
+  private scrollToOption(option: MatOption<any>) {
     const element = option._getHostElement();
     // const newScrollPosition = _getOptionScrollPosition(
     //   element.offsetTop,

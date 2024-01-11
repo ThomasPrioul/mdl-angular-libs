@@ -1,6 +1,7 @@
 @use "../theme";
 @use "@angular/material" as mat;
 
+@include mat.slider-base(theme.$light-theme);
 @include mat.slider-density(theme.$light-theme);
 @include mat.slider-typography(theme.$light-theme);
 

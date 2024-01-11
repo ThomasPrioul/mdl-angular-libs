@@ -1,6 +1,7 @@
 @use "../theme";
 @use "@angular/material" as mat;
 
+@include mat.tooltip-base(theme.$light-theme);
 @include mat.tooltip-density(theme.$light-theme);
 @include mat.tooltip-typography(theme.$light-theme);
 

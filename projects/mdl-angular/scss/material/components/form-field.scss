@@ -4,6 +4,7 @@
 @use "../../vars";
 @use "@angular/material" as mat;
 
+@include mat.form-field-base(map.set(theme.$light-theme, "density", -2));
 @include mat.form-field-density(map.set(theme.$light-theme, "density", -2));
 @include mat.form-field-typography(map.set(theme.$light-theme, "density", -2));
 

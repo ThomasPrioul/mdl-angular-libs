@@ -3,6 +3,12 @@
 @tailwind components;
 @tailwind utilities;
 
+*,
+::before,
+::after {
+  border-style: unset;
+}
+
 html,
 body {
   height: auto;

@@ -2,6 +2,7 @@
 @use "../theme";
 @use "@angular/material" as mat;
 
+@include mat.menu-base(map.set(theme.$light-theme, "density", -2));
 @include mat.menu-density(map.set(theme.$light-theme, "density", -2));
 @include mat.menu-typography(map.set(theme.$light-theme, "density", -2));
 

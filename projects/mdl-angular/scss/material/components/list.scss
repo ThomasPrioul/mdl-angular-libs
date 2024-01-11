@@ -1,6 +1,7 @@
 @use "../theme";
 @use "@angular/material" as mat;
 
+@include mat.list-base(theme.$light-theme);
 @include mat.list-density(theme.$light-theme);
 @include mat.list-typography(theme.$light-theme);
 
