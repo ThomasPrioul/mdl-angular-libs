@@ -1,0 +1,31 @@
+<mat-toolbar>
+  <mat-toolbar-row>
+    <div class="logos">
+      <div class="sncf-logo" [class.simple-menu]="simpleMenu">
+        <img alt="SNCF" src="assets/logo-sncf.svg" />
+      </div>
+      <button mat-button class="mdl menu-button" (click)="menuOpen = !menuOpen">
+        <mat-icon
+          style="transition: transform 175ms ease-in-out"
+          [ngStyle]="{ transform: menuOpen ? 'rotate(90deg)' : undefined }">
+          menu
+        </mat-icon>
+        MON APPLI
+      </button>
+      <mat-slide-toggle color="primary" class="self-center" [(ngModel)]="simpleMenu">
+        Menu simple
+      </mat-slide-toggle>
+    </div>
+    <mat-slide-toggle color="primary" class="ms-auto" [(ngModel)]="fixedHeight">
+      Hauteur de page fixe
+    </mat-slide-toggle>
+    <button
+      appDarkMode
+      #dark="darkMode"
+      mat-icon-button
+      [matTooltip]="dark.enabled ? 'Mode clair' : 'Mode sombre'"
+      (click)="dark.enabled = !dark.enabled">
+      <mat-icon [innerText]="dark.enabled ? 'light_mode' : 'dark_mode'"></mat-icon>
+    </button>
+  </mat-toolbar-row>
+</mat-toolbar>
