@@ -7,7 +7,7 @@ import {
 } from '@angular/material/form-field';
 import { MatPaginatorIntl } from '@angular/material/paginator';
 import { provideAnimations } from '@angular/platform-browser/animations';
-import { Route, provideRouter } from '@angular/router';
+import { Route, provideRouter, withHashLocation } from '@angular/router';
 import {
   MAT_LUXON_DATE_ADAPTER_OPTIONS,
   MatLuxonDateAdapterOptions,
@@ -28,6 +28,15 @@ function frenchRangeLabel(page: number, pageSize: number, length: number) {
   return `${startIndex + 1} à ${endIndex} sur ${length}`;
 }
 
+function getFrenchDatePickerIntl() {
+  const intl = new MatDatepickerIntl();
+
+  intl.closeCalendarLabel = 'Fermer le calendrier';
+  intl.changes.next();
+
+  return intl;
+}
+
 function getFrenchPaginatorIntl() {
   const intl = new MatPaginatorIntl();
 
@@ -37,15 +46,6 @@ function getFrenchPaginatorIntl() {
   intl.nextPageLabel = 'Page suivante';
   intl.previousPageLabel = 'Page précédente';
   intl.getRangeLabel = frenchRangeLabel;
-
-  return intl;
-}
-
-function getFrenchDatePickerIntl() {
-  const intl = new MatDatepickerIntl();
-
-  intl.closeCalendarLabel = 'Fermer le calendrier';
-  intl.changes.next();
 
   return intl;
 }
@@ -80,13 +80,11 @@ const routes: Route[] = [
     redirectTo: 'home',
   },
 ];
-
 const setupLuxon = () => (Settings.defaultLocale = navigator.language);
-
 export const appConfig: ApplicationConfig = {
   providers: [
     provideAnimations(),
-    provideRouter(routes),
+    provideRouter(routes, withHashLocation()),
     {
       provide: APP_INITIALIZER,
       useValue: setupLuxon,
