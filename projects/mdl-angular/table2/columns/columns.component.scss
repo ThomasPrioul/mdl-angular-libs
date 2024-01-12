@@ -58,7 +58,7 @@
 }
 
 .item-drag-placeholder {
-  background: #ccc;
+  // background: #ccc;
   border: dotted 2px #999;
   box-sizing: border-box;
   height: 40px;
@@ -66,7 +66,9 @@
 }
 
 // TODO : not working :-(
+/*
 .dark .item-drag-placeholder {
   background: #555;
   border: dotted 2px #555;
 }
+*/
