@@ -15,6 +15,8 @@ import { FormsModule } from '@angular/forms';
 import { DarkModeDirective } from '../../directives/dark-mode.directive';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { BreakpointObserver, Breakpoints, BreakpointState } from '@angular/cdk/layout';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-header',
@@ -38,6 +40,15 @@ export class HeaderComponent {
   private _fixedHeight!: boolean;
   private _menuOpen!: boolean;
   private _simpleMenu!: boolean;
+
+  protected breakpoints = Breakpoints;
+  protected breakpoints$ = inject(BreakpointObserver).observe([
+    Breakpoints.XSmall,
+    Breakpoints.Small,
+    Breakpoints.Medium,
+    Breakpoints.Large,
+    Breakpoints.XLarge,
+  ]);
 
   public readonly hostElement = inject(ElementRef<HTMLElement>);
 
