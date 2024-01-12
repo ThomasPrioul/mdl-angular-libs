@@ -35,9 +35,11 @@
   </mat-sidenav>
   <mat-sidenav-content>
     <main
-      [style.height]="
-        fixedHeight ? 'calc(100vh - ' + header.hostElement.nativeElement.offsetHeight + 'px)' : null
-      ">
+      [ngStyle]="{
+        '--content-height': 'calc(100vh - ' + header.hostElement.nativeElement.offsetHeight + 'px)'
+      }"
+      [style.min-height]="'var(--content-height)'"
+      [style.height]="fixedHeight ? 'var(--content-height)' : null">
       <router-outlet></router-outlet>
     </main>
   </mat-sidenav-content>
