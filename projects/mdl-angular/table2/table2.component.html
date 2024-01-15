@@ -45,6 +45,7 @@
         <mdl-table-columns
           cdkTrapFocus
           cdkTrapFocusAutoCapture
+          [matTable]="table"
           [columns]="displayedColumns"
           (submitted)="onColumnsUpdated($event)"
           (canceled)="columnsOverlayOpen = false"

@@ -30,13 +30,17 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 export class Table2DemoComponent {
   protected dataSource = new MatTableDataSource<Serie>();
   protected displayedColumns: ColumnDisplayInfo[] = [
-    { name: 'nomTechniqueComplet', canHide: false, visible: true },
-    { name: 'typeSerie', canHide: false, visible: true },
-    { name: 'codeSerieMateriel', canHide: true, visible: true },
-    { name: 'codeLcn', canHide: true, visible: true },
-    { name: 'codeSerieMere', canHide: false, visible: true },
+    { name: 'nomTechniqueComplet', canHide: false },
+    { name: 'typeSerie', canHide: false },
+    { name: 'codeSerieMateriel' },
+    { name: 'codeLcn' },
+    { name: 'codeSerieMere', canHide: false },
   ];
   protected loading = signal<boolean | null>(null);
+
+  protected filterChanged(filter: string) {
+    this.dataSource.filter = filter;
+  }
 
   protected loadData() {
     this.loading.set(true);
@@ -52,9 +56,5 @@ export class Table2DemoComponent {
       this.dataSource.data = [];
       this.loading.set(false);
     }, 2000);
-  }
-
-  protected filterChanged(filter: string) {
-    this.dataSource.filter = filter;
   }
 }
