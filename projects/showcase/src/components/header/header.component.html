@@ -14,7 +14,7 @@
       </button>
     </div>
     <mat-slide-toggle
-      *ngIf="brk.breakpoints[breakpoints.XSmall]"
+      *ngIf="!brk.breakpoints[breakpoints.XSmall]"
       color="primary"
       class="self-center"
       [(ngModel)]="simpleMenu">
@@ -38,6 +38,9 @@
     </button>
   </mat-toolbar-row>
   <mat-toolbar-row *ngIf="brk.breakpoints[breakpoints.XSmall]">
+    <mat-slide-toggle color="primary" class="self-center" [(ngModel)]="simpleMenu">
+      Menu simple
+    </mat-slide-toggle>
     <mat-slide-toggle color="primary" class="ms-auto" [(ngModel)]="fixedHeight">
       Hauteur de page fixe
     </mat-slide-toggle>
