@@ -8,8 +8,7 @@ import { FlattenMenusPipe } from '../pipes/flatten-menus.pipe';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { appConfig } from './app.config';
 import { HeaderComponent } from '../components/header/header.component';
-
-const appEnv = ['prod', 'rec', 'dev', 'local'];
+import packageJson from 'mdl-angular/package.json';
 
 @Component({
   selector: 'app-showcase',
@@ -32,6 +31,10 @@ const appEnv = ['prod', 'rec', 'dev', 'local'];
   ],
 })
 export class AppComponent {
+  private appEnvIndex: number = 0;
+
+  protected appEnv: string = appEnv[0];
+  protected fixedHeight: boolean = true;
   protected menuOpen: boolean = false;
   protected menus: SideMenu[] = [
     {
@@ -56,11 +59,8 @@ export class AppComponent {
     //   link: '/settings/',
     // },
   ];
-
-  protected fixedHeight: boolean = true;
   protected simpleMenu: boolean = false;
-  protected appEnv: string = appEnv[0];
-  private appEnvIndex: number = 0;
+  protected version = packageJson.version;
 
   protected changeEnv() {
     if (++this.appEnvIndex >= appEnv.length) this.appEnvIndex = 0;
@@ -71,3 +71,5 @@ export class AppComponent {
 export function launchApp() {
   bootstrapApplication(AppComponent, appConfig).catch((err) => console.error(err));
 }
+
+const appEnv = ['prod', 'rec', 'dev', 'local'];

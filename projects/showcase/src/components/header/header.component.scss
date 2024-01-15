@@ -4,6 +4,7 @@
 
 .mat-toolbar-row {
   gap: 1rem;
+  overflow-y: auto;
 }
 
 .mat-divider {
@@ -11,8 +12,8 @@
 }
 
 .logos {
-  grid-area: logos;
   display: flex;
+  flex-shrink: 0;
   gap: 1rem;
 }
 

@@ -16,7 +16,7 @@ $blue-veil: color.change(colors.$primary, $alpha: 0.0625);
 
 .header {
   display: flex;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   align-items: center;
   padding: 0.5rem 0;
   gap: 0.5rem;
@@ -24,7 +24,7 @@ $blue-veil: color.change(colors.$primary, $alpha: 0.0625);
 
   > .left-side {
     display: flex;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     position: relative;
     flex-grow: 1;
     gap: 1rem;

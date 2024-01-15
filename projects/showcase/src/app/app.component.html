@@ -12,7 +12,7 @@
     [simple]="simpleMenu"
     [(opened)]="menuOpen"
     [class.sncf-nav]="simpleMenu"
-    [style.top]="header.hostElement.nativeElement.offsetHeight + 'px'">
+    [style.top.px]="header.hostElement.nativeElement.offsetHeight">
     <div class="menu" [ngClass]="appEnv">
       <div class="menu-group">
         <mdl-side-menu-item
@@ -27,7 +27,8 @@
           [style.flex-direction]="simpleMenu ? 'column' : undefined">
           <img id="logo" class="app-logo no-path" alt="APP LOGO" />
           <div class="small ms-auto text-align-right" (click)="changeEnv()">
-            {{ appEnv }} v{{ "1.0.0" }}
+            v{{ version }}<br />
+            Click to change env
           </div>
         </div>
       </div>
@@ -35,9 +36,11 @@
   </mat-sidenav>
   <mat-sidenav-content>
     <main
-      [style.height]="
-        fixedHeight ? 'calc(100vh - ' + header.hostElement.nativeElement.offsetHeight + 'px)' : null
-      ">
+      [ngStyle]="{
+        '--content-height': 'calc(100vh - ' + header.hostElement.nativeElement.offsetHeight + 'px)'
+      }"
+      [style.min-height]="'var(--content-height)'"
+      [style.height]="fixedHeight ? 'var(--content-height)' : null">
       <router-outlet></router-outlet>
     </main>
   </mat-sidenav-content>

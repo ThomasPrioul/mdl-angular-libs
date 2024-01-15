@@ -14,3 +14,7 @@
 .dark .light {
   @include mat.expansion-color(theme.$light-theme);
 }
+
+html {
+  --mat-expansion-container-shape: 0.5rem;
+}
