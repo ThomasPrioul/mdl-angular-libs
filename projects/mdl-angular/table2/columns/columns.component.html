@@ -28,10 +28,14 @@
         <div class="item-drag-placeholder" *cdkDragPlaceholder></div>
         <mat-slide-toggle
           color="primary"
-          [disabled]="!column.canHide"
-          [(ngModel)]="column.visible"
-          >{{ column.label ?? column.name }}</mat-slide-toggle
-        >
+          [disabled]="column.canHide === false"
+          [checked]="column.visible !== false"
+          (change)="column.visible = $event.checked">
+          <span *ngIf="column.label; else useTemplate">{{ column.label }}</span>
+          <ng-template #useTemplate>
+            <span *mdlColumnName="getColumnTemplate(column.name)"></span>
+          </ng-template>
+        </mat-slide-toggle>
         <button
           #btn
           style="margin-left: auto"

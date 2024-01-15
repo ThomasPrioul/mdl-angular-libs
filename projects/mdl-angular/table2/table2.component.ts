@@ -90,7 +90,7 @@ export class WithSelectionPipe implements PipeTransform {
       return selection ? ['selection', ...displayedColumns] : displayedColumns;
     } else {
       let cols = (displayedColumns as ColumnDisplayInfo[])
-        .filter((c) => c.visible)
+        .filter((c) => c.visible !== false)
         .map((c) => c.name);
       return selection ? ['selection', ...cols] : cols;
     }

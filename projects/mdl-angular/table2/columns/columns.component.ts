@@ -1,4 +1,15 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Directive,
+  EventEmitter,
+  Input,
+  Output,
+  TemplateRef,
+  ViewContainerRef,
+  forwardRef,
+  inject,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
@@ -10,12 +21,13 @@ import { FormsModule } from '@angular/forms';
 import { A11yModule } from '@angular/cdk/a11y';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatTable } from '@angular/material/table';
 
 export type ColumnDisplayInfo = {
   name: string;
   label?: string;
-  visible: boolean;
-  canHide: boolean;
+  visible?: boolean;
+  canHide?: boolean;
 };
 
 @Component({
@@ -33,6 +45,7 @@ export type ColumnDisplayInfo = {
     MatButtonModule,
     DragDropModule,
     A11yModule,
+    forwardRef(() => ColumnNameDirective),
   ],
   templateUrl: './columns.component.html',
   styleUrls: ['./columns.component.scss'],
@@ -47,6 +60,15 @@ export class ColumnsComponent {
   @Input()
   public get columns(): ColumnDisplayInfo[] | undefined {
     return this._columns;
+  }
+
+  @Input()
+  public matTable?: MatTable<any>;
+
+  protected getColumnTemplate(columnName: string) {
+    //@ts-ignore
+    const columnDef = this.matTable?._columnDefsByName.get(columnName);
+    return columnDef?.headerCell.template;
   }
 
   public set columns(value: ColumnDisplayInfo[] | undefined) {
@@ -86,5 +108,28 @@ export class ColumnsComponent {
 
   protected trackByColumnName(index: number, item: ColumnDisplayInfo) {
     return item.name;
+  }
+}
+
+@Directive({
+  selector: '[mdlColumnName]',
+  standalone: true,
+})
+export class ColumnNameDirective {
+  private viewContainer = inject(ViewContainerRef);
+
+  private _template?: TemplateRef<any> | undefined;
+
+  @Input('mdlColumnName')
+  public get template(): TemplateRef<any> | undefined {
+    return this._template;
+  }
+  public set template(value: TemplateRef<any> | undefined) {
+    if (!this._template && value) {
+      this.viewContainer.createEmbeddedView(value).detach();
+    } else {
+      this.viewContainer.clear();
+    }
+    this._template = value;
   }
 }

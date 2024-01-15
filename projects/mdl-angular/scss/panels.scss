@@ -21,3 +21,11 @@
     top: 1px;
   }
 }
+
+mdl-table-columns,
+.cdk-drag-preview {
+  .mat-mdc-slide-toggle .mat-mdc-header-cell {
+    border: 0 !important;
+    padding: 0 !important;
+  }
+}
