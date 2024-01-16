@@ -54,21 +54,14 @@ export type ColumnDisplayInfo = {
 export class ColumnsComponent {
   protected _columns?: ColumnDisplayInfo[];
 
+  @Input()
+  public matTable?: MatTable<any>;
   @Output() public canceled = new EventEmitter<void>();
   @Output() public submitted = new EventEmitter<ColumnDisplayInfo[]>();
 
   @Input()
   public get columns(): ColumnDisplayInfo[] | undefined {
     return this._columns;
-  }
-
-  @Input()
-  public matTable?: MatTable<any>;
-
-  protected getColumnTemplate(columnName: string) {
-    //@ts-ignore
-    const columnDef = this.matTable?._columnDefsByName.get(columnName);
-    return columnDef?.headerCell.template;
   }
 
   public set columns(value: ColumnDisplayInfo[] | undefined) {
@@ -81,6 +74,12 @@ export class ColumnsComponent {
 
   protected drop(event: CdkDragDrop<ColumnDisplayInfo[]>) {
     moveItemInArray(this._columns!, event.previousIndex, event.currentIndex);
+  }
+
+  protected getColumnTemplate(columnName: string) {
+    //@ts-ignore
+    const columnDef = this.matTable?._columnDefsByName.get(columnName);
+    return columnDef?.headerCell.template;
   }
 
   protected indeterminateStatus(columns: ColumnDisplayInfo[]) {
@@ -116,14 +115,14 @@ export class ColumnsComponent {
   standalone: true,
 })
 export class ColumnNameDirective {
-  private viewContainer = inject(ViewContainerRef);
-
   private _template?: TemplateRef<any> | undefined;
+  private viewContainer = inject(ViewContainerRef);
 
   @Input('mdlColumnName')
   public get template(): TemplateRef<any> | undefined {
     return this._template;
   }
+
   public set template(value: TemplateRef<any> | undefined) {
     if (!this._template && value) {
       this.viewContainer.createEmbeddedView(value).detach();
