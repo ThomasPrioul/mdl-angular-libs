@@ -165,12 +165,7 @@ export class MdlDatePicker<D> implements AfterViewInit, OnInit, OnDestroy, OnCha
   protected registerCalendar(calendar: MatCalendar<any>): void {
     if (!this.leftCalendar) {
       this.leftCalendar = calendar;
-      // @ts-ignore
-      (this.leftCalendar._changeDetectorRef as ChangeDetectorRef).detach();
-      this.syncCalendars('right');
       this.sub.add(this.leftCalendar.stateChanges.subscribe(() => this.syncCalendars('left')));
-      // @ts-ignore
-      (this.leftCalendar._changeDetectorRef as ChangeDetectorRef).reattach();
     }
   }
 
@@ -179,7 +174,7 @@ export class MdlDatePicker<D> implements AfterViewInit, OnInit, OnDestroy, OnCha
 
     const leftCalMonth = this.dateAdapter.getMonth(this.leftCalendar.activeDate);
     const rightCalMonth = this.dateAdapter.getMonth(this.srcCalendar.activeDate);
-    if (leftCalMonth === rightCalMonth - 1) return;
+    if ((leftCalMonth === 11 && rightCalMonth === 0) || leftCalMonth === rightCalMonth - 1) return;
     if (from === 'right') {
       this.leftCalendar.activeDate = this.dateAdapter.addCalendarMonths(
         this.srcCalendar.activeDate,
