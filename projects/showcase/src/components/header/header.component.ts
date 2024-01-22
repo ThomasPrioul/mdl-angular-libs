@@ -15,8 +15,9 @@ import { FormsModule } from '@angular/forms';
 import { DarkModeDirective } from '../../directives/dark-mode.directive';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { BreakpointObserver, Breakpoints, BreakpointState } from '@angular/cdk/layout';
-import { Observable } from 'rxjs';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 @Component({
   selector: 'app-header',
@@ -29,6 +30,8 @@ import { Observable } from 'rxjs';
     MatTooltipModule,
     MatButtonModule,
     MatIconModule,
+    MatFormFieldModule,
+    MatInputModule,
 
     DarkModeDirective,
   ],
