@@ -65,15 +65,20 @@ mdl-date-picker {
 
       padding-right: 0.5rem;
       border-right: 1px solid var(--mat-divider-color);
-      width: 160px;
 
       .mat-mdc-list-base {
         --mdc-list-list-item-label-text-size: 12px !important;
         --mdc-list-list-item-label-text-line-height: 12px !important;
         --mdc-list-list-item-one-line-container-height: 36px !important;
 
-        .mdc-list-item.mdc-list-item--with-one-line .mdc-list-item__end {
-          display: none;
+        .mdc-list-item {
+          padding-left: 16px;
+          padding-right: 16px;
+          border-radius: 4px;
+
+          &.mdc-list-item--with-one-line .mdc-list-item__end {
+            display: none;
+          }
         }
       }
     }

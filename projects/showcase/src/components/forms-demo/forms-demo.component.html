@@ -89,7 +89,8 @@
                 *ngIf="dateForm.controls.start.value || dateForm.controls.end.value"
                 mat-stroked-button
                 color="warn"
-                (click)="picker2.close(); dateForm.reset()">
+                matDateRangePickerCancel
+                (click)="dateForm.patchValue({ start: null, end: null })">
                 <mat-icon>delete</mat-icon>
                 Supprimer
               </button>
@@ -101,7 +102,13 @@
       </mat-form-field>
       <mat-form-field class="small">
         <mat-label>Sélectionner une date</mat-label>
-        <input matInput [matDatepicker]="picker" placeholder="JJ/MM/AAAA" />
+        <input
+          matInput
+          [matDatepicker]="picker"
+          [min]="minDate"
+          [max]="maxDate"
+          placeholder="JJ/MM/AAAA"
+          [formControl]="dateForm.controls.single" />
         <mat-datepicker #picker>
           <mat-datepicker-actions>
             <button mat-stroked-button color="primary" matDatepickerCancel>Annuler</button>

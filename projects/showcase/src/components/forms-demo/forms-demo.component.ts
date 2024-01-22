@@ -37,6 +37,7 @@ import { ChipsDemoComponent } from '../chips-demo/chips-demo.component';
 import { DATE_RANGE_PRESETS, DateRangePreset, MdlDatePicker } from 'mdl-angular/date-picker';
 import { DateTime } from 'luxon';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { startWith } from 'rxjs';
 
 const CD_DATE_RANGE_PRESETS: DateRangePreset<DateTime>[] = [
   {
@@ -150,6 +151,7 @@ export class FormsDemoComponent {
   protected readonly dateForm = new FormGroup({
     start: new FormControl<DateTime | null>(null),
     end: new FormControl<DateTime | null>(null),
+    single: new FormControl<DateTime | null>(null),
   });
   protected readonly form = new FormGroup({
     login: new FormControl<string>(''),
@@ -164,6 +166,12 @@ export class FormsDemoComponent {
   protected readonly today = DateTime.now();
 
   protected codeOutput: any;
+
+  constructor() {
+    this.dateForm.valueChanges
+      .pipe(startWith(() => this.dateForm.getRawValue()))
+      .subscribe(() => console.log('dateForm:', this.dateForm.getRawValue()));
+  }
 
   protected readonly Serie = () => <Serie>{};
 

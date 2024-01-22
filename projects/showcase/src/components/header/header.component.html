@@ -13,6 +13,17 @@
         MDL lib demo
       </button>
     </div>
+    <div
+      *ngIf="!brk.breakpoints[breakpoints.XSmall]"
+      class="small self-center"
+      appDarkMode
+      #dark="darkMode"
+      [class.light]="!dark.enabledSignal()">
+      <mat-form-field>
+        <mat-icon matIconPrefix>search</mat-icon>
+        <input type="text" placeholder="Rechercher..." matInput />
+      </mat-form-field>
+    </div>
     <mat-slide-toggle
       *ngIf="!brk.breakpoints[breakpoints.XSmall]"
       color="primary"

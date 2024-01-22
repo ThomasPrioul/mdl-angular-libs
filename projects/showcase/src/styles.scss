@@ -61,3 +61,12 @@ router-outlet {
 @import "mdl-angular/scss/panels";
 // @use '../../bottom-sheet/bottom-sheet-theme';
 // @use '../../grid-list/grid-list-theme';
+
+mdl-table2.alternate-lines {
+  tr:nth-child(odd) {
+    td {
+      background-color: #ff000020;
+      border-top: 2px solid #00ff0020;
+    }
+  }
+}

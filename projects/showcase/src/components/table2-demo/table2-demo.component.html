@@ -11,6 +11,7 @@
   </button>
 </div>
 <div class="flex gap-3 items-center flex-wrap">
+  <mat-slide-toggle #enableSelection color="primary">Activer sélection</mat-slide-toggle>
   <mat-slide-toggle #disableHeader color="primary">Désactiver header</mat-slide-toggle>
   <mat-slide-toggle #enableTitle color="primary" [checked]="true">Titre</mat-slide-toggle>
   <mat-slide-toggle #enableSearchBar color="primary" [checked]="true"
@@ -27,7 +28,7 @@
   [dataSource]="dataSource"
   [loading]="loading()"
   [(displayedColumns)]="displayedColumns"
-  selection
+  [selection]="enableSelection.checked"
   matSort
   [title]="enableTitle.checked ? 'Séries' : undefined"
   [header]="disableHeader.checked ? false : true"
@@ -35,7 +36,7 @@
   [columnsEditor]="enableColumns.checked"
   [fullscreenButton]="enableFullscreen.checked"
   (filterChange)="filterChanged($event)"
-  class="mat-elevation-z8 flex-grow rounded-lg">
+  class="mat-elevation-z8 flex-grow rounded-lg alternate-lines">
   <ng-container matColumnDef="nomTechniqueComplet">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>Nom technique complet</th>
     <td mat-cell *matCellDef="let serie; dataSource: dataSource">

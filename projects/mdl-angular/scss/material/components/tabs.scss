@@ -1,4 +1,5 @@
 @use "../theme";
+@use "../../colors.scss";
 @use "@angular/material" as mat;
 
 @include mat.tabs-base(theme.$light-theme);
@@ -13,6 +14,8 @@
 .light,
 .dark .light {
   @include mat.tabs-color(theme.$light-theme);
+
+  --mat-tab-header-pagination-icon-color: colors.$blue;
 }
 
 .mdc-tab-indicator .mdc-tab-indicator__content--underline {

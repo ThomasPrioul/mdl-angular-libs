@@ -98,18 +98,23 @@ textarea::placeholder {
       .mdc-text-field__input,
       .mat-mdc-form-field-icon-prefix,
       .mat-mdc-form-field-icon-suffix {
-        .dark & {
+        --mat-icon-color: var(--mdc-outlined-text-field-input-text-color);
+
+        .dark &,
+        .light .dark & {
           --mdc-outlined-text-field-input-text-color: #{colors.$cool-gray-1};
         }
 
-        .light & {
+        .light &,
+        .dark .light & {
           --mdc-outlined-text-field-input-text-color: #{colors.$carbon};
         }
       }
 
       .mdc-text-field__input::placeholder {
-        .dark & {
-          color: colors.$cool-gray-5 !important;
+        .dark &,
+        .light .dark & {
+          color: colors.$cool-gray-5; // !important;
         }
       }
     }
@@ -119,6 +124,7 @@ textarea::placeholder {
 
       .mat-mdc-form-field-icon-prefix,
       .mat-mdc-form-field-icon-suffix {
+        --mat-icon-color: var(--mdc-outlined-text-field-disabled-input-text-color);
         color: var(--mdc-outlined-text-field-disabled-input-text-color);
       }
 
@@ -129,21 +135,25 @@ textarea::placeholder {
 
     &:not(.mdc-text-field--disabled) .mdc-text-field__input {
       &[type="password"] {
-        color: colors.$primary;
+        .light &,
+        .dark .light & {
+          color: colors.$primary;
+        }
 
-        .dark & {
+        .dark &,
+        .light .dark & {
           color: colors.$primary-dark;
         }
       }
 
       &::placeholder {
-        color: colors.$gray-light;
-
-        .dark & {
+        .dark &,
+        .light .dark & {
           color: colors.$cool-gray-1;
         }
 
-        .light & {
+        .light &,
+        .dark .light & {
           color: rgba(0, 0, 0, 0.6); // colors.$gray-light;
         }
       }
@@ -151,14 +161,15 @@ textarea::placeholder {
 
     /* Outlined field */
     &.mdc-text-field--outlined {
-      background-color: colors.$cool-gray-1;
       --mdc-outlined-text-field-container-shape: 8px;
 
-      .dark & {
+      .dark &,
+      .light .dark & {
         background-color: colors.$cool-gray-11;
       }
 
-      .light & {
+      .light &,
+      .dark .light & {
         background-color: colors.$cool-gray-1;
       }
 
@@ -177,13 +188,13 @@ textarea::placeholder {
 
       /* Hover effects, darken background and apply 1px outline */
       &:not(.mdc-text-field--disabled):not(.mdc-text-field--focused):hover {
-        background-color: colors.$cool-gray-3;
-
-        .dark & {
+        .dark &,
+        .light .dark & {
           background-color: colors.$carbon;
         }
 
-        .light & {
+        .light &,
+        .dark .light & {
           background-color: colors.$cool-gray-3;
         }
 
@@ -229,10 +240,14 @@ textarea::placeholder {
   justify-content: flex-end;
 
   &:focus-within .mdl-label:not(.disabled) {
-    color: colors.$primary;
-
-    .dark & {
+    .dark &,
+    .light .dark & {
       color: colors.$primary-dark;
+    }
+
+    .light &,
+    .dark .light & {
+      color: colors.$primary;
     }
   }
 }
@@ -241,14 +256,15 @@ textarea::placeholder {
   font-size: 14px;
   justify-content: center;
   text-align: center;
-  color: colors.$cool-gray-9;
   font-weight: 500;
 
-  .dark & {
+  .dark &,
+  .light .dark & {
     color: colors.$cool-gray-7;
   }
 
-  .light & {
+  .light &,
+  .dark .light & {
     color: colors.$cool-gray-9;
   }
 }
