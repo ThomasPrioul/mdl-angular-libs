@@ -17,6 +17,7 @@ import {
   OnInit,
   OnChanges,
   SimpleChanges,
+  ChangeDetectorRef,
 } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { DateAdapter } from '@angular/material/core';
@@ -65,8 +66,8 @@ export class MdlDatePicker<D> implements AfterViewInit, OnInit, OnDestroy, OnCha
   protected leftCalendar?: MatCalendar<D>;
   protected srcCalendar?: MatCalendar<D>;
 
-  @Input() presets?: DateRangePreset<D>[];
-  @ViewChild(TemplateRef) _template!: TemplateRef<unknown>;
+  @Input() public presets?: DateRangePreset<D>[];
+  @ViewChild(TemplateRef) public _template!: TemplateRef<unknown>;
 
   constructor(
     private _viewContainerRef: ViewContainerRef,
@@ -165,12 +166,15 @@ export class MdlDatePicker<D> implements AfterViewInit, OnInit, OnDestroy, OnCha
     if (!this.leftCalendar) {
       this.leftCalendar = calendar;
       this.sub.add(this.leftCalendar.stateChanges.subscribe(() => this.syncCalendars('left')));
-      this.syncCalendars();
     }
   }
 
   private syncCalendars(from: 'left' | 'right' = 'right') {
     if (!this._showPreviousMonthCalendar || !this.leftCalendar || !this.srcCalendar) return;
+
+    const leftCalMonth = this.dateAdapter.getMonth(this.leftCalendar.activeDate);
+    const rightCalMonth = this.dateAdapter.getMonth(this.srcCalendar.activeDate);
+    if ((leftCalMonth === 11 && rightCalMonth === 0) || leftCalMonth === rightCalMonth - 1) return;
     if (from === 'right') {
       this.leftCalendar.activeDate = this.dateAdapter.addCalendarMonths(
         this.srcCalendar.activeDate,

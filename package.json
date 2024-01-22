@@ -14,6 +14,7 @@
     "showcase:watch": "ng build showcase --watch --configuration development",
     "showcase:test": "ng test showcase",
     "clean": "rimraf dist",
+    "gh-pages": "ng build showcase --output-path docs --base-href /mdl-angular-libs/",
     "publish": "npm run lib:build && cp README.md dist/mdl-angular/ && npm publish dist/mdl-angular/"
   },
   "private": true,
