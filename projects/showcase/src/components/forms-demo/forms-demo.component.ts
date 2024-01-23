@@ -38,8 +38,9 @@ import { DATE_RANGE_PRESETS, DateRangePreset, MdlDatePicker } from 'mdl-angular/
 import { DateTime } from 'luxon';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { startWith } from 'rxjs';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
-const CD_DATE_RANGE_PRESETS: DateRangePreset<DateTime>[] = [
+const DEMO_DATE_RANGE_PRESETS: DateRangePreset<DateTime>[] = [
   {
     name: "Aujourd'hui",
     calculateDateRange: (dateAdapter) => {
@@ -114,6 +115,7 @@ const CD_DATE_RANGE_PRESETS: DateRangePreset<DateTime>[] = [
     ReactiveFormsModule,
     // Material
     MatButtonModule,
+    MatButtonToggleModule,
     MatCheckboxModule,
     MatDatepickerModule,
     MatExpansionModule,
@@ -145,7 +147,7 @@ const CD_DATE_RANGE_PRESETS: DateRangePreset<DateTime>[] = [
     SeriesOptionsPipe,
     ChipsDemoComponent,
   ],
-  providers: [{ provide: DATE_RANGE_PRESETS, useValue: CD_DATE_RANGE_PRESETS }],
+  providers: [{ provide: DATE_RANGE_PRESETS, useValue: DEMO_DATE_RANGE_PRESETS }],
 })
 export class FormsDemoComponent {
   protected readonly dateForm = new FormGroup({
