@@ -18,6 +18,7 @@ import {
   OnDestroy,
   TemplateRef,
   Injectable,
+  forwardRef,
 } from '@angular/core';
 import {
   MatColumnDef,
@@ -89,7 +90,7 @@ export type ShouldRequestBackendType = {
     MdlSpinnerComponent,
 
     // This
-    WithSelectionPipe,
+    forwardRef(() => WithSelectionPipe),
     SearchbarComponent,
     ColumnsComponent,
   ],
