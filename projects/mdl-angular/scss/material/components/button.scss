@@ -8,14 +8,17 @@
 @include mat.button-density(theme.$light-theme);
 @include mat.button-typography(theme.$light-theme);
 
+@include mat.button-toggle-base(theme.$light-theme); //.set(theme.$light-theme, "density", -2));
 @include mat.button-toggle-density(theme.$light-theme); //.set(theme.$light-theme, "density", -2));
 @include mat.button-toggle-typography(
   theme.$light-theme
 ); //.set(theme.$light-theme, "density", -2));
 
+@include mat.icon-button-base(theme.$light-theme);
 @include mat.icon-button-density(theme.$light-theme);
 @include mat.icon-button-typography(theme.$light-theme);
 
+@include mat.fab-base(theme.$light-theme);
 @include mat.fab-density(theme.$light-theme);
 @include mat.fab-typography(theme.$light-theme);
 

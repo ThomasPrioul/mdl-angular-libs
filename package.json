@@ -1,6 +1,6 @@
 {
   "name": "mdl-angular",
-  "version": "0.0.15",
+  "version": "0.0.16",
   "scripts": {
     "start": "npm-run-all clean --parallel lib:watch showcase:start-waiton",
     "build": "run-s lib:build showcase:build",
