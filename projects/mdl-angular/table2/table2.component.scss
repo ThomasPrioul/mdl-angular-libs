@@ -44,6 +44,7 @@ $blue-veil: color.change(colors.$primary, $alpha: 0.0625);
     > .title {
       font-size: 20px;
       font-weight: 500;
+      align-self: center;
     }
   }
 
