@@ -68,8 +68,8 @@ Extension du mat-table pour gérer le mode frontend/backend pour la pagination, 
 
 Cette librairie a les dépendances suivantes :
 
-- @angular ^16.2.0
-- @angular/material ^16.2.0
+- @angular ^17.0.9
+- @angular/material ^17.0.5
 
 Il n'y a pas de dépendance sur les librairies wcs-core et wcs-angular.
 
@@ -100,7 +100,7 @@ npm i mdl-angular
 Vous pouvez choisir à la carte la "surcouche" SNCF sur votre composant Material.
 Pour cela il faut importer le fichier scss du composant en question. Si vous n'utilisez pas les styles SNCF, il faudra quand même importer les styles angular : `@include mat.<component>-theme($my-material-theme)`;
 Quand vous utilisez un style SNCF, pas besoin de préimporter le style material, la librairie s'en charge avec la bonne configuration.
-A ce jour, tous les styles ne sont pas encore migrés en mode MDL, et il n'y pas d'import en une seule ligne.
+A ce jour, tous les styles ne sont pas encore migrés en mode MDL, et il n'y a pas d'import en une seule ligne.
 
 ```scss
 @import "mdl-angular/scss/material/components/autocomplete";
@@ -158,7 +158,8 @@ La librairie embarque le logo SNCF en SVG, pour l'utiliser dans votre HTML, modi
 La nouvelle style guide SNCF utilise des form fields entourés, plutôt qu'avec un fond grisé et une bordure basse.
 MDL gère les deux mais il vaut mieux [configurer material en mode outline](https://material.angular.io/components/form-field/overview#form-field-appearance-variants).
 
-Créez ou modifiez un fichier contenant vos customizations Material:
+Pour cela, importez le provider ci-dessous dans votre bootstrap module ou votre app.component standalone avec bootstrapApplication();  
+Cela forcera les form fields en mode "outline".
 
 ```ts
 {
@@ -172,11 +173,9 @@ Créez ou modifiez un fichier contenant vos customizations Material:
 }
 ```
 
-Importez ce provider dans votre bootstrap module ou votre app.component standalone avec bootstrapApplication(); Cela forcera les form fields en mode "outline".
-
 ### Light/dark mode
 
-Le mode dark/light doit être spécifié explicitement au niveau d'un conteneur HTML, cela peut être un div spécifique ou le body du HTML, vous pouvez inverser le thème au niveau d'un sous-conteneur.
+Le mode dark/light **doit** être spécifié explicitement au niveau d'un conteneur HTML, cela peut être un div spécifique ou le body du HTML, vous pouvez inverser le thème au niveau d'un sous-conteneur.
 
 Pour le gérer au global dans l'application, veillez à bien utiliser la classe mat-app-background dans votre fichier index.html :
 
