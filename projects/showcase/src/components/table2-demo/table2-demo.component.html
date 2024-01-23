@@ -22,6 +22,9 @@
     >Éditeur de colonnes</mat-slide-toggle
   >
   <mat-slide-toggle #enableFullscreen color="primary" [checked]="true">Fullscreen</mat-slide-toggle>
+  <mat-slide-toggle #enableAlternateLinesCss color="primary" [checked]="false"
+    >CSS 1 ligne sur 2</mat-slide-toggle
+  >
 </div>
 <mdl-table2
   #table
@@ -36,7 +39,8 @@
   [columnsEditor]="enableColumns.checked"
   [fullscreenButton]="enableFullscreen.checked"
   (filterChange)="filterChanged($event)"
-  class="mat-elevation-z8 flex-grow rounded-lg alternate-lines">
+  class="mat-elevation-z8 flex-grow rounded-lg"
+  [class.alternate-lines]="enableAlternateLinesCss.checked">
   <ng-container matColumnDef="nomTechniqueComplet">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>Nom technique complet</th>
     <td mat-cell *matCellDef="let serie; dataSource: dataSource">
@@ -62,7 +66,15 @@
   </ng-container>
   <ng-container matColumnDef="codeSerieMere">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>Code série mère</th>
-    <td mat-cell *matCellDef="let serie; dataSource: dataSource">{{ serie.codeSerieMere }}</td>
+    <td mat-cell *matCellDef="let serie; dataSource: dataSource">
+      <div
+        class="mdl-table-badge with-border"
+        [class.bullet]="serie.codeSerieMere !== null"
+        [class.green]="serie.typeSerie === 'Sous-Série'"
+        [class.cyan]="serie.typeSerie === 'Variante'">
+        {{ serie.codeSerieMere ?? "Aucune" }}
+      </div>
+    </td>
   </ng-container>
 
   <tr class="mat-mdc-row mdc-data-table__row" *matNoDataRow>

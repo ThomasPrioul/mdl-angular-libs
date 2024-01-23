@@ -1,15 +1,24 @@
 @use "colors";
+@use "sass:color";
 
-@mixin badge-color($name, $background-light, $background) {
+@mixin badge-color($name, $background) {
   &.#{$name} {
-    background: $background-light;
+    .light &,
+    .dark .light & {
+      background: mix($background, #fff, 10%);
+    }
+
+    .dark &,
+    .light .dark & {
+      background: mix($background, #333, 20%);
+    }
 
     &.bullet:before {
       background: $background;
     }
 
     &.with-border {
-      border: 1px solid rgba($background, 0.3);
+      border: 1px solid mix($background, #fff, 30%);
     }
   }
 }
@@ -25,11 +34,21 @@
   gap: 8px;
   min-height: 19px;
   border-radius: 5px;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 500;
+  width: min-content;
 
-  background: colors.$blue-10;
   border: 1px solid transparent;
+
+  .light &,
+  .dark .light & {
+    background: colors.$cool-gray-1;
+  }
+
+  .dark &,
+  .light .dark & {
+    background: colors.$cool-gray-11;
+  }
 
   &.bullet:before {
     content: "";
@@ -42,13 +61,17 @@
     background: colors.$blue;
   }
 
-  @include badge-color("blue", colors.$blue-10, colors.$blue);
-  @include badge-color("cyan", colors.$cyan-10, colors.$cyan);
-  @include badge-color("green", colors.$green-10, colors.$green);
-  @include badge-color("teal", colors.$teal-10, colors.$teal);
-  @include badge-color("yellow", colors.$yellow-10, colors.$yellow);
-  @include badge-color("orange", colors.$orange-10, colors.$orange);
-  @include badge-color("red", colors.$red-10, colors.$red);
-  @include badge-color("pink", colors.$pink-10, colors.$pink);
-  @include badge-color("purple", colors.$purple-10, colors.$purple);
+  &.with-border {
+    border: 1px solid colors.$cool-gray-5;
+  }
+
+  @include badge-color("blue", colors.$blue);
+  @include badge-color("cyan", colors.$cyan);
+  @include badge-color("green", colors.$green);
+  @include badge-color("teal", colors.$teal);
+  @include badge-color("yellow", colors.$yellow);
+  @include badge-color("orange", colors.$orange);
+  @include badge-color("red", colors.$red);
+  @include badge-color("pink", colors.$pink);
+  @include badge-color("purple", colors.$purple);
 }
