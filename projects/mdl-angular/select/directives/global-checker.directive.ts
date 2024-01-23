@@ -37,18 +37,17 @@ export class MdlSelectGlobalCheckboxDirective implements OnDestroy {
 
     this.checkbox.change.pipe(takeUntil(this._destroy)).subscribe((evt) => {
       if (!evt.checked) {
-        this.select.value = [];
-        return;
+        this.select._selectionModel.clear(); // value = [];
+      } else {
+        const items =
+          this.treeSelect?.treeOptions
+            .filter((item) => !item.item.children)
+            .map((item) => item.option) ?? this.select.options;
+        this.select._selectionModel.select(...items);
       }
 
-      if (this.treeSelect) {
-        const items = this.treeSelect.treeOptions
-          .filter((item) => !item.item.children)
-          .map((item) => item.item.key);
-        this.select.value = items;
-      } else {
-        this.select._selectionModel.select(...this.select.options);
-      }
+      //@ts-ignore
+      this.select._propagateChanges();
     });
   }
 
