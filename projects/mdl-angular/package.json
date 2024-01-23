@@ -1,6 +1,6 @@
 {
   "name": "mdl-angular",
-  "version": "0.0.17",
+  "version": "0.0.18",
   "description": "Librairie de composants et styles Angular Material respectant le design system SNCF",
   "author": {
     "name": "Thomas Prioul (MASTERIS)",
