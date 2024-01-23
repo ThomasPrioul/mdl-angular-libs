@@ -49,7 +49,6 @@ import { matMenuAnimations } from '@angular/material/menu';
 import { Subject, debounceTime, map, merge, startWith, takeUntil, tap } from 'rxjs';
 
 export type PaginationType = 'none' | 'frontend' | 'backend';
-
 export type ShouldRequestBackendType = {
   pageNum: number;
   pageSize: number;
@@ -57,45 +56,6 @@ export type ShouldRequestBackendType = {
   orderDirection: SortDirection;
   searchValue: string;
 };
-
-@Injectable()
-export class MyCustomPaginatorIntl implements MatPaginatorIntl {
-  public changes = new Subject<void>();
-  public firstPageLabel = 'Première page';
-  public itemsPerPageLabel = 'Eléments par page:';
-  public lastPageLabel = 'Dernière page';
-  public nextPageLabel = 'Page suivante';
-  public previousPageLabel = 'Page précédente';
-
-  public getRangeLabel(page: number, pageSize: number, length: number): string {
-    if (length === 0) {
-      return 'Page 1 sur 1';
-    }
-    const amountPages = Math.ceil(length / pageSize);
-    const startIndex = page * pageSize + 1;
-    const endIndex = (page + 1) * pageSize;
-    return `Page ${
-      page + 1
-    } sur ${amountPages} .......... [${startIndex} à ${endIndex} / ${length}]`;
-  }
-}
-
-@Pipe({
-  standalone: true,
-  name: 'withSelection',
-})
-export class WithSelectionPipe implements PipeTransform {
-  public transform(displayedColumns: string[] | ColumnDisplayInfo[], selection: boolean) {
-    if (typeof displayedColumns[0] === 'string') {
-      return selection ? ['selection', ...displayedColumns] : displayedColumns;
-    } else {
-      let cols = (displayedColumns as ColumnDisplayInfo[])
-        .filter((c) => c.visible !== false)
-        .map((c) => c.name);
-      return selection ? ['selection', ...cols] : cols;
-    }
-  }
-}
 
 @Component({
   selector: 'mdl-table2',
@@ -293,9 +253,14 @@ export class MdlTableComponent<T> implements AfterContentInit, AfterViewInit, On
   }
 
   public ngAfterViewInit() {
-    if (this.pagination === 'frontend' && this.dataSource instanceof MatTableDataSource) {
-      this.dataSource.sort = this._sort;
-      this.dataSource.paginator = this.paginator ?? null;
+    if (this.dataSource instanceof MatTableDataSource) {
+      if (this.pagination !== 'backend') {
+        this.dataSource.sort = this._sort;
+      }
+
+      if (this.pagination === 'frontend') {
+        this.dataSource.paginator = this.paginator ?? null;
+      }
     }
 
     // If the user changes the sort order, reset back to the first page.
@@ -424,5 +389,44 @@ export class MdlTableComponent<T> implements AfterContentInit, AfterViewInit, On
     if (this.selectionModel.isSelected(row)) classes.push('selected');
     if (this.rowClasses) classes.push(...this.rowClasses(row));
     return classes.length === 1 ? classes[0] : classes;
+  }
+}
+
+@Injectable()
+export class MyCustomPaginatorIntl implements MatPaginatorIntl {
+  public changes = new Subject<void>();
+  public firstPageLabel = 'Première page';
+  public itemsPerPageLabel = 'Eléments par page:';
+  public lastPageLabel = 'Dernière page';
+  public nextPageLabel = 'Page suivante';
+  public previousPageLabel = 'Page précédente';
+
+  public getRangeLabel(page: number, pageSize: number, length: number): string {
+    if (length === 0) {
+      return 'Page 1 sur 1';
+    }
+    const amountPages = Math.ceil(length / pageSize);
+    const startIndex = page * pageSize + 1;
+    const endIndex = (page + 1) * pageSize;
+    return `Page ${
+      page + 1
+    } sur ${amountPages} .......... [${startIndex} à ${endIndex} / ${length}]`;
+  }
+}
+
+@Pipe({
+  standalone: true,
+  name: 'withSelection',
+})
+export class WithSelectionPipe implements PipeTransform {
+  public transform(displayedColumns: string[] | ColumnDisplayInfo[], selection: boolean) {
+    if (typeof displayedColumns[0] === 'string') {
+      return selection ? ['selection', ...displayedColumns] : displayedColumns;
+    } else {
+      let cols = (displayedColumns as ColumnDisplayInfo[])
+        .filter((c) => c.visible !== false)
+        .map((c) => c.name);
+      return selection ? ['selection', ...cols] : cols;
+    }
   }
 }
