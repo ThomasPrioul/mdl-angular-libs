@@ -9,7 +9,7 @@ import {
   Optional,
   ViewChild,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
@@ -29,14 +29,13 @@ const verticalNavKeys = ['ArrowUp', 'ArrowDown', 'PageUp', 'PageDown'];
   selector: 'mdl-select-filter',
   standalone: true,
   imports: [
-    CommonModule,
     MatCheckboxModule,
     MdlSelectGlobalCheckboxDirective,
     MatFormFieldModule,
     MatInputModule,
     MatIconModule,
-    MatButtonModule,
-  ],
+    MatButtonModule
+],
   templateUrl: './select-filter.component.html',
   styleUrls: ['./select-filter.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

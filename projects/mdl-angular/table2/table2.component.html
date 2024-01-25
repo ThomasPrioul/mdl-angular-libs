@@ -1,21 +1,19 @@
-<div
-  *ngIf="
-    header !== false &&
-    (title || searchBar || (actionButtons !== false && (columnsEditor || fullscreenButton)))
-  "
-  class="header">
+@if ( header !== false && (title || searchBar || (actionButtons !== false && (columnsEditor ||
+fullscreenButton))) ) {
+<div class="header">
   <div class="left-side">
-    <div class="title" *ngIf="title">{{ title }}</div>
+    @if (title) {
+    <div class="title">{{ title }}</div>
+    } @if (searchBar) {
     <mdl-table-searchbar
       class="searchbar"
-      *ngIf="searchBar"
       #search
       [filter]="filter"
       (filterChange)="filterChanged($event)"></mdl-table-searchbar>
+    }
   </div>
-  <div
-    class="action-buttons"
-    *ngIf="actionButtons !== false && (columnsEditor || fullscreenButton)">
+  @if (actionButtons !== false && (columnsEditor || fullscreenButton)) {
+  <div class="action-buttons">
     <!-- <button
         mat-icon-button
         [matTooltip]="search.visible ? 'Fermer la recherche' : 'Ouvrir la recherche'"
@@ -25,8 +23,8 @@
     <!-- <button mat-icon-button matTooltip="Filtres">
       <mat-icon>filter_list</mat-icon>
     </button> -->
+    @if (columnsEditor) {
     <button
-      *ngIf="columnsEditor"
       mat-icon-button
       matTooltip="Colonnes"
       cdkOverlayOrigin
@@ -53,25 +51,31 @@
         </mdl-table-columns>
       </ng-template>
     </button>
+    } @if (fullscreenButton) {
     <button
-      *ngIf="fullscreenButton"
       mat-icon-button
       [matTooltip]="mfb.fullscreen ? 'Sortir du plein écran' : 'Afficher en plein écran'"
       #mfb="mdlFullscreenButton"
       [mdlFullscreenButton]="el">
       <mat-icon>fullscreen</mat-icon>
     </button>
+    }
   </div>
+  }
 </div>
+}
 
 <div class="table-container">
-  <div class="loading-shade" *ngIf="loading">
+  @if (loading) {
+  <div class="loading-shade">
     <mdl-spinner></mdl-spinner>
   </div>
+  }
   <div class="table-scroll" #scroller>
     <table mat-table [dataSource]="dataSource" [trackBy]="trackByFn" multiTemplateDataRows>
       <!-- Checkbox column -->
-      <ng-container matColumnDef="selection" *ngIf="selection && selectionModel">
+      @if (selection && selectionModel) {
+      <ng-container matColumnDef="selection">
         <th mat-header-cell *matHeaderCellDef>
           <mat-checkbox
             color="primary"
@@ -91,6 +95,7 @@
           </mat-checkbox>
         </td>
       </ng-container>
+      }
 
       <!-- User-defined columns -->
       <ng-content></ng-content>
@@ -99,18 +104,23 @@
       <ng-container matColumnDef="expand">
         <th mat-header-cell *matHeaderCellDef aria-label="row actions">Détail</th>
         <td mat-cell *matCellDef="let row">
+          @if (detailsRow && (allowExpandFn ? allowExpandFn(row) : true)) {
           <button
             mat-icon-button
             aria-label="expand row"
-            (click)="expandRow(row); $event.stopPropagation()"
-            *ngIf="detailsRow && (allowExpandFn ? allowExpandFn(row) : true)">
-            <mat-icon *ngIf="expandedRow !== row">keyboard_arrow_down</mat-icon>
-            <mat-icon *ngIf="expandedRow === row">keyboard_arrow_up</mat-icon>
+            (click)="expandRow(row); $event.stopPropagation()">
+            @if (expandedRow !== row) {
+            <mat-icon>keyboard_arrow_down</mat-icon>
+            } @if (expandedRow === row) {
+            <mat-icon>keyboard_arrow_up</mat-icon>
+            }
           </button>
+          }
         </td>
       </ng-container>
       <!-- expandedRow = expandedRow === row ? null : row; -->
-      <ng-container *ngIf="detailsRow" matColumnDef="expandedDetail">
+      @if (detailsRow) {
+      <ng-container matColumnDef="expandedDetail">
         <td mat-cell *matCellDef="let row" [attr.colspan]="displayedColumns.length">
           <div
             style="min-height: 0"
@@ -120,6 +130,7 @@
           </div>
         </td>
       </ng-container>
+      }
 
       <tr
         mat-header-row
@@ -129,26 +140,26 @@
         [ngClass]="rowClass(row)"
         mat-row
         *matRowDef="let row; columns: displayedColumns | withSelection : !!selection"></tr>
-      <ng-container *ngIf="detailsRow">
-        <tr
-          mat-row
-          *matRowDef="let row; columns: ['expandedDetail']"
-          class="detail-row"
-          [ngClass]="rowClass(row)"></tr>
-      </ng-container>
+      @if (detailsRow) {
+      <tr
+        mat-row
+        *matRowDef="let row; columns: ['expandedDetail']"
+        class="detail-row"
+        [ngClass]="rowClass(row)"></tr>
+      }
     </table>
   </div>
 </div>
 <footer>
-  <ng-container *ngIf="pagination === 'frontend' || pagination === 'backend'">
-    <mat-divider></mat-divider>
-    <ng-container *ngTemplateOutlet="paginatorAddons"> </ng-container>
-    <mat-paginator
-      [disabled]="loading === true"
-      [length]="totalLength"
-      [pageSize]="pageSize"
-      [pageSizeOptions]="pageSizes"
-      showFirstLastButtons>
-    </mat-paginator>
-  </ng-container>
+  @if (pagination === 'frontend' || pagination === 'backend') {
+  <mat-divider></mat-divider>
+  <ng-container *ngTemplateOutlet="paginatorAddons"> </ng-container>
+  <mat-paginator
+    [disabled]="loading === true"
+    [length]="totalLength"
+    [pageSize]="pageSize"
+    [pageSizeOptions]="pageSizes"
+    showFirstLastButtons>
+  </mat-paginator>
+  }
 </footer>

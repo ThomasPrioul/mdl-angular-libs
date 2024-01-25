@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { ColumnDisplayInfo, MdlTableComponent } from 'mdl-angular/table2';
+import { ColumnDisplayInfo, MdlTableComponent, PaginationType } from 'mdl-angular/table2';
 import { SERIES } from '../../data/series';
 import { Serie } from '../../models/serie';
 import { MatSortModule } from '@angular/material/sort';
@@ -9,18 +9,22 @@ import { MatButtonModule } from '@angular/material/button';
 import { TypeSafeMatCellDef } from 'mdl-angular';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-table2-demo',
   standalone: true,
   imports: [
     CommonModule,
-    MdlTableComponent,
+    FormsModule,
     MatButtonModule,
+    MatButtonToggleModule,
     MatCheckboxModule,
     MatSlideToggleModule,
     MatSortModule,
     MatTableModule,
+    MdlTableComponent,
     TypeSafeMatCellDef,
   ],
   templateUrl: './table2-demo.component.html',
@@ -37,6 +41,7 @@ export class Table2DemoComponent {
     { name: 'codeSerieMere', canHide: false },
   ];
   protected loading = signal<boolean | null>(null);
+  protected pagination: PaginationType = 'none';
 
   protected filterChanged(filter: string) {
     this.dataSource.filter = filter;

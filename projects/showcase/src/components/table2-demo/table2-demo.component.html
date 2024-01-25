@@ -1,4 +1,13 @@
 <div class="flex gap-2 items-center flex-wrap">
+  <div class="flex gap-2 items-center">
+    Pagination :
+    <mat-button-toggle-group [(ngModel)]="pagination" class="options dark self-start">
+      <mat-button-toggle value="none">Aucune</mat-button-toggle>
+      <mat-button-toggle value="frontend">Frontend</mat-button-toggle>
+      <mat-button-toggle value="backend">Backend</mat-button-toggle>
+    </mat-button-toggle-group>
+  </div>
+  @if (pagination !== 'backend') {
   <button mat-raised-button (click)="loadData()" [disabled]="loading() === true">
     <span>Charger données</span>
   </button>
@@ -9,6 +18,12 @@
     [disabled]="loading() === true">
     <span>Charger données vides</span>
   </button>
+  } @if (pagination === 'backend') {
+  <pre>
+      {{ table.shouldRequestBackend | async | json }}
+    </pre
+  >
+  }
 </div>
 <div class="flex gap-3 items-center flex-wrap">
   <mat-slide-toggle #enableSelection color="primary">Activer sélection</mat-slide-toggle>
@@ -39,6 +54,7 @@
   [columnsEditor]="enableColumns.checked"
   [fullscreenButton]="enableFullscreen.checked"
   (filterChange)="filterChanged($event)"
+  [pagination]="pagination"
   class="mat-elevation-z8 flex-grow rounded-lg"
   [class.alternate-lines]="enableAlternateLinesCss.checked">
   <ng-container matColumnDef="nomTechniqueComplet">

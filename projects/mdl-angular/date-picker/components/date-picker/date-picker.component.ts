@@ -1,6 +1,6 @@
 import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
 import { ComponentType, TemplatePortal } from '@angular/cdk/portal';
-import { NgFor, NgIf } from '@angular/common';
+
 import {
   Component,
   ChangeDetectionStrategy,
@@ -46,13 +46,11 @@ import { DoubleCalendarHeaderComponent } from '../double-calendar-header.compone
   encapsulation: ViewEncapsulation.None,
   standalone: true,
   imports: [
-    NgIf,
-    NgFor,
     MatButtonModule,
     MatDatepickerModule,
     EmptyCalendarHeaderComponent,
-    MatListModule,
-  ],
+    MatListModule
+],
 })
 export class MdlDatePicker<D> implements AfterViewInit, OnInit, OnDestroy, OnChanges {
   private _portal!: TemplatePortal;

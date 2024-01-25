@@ -13,7 +13,7 @@ import {
 import { MatOption, MatPseudoCheckboxModule, MatPseudoCheckboxState } from '@angular/material/core';
 import { MdlTreeSelectDirective } from '../../directives/tree-select.directive';
 import { MdlTreeOption } from '../../models/tree-option';
-import { CommonModule } from '@angular/common';
+
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { registerInlineMaterialIcons } from 'mdl-angular';
@@ -29,7 +29,7 @@ const checkboxPadding = 12;
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./tree-option.component.scss'],
   templateUrl: './tree-option.component.html',
-  imports: [CommonModule, MatIconModule, MatButtonModule, MatPseudoCheckboxModule],
+  imports: [MatIconModule, MatButtonModule, MatPseudoCheckboxModule],
 })
 export class MdlTreeOptionComponent<K, T> implements AfterContentInit, OnInit {
   private static _iconInitialized = false;

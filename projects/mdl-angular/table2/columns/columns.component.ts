@@ -10,7 +10,7 @@ import {
   forwardRef,
   inject,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonModule, MatIconButton } from '@angular/material/button';
@@ -34,7 +34,6 @@ export type ColumnDisplayInfo = {
   selector: 'mdl-table-columns',
   standalone: true,
   imports: [
-    CommonModule,
     FormsModule,
     MatCardModule,
     MatIconModule,
@@ -45,8 +44,8 @@ export type ColumnDisplayInfo = {
     MatButtonModule,
     DragDropModule,
     A11yModule,
-    forwardRef(() => ColumnNameDirective),
-  ],
+    forwardRef(() => ColumnNameDirective)
+],
   templateUrl: './columns.component.html',
   styleUrls: ['./columns.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

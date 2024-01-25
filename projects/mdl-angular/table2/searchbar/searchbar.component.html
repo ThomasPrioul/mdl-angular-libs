@@ -1,12 +1,13 @@
 <mat-form-field class="small">
   <mat-icon matIconPrefix>search</mat-icon>
   <input matInput [(ngModel)]="filter" />
-  <button
-    matIconSuffix
-    mat-icon-button
-    *ngIf="filter.length > 0"
-    (click)="filter = ''"
-    matTooltip="Réinitialiser">
-    <mat-icon>close</mat-icon>
-  </button>
+  @if (filter.length > 0) {
+    <button
+      matIconSuffix
+      mat-icon-button
+      (click)="filter = ''"
+      matTooltip="Réinitialiser">
+      <mat-icon>close</mat-icon>
+    </button>
+  }
 </mat-form-field>

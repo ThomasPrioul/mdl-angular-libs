@@ -2,56 +2,55 @@
   <mat-card-header style="align-items: center">
     <mat-card-title>Gestion des colonnes</mat-card-title>
     <!-- <div class="mat-subtitle-1" style="margin-bottom: 0">    </div> -->
-    <mat-checkbox
-      color="primary"
-      style="margin-left: auto; margin-right: 0.25rem"
-      *ngIf="columns"
-      (change)="onAllClicked($event)"
-      [checked]="allStatus(columns)"
-      [indeterminate]="indeterminateStatus(columns)"
-      >Toutes</mat-checkbox
-    >
-  </mat-card-header>
-  <mat-card-content>
-    <div #list cdkDropList class="list" (cdkDropListDropped)="drop($event)">
-      <div
-        class="list-item small"
-        *ngFor="
-          let column of columns;
-          index as index;
-          first as first;
-          last as last;
-          trackBy: trackByColumnName
-        "
-        cdkDrag
-        cdkDragLockAxis="y">
-        <div class="item-drag-placeholder" *cdkDragPlaceholder></div>
-        <mat-slide-toggle
-          color="primary"
-          [disabled]="column.canHide === false"
-          [checked]="column.visible !== false"
-          (change)="column.visible = $event.checked">
-          <span *ngIf="column.label; else useTemplate">{{ column.label }}</span>
-          <ng-template #useTemplate>
-            <span *mdlColumnName="getColumnTemplate(column.name)"></span>
-          </ng-template>
-        </mat-slide-toggle>
-        <button
-          #btn
-          style="margin-left: auto"
-          mat-icon-button
-          [disabled]="first"
-          (click)="moveItemUp(index, btn)">
-          <mat-icon>arrow_upward</mat-icon>
-        </button>
-        <button mat-icon-button [disabled]="last" (click)="moveItemDown(index)">
-          <mat-icon>arrow_downward</mat-icon>
-        </button>
+    @if (columns) {
+      <mat-checkbox
+        color="primary"
+        style="margin-left: auto; margin-right: 0.25rem"
+        (change)="onAllClicked($event)"
+        [checked]="allStatus(columns)"
+        [indeterminate]="indeterminateStatus(columns)"
+        >Toutes</mat-checkbox
+        >
+      }
+    </mat-card-header>
+    <mat-card-content>
+      <div #list cdkDropList class="list" (cdkDropListDropped)="drop($event)">
+        @for (
+          column of columns; track trackByColumnName(index,
+          column); let index = $index; let first = $first; let last = $last) {
+          <div
+            class="list-item small"
+            cdkDrag
+            cdkDragLockAxis="y">
+            <div class="item-drag-placeholder" *cdkDragPlaceholder></div>
+            <mat-slide-toggle
+              color="primary"
+              [disabled]="column.canHide === false"
+              [checked]="column.visible !== false"
+              (change)="column.visible = $event.checked">
+              @if (column.label) {
+                <span>{{ column.label }}</span>
+              } @else {
+                <span *mdlColumnName="getColumnTemplate(column.name)"></span>
+              }
+            </mat-slide-toggle>
+            <button
+              #btn
+              style="margin-left: auto"
+              mat-icon-button
+              [disabled]="first"
+              (click)="moveItemUp(index, btn)">
+              <mat-icon>arrow_upward</mat-icon>
+            </button>
+            <button mat-icon-button [disabled]="last" (click)="moveItemDown(index)">
+              <mat-icon>arrow_downward</mat-icon>
+            </button>
+          </div>
+        }
       </div>
-    </div>
-  </mat-card-content>
-  <mat-card-actions align="end" style="margin: 0.5rem; gap: 0.5rem">
-    <button mat-stroked-button color="primary" (click)="canceled.emit()">Annuler</button>
-    <button mat-flat-button color="primary" (click)="submitted.emit(columns)">Modifier</button>
-  </mat-card-actions>
-</mat-card>
+    </mat-card-content>
+    <mat-card-actions align="end" style="margin: 0.5rem; gap: 0.5rem">
+      <button mat-stroked-button color="primary" (click)="canceled.emit()">Annuler</button>
+      <button mat-flat-button color="primary" (click)="submitted.emit(columns)">Modifier</button>
+    </mat-card-actions>
+  </mat-card>

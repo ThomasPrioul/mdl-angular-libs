@@ -1,20 +1,23 @@
-<ng-container *ngFor="let item of items; first as first">
-  <i
-    class="material-icons breadcrumb-chevron"
-    *ngIf="!first"
-    style="margin-left: -12px; margin-right: -12px"
-    >chevron_right</i
-  >
-  <button
-    mat-button
-    [routerLink]="item.url"
-    routerLinkActive
-    [routerLinkActiveOptions]="{ exact: true }"
-    #rla="routerLinkActive"
-    [disabled]="rla.isActive">
-    <ng-template
-      *ngIf="itemTemplate !== null; else noCustomTemplate"
-      [ngTemplateOutlet]="itemTemplate"></ng-template>
-    <ng-template #noCustomTemplate>{{ item.value }}</ng-template>
-  </button>
-</ng-container>
+@for (item of items; track item; let first = $first) {
+  @if (!first) {
+    <i
+      class="material-icons breadcrumb-chevron"
+      style="margin-left: -12px; margin-right: -12px"
+      >chevron_right</i
+      >
+    }
+    <button
+      mat-button
+      [routerLink]="item.url"
+      routerLinkActive
+      [routerLinkActiveOptions]="{ exact: true }"
+      #rla="routerLinkActive"
+      [disabled]="rla.isActive">
+      @if (itemTemplate !== null) {
+        <ng-template
+        [ngTemplateOutlet]="itemTemplate"></ng-template>
+      } @else {
+        {{ item.value }}
+      }
+    </button>
+  }

@@ -8,7 +8,7 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInput, MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
@@ -20,14 +20,13 @@ import { MatTooltipModule } from '@angular/material/tooltip';
   selector: 'mdl-table-searchbar',
   standalone: true,
   imports: [
-    CommonModule,
     FormsModule,
     MatFormFieldModule,
     MatInputModule,
     MatIconModule,
     MatTooltipModule,
-    MatButtonModule,
-  ],
+    MatButtonModule
+],
   templateUrl: './searchbar.component.html',
   styleUrls: ['./searchbar.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

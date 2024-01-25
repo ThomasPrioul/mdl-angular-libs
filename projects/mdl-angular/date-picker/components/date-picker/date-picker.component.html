@@ -6,40 +6,45 @@
     <div class="mat-datepicker-actions">
       <ng-content></ng-content>
     </div>
-    <div class="side-buttons" *ngIf="presetsToShow; let presets">
-      <h3 class="mat-h3" style="padding-left: 0.5rem; margin-bottom: 0">Choix rapide</h3>
-      <mat-selection-list
-        [multiple]="false"
-        (selectionChange)="applyPreset($event.options[0].value)">
-        <mat-list-option *ngFor="let preset of presets" [value]="preset">
-          {{ preset.name }}
-        </mat-list-option>
-      </mat-selection-list>
-    </div>
+    @if (presetsToShow; as presets) {
+      <div class="side-buttons">
+        <h3 class="mat-h3" style="padding-left: 0.5rem; margin-bottom: 0">Choix rapide</h3>
+        <mat-selection-list
+          [multiple]="false"
+          (selectionChange)="applyPreset($event.options[0].value)">
+          @for (preset of presets; track preset) {
+            <mat-list-option [value]="preset">
+              {{ preset.name }}
+            </mat-list-option>
+          }
+        </mat-selection-list>
+      </div>
+    }
     <div class="calendars">
       <!-- All inputs and handlers directly copied from Material src code -->
-      <mat-calendar
-        #prev
-        *ngIf="showPreviousMonthCalendar && datepickerContent"
-        [startAt]="dateAdapter.addCalendarMonths(datepicker.startAt ?? dateAdapter.today(), -1)"
-        [startView]="datepicker.startView"
-        [minDate]="datepicker._getMinDate()"
-        [maxDate]="datepicker._getMaxDate()"
-        [dateFilter]="datepicker._getDateFilter()"
-        [headerComponent]="DoubleCalendarHeaderComponent"
-        [selected]="datepickerContent._getSelected()"
-        [dateClass]="datepicker.dateClass"
-        [comparisonStart]="datepickerContent.comparisonStart"
-        [comparisonEnd]="datepickerContent.comparisonEnd"
-        [startDateAccessibleName]="datepickerContent.startDateAccessibleName"
-        [endDateAccessibleName]="datepickerContent.endDateAccessibleName"
-        (yearSelected)="datepicker._selectYear($event)"
-        (monthSelected)="datepicker._selectMonth($event)"
-        (viewChanged)="datepicker._viewChanged($event)"
-        (_userSelection)="datepickerContent._handleUserSelection($event)"
-        (_userDragDrop)="datepickerContent._handleUserDragDrop($event)">
-        {{ registerCalendar(prev) }}
-      </mat-calendar>
+      @if (showPreviousMonthCalendar && datepickerContent) {
+        <mat-calendar
+          #prev
+          [startAt]="dateAdapter.addCalendarMonths(datepicker.startAt ?? dateAdapter.today(), -1)"
+          [startView]="datepicker.startView"
+          [minDate]="datepicker._getMinDate()"
+          [maxDate]="datepicker._getMaxDate()"
+          [dateFilter]="datepicker._getDateFilter()"
+          [headerComponent]="DoubleCalendarHeaderComponent"
+          [selected]="datepickerContent._getSelected()"
+          [dateClass]="datepicker.dateClass"
+          [comparisonStart]="datepickerContent.comparisonStart"
+          [comparisonEnd]="datepickerContent.comparisonEnd"
+          [startDateAccessibleName]="datepickerContent.startDateAccessibleName"
+          [endDateAccessibleName]="datepickerContent.endDateAccessibleName"
+          (yearSelected)="datepicker._selectYear($event)"
+          (monthSelected)="datepicker._selectMonth($event)"
+          (viewChanged)="datepicker._viewChanged($event)"
+          (_userSelection)="datepickerContent._handleUserSelection($event)"
+          (_userDragDrop)="datepickerContent._handleUserDragDrop($event)">
+          {{ registerCalendar(prev) }}
+        </mat-calendar>
+      }
       <div class="placeholder mat-calendar"></div>
     </div>
   </div>

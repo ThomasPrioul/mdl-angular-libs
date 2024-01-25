@@ -13,32 +13,37 @@
     [ngStyle]="{ 'padding-left.px': !simple ? 10 + 16 * level : 0 }"
     routerLinkActive="active"
     #rla="routerLinkActive">
-    <mat-icon
-      *ngIf="menu.icon && menu.icon.startsWith('sncf')"
-      [svgIcon]="menu.icon"
-      [style]="menu.style">
-    </mat-icon>
-    <mat-icon *ngIf="menu.icon && !menu.icon.startsWith('sncf')" [style]="menu.style">{{
-      menu.icon
-    }}</mat-icon>
+    @if (menu.icon && menu.icon.startsWith('sncf')) {
+      <mat-icon
+        [svgIcon]="menu.icon"
+        [style]="menu.style">
+      </mat-icon>
+    }
+    @if (menu.icon && !menu.icon.startsWith('sncf')) {
+      <mat-icon [style]="menu.style">{{
+        menu.icon
+      }}</mat-icon>
+    }
     <div class="content">{{ menu.text }}</div>
   </a>
-  <button
-    *ngIf="!simple && menu.children && menu.children!.length > 0"
-    [disabled]="rla.isActive"
-    class="menu-item-expand-button"
-    (click)="toggleItem($event)"
-    mat-icon-button
-    [attr.aria-label]="'Ouvrir le menu ' + menu.text">
-    <mat-icon class="expand-icon mat-icon-rtl-mirror" [ngClass]="{ expanded: expanded }">
-      expand_more
-    </mat-icon>
-  </button>
+  @if (!simple && menu.children && menu.children!.length > 0) {
+    <button
+      [disabled]="rla.isActive"
+      class="menu-item-expand-button"
+      (click)="toggleItem($event)"
+      mat-icon-button
+      [attr.aria-label]="'Ouvrir le menu ' + menu.text">
+      <mat-icon class="expand-icon mat-icon-rtl-mirror" [ngClass]="{ expanded: expanded }">
+        expand_more
+      </mat-icon>
+    </button>
+  }
 </div>
-<ng-container *ngIf="!simple && expanded">
-  <mdl-side-menu-item
-    class="child"
-    *ngFor="let menuChild of menu.children ?? []"
-    [level]="level + 1"
+@if (!simple && expanded) {
+  @for (menuChild of menu.children ?? []; track menuChild) {
+    <mdl-side-menu-item
+      class="child"
+      [level]="level + 1"
     [menu]="menuChild"></mdl-side-menu-item>
-</ng-container>
+  }
+}
