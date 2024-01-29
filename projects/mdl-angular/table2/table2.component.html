@@ -150,8 +150,8 @@ fullscreenButton))) ) {
     </table>
   </div>
 </div>
+@if (pagination === 'frontend' || pagination === 'backend') {
 <footer>
-  @if (pagination === 'frontend' || pagination === 'backend') {
   <mat-divider></mat-divider>
   <ng-container *ngTemplateOutlet="paginatorAddons"> </ng-container>
   <mat-paginator
@@ -161,5 +161,5 @@ fullscreenButton))) ) {
     [pageSizeOptions]="pageSizes"
     showFirstLastButtons>
   </mat-paginator>
-  }
 </footer>
+}

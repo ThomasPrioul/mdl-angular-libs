@@ -19,10 +19,9 @@
     <span>Charger données vides</span>
   </button>
   } @if (pagination === 'backend') {
-  <pre>
-      {{ table.shouldRequestBackend | async | json }}
-    </pre
-  >
+  <div>
+    {{ table.shouldRequestBackend | async | json }}
+  </div>
   }
 </div>
 <div class="flex gap-3 items-center flex-wrap">
@@ -47,7 +46,6 @@
   [loading]="loading()"
   [(displayedColumns)]="displayedColumns"
   [selection]="enableSelection.checked"
-  matSort
   [title]="enableTitle.checked ? 'Séries' : undefined"
   [header]="disableHeader.checked ? false : true"
   [searchBar]="enableSearchBar.checked"
@@ -55,7 +53,10 @@
   [fullscreenButton]="enableFullscreen.checked"
   (filterChange)="filterChanged($event)"
   [pagination]="pagination"
+  (shouldRequestBackend)="requestBackend($event)"
+  [totalLength]="totalItems()"
   class="mat-elevation-z8 flex-grow rounded-lg"
+  matSort
   [class.alternate-lines]="enableAlternateLinesCss.checked">
   <ng-container matColumnDef="nomTechniqueComplet">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>Nom technique complet</th>
@@ -95,7 +96,7 @@
 
   <tr class="mat-mdc-row mdc-data-table__row" *matNoDataRow>
     <td *ngIf="loading() === false" class="mat-mdc-cell mdc-data-table__cell" colspan="1000">
-      No data
+      Aucune série trouvée :-(
     </td>
   </tr>
 </mdl-table2>

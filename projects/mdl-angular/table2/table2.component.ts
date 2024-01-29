@@ -21,6 +21,7 @@ import {
   forwardRef,
   OnChanges,
   SimpleChanges,
+  AfterViewChecked,
 } from '@angular/core';
 import {
   MatColumnDef,
@@ -58,13 +59,16 @@ import {
   Observable,
   Subject,
   Subscription,
+  debounce,
   debounceTime,
   map,
   merge,
+  of,
   share,
   startWith,
   takeUntil,
   tap,
+  timer,
 } from 'rxjs';
 
 export type PaginationType = 'none' | 'frontend' | 'backend';
@@ -113,7 +117,9 @@ export type ShouldRequestBackendType = {
     ColumnsComponent,
   ],
 })
-export class MdlTableComponent<T> implements AfterContentInit, AfterViewInit, OnDestroy, OnChanges {
+export class MdlTableComponent<T>
+  implements AfterContentInit, AfterViewInit, OnDestroy, OnChanges, AfterViewChecked
+{
   private readonly _destroy = new Subject<void>();
   private readonly filterChange$: Observable<string>;
 
@@ -128,6 +134,7 @@ export class MdlTableComponent<T> implements AfterContentInit, AfterViewInit, On
   private _requerySubscription?: Subscription;
   private _searchBar: boolean = false;
   private _selection = false;
+  private requiresPaginationUpdate: boolean = false;
 
   @ViewChild(SearchbarComponent)
   protected readonly searchbar!: SearchbarComponent;
@@ -162,7 +169,10 @@ export class MdlTableComponent<T> implements AfterContentInit, AfterViewInit, On
     protected el: ElementRef,
     private cd: ChangeDetectorRef
   ) {
-    this.filterChange$ = this.filterChange.pipe(debounceTime(500), share());
+    this.filterChange$ = this.filterChange.pipe(
+      debounce((filter) => (filter ? timer(500) : of(filter))),
+      share()
+    );
   }
 
   @Input()
@@ -272,7 +282,7 @@ export class MdlTableComponent<T> implements AfterContentInit, AfterViewInit, On
     const paginationChanges = changes['pagination'];
     if (!paginationChanges || paginationChanges.isFirstChange()) return;
 
-    this.configurePaginationCallbacks(true);
+    this.requiresPaginationUpdate = true;
   }
 
   public ngAfterContentInit() {
@@ -284,6 +294,13 @@ export class MdlTableComponent<T> implements AfterContentInit, AfterViewInit, On
 
   public ngAfterViewInit() {
     this.configurePaginationCallbacks();
+  }
+
+  public ngAfterViewChecked(): void {
+    if (this.requiresPaginationUpdate) {
+      this.requiresPaginationUpdate = false;
+      this.configurePaginationCallbacks();
+    }
   }
 
   public ngOnDestroy(): void {
@@ -385,7 +402,7 @@ export class MdlTableComponent<T> implements AfterContentInit, AfterViewInit, On
     return classes.length === 1 ? classes[0] : classes;
   }
 
-  private configurePaginationCallbacks(afterInit: boolean = false) {
+  private configurePaginationCallbacks() {
     this._requerySubscription?.unsubscribe();
     this._requerySubscription = undefined;
 
@@ -395,20 +412,12 @@ export class MdlTableComponent<T> implements AfterContentInit, AfterViewInit, On
       }
 
       if (this.pagination === 'frontend') {
-        if (afterInit) {
-          setTimeout(() => {
-            if (this.dataSource instanceof MatTableDataSource) {
-              this.dataSource.paginator = this.paginator ?? null;
-              this.dataSource.data = this.dataSource.data;
-            }
-          });
-        } else {
-          this.dataSource.paginator = this.paginator ?? null;
-        }
-      } else if (this.pagination === 'none' && afterInit) {
-        this.dataSource.paginator = null;
-        this.dataSource.data = this.dataSource.data;
+        this.dataSource.paginator = this.paginator ?? null;
       }
+      // } else if (this.pagination === 'none' && afterInit) {
+      //   this.dataSource.paginator = null;
+      //   this.dataSource.data = this.dataSource.data;
+      // }
     }
 
     // If the user changes the sort order or types something in the search input, reset back to the first page.
@@ -428,31 +437,35 @@ export class MdlTableComponent<T> implements AfterContentInit, AfterViewInit, On
 
     // If using backend pagination, emit an event right now and emit each time the page changes
     if (this.pagination === 'backend') {
-      if (!this._requerySubscription) this._requerySubscription = new Subscription();
-      const requerySources: Observable<string | Sort | PageEvent>[] = [this.filterChange$];
-      if (this.sort) requerySources.push(this.sort.sortChange);
-      if (this.paginator) requerySources.push(this.paginator.page);
-
-      this._requerySubscription.add(
-        merge(requerySources)
-          .pipe(
-            startWith({}),
-            takeUntil(this._destroy),
-            map(
-              () =>
-                <ShouldRequestBackendType>{
-                  pageNum: this.paginator!.pageIndex + 1,
-                  pageSize: this.paginator!.pageSize,
-                  orderBy: this.sort?.active ?? '',
-                  orderDirection: this.sort?.direction ?? '',
-                  searchValue: this.filter,
-                }
-            ),
-            tap((info) => this.shouldRequestBackend.emit(info))
-          )
-          .subscribe()
-      );
+      this.registerBackendQueryEvent();
     }
+  }
+
+  private registerBackendQueryEvent() {
+    if (!this._requerySubscription) this._requerySubscription = new Subscription();
+    const requerySources: Observable<string | Sort | PageEvent>[] = [this.filterChange$];
+    if (this.sort) requerySources.push(this.sort.sortChange);
+    if (this.paginator) requerySources.push(this.paginator.page);
+
+    this._requerySubscription.add(
+      merge(...requerySources)
+        .pipe(
+          startWith({}),
+          takeUntil(this._destroy),
+          map(
+            () =>
+              <ShouldRequestBackendType>{
+                pageNum: this.paginator!.pageIndex + 1,
+                pageSize: this.paginator!.pageSize,
+                orderBy: this.sort?.active ?? '',
+                orderDirection: this.sort?.direction ?? '',
+                searchValue: this.filter,
+              }
+          ),
+          tap((info) => this.shouldRequestBackend.emit(info))
+        )
+        .subscribe()
+    );
   }
 }
 

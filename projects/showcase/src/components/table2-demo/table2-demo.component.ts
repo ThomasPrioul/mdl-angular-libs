@@ -1,7 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { ColumnDisplayInfo, MdlTableComponent, PaginationType } from 'mdl-angular/table2';
+import {
+  ColumnDisplayInfo,
+  MdlTableComponent,
+  PaginationType,
+  ShouldRequestBackendType,
+} from 'mdl-angular/table2';
 import { SERIES } from '../../data/series';
 import { Serie } from '../../models/serie';
 import { MatSortModule } from '@angular/material/sort';
@@ -32,6 +37,8 @@ import { FormsModule } from '@angular/forms';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Table2DemoComponent {
+  private _pagination: PaginationType = 'backend';
+
   protected dataSource = new MatTableDataSource<Serie>();
   protected displayedColumns: ColumnDisplayInfo[] = [
     { name: 'nomTechniqueComplet', canHide: false },
@@ -41,10 +48,21 @@ export class Table2DemoComponent {
     { name: 'codeSerieMere', canHide: false },
   ];
   protected loading = signal<boolean | null>(null);
-  protected pagination: PaginationType = 'none';
+  protected totalItems = signal<number | undefined>(undefined);
+
+  protected get pagination(): PaginationType {
+    return this._pagination;
+  }
+
+  protected set pagination(value: PaginationType) {
+    this._pagination = value;
+    if (value !== 'backend') {
+      this.dataSource.data = SERIES;
+    }
+  }
 
   protected filterChanged(filter: string) {
-    this.dataSource.filter = filter;
+    if (this.pagination === 'none') this.dataSource.filter = filter;
   }
 
   protected loadData() {
@@ -52,7 +70,7 @@ export class Table2DemoComponent {
     setTimeout(() => {
       this.dataSource.data = SERIES;
       this.loading.set(false);
-    }, 2000);
+    }, 1000);
   }
 
   protected loadEmptyData() {
@@ -60,6 +78,37 @@ export class Table2DemoComponent {
     setTimeout(() => {
       this.dataSource.data = [];
       this.loading.set(false);
-    }, 2000);
+    }, 1000);
+  }
+
+  protected requestBackend(params: ShouldRequestBackendType) {
+    this.loading.set(true);
+    setTimeout(() => {
+      const newItems = params.searchValue
+        ? SERIES.filter(
+            (serie) =>
+              serie.codeLcn.includes(params.searchValue) ||
+              serie.codeSerieMateriel.includes(params.searchValue) ||
+              serie.codeSerieMere?.includes(params.searchValue) ||
+              serie.nomTechniqueComplet.includes(params.searchValue) ||
+              serie.typeSerie.includes(params.searchValue)
+          )
+        : SERIES;
+
+      if (params.orderBy && params.orderDirection !== '') {
+        newItems.sort((serie1, serie2) => {
+          const comparison = ((serie1 as any)[params.orderBy] as string).localeCompare(
+            (serie2 as any)[params.orderBy] as string
+          );
+          return params.orderDirection === 'asc' ? comparison : -comparison;
+        });
+      }
+
+      const start = (params.pageNum - 1) * params.pageSize;
+      const end = start + params.pageSize;
+      this.dataSource.data = newItems.slice(start, end);
+      this.totalItems.set(newItems.length);
+      this.loading.set(false);
+    }, 500);
   }
 }
