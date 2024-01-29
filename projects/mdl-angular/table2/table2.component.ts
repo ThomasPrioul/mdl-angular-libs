@@ -31,13 +31,18 @@ import {
   MatTableDataSource,
   MatTableModule,
 } from '@angular/material/table';
-import { MatSort, MatSortModule, SortDirection } from '@angular/material/sort';
+import { MatSort, MatSortModule, Sort, SortDirection } from '@angular/material/sort';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
 import { CommonModule } from '@angular/common';
-import { MatPaginator, MatPaginatorIntl, MatPaginatorModule } from '@angular/material/paginator';
+import {
+  MatPaginator,
+  MatPaginatorIntl,
+  MatPaginatorModule,
+  PageEvent,
+} from '@angular/material/paginator';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -424,8 +429,12 @@ export class MdlTableComponent<T> implements AfterContentInit, AfterViewInit, On
     // If using backend pagination, emit an event right now and emit each time the page changes
     if (this.pagination === 'backend') {
       if (!this._requerySubscription) this._requerySubscription = new Subscription();
+      const requerySources: Observable<string | Sort | PageEvent>[] = [this.filterChange$];
+      if (this.sort) requerySources.push(this.sort.sortChange);
+      if (this.paginator) requerySources.push(this.paginator.page);
+
       this._requerySubscription.add(
-        merge(this.sort!.sortChange, this.paginator!.page, this.filterChange$)
+        merge(requerySources)
           .pipe(
             startWith({}),
             takeUntil(this._destroy),
@@ -434,8 +443,8 @@ export class MdlTableComponent<T> implements AfterContentInit, AfterViewInit, On
                 <ShouldRequestBackendType>{
                   pageNum: this.paginator!.pageIndex + 1,
                   pageSize: this.paginator!.pageSize,
-                  orderBy: this.sort!.active,
-                  orderDirection: this.sort!.direction,
+                  orderBy: this.sort?.active ?? '',
+                  orderDirection: this.sort?.direction ?? '',
                   searchValue: this.filter,
                 }
             ),
