@@ -1,6 +1,6 @@
 import { OverlayContainer, FullscreenOverlayContainer } from '@angular/cdk/overlay';
-import { APP_INITIALIZER, ApplicationConfig } from '@angular/core';
-import { MAT_DATE_LOCALE } from '@angular/material/core';
+import { APP_INITIALIZER, ApplicationConfig, Provider } from '@angular/core';
+import { MAT_DATE_FORMATS, MAT_DATE_LOCALE, MatDateFormats } from '@angular/material/core';
 import {
   MAT_FORM_FIELD_DEFAULT_OPTIONS,
   MatFormFieldDefaultOptions,
@@ -10,6 +10,7 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { Route, provideRouter, withHashLocation } from '@angular/router';
 import {
   MAT_LUXON_DATE_ADAPTER_OPTIONS,
+  MAT_LUXON_DATE_FORMATS,
   MatLuxonDateAdapterOptions,
 } from '@angular/material-luxon-adapter';
 import { Settings } from 'luxon';
@@ -50,6 +51,21 @@ function getFrenchPaginatorIntl() {
   return intl;
 }
 
+export const DEFAULT_DATEFORMAT_PROVIDER: Provider = {
+  provide: MAT_DATE_FORMATS,
+  useValue: <MatDateFormats>{
+    ...MAT_LUXON_DATE_FORMATS,
+    display: {
+      ...MAT_LUXON_DATE_FORMATS.display,
+      monthLabel: 'LLL yyyy',
+      dateInput: ['D', 'D T', 'D TT', 'D TT.SSS', 'D TT.SSSZ'],
+    },
+    parse: {
+      ...MAT_LUXON_DATE_FORMATS.parse,
+      dateInput: ['D TT.SSSZ', 'D TT.SSS', 'D TT', 'D T', 'D'],
+    },
+  },
+};
 const routes: Route[] = [
   {
     path: 'home',
@@ -96,19 +112,6 @@ export const appConfig: ApplicationConfig = {
       provide: MAT_LUXON_DATE_ADAPTER_OPTIONS,
       useValue: <MatLuxonDateAdapterOptions>{ firstDayOfWeek: 1 },
     },
-    // {
-    //   provide: MatDatepickerModule,
-    // },
-    // {
-    //   provide: MAT_DATE_FORMATS,
-    //   useValue: <MatDateFormats>{
-    //     ...MAT_LUXON_DATE_FORMATS,
-    //     display: {
-    //       ...MAT_LUXON_DATE_FORMATS.display,
-    //       monthLabel: 'LLL yyyy',
-    //     },
-    //   },
-    // },
     { provide: MatPaginatorIntl, useValue: getFrenchPaginatorIntl() },
     { provide: MatDatepickerIntl, useValue: getFrenchDatePickerIntl() },
     {

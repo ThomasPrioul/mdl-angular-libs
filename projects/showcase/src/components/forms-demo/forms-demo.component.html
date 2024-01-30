@@ -1,9 +1,9 @@
-<mat-accordion multi>
-  <mat-expansion-panel>
+<mat-accordion multi [displayMode]="'flat'">
+  <mat-expansion-panel expanded>
     <mat-expansion-panel-header>
       <mat-panel-title> Select & multi-select </mat-panel-title>
       <mat-panel-description>
-        Select material & extension tree-select with filter
+        Select stylisés avec recherche, bouton "all" et visu arborescence (tree)
       </mat-panel-description>
     </mat-expansion-panel-header>
 
@@ -60,117 +60,151 @@
     <mat-expansion-panel-header>
       <mat-panel-title> Autocomplete/stay-open/chips </mat-panel-title>
       <mat-panel-description>
-        Example autocomplete with stay-open behavior (select-like) with chips indicator
+        Autocomplete qui reste ouvert après sélection, comme un select, avec des chips pour les
+        valeurs actuellement sélectionnées
       </mat-panel-description>
     </mat-expansion-panel-header>
 
+    <div class="mat-body-2 my-2">
+      Fonctionne avec la virtualisation d'items, pour les grandes listes, les listes dynamiques,
+      etc.
+    </div>
     <app-chips-demo class="grow"></app-chips-demo>
   </mat-expansion-panel>
   <mat-expansion-panel>
     <mat-expansion-panel-header>
       <mat-panel-title> Date pickers </mat-panel-title>
       <mat-panel-description>
-        Custom date pickers with presets and optional double calendar view
+        Date pickers avec presets personnalisables et vue bimensuelle optionnelle
       </mat-panel-description>
     </mat-expansion-panel-header>
-    <mat-slide-toggle #doubleCal class="self-center mb-4">Double calendrier ?</mat-slide-toggle>
     <div class="container">
-      <mat-form-field>
-        <mat-label>Plage de date</mat-label>
-        <mat-date-range-input [rangePicker]="picker2" [min]="minDate" [max]="maxDate">
+      <div>
+        Essayez les formats de date suivants dans les inputs :
+        <ul>
+          <li>29/01/2024</li>
+          <li>29/01/2024 16:02</li>
+          <li>29/01/2024 17:05:10</li>
+          <li>2024-01-29T17:05:10.999Z</li>
+        </ul>
+      </div>
+      <div class="container">
+        <mat-slide-toggle #doubleCal class="self-center mb-4"
+          >Double calendrier de plage ?</mat-slide-toggle
+        >
+
+        <mat-form-field>
+          <mat-label>Plage de date</mat-label>
+          <mat-date-range-input [rangePicker]="picker2" [min]="minDate" [max]="maxDate">
+            <input
+              matInput
+              matStartDate
+              placeholder="Start"
+              [formControl]="dateForm.controls.start" />
+            <input matInput matEndDate placeholder="End" [formControl]="dateForm.controls.end" />
+          </mat-date-range-input>
+          <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
+          <mat-date-range-picker #picker2 [startAt]="dateForm.controls.end.value ?? today">
+            <mdl-date-picker [showPreviousMonthCalendar]="doubleCal.checked">
+              <div class="flex flex-wrap gap-y-2 justify-end">
+                <button
+                  *ngIf="dateForm.controls.start.value || dateForm.controls.end.value"
+                  mat-stroked-button
+                  color="warn"
+                  matDateRangePickerCancel
+                  (click)="dateForm.patchValue({ start: null, end: null })">
+                  <mat-icon>delete</mat-icon>
+                  Supprimer
+                </button>
+                <button mat-stroked-button color="primary" matDateRangePickerCancel>Annuler</button>
+                <button mat-flat-button color="primary" matDateRangePickerApply>Modifier</button>
+              </div>
+            </mdl-date-picker>
+          </mat-date-range-picker>
+        </mat-form-field>
+
+        <mat-form-field class="small">
+          <mat-label>Sélectionner une date</mat-label>
+          <input
+            placeholder="JJ/MM/AAAA"
+            matInput
+            [matDatepicker]="picker"
+            [min]="minDate"
+            [max]="maxDate"
+            [formControl]="dateForm.controls.single" />
+          <mat-datepicker #picker>
+            <mat-datepicker-actions>
+              <button mat-stroked-button color="primary" matDatepickerCancel>Annuler</button>
+              <button mat-flat-button color="primary" matDatepickerApply>Modifier</button>
+            </mat-datepicker-actions>
+          </mat-datepicker>
+          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+          @if (dateForm.controls.single.invalid) {
+          <mat-error>{{ getErrorMessage() | json }}</mat-error>
+          }
+        </mat-form-field>
+        <div>
+          <pre>{{ dateForm.controls.single.value }}</pre>
+        </div>
+      </div>
+    </div>
+  </mat-expansion-panel>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title> Forms </mat-panel-title>
+      <mat-panel-description> Examples of material forms with MDL theming </mat-panel-description>
+    </mat-expansion-panel-header>
+
+    <div class="flex flex-col gap-2">
+      <div id="login-form" class="flex gap-2">
+        <mat-form-field>
+          <mat-label>Email</mat-label>
           <input
             matInput
-            matStartDate
-            placeholder="Start"
-            [formControl]="dateForm.controls.start" />
-          <input matInput matEndDate placeholder="End" [formControl]="dateForm.controls.end" />
-        </mat-date-range-input>
-        <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
-        <mat-date-range-picker #picker2 [startAt]="dateForm.controls.end.value ?? today">
-          <mdl-date-picker [showPreviousMonthCalendar]="doubleCal.checked">
-            <div class="flex flex-wrap gap-y-2 justify-end">
-              <button
-                *ngIf="dateForm.controls.start.value || dateForm.controls.end.value"
-                mat-stroked-button
-                color="warn"
-                matDateRangePickerCancel
-                (click)="dateForm.patchValue({ start: null, end: null })">
-                <mat-icon>delete</mat-icon>
-                Supprimer
-              </button>
-              <button mat-stroked-button color="primary" matDateRangePickerCancel>Annuler</button>
-              <button mat-flat-button color="primary" matDateRangePickerApply>Modifier</button>
-            </div>
-          </mdl-date-picker>
-        </mat-date-range-picker>
-      </mat-form-field>
-      <mat-form-field class="small">
-        <mat-label>Sélectionner une date</mat-label>
-        <input
-          matInput
-          [matDatepicker]="picker"
-          [min]="minDate"
-          [max]="maxDate"
-          placeholder="JJ/MM/AAAA"
-          [formControl]="dateForm.controls.single" />
-        <mat-datepicker #picker>
-          <mat-datepicker-actions>
-            <button mat-stroked-button color="primary" matDatepickerCancel>Annuler</button>
-            <button mat-flat-button color="primary" matDatepickerApply>Modifier</button>
-          </mat-datepicker-actions>
-        </mat-datepicker>
-        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-      </mat-form-field>
+            id="email"
+            name="email"
+            type="email"
+            autocomplete="username"
+            [formControl]="form.controls.login" />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Mot de passe</mat-label>
+          <input
+            matInput
+            id="current-password"
+            name="current-password"
+            type="password"
+            autocomplete="current-password"
+            [formControl]="form.controls.password" />
+        </mat-form-field>
+        <button style="align-self: flex-end" mat-stroked-button (click)="toggleForm()">
+          {{ form.enabled ? "Désactiver" : "Activer" }} formulaire
+        </button>
+      </div>
+      <div id="code-run-demo">
+        <mat-form-field>
+          <textarea matInput #code placeholder="return 1 + 1;"></textarea>
+        </mat-form-field>
+        <button mat-raised-button color="warn" (click)="executeArbitraryCode(code.value)">
+          <span>Interpréter code</span>
+        </button>
+        <mat-form-field>
+          <input matInput [value]="codeOutput" readonly />
+          <mat-icon matIconSuffix>lock</mat-icon>
+        </mat-form-field>
+      </div>
+      <mdl-zoom-button></mdl-zoom-button>
+      <div id="other">
+        <div class="mdl-form-field">
+          <label class="mdl-label">Type de matériel</label>
+          <mat-button-toggle-group class="options dark self-start" value="Z50">
+            <mat-button-toggle value="Z50">NAT</mat-button-toggle>
+            <mat-button-toggle value="PHZ">R2N</mat-button-toggle>
+            <mat-button-toggle value="NG2">RERNG</mat-button-toggle>
+            <mat-button-toggle value="Z2N">Z2N</mat-button-toggle>
+          </mat-button-toggle-group>
+        </div>
+      </div>
     </div>
   </mat-expansion-panel>
 </mat-accordion>
-
-<div id="login-form">
-  <mat-form-field>
-    <mat-label>Email</mat-label>
-    <input
-      matInput
-      id="email"
-      name="email"
-      type="email"
-      autocomplete="username"
-      [formControl]="form.controls.login" />
-  </mat-form-field>
-  <mat-form-field>
-    <mat-label>Mot de passe</mat-label>
-    <input
-      matInput
-      id="current-password"
-      name="current-password"
-      type="password"
-      autocomplete="current-password"
-      [formControl]="form.controls.password" />
-  </mat-form-field>
-  <button style="align-self: flex-end" mat-stroked-button (click)="toggleForm()">
-    {{ form.enabled ? "Désactiver" : "Activer" }} formulaire
-  </button>
-</div>
-<div id="code-run-demo">
-  <mat-form-field>
-    <textarea matInput #code placeholder="return 1 + 1;"></textarea>
-  </mat-form-field>
-  <button mat-raised-button color="warn" (click)="executeArbitraryCode(code.value)">
-    <span>Interpréter code</span>
-  </button>
-  <mat-form-field>
-    <input matInput [value]="codeOutput" readonly />
-    <mat-icon matIconSuffix>lock</mat-icon>
-  </mat-form-field>
-</div>
-<mdl-zoom-button></mdl-zoom-button>
-<div id="other">
-  <div class="mdl-form-field">
-    <label class="mdl-label">Type de matériel</label>
-    <mat-button-toggle-group class="options dark self-start">
-      <mat-button-toggle value="Z50">NAT</mat-button-toggle>
-      <mat-button-toggle value="PHZ">R2N</mat-button-toggle>
-      <mat-button-toggle value="NG2">RERNG</mat-button-toggle>
-      <mat-button-toggle value="Z2N">Z2N</mat-button-toggle>
-    </mat-button-toggle-group>
-  </div>
-</div>

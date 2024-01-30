@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatLuxonDateModule } from '@angular/material-luxon-adapter';
+import { MAT_LUXON_DATE_FORMATS, MatLuxonDateModule } from '@angular/material-luxon-adapter';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatDatepickerInputEvent, MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -39,6 +39,9 @@ import { DateTime } from 'luxon';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { startWith } from 'rxjs';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { DEFAULT_DATEFORMAT_PROVIDER } from '../../app/app.config';
+import { DateAdapter } from '@angular/material/core';
+import { DemoDateAdapter } from '../../helpers/custom-date.adapter';
 
 const DEMO_DATE_RANGE_PRESETS: DateRangePreset<DateTime>[] = [
   {
@@ -102,6 +105,8 @@ const DEMO_DATE_RANGE_PRESETS: DateRangePreset<DateTime>[] = [
   },
 ];
 
+const today = DateTime.now().startOf('day');
+
 @Component({
   selector: 'app-forms-demo',
   standalone: true,
@@ -147,32 +152,47 @@ const DEMO_DATE_RANGE_PRESETS: DateRangePreset<DateTime>[] = [
     SeriesOptionsPipe,
     ChipsDemoComponent,
   ],
-  providers: [{ provide: DATE_RANGE_PRESETS, useValue: DEMO_DATE_RANGE_PRESETS }],
+  providers: [
+    { provide: DATE_RANGE_PRESETS, useValue: DEMO_DATE_RANGE_PRESETS },
+
+    DEFAULT_DATEFORMAT_PROVIDER,
+    {
+      provide: DateAdapter,
+      useClass: DemoDateAdapter,
+    },
+  ],
 })
 export class FormsDemoComponent {
-  protected readonly dateForm = new FormGroup({
-    start: new FormControl<DateTime | null>(null),
-    end: new FormControl<DateTime | null>(null),
-    single: new FormControl<DateTime | null>(null),
-  });
+  protected readonly dateForm = new FormGroup(
+    {
+      start: new FormControl<DateTime | null>(null),
+      end: new FormControl<DateTime | null>(null),
+      single: new FormControl<DateTime | null>(today),
+    },
+    { updateOn: 'blur' }
+  );
   protected readonly form = new FormGroup({
     login: new FormControl<string>(''),
     password: new FormControl<string>(''),
   });
-  protected readonly maxDate = DateTime.now().plus({ month: 3 });
-  protected readonly minDate = DateTime.now().minus({ month: 3 });
+  protected readonly maxDate = today.plus({ month: 3 });
+  protected readonly minDate = today.minus({ month: 3 });
   protected readonly series: Serie[] = SERIES.sort((a, b) =>
     sortNomTechniqueComplet(a.nomTechniqueComplet, b.nomTechniqueComplet)
   );
   protected readonly seriesControl = new FormControl<string[]>([]);
-  protected readonly today = DateTime.now();
+  protected readonly today = today;
 
   protected codeOutput: any;
 
   constructor() {
-    this.dateForm.valueChanges
-      .pipe(startWith(() => this.dateForm.getRawValue()))
-      .subscribe(() => console.log('dateForm:', this.dateForm.getRawValue()));
+    this.dateForm.valueChanges.pipe(startWith(() => this.dateForm.getRawValue())).subscribe(() => {
+      console.log('dateForm:', this.dateForm.getRawValue());
+    });
+  }
+
+  public getErrorMessage() {
+    return JSON.stringify(this.dateForm.controls.single.errors);
   }
 
   protected readonly Serie = () => <Serie>{};
@@ -182,7 +202,7 @@ export class FormsDemoComponent {
   }
 
   protected onSelectionChange(event: MatSelectChange) {
-    console.log(event);
+    //console.log(event);
   }
 
   protected toggleForm() {
