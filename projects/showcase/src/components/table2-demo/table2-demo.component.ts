@@ -56,13 +56,15 @@ export class Table2DemoComponent {
 
   protected set pagination(value: PaginationType) {
     this._pagination = value;
-    if (value !== 'backend') {
-      this.dataSource.data = SERIES;
-    }
+    setTimeout(() => {
+      if (value !== 'backend') {
+        this.dataSource.data = SERIES;
+      }
+    });
   }
 
   protected filterChanged(filter: string) {
-    if (this.pagination === 'none') this.dataSource.filter = filter;
+    if (this.pagination != 'backend') this.dataSource.filter = filter;
   }
 
   protected loadData() {

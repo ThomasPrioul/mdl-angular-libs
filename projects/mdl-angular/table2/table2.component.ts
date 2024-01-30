@@ -283,6 +283,20 @@ export class MdlTableComponent<T>
     if (!paginationChanges || paginationChanges.isFirstChange()) return;
 
     this.requiresPaginationUpdate = true;
+    if (!(this.dataSource instanceof MatTableDataSource)) return;
+
+    if (
+      paginationChanges.previousValue !== 'backend' &&
+      paginationChanges.currentValue === 'backend'
+    ) {
+      this.dataSource.paginator = null;
+      this.dataSource.filter = '';
+      this.dataSource.data = [];
+    }
+
+    if (paginationChanges.currentValue !== 'backend') {
+      this.dataSource.filter = this.filter;
+    }
   }
 
   public ngAfterContentInit() {
@@ -413,26 +427,14 @@ export class MdlTableComponent<T>
 
       if (this.pagination === 'frontend') {
         this.dataSource.paginator = this.paginator ?? null;
+      } else {
+        this.dataSource.paginator = null;
       }
-      // } else if (this.pagination === 'none' && afterInit) {
-      //   this.dataSource.paginator = null;
-      //   this.dataSource.data = this.dataSource.data;
-      // }
     }
 
     // If the user changes the sort order or types something in the search input, reset back to the first page.
     if (this._sort) {
-      if (!this._requerySubscription) this._requerySubscription = new Subscription();
-      this._requerySubscription.add(
-        merge(this._sort.sortChange, this.filterChange$)
-          .pipe(
-            takeUntil(this._destroy),
-            tap(() => {
-              if (this.paginator) this.paginator.pageIndex = 0;
-            })
-          )
-          .subscribe()
-      );
+      this.registerResetPageOnSortOrFilter();
     }
 
     // If using backend pagination, emit an event right now and emit each time the page changes
@@ -463,6 +465,20 @@ export class MdlTableComponent<T>
               }
           ),
           tap((info) => this.shouldRequestBackend.emit(info))
+        )
+        .subscribe()
+    );
+  }
+
+  private registerResetPageOnSortOrFilter() {
+    if (!this._requerySubscription) this._requerySubscription = new Subscription();
+    this._requerySubscription.add(
+      merge(this._sort!.sortChange, this.filterChange$)
+        .pipe(
+          takeUntil(this._destroy),
+          tap(() => {
+            if (this.paginator) this.paginator.pageIndex = 0;
+          })
         )
         .subscribe()
     );
