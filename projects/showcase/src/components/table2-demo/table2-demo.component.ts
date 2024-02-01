@@ -57,6 +57,7 @@ export class Table2DemoComponent {
   protected loading = signal<boolean | null>(null);
   protected selectedItems = signal<Serie[]>([]);
   protected totalItems = signal<number | undefined>(undefined);
+  protected addonsPosition: 'left' | 'right' = 'left';
 
   protected get pagination(): PaginationType {
     return this._pagination;

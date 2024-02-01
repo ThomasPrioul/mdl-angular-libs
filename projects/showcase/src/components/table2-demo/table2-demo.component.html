@@ -1,14 +1,11 @@
 <mat-drawer-container>
-  <mat-drawer
-    #drawer
-    mode="side"
-    position="end"
-    class="mat-elevation-z12"
-    autoFocus="first-tabbable">
+  <mat-drawer #drawer mode="over" position="end" autoFocus="first-tabbable">
     <div class="flex flex-col gap-4 p-6">
-      <div class="flex justify-between">
+      <div
+        class="-m-6 p-3 ps-6 mb-0 dark flex items-center justify-between"
+        style="color: white; background-color: #333">
         <h1 class="mat-h1 m-0">Paramètres</h1>
-        <button class="self-end" mat-mini-fab color="accent" (click)="drawer.close()">
+        <button mat-icon-button (click)="drawer.close()">
           <mat-icon>close</mat-icon>
         </button>
       </div>
@@ -31,6 +28,12 @@
           } @if (pagination === 'backend') {
           <pre>{{ table.shouldRequestBackend | async | json }}</pre>
           }
+
+          <div>Côté des addons de pagination</div>
+          <mat-button-toggle-group [(ngModel)]="addonsPosition" class="options dark self-start">
+            <mat-button-toggle value="left">Gauche</mat-button-toggle>
+            <mat-button-toggle value="right">Droite</mat-button-toggle>
+          </mat-button-toggle-group>
         </div>
       </fieldset>
       <fieldset>
@@ -75,7 +78,7 @@
     <button
       mat-mini-fab
       color="primary"
-      style="position: absolute; top: 0; right: 4px; z-index: 1"
+      style="position: absolute; top: -0px; right: 4px; z-index: 1"
       (click)="!drawer.opened ? drawer.open() : drawer.close()">
       <mat-icon>menu</mat-icon>
     </button>
@@ -92,6 +95,7 @@
       [columnsEditor]="enableColumns.checked"
       [actionButtons]="enableActionButtons.checked"
       [fullscreenButton]="enableFullscreen.checked"
+      [addonsPosition]="addonsPosition"
       (filterChange)="filterChanged($event)"
       [pagination]="pagination"
       (shouldRequestBackend)="requestBackend($event)"
