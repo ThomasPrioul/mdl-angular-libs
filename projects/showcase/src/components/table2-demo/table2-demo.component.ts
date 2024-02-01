@@ -16,6 +16,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { FormsModule } from '@angular/forms';
+import { SelectionChange } from '@angular/cdk/collections';
 
 @Component({
   selector: 'app-table2-demo',
@@ -49,6 +50,7 @@ export class Table2DemoComponent {
   ];
   protected loading = signal<boolean | null>(null);
   protected totalItems = signal<number | undefined>(undefined);
+  protected selectedItems = signal<Serie[]>([]);
 
   protected get pagination(): PaginationType {
     return this._pagination;
@@ -112,5 +114,9 @@ export class Table2DemoComponent {
       this.totalItems.set(newItems.length);
       this.loading.set(false);
     }, 500);
+  }
+
+  protected selectionChanged(event: SelectionChange<Serie>) {
+    this.selectedItems.set(event.source.selected);
   }
 }
