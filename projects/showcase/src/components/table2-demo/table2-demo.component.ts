@@ -17,6 +17,9 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { FormsModule } from '@angular/forms';
 import { SelectionChange } from '@angular/cdk/collections';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-table2-demo',
@@ -27,6 +30,9 @@ import { SelectionChange } from '@angular/cdk/collections';
     MatButtonModule,
     MatButtonToggleModule,
     MatCheckboxModule,
+    MatDividerModule,
+    MatIconModule,
+    MatSidenavModule,
     MatSlideToggleModule,
     MatSortModule,
     MatTableModule,
@@ -49,8 +55,8 @@ export class Table2DemoComponent {
     { name: 'codeSerieMere', canHide: false },
   ];
   protected loading = signal<boolean | null>(null);
-  protected totalItems = signal<number | undefined>(undefined);
   protected selectedItems = signal<Serie[]>([]);
+  protected totalItems = signal<number | undefined>(undefined);
 
   protected get pagination(): PaginationType {
     return this._pagination;

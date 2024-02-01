@@ -25,14 +25,14 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatInputModule,
     MatIconModule,
     MatTooltipModule,
-    MatButtonModule
-],
+    MatButtonModule,
+  ],
   templateUrl: './searchbar.component.html',
   styleUrls: ['./searchbar.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SearchbarComponent {
-  private _filter!: string;
+  private _filter: string = '';
 
   @Output() public filterChange = new EventEmitter<string>();
 
@@ -42,6 +42,7 @@ export class SearchbarComponent {
   }
 
   public set filter(value: string) {
+    if (this._filter === value) return;
     this._filter = value;
     this.filterChange.emit(value);
   }

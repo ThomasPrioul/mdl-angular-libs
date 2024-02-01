@@ -1,110 +1,155 @@
-<div class="flex gap-2 items-center flex-wrap">
-  <div class="flex gap-2 items-center">
-    Pagination :
-    <mat-button-toggle-group [(ngModel)]="pagination" class="options dark self-start">
-      <mat-button-toggle value="none">Aucune</mat-button-toggle>
-      <mat-button-toggle value="frontend">Frontend</mat-button-toggle>
-      <mat-button-toggle value="backend">Backend</mat-button-toggle>
-    </mat-button-toggle-group>
-  </div>
-  @if (pagination !== 'backend') {
-  <button mat-raised-button (click)="loadData()" [disabled]="loading() === true">
-    <span>Charger données</span>
-  </button>
-  <button
-    class="mr-auto small"
-    mat-flat-button
-    (click)="loadEmptyData()"
-    [disabled]="loading() === true">
-    <span>Charger données vides</span>
-  </button>
-  } @if (pagination === 'backend') {
-  <div>
-    {{ table.shouldRequestBackend | async | json }}
-  </div>
-  }
-</div>
-<div class="flex gap-3 items-center flex-wrap">
-  <mat-slide-toggle #enableSelection color="primary">Activer sélection</mat-slide-toggle>
-  <mat-slide-toggle #disableHeader color="primary">Désactiver header</mat-slide-toggle>
-  <mat-slide-toggle #enableTitle color="primary" [checked]="true">Titre</mat-slide-toggle>
-  <mat-slide-toggle #enableSearchBar color="primary" [checked]="true"
-    >Barre de recherche</mat-slide-toggle
-  >
-  <!-- <mat-checkbox [] #enableActions [indeterminate]="table.actionButtons === undefined">Actions</mat-checkbox> -->
-  <mat-slide-toggle #enableColumns color="primary" [checked]="true"
-    >Éditeur de colonnes</mat-slide-toggle
-  >
-  <mat-slide-toggle #enableFullscreen color="primary" [checked]="true">Fullscreen</mat-slide-toggle>
-  <mat-slide-toggle #enableAlternateLinesCss color="primary" [checked]="false"
-    >CSS 1 ligne sur 2</mat-slide-toggle
-  >
-</div>
-@if (enableSelection.checked && selectedItems().length) {
-<div class="flex gap-3 items-center flex-wrap">
-  @for (item of selectedItems(); track item.codeSerieMateriel) {
-  <div class="mdl-table-badge">{{ item.codeSerieMateriel }}</div>
-  }
-</div>
-}
-<mdl-table2
-  #table
-  [dataSource]="dataSource"
-  [loading]="loading()"
-  [(displayedColumns)]="displayedColumns"
-  [selection]="enableSelection.checked"
-  [title]="enableTitle.checked ? 'Séries' : undefined"
-  [header]="disableHeader.checked ? false : true"
-  [searchBar]="enableSearchBar.checked"
-  [columnsEditor]="enableColumns.checked"
-  [fullscreenButton]="enableFullscreen.checked"
-  (filterChange)="filterChanged($event)"
-  [pagination]="pagination"
-  (shouldRequestBackend)="requestBackend($event)"
-  (selectionChanged)="selectionChanged($event)"
-  [totalLength]="totalItems()"
-  class="mat-elevation-z8 flex-grow rounded-lg"
-  matSort
-  [class.alternate-lines]="enableAlternateLinesCss.checked">
-  <ng-container matColumnDef="nomTechniqueComplet">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>Nom technique complet</th>
-    <td mat-cell *matCellDef="let serie; dataSource: dataSource">
-      {{ serie.nomTechniqueComplet }}
-    </td>
-  </ng-container>
-
-  <ng-container matColumnDef="typeSerie">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>Type</th>
-    <td mat-cell *matCellDef="let serie; dataSource: dataSource">{{ serie.typeSerie }}</td>
-  </ng-container>
-
-  <ng-container matColumnDef="codeSerieMateriel">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>Code série matériel</th>
-    <td mat-cell *matCellDef="let serie; dataSource: dataSource">
-      {{ serie.codeSerieMateriel }}
-    </td>
-  </ng-container>
-
-  <ng-container matColumnDef="codeLcn">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>Code LCN</th>
-    <td mat-cell *matCellDef="let serie; dataSource: dataSource">{{ serie.codeLcn }}</td>
-  </ng-container>
-  <ng-container matColumnDef="codeSerieMere">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>Code série mère</th>
-    <td mat-cell *matCellDef="let serie; dataSource: dataSource">
-      <div
-        class="mdl-table-badge with-border"
-        [class.bullet]="serie.codeSerieMere !== null"
-        [class.green]="serie.typeSerie === 'Sous-Série'"
-        [class.cyan]="serie.typeSerie === 'Variante'">
-        {{ serie.codeSerieMere ?? "Aucune" }}
+<mat-drawer-container>
+  <mat-drawer
+    #drawer
+    mode="side"
+    position="end"
+    class="mat-elevation-z12"
+    autoFocus="first-tabbable">
+    <div class="flex flex-col gap-4 p-6">
+      <div class="flex justify-between">
+        <h1 class="mat-h1 m-0">Paramètres</h1>
+        <button class="self-end" mat-mini-fab color="accent" (click)="drawer.close()">
+          <mat-icon>close</mat-icon>
+        </button>
       </div>
-    </td>
-  </ng-container>
+      <fieldset>
+        <legend>Pagination</legend>
+        <div class="flex flex-col gap-2">
+          <mat-button-toggle-group [(ngModel)]="pagination" class="options dark self-start">
+            <mat-button-toggle value="none">Aucune</mat-button-toggle>
+            <mat-button-toggle value="frontend">Frontend</mat-button-toggle>
+            <mat-button-toggle value="backend">Backend</mat-button-toggle>
+          </mat-button-toggle-group>
+          <div class="flex flex-col gap-2"></div>
+          @if (pagination !== 'backend') {
+          <button mat-raised-button (click)="loadData()" [disabled]="loading() === true">
+            <span>Charger données</span>
+          </button>
+          <button mat-stroked-button (click)="loadEmptyData()" [disabled]="loading() === true">
+            <span>Charger données vides</span>
+          </button>
+          } @if (pagination === 'backend') {
+          <pre>{{ table.shouldRequestBackend | async | json }}</pre>
+          }
+        </div>
+      </fieldset>
+      <fieldset>
+        <legend>Fonctionnalités</legend>
+        <div class="flex flex-col gap-2">
+          <mat-slide-toggle #enableSelection color="primary">Activer sélection</mat-slide-toggle>
+          <mat-slide-toggle #enableHeader color="primary" [checked]="true"
+            >Header visible</mat-slide-toggle
+          >
+          <mat-slide-toggle #enableTitle color="primary" [checked]="true"
+            >Titre visible</mat-slide-toggle
+          >
+          <mat-slide-toggle #enableSearchBar color="primary" [checked]="true"
+            >Recherche visible</mat-slide-toggle
+          >
+          <mat-slide-toggle #enableActionButtons color="primary" [checked]="true"
+            >Boutons d'actions</mat-slide-toggle
+          >
+        </div>
+      </fieldset>
+      <fieldset [style.display]="enableActionButtons.checked ? 'block' : 'none'">
+        <legend>Boutons d'action</legend>
+        <div class="flex flex-col gap-2">
+          <mat-slide-toggle #enableColumns color="primary" [checked]="true"
+            >Éditeur de colonnes</mat-slide-toggle
+          >
+          <mat-slide-toggle #enableFullscreen color="primary" [checked]="true"
+            >Fullscreen</mat-slide-toggle
+          >
+        </div>
+      </fieldset>
+      <fieldset>
+        <legend>CSS</legend>
+        <mat-slide-toggle #enableAlternateLinesCss color="primary" [checked]="false"
+          >CSS 1 ligne sur 2</mat-slide-toggle
+        >
+      </fieldset>
+    </div>
+  </mat-drawer>
+  <mat-drawer-content>
+    @if (!drawer.opened) {
+    <button
+      mat-mini-fab
+      color="primary"
+      style="position: absolute; top: 0; right: 4px; z-index: 1"
+      (click)="!drawer.opened ? drawer.open() : drawer.close()">
+      <mat-icon>menu</mat-icon>
+    </button>
+    }
+    <mdl-table2
+      #table
+      [dataSource]="dataSource"
+      [loading]="loading()"
+      [(displayedColumns)]="displayedColumns"
+      [selection]="enableSelection.checked"
+      [title]="enableTitle.checked ? 'Séries' : undefined"
+      [header]="enableHeader.checked"
+      [searchBar]="enableSearchBar.checked"
+      [columnsEditor]="enableColumns.checked"
+      [actionButtons]="enableActionButtons.checked"
+      [fullscreenButton]="enableFullscreen.checked"
+      (filterChange)="filterChanged($event)"
+      [pagination]="pagination"
+      (shouldRequestBackend)="requestBackend($event)"
+      (selectionChanged)="selectionChanged($event)"
+      [totalLength]="totalItems()"
+      class="mat-elevation-z8 flex-grow rounded-lg"
+      matSort
+      [class.alternate-lines]="enableAlternateLinesCss.checked">
+      <ng-template #paginatorAddons>
+        <div class="flex gap-3 items-center flex-wrap p-3">
+          @if (enableSelection.checked && selectedItems().length) { @for (item of selectedItems();
+          track item.codeSerieMateriel) {
+          <div class="mdl-table-badge">{{ item.codeSerieMateriel }}</div>
+          } }
+        </div>
+      </ng-template>
 
-  <tr class="mat-mdc-row mdc-data-table__row" *matNoDataRow>
-    <td *ngIf="loading() === false" class="mat-mdc-cell mdc-data-table__cell" colspan="1000">
-      Aucune série trouvée :-(
-    </td>
-  </tr>
-</mdl-table2>
+      <ng-container matColumnDef="nomTechniqueComplet">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Nom technique complet</th>
+        <td mat-cell *matCellDef="let serie; dataSource: dataSource">
+          {{ serie.nomTechniqueComplet }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="typeSerie">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Type</th>
+        <td mat-cell *matCellDef="let serie; dataSource: dataSource">{{ serie.typeSerie }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="codeSerieMateriel">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Code série matériel</th>
+        <td mat-cell *matCellDef="let serie; dataSource: dataSource">
+          {{ serie.codeSerieMateriel }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="codeLcn">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Code LCN</th>
+        <td mat-cell *matCellDef="let serie; dataSource: dataSource">{{ serie.codeLcn }}</td>
+      </ng-container>
+      <ng-container matColumnDef="codeSerieMere">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Code série mère</th>
+        <td mat-cell *matCellDef="let serie; dataSource: dataSource">
+          <div
+            class="mdl-table-badge with-border"
+            [class.bullet]="serie.codeSerieMere !== null"
+            [class.green]="serie.typeSerie === 'Sous-Série'"
+            [class.cyan]="serie.typeSerie === 'Variante'">
+            {{ serie.codeSerieMere ?? "Aucune" }}
+          </div>
+        </td>
+      </ng-container>
+
+      <tr class="mat-mdc-row mdc-data-table__row" *matNoDataRow>
+        <td *ngIf="loading() === false" class="mat-mdc-cell mdc-data-table__cell" colspan="1000">
+          Aucune série trouvée :-(
+        </td>
+      </tr>
+    </mdl-table2>
+  </mat-drawer-content>
+</mat-drawer-container>
