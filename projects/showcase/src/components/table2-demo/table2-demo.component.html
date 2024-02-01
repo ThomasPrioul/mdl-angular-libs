@@ -40,6 +40,13 @@
     >CSS 1 ligne sur 2</mat-slide-toggle
   >
 </div>
+@if (enableSelection.checked && selectedItems().length) {
+<div class="flex gap-3 items-center flex-wrap">
+  @for (item of selectedItems(); track item.codeSerieMateriel) {
+  <div class="mdl-table-badge">{{ item.codeSerieMateriel }}</div>
+  }
+</div>
+}
 <mdl-table2
   #table
   [dataSource]="dataSource"
@@ -54,6 +61,7 @@
   (filterChange)="filterChanged($event)"
   [pagination]="pagination"
   (shouldRequestBackend)="requestBackend($event)"
+  (selectionChanged)="selectionChanged($event)"
   [totalLength]="totalItems()"
   class="mat-elevation-z8 flex-grow rounded-lg"
   matSort

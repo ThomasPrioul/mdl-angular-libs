@@ -175,6 +175,11 @@ export class MdlTableComponent<T>
     );
   }
 
+  @Output()
+  public get selectionChanged() {
+    return this.selectionModel.changed;
+  }
+
   @Input()
   public get actionButtons(): BooleanInput {
     return this._actionButtons;
