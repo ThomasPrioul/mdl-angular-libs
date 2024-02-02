@@ -20,6 +20,7 @@ import { SelectionChange } from '@angular/cdk/collections';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
+import { sortCodeSerieMateriel, sortNomTechniqueComplet } from '../../helpers/materiel-roulant';
 
 @Component({
   selector: 'app-table2-demo',
@@ -46,18 +47,32 @@ import { MatIconModule } from '@angular/material/icon';
 export class Table2DemoComponent {
   private _pagination: PaginationType = 'backend';
 
-  protected dataSource = new MatTableDataSource<Serie>();
-  protected displayedColumns: ColumnDisplayInfo[] = [
-    { name: 'nomTechniqueComplet', canHide: false },
+  protected addonsPosition: 'left' | 'right' = 'left';
+  protected dataSource;
+  protected displayedColumns: ColumnDisplayInfo<Serie>[] = [
+    {
+      name: 'nomTechniqueComplet',
+      canHide: false,
+      sortFunction: (a, b, dir) =>
+        sortNomTechniqueComplet(a.nomTechniqueComplet, b.nomTechniqueComplet) *
+        (dir === 'asc' ? 1 : -1),
+    },
     { name: 'typeSerie', canHide: false },
-    { name: 'codeSerieMateriel' },
+    {
+      name: 'codeSerieMateriel',
+      sortFunction: (a, b, dir) =>
+        sortCodeSerieMateriel(a.codeSerieMateriel, b.codeSerieMateriel) * (dir === 'asc' ? 1 : -1),
+    },
     { name: 'codeLcn' },
     { name: 'codeSerieMere', canHide: false },
   ];
   protected loading = signal<boolean | null>(null);
   protected selectedItems = signal<Serie[]>([]);
   protected totalItems = signal<number | undefined>(undefined);
-  protected addonsPosition: 'left' | 'right' = 'left';
+
+  constructor() {
+    this.dataSource = new MatTableDataSource<Serie>();
+  }
 
   protected get pagination(): PaginationType {
     return this._pagination;

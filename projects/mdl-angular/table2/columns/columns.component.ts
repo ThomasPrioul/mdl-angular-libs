@@ -22,12 +22,28 @@ import { A11yModule } from '@angular/cdk/a11y';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTable } from '@angular/material/table';
+import { SortDirection } from '@angular/material/sort';
 
-export type ColumnDisplayInfo = {
+/** Info used by the table for displayed columns, the model is manipulated with the table's column editor. */
+export type ColumnDisplayInfo<T = any> = {
+  /** Cdk column name, used for default sorting behavior. (matColumnDef.name) */
   name: string;
+
+  /** Optional label to use in column edition popup, if absent the inline value of the mat-header-cell will be used. */
   label?: string;
+
+  /** Set this to false if the column should not be visible */
   visible?: boolean;
+
+  /** Set this to false if the column should not have an option for visibility in the popup. */
   canHide?: boolean;
+
+  /** Custom sort implementation for this column. */
+  sortFunction?: (itemA: T, itemB: T, direction: SortDirection) => number;
+
+  /** Specifies which member should be used for sorting comparison.
+   *  Useful when column properties are nested in the object or are not primitive (DateTime, etc).*/
+  sortMember?: (item: T) => string | number | undefined;
 };
 
 @Component({
@@ -44,8 +60,8 @@ export type ColumnDisplayInfo = {
     MatButtonModule,
     DragDropModule,
     A11yModule,
-    forwardRef(() => ColumnNameDirective)
-],
+    forwardRef(() => ColumnNameDirective),
+  ],
   templateUrl: './columns.component.html',
   styleUrls: ['./columns.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -80,6 +80,10 @@ export type ShouldRequestBackendType = {
   searchValue: string;
 };
 
+const _dataSource = new MatTableDataSource();
+const _defaultSortAccessor = _dataSource.sortingDataAccessor;
+const _defaultSortData = _dataSource.sortData;
+
 @Component({
   selector: 'mdl-table2, mdl-table',
   templateUrl: 'table2.component.html',
@@ -126,7 +130,7 @@ export class MdlTableComponent<T>
   private _actionButtons: boolean | undefined;
   private _columnsEditor: boolean = false;
   private _dataSource!: readonly T[] | MatTableDataSource<T>;
-  private _displayedColumns!: ColumnDisplayInfo[];
+  private _displayedColumns!: ColumnDisplayInfo<T>[];
   private _filter: string = '';
   private _fullscreenButton: boolean = false;
   private _header: boolean | undefined = undefined;
@@ -246,6 +250,13 @@ export class MdlTableComponent<T>
 
   public set displayedColumns(value: ColumnDisplayInfo[]) {
     this._displayedColumns = value;
+
+    if (this.dataSource instanceof MatTableDataSource) {
+      this.dataSource.sortingDataAccessor = (data, columnId) =>
+        this.customSortAccessor(data, columnId);
+      this.dataSource.sortData = (data, sort) => this.customSort(data, sort);
+    }
+
     this.displayedColumnsChange.emit(value);
   }
 
@@ -445,6 +456,20 @@ export class MdlTableComponent<T>
     if (this.pagination === 'backend') {
       this.registerBackendQueryEvent();
     }
+  }
+
+  private customSort(data: T[], sort: MatSort): T[] {
+    const columnToSort = this.displayedColumns.find((c) => c.name === sort.active);
+    if (columnToSort?.sortFunction) {
+      return data.sort((a, b) => columnToSort.sortFunction!(a, b, sort.direction));
+    }
+    return _defaultSortData.bind(this.dataSource)(data, sort) as T[];
+  }
+
+  private customSortAccessor(item: T, columnId: string): string | number {
+    const columnToSort = this.displayedColumns.find((c) => c.name === columnId);
+    if (columnToSort?.sortMember) return columnToSort.sortMember(item) ?? 0;
+    return _defaultSortAccessor.bind(this.dataSource)(item, columnId);
   }
 
   private registerBackendQueryEvent() {
