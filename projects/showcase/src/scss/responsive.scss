@@ -1,0 +1,5 @@
+@mixin big-screen() {
+  @media (min-width: 599.98px) {
+    @content;
+  }
+}

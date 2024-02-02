@@ -1,3 +1,5 @@
+@import "../scss/responsive.scss";
+
 :host {
   position: relative;
   display: flex;
@@ -5,8 +7,10 @@
   height: 100%;
 }
 
-.mat-mdc-tab-nav-bar {
-  margin: 8px 16px 0;
+@include big-screen() {
+  .mat-mdc-tab-nav-bar {
+    margin: 8px 16px 0;
+  }
 }
 
 .mat-mdc-tab-nav-panel {
@@ -18,7 +22,13 @@
   ::ng-deep {
     router-outlet + * {
       height: 100%;
-      padding: 1.5rem 2.5rem 2.5rem;
+      padding: 0.5rem;
+      padding-top: 0.5rem;
+
+      @include big-screen() {
+        padding: 2.5rem;
+        padding-top: 1.5rem;
+      }
     }
   }
 }
@@ -34,7 +44,10 @@
 
   .mat-mdc-tab-body-content {
     gap: 1.5rem;
-    padding: 1.5rem;
+    padding: 0.5rem;
+    @include big-screen() {
+      padding: 1.5rem;
+    }
     display: flex;
     flex-direction: column;
     overflow: unset;

@@ -1,3 +1,5 @@
+@import "../../scss/responsive";
+
 :host {
   display: block;
   height: 100%;
@@ -7,7 +9,13 @@
     height: 100%;
 
     .mat-drawer-content {
-      padding: 1.5rem 2.5rem 2.5rem;
+      padding: 1rem;
+      padding-top: 0.5rem;
+
+      @include big-screen() {
+        padding: 2.5rem;
+        padding-top: 1.5rem;
+      }
       display: flex;
       flex-direction: column;
       gap: 1rem;
