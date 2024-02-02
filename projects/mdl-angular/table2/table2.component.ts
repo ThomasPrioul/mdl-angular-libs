@@ -80,8 +80,12 @@ export type ShouldRequestBackendType = {
   searchValue: string;
 };
 
+const _dataSource = new MatTableDataSource();
+const _defaultSortAccessor = _dataSource.sortingDataAccessor;
+const _defaultSortData = _dataSource.sortData;
+
 @Component({
-  selector: 'mdl-table2',
+  selector: 'mdl-table2, mdl-table',
   templateUrl: 'table2.component.html',
   styleUrls: ['table2.component.scss'],
   standalone: true,
@@ -126,7 +130,7 @@ export class MdlTableComponent<T>
   private _actionButtons: boolean | undefined;
   private _columnsEditor: boolean = false;
   private _dataSource!: readonly T[] | MatTableDataSource<T>;
-  private _displayedColumns!: ColumnDisplayInfo[];
+  private _displayedColumns!: ColumnDisplayInfo<T>[];
   private _filter: string = '';
   private _fullscreenButton: boolean = false;
   private _header: boolean | undefined = undefined;
@@ -142,16 +146,18 @@ export class MdlTableComponent<T>
   protected columnsOverlayOpen: boolean = false;
 
   @ContentChild(MatNoDataRow) public noDataRow!: MatNoDataRow;
+  @ContentChild('paginatorAddons') public paginatorAddons: TemplateRef<any> | null = null;
   @ContentChildren(MatColumnDef) public columnDefs!: QueryList<MatColumnDef>;
   @ContentChildren(MatHeaderRowDef) public headerRowDefs!: QueryList<MatHeaderRowDef>;
   @ContentChildren(MatRowDef) public rowDefs!: QueryList<MatRowDef<T>>;
+  @Input() public addonsPosition: 'left' | 'right' = 'left';
   @Input()
   public allowExpandFn?: (item: T) => boolean;
   @Input() public detailsRow: TemplateRef<any> | null = null;
+  @Input() public dividers: 'top' | 'bottom' | 'both' | 'none' = 'bottom';
   @Input() public loading: boolean | null = null;
   @Input() public pageSize?: number;
   @Input() public pagination: PaginationType = 'none';
-  @Input() public paginatorAddons: TemplateRef<any> | null = null;
   @Input() public rowClasses?: (row: T) => string[];
   @Input() public title?: string;
   @Input() public totalLength?: number;
@@ -173,11 +179,6 @@ export class MdlTableComponent<T>
       debounce((filter) => (filter ? timer(500) : of(filter))),
       share()
     );
-  }
-
-  @Output()
-  public get selectionChanged() {
-    return this.selectionModel.changed;
   }
 
   @Input()
@@ -230,6 +231,11 @@ export class MdlTableComponent<T>
     return this._selection;
   }
 
+  @Output()
+  public get selectionChanged() {
+    return this.selectionModel.changed;
+  }
+
   public set actionButtons(value: BooleanInput) {
     this._actionButtons = coerceBooleanProperty(value);
   }
@@ -244,10 +250,20 @@ export class MdlTableComponent<T>
 
   public set displayedColumns(value: ColumnDisplayInfo[]) {
     this._displayedColumns = value;
+
+    if (this.dataSource instanceof MatTableDataSource) {
+      this.dataSource.sortingDataAccessor = (data, columnId) =>
+        this.customSortAccessor(data, columnId);
+      this.dataSource.sortData = (data, sort) => this.customSort(data, sort);
+    }
+
     this.displayedColumnsChange.emit(value);
   }
 
   public set filter(value: string) {
+    if (this.pagination === 'frontend' && this.dataSource instanceof MatTableDataSource) {
+      this.dataSource.filter = value;
+    }
     this.filterChange.emit((this._filter = value));
   }
 
@@ -277,6 +293,7 @@ export class MdlTableComponent<T>
 
   public set selection(value: BooleanInput) {
     this._selection = coerceBooleanProperty(value);
+    this.selectionModel.clear(true);
   }
 
   public get sort() {
@@ -393,13 +410,6 @@ export class MdlTableComponent<T>
     this.expandedRow = this.expandedRow === row ? null : row;
   }
 
-  protected filterChanged(filter: string) {
-    if (this.pagination === 'frontend' && this.dataSource instanceof MatTableDataSource)
-      this.dataSource.filter = filter;
-
-    this.filter = filter;
-  }
-
   protected hasNoData(): BooleanInput {
     return this.dataSource instanceof MatTableDataSource
       ? this.dataSource.data.length === 0
@@ -446,6 +456,20 @@ export class MdlTableComponent<T>
     if (this.pagination === 'backend') {
       this.registerBackendQueryEvent();
     }
+  }
+
+  private customSort(data: T[], sort: MatSort): T[] {
+    const columnToSort = this.displayedColumns.find((c) => c.name === sort.active);
+    if (columnToSort?.sortFunction) {
+      return data.sort((a, b) => columnToSort.sortFunction!(a, b, sort.direction));
+    }
+    return _defaultSortData.bind(this.dataSource)(data, sort) as T[];
+  }
+
+  private customSortAccessor(item: T, columnId: string): string | number {
+    const columnToSort = this.displayedColumns.find((c) => c.name === columnId);
+    if (columnToSort?.sortMember) return columnToSort.sortMember(item) ?? 0;
+    return _defaultSortAccessor.bind(this.dataSource)(item, columnId);
   }
 
   private registerBackendQueryEvent() {

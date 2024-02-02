@@ -9,7 +9,7 @@ fullscreenButton))) ) {
       class="searchbar"
       #search
       [filter]="filter"
-      (filterChange)="filterChanged($event)"></mdl-table-searchbar>
+      (filterChange)="filter = $event"></mdl-table-searchbar>
     }
   </div>
   @if (actionButtons !== false && (columnsEditor || fullscreenButton)) {
@@ -63,7 +63,9 @@ fullscreenButton))) ) {
   </div>
   }
 </div>
-}
+@if (dividers === 'both' || dividers === 'top') {
+<mat-divider></mat-divider>
+} }
 
 <div class="table-container">
   @if (loading) {
@@ -150,16 +152,24 @@ fullscreenButton))) ) {
     </table>
   </div>
 </div>
-@if (pagination === 'frontend' || pagination === 'backend') {
-<footer>
-  <mat-divider></mat-divider>
+@if (pagination === 'frontend' || pagination === 'backend' || paginatorAddons !== null) { @if
+(dividers === 'both' || dividers === 'bottom') {
+<mat-divider></mat-divider>
+}
+<footer class="table-footer">
+  @if (addonsPosition === 'left') {
   <ng-container *ngTemplateOutlet="paginatorAddons"> </ng-container>
+  } @if (pagination === 'frontend' || pagination === 'backend') {
   <mat-paginator
+    [class.addon-right]="paginatorAddons !== null && addonsPosition === 'right'"
     [disabled]="loading === true"
     [length]="totalLength"
     [pageSize]="pageSize"
     [pageSizeOptions]="pageSizes"
     showFirstLastButtons>
   </mat-paginator>
+  } @if (addonsPosition === 'right') {
+  <ng-container *ngTemplateOutlet="paginatorAddons"> </ng-container>
+  }
 </footer>
 }

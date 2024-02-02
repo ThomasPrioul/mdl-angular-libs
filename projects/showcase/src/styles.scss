@@ -1,27 +1,5 @@
 @use "mdl-angular/scss" as mdl;
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-*,
-::before,
-::after {
-  border-style: unset;
-}
-
-html,
-body {
-  height: auto;
-}
-
-body {
-  margin: 0;
-  font-family: mdl.$font-sans-serif, "Helvetica Neue", sans-serif;
-}
-
-router-outlet {
-  display: none;
-}
+@import "scss/responsive";
 
 @import "mdl-angular/scss/fonts";
 @import "mdl-angular/scss/material/core";
@@ -59,6 +37,31 @@ router-outlet {
 @import "mdl-angular/scss/colored-badge";
 @import "mdl-angular/scss/highlight";
 @import "mdl-angular/scss/panels";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*,
+::before,
+::after {
+  border-style: unset;
+}
+
+html,
+body {
+  height: auto;
+}
+
+body {
+  margin: 0;
+  font-family: mdl.$font-sans-serif, "Helvetica Neue", sans-serif;
+}
+
+router-outlet {
+  display: none;
+}
+
 // @use '../../bottom-sheet/bottom-sheet-theme';
 // @use '../../grid-list/grid-list-theme';
 
@@ -68,5 +71,18 @@ mdl-table2.alternate-lines {
       background-color: #ff000020;
       border-top: 2px solid #00ff0020;
     }
+  }
+}
+
+fieldset {
+  padding: 0.5rem 1rem 1rem 1rem;
+  border: var(--mat-divider-width) solid var(--mat-divider-color);
+  border-radius: 0.5rem;
+
+  > legend {
+    font-weight: 500;
+    padding-right: 0.5rem;
+    padding-left: 0.25rem;
+    margin-left: -0.25rem;
   }
 }

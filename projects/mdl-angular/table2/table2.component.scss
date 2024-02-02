@@ -161,3 +161,19 @@ $blue-veil: color.change(colors.$primary, $alpha: 0.0625);
 .mat-mdc-table {
   min-height: 116px;
 }
+
+.table-footer {
+  display: flex;
+  gap: 0.5rem;
+
+  > .mat-mdc-paginator {
+    align-self: center;
+    flex-shrink: 0;
+    margin-left: auto;
+
+    &.addon-right {
+      margin-left: unset;
+      margin-right: auto;
+    }
+  }
+}

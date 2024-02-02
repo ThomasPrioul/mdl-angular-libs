@@ -257,6 +257,7 @@ textarea::placeholder {
   justify-content: center;
   text-align: center;
   font-weight: 500;
+  line-height: 48px;
 
   .dark &,
   .light .dark & {
