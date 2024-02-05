@@ -113,6 +113,12 @@
         </div>
       </ng-template>
 
+      <ng-container matColumnDef="date">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Date de création</th>
+        <td mat-cell *matCellDef="let serie; dataSource: dataSource">
+          {{ serie.dateCreation | dateTimeToLocaleString }}
+        </td>
+      </ng-container>
       <ng-container matColumnDef="nomTechniqueComplet">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Nom technique complet</th>
         <td mat-cell *matCellDef="let serie; dataSource: dataSource">

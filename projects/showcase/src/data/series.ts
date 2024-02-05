@@ -1,6 +1,12 @@
+import { DateTime } from 'luxon';
 import { Serie } from '../models/serie';
 
-export const SERIES: Serie[] = [
+function randomIntFromInterval(min: number, max: number): number {
+  // min and max included
+  return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
+export const SERIES = [
   {
     codeLcn: 'Z2N',
     codeSerieMateriel: 'Z5600',
@@ -302,4 +308,10 @@ export const SERIES: Serie[] = [
     typeSerie: 'Sous-Série',
     nomTechniqueComplet: 'Z 55500 \\ Extra-Longue (135m)',
   },
-];
+].map(
+  (s) =>
+    <Serie>{
+      ...s,
+      dateCreation: DateTime.now().minus({ days: randomIntFromInterval(0, 1000) }),
+    }
+);

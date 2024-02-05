@@ -9,7 +9,7 @@ import {
 } from 'mdl-angular/table2';
 import { SERIES } from '../../data/series';
 import { Serie } from '../../models/serie';
-import { MatSortModule } from '@angular/material/sort';
+import { MatSortModule, SortDirection } from '@angular/material/sort';
 import { MatButtonModule } from '@angular/material/button';
 import { TypeSafeMatCellDef } from 'mdl-angular';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
@@ -21,6 +21,8 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
 import { sortCodeSerieMateriel, sortNomTechniqueComplet } from '../../helpers/materiel-roulant';
+import { DateTime } from 'luxon';
+import { LuxonModule } from 'luxon-angular';
 
 @Component({
   selector: 'app-table2-demo',
@@ -28,6 +30,7 @@ import { sortCodeSerieMateriel, sortNomTechniqueComplet } from '../../helpers/ma
   imports: [
     CommonModule,
     FormsModule,
+    LuxonModule,
     MatButtonModule,
     MatButtonToggleModule,
     MatCheckboxModule,
@@ -47,21 +50,22 @@ import { sortCodeSerieMateriel, sortNomTechniqueComplet } from '../../helpers/ma
 export class Table2DemoComponent {
   private _pagination: PaginationType = 'backend';
 
+  protected DateTime = DateTime;
   protected addonsPosition: 'left' | 'right' = 'left';
   protected dataSource;
   protected displayedColumns: ColumnDisplayInfo<Serie>[] = [
+    { name: 'date', canHide: false, sortMember: (serie) => serie.dateCreation.toMillis() },
     {
       name: 'nomTechniqueComplet',
       canHide: false,
       sortFunction: (a, b, dir) =>
-        sortNomTechniqueComplet(a.nomTechniqueComplet, b.nomTechniqueComplet) *
-        (dir === 'asc' ? 1 : -1),
+        compare(dir, sortNomTechniqueComplet(a.nomTechniqueComplet, b.nomTechniqueComplet)),
     },
     { name: 'typeSerie', canHide: false },
     {
       name: 'codeSerieMateriel',
       sortFunction: (a, b, dir) =>
-        sortCodeSerieMateriel(a.codeSerieMateriel, b.codeSerieMateriel) * (dir === 'asc' ? 1 : -1),
+        compare(dir, sortCodeSerieMateriel(a.codeSerieMateriel, b.codeSerieMateriel)),
     },
     { name: 'codeLcn' },
     { name: 'codeSerieMere', canHide: false },
@@ -121,12 +125,27 @@ export class Table2DemoComponent {
           )
         : SERIES;
 
-      if (params.orderBy && params.orderDirection !== '') {
+      const orderBy = params.orderBy as keyof Serie | '' | 'date' | 'selection';
+
+      if (
+        orderBy &&
+        orderBy !== 'dateCreation' &&
+        orderBy !== 'selection' &&
+        params.orderDirection !== ''
+      ) {
         newItems.sort((serie1, serie2) => {
-          const comparison = ((serie1 as any)[params.orderBy] as string).localeCompare(
-            (serie2 as any)[params.orderBy] as string
-          );
-          return params.orderDirection === 'asc' ? comparison : -comparison;
+          const sortFunction = this.displayedColumns.find((c) => c.name === orderBy)?.sortFunction;
+          if (sortFunction) {
+            return sortFunction(serie1, serie2, params.orderDirection);
+          }
+
+          let comparison: number;
+          if (orderBy === 'date') {
+            comparison = serie1.dateCreation.toMillis() - serie2.dateCreation.toMillis();
+          } else {
+            comparison = (serie1[orderBy] ?? '').localeCompare(serie2[orderBy] ?? '');
+          }
+          return params.orderDirection === 'desc' ? -comparison : comparison;
         });
       }
 
@@ -141,4 +160,8 @@ export class Table2DemoComponent {
   protected selectionChanged(event: SelectionChange<Serie>) {
     this.selectedItems.set(event.source.selected);
   }
+}
+
+function compare(dir: SortDirection, value: number) {
+  return dir === '' ? 0 : value * (dir === 'asc' ? 1 : -1);
 }
