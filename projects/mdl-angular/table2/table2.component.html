@@ -77,7 +77,7 @@ fullscreenButton))) ) {
     <table mat-table [dataSource]="dataSource" [trackBy]="trackByFn" multiTemplateDataRows>
       <!-- Checkbox column -->
       @if (selection && selectionModel) {
-      <ng-container matColumnDef="selection">
+      <ng-container matColumnDef="selection" sticky>
         <th mat-header-cell *matHeaderCellDef>
           <mat-checkbox
             color="primary"
