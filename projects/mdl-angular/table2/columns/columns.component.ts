@@ -10,7 +10,6 @@ import {
   forwardRef,
   inject,
 } from '@angular/core';
-
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonModule, MatIconButton } from '@angular/material/button';
@@ -84,7 +83,7 @@ export class ColumnsComponent {
   }
 
   protected allStatus(columns: ColumnDisplayInfo[]) {
-    return columns.filter((c) => c.canHide).every((c) => c.visible);
+    return columns.filter((c) => c.canHide !== false).every((c) => c.visible !== false);
   }
 
   protected drop(event: CdkDragDrop<ColumnDisplayInfo[]>) {
@@ -98,8 +97,8 @@ export class ColumnsComponent {
   }
 
   protected indeterminateStatus(columns: ColumnDisplayInfo[]) {
-    columns = columns.filter((c) => c.canHide);
-    const nbChecked = columns.filter((c) => c.visible).length;
+    columns = columns.filter((c) => c.canHide !== false);
+    const nbChecked = columns.filter((c) => c.visible !== false).length;
     return nbChecked > 0 && nbChecked < columns.length;
   }
 
@@ -117,7 +116,7 @@ export class ColumnsComponent {
   }
 
   protected onAllClicked(event: MatCheckboxChange) {
-    this.columns?.filter((c) => c.canHide).forEach((c) => (c.visible = event.checked));
+    this.columns?.filter((c) => c.canHide !== false).forEach((c) => (c.visible = event.checked));
   }
 
   protected trackByColumnName(index: number, item: ColumnDisplayInfo) {
