@@ -1,8 +1,8 @@
 <mat-drawer-container>
   <mat-drawer #drawer mode="over" position="end" autoFocus="first-tabbable">
-    <div class="flex flex-col gap-4 p-6">
+    <div class="side-drawer">
       <div
-        class="-m-6 p-3 ps-6 mb-0 dark flex items-center justify-between"
+        class="side-drawer-header dark sticky z-10 top-0"
         style="color: white; background-color: #333">
         <h1 class="mat-h1 m-0">Paramètres</h1>
         <button mat-icon-button (click)="drawer.close()">
