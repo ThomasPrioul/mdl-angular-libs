@@ -355,15 +355,14 @@ export class MdlTableComponent<T>
     this.selectionModel.clear();
   }
 
-  /** Whether the number of selected elements matches the total number of rows. */
-  public isAllSelected() {
-    const numSelected = this.selectionModel.selected.length;
-    const numRows =
+  /** Whether the number of selected elements matches the total number of visible rows (current page). */
+  public isAllVisibleSelected() {
+    const rows =
       this.dataSource instanceof MatTableDataSource
-        ? this.dataSource.data.length
-        : this.dataSource.length;
+        ? this.dataSource._pageData(this.dataSource.filteredData)
+        : this.dataSource;
 
-    return numSelected === numRows;
+    return rows.every((row) => this.selectionModel.isSelected(row));
   }
 
   /** Resets page index to 0 and forces page changed event to be triggered.
@@ -386,14 +385,16 @@ export class MdlTableComponent<T>
   }
 
   /** Selects all rows if they are not all selected; otherwise clear selection. */
-  public toggleAllRows() {
-    if (this.isAllSelected()) {
+  public toggleAllVisibleRows() {
+    if (this.isAllVisibleSelected()) {
       this.selectionModel.clear();
       return;
     }
 
     let dataArray =
-      this.dataSource instanceof MatTableDataSource ? this.dataSource.data : this.dataSource;
+      this.dataSource instanceof MatTableDataSource
+        ? this.dataSource._pageData(this.dataSource.filteredData)
+        : this.dataSource;
 
     this.selectionModel.select(...dataArray);
   }
