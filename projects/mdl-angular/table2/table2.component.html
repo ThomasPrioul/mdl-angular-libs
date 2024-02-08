@@ -81,11 +81,11 @@ fullscreenButton))) ) {
         <th mat-header-cell *matHeaderCellDef>
           <mat-checkbox
             color="primary"
-            (change)="$event ? toggleAllRows() : null"
-            [checked]="selectionModel.hasValue() && isAllSelected()"
+            (change)="$event ? toggleAllVisibleRows() : null"
+            [checked]="selectionModel.hasValue() && isAllVisibleSelected()"
             [disabled]="hasNoData()"
-            [indeterminate]="selectionModel.hasValue() && !isAllSelected()"
-            [matTooltip]="isAllSelected() ? 'Tout désélectionner' : 'Tout sélectionner'">
+            [indeterminate]="selectionModel.hasValue() && !isAllVisibleSelected()"
+            [matTooltip]="isAllVisibleSelected() ? 'Tout désélectionner' : 'Tout sélectionner'">
           </mat-checkbox>
         </th>
         <td mat-cell *matCellDef="let row">
