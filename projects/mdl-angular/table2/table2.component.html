@@ -55,7 +55,7 @@ fullscreenButton))) ) {
       <button mat-icon-button matTooltip="Rafraîchir les données" (click)="refresh()">
         <mat-icon>refresh</mat-icon>
       </button>
-      <p class="dtRefresh">
+      <p class="dtRefresh" matTooltip="Heure du dernier chargement de données" style="cursor: help">
         {{ refreshAt() | dateTimeToLocaleString : DateTime.TIME_24_WITH_SECONDS }}
       </p>
     </div>
