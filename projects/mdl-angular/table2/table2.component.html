@@ -59,6 +59,10 @@ fullscreenButton))) ) {
       [mdlFullscreenButton]="el">
       <mat-icon>fullscreen</mat-icon>
     </button>
+    } @if (refreshButton) {
+    <button mat-icon-button matTooltip="Rafraîchir les données" (click)="refresh()">
+      <mat-icon>refresh</mat-icon>
+    </button>
     }
   </div>
   }

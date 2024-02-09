@@ -133,6 +133,7 @@ export class MdlTableComponent<T>
   private _fullscreenButton: boolean = false;
   private _header: boolean | undefined = undefined;
   private _pageSizes: number[] = [10, 25, 100];
+  private _refreshButton: boolean = false;
   private _requerySubscription?: Subscription;
   private _searchBar: boolean = false;
   private _selection = false;
@@ -161,6 +162,7 @@ export class MdlTableComponent<T>
   @Input() public totalLength?: number;
   @Output() public displayedColumnsChange = new EventEmitter<ColumnDisplayInfo[]>();
   @Output() public filterChange = new EventEmitter<string>();
+  @Output() public shouldRefresh = new EventEmitter<string>();
   @Output() public shouldRequestBackend = new EventEmitter<ShouldRequestBackendType>();
   @ViewChild(MatPaginator) public paginator?: MatPaginator;
   @ViewChild(MatTable, { static: true }) public table!: MatTable<T>;
@@ -217,6 +219,11 @@ export class MdlTableComponent<T>
   @Input()
   public get pageSizes(): number[] {
     return this._pageSizes;
+  }
+
+  @Input()
+  public get refreshButton(): BooleanInput {
+    return this._refreshButton;
   }
 
   @Input()
@@ -281,6 +288,10 @@ export class MdlTableComponent<T>
     this._pageSizes = value;
   }
 
+  public set refreshButton(value: BooleanInput) {
+    this._refreshButton = coerceBooleanProperty(value);
+  }
+
   public set searchBar(value: BooleanInput) {
     this._searchBar = coerceBooleanProperty(value);
   }
@@ -324,6 +335,8 @@ export class MdlTableComponent<T>
     this.rowDefs.forEach((rowDef) => this.table.addRowDef(rowDef));
     this.headerRowDefs.forEach((headerRowDef) => this.table.addHeaderRowDef(headerRowDef));
     this.table.setNoDataRow(this.noDataRow);
+
+    // this.table.s
   }
 
   public ngAfterViewInit() {
@@ -342,6 +355,7 @@ export class MdlTableComponent<T>
     this._destroy.next();
     this._destroy.complete();
     this.shouldRequestBackend.complete();
+    this.shouldRefresh.complete();
   }
 
   @Input() public trackByFn: (index: number, row: T) => number | string = (
@@ -363,6 +377,10 @@ export class MdlTableComponent<T>
         : this.dataSource;
 
     return rows.every((row) => this.selectionModel.isSelected(row));
+  }
+
+  public refresh() {
+    this.shouldRefresh.emit('test');
   }
 
   /** Resets page index to 0 and forces page changed event to be triggered.
