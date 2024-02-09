@@ -63,6 +63,9 @@
           <mat-slide-toggle #enableFullscreen color="primary" [checked]="true"
             >Fullscreen</mat-slide-toggle
           >
+          <mat-slide-toggle #enableFRefresh color="primary" [checked]="true"
+            >Refresh</mat-slide-toggle
+          >
         </div>
       </fieldset>
       <fieldset>
@@ -95,7 +98,7 @@
       [columnsEditor]="enableColumns.checked"
       [actionButtons]="enableActionButtons.checked"
       [fullscreenButton]="enableFullscreen.checked"
-      [refreshButton]="'true'"
+      [refreshButton]="enableFRefresh.checked"
       [addonsPosition]="addonsPosition"
       (filterChange)="filterChanged($event)"
       [pagination]="pagination"

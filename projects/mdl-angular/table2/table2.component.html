@@ -12,17 +12,8 @@ fullscreenButton))) ) {
       (filterChange)="filter = $event"></mdl-table-searchbar>
     }
   </div>
-  @if (actionButtons !== false && (columnsEditor || fullscreenButton)) {
+  @if (actionButtons !== false && (columnsEditor || fullscreenButton|| refreshButton)) {
   <div class="action-buttons">
-    <!-- <button
-        mat-icon-button
-        [matTooltip]="search.visible ? 'Fermer la recherche' : 'Ouvrir la recherche'"
-        (click)="toggleSearch()">
-        <mat-icon>{{ search.visible ? "search_off" : "search" }}</mat-icon>
-      </button> -->
-    <!-- <button mat-icon-button matTooltip="Filtres">
-      <mat-icon>filter_list</mat-icon>
-    </button> -->
     @if (columnsEditor) {
     <button
       mat-icon-button
@@ -60,9 +51,14 @@ fullscreenButton))) ) {
       <mat-icon>fullscreen</mat-icon>
     </button>
     } @if (refreshButton) {
-    <button mat-icon-button matTooltip="Rafraîchir les données" (click)="refresh()">
-      <mat-icon>refresh</mat-icon>
-    </button>
+    <div class="refresh">
+      <button mat-icon-button matTooltip="Rafraîchir les données" (click)="refresh()">
+        <mat-icon>refresh</mat-icon>
+      </button>
+      <p class="dtRefresh">
+        {{ refreshAt() | dateTimeToLocaleString : DateTime.TIME_24_WITH_SECONDS }}
+      </p>
+    </div>
     }
   </div>
   }

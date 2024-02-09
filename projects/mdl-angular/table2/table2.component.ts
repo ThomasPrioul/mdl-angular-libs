@@ -22,6 +22,7 @@ import {
   OnChanges,
   SimpleChanges,
   AfterViewChecked,
+  signal,
 } from '@angular/core';
 import {
   MatColumnDef,
@@ -60,7 +61,6 @@ import {
   Subject,
   Subscription,
   debounce,
-  debounceTime,
   map,
   merge,
   of,
@@ -70,6 +70,8 @@ import {
   tap,
   timer,
 } from 'rxjs';
+import { DateTime } from 'luxon';
+import { LuxonModule } from 'luxon-angular';
 
 export type PaginationType = 'none' | 'frontend' | 'backend';
 export type ShouldRequestBackendType = {
@@ -91,6 +93,7 @@ export type ShouldRequestBackendType = {
   imports: [
     // NG
     CommonModule,
+    LuxonModule,
 
     // Material
     MatDividerModule,
@@ -142,6 +145,7 @@ export class MdlTableComponent<T>
   @ViewChild(SearchbarComponent)
   protected readonly searchbar!: SearchbarComponent;
 
+  protected DateTime = DateTime;
   protected columnsOverlayOpen: boolean = false;
 
   @ContentChild(MatNoDataRow) public noDataRow!: MatNoDataRow;
@@ -162,12 +166,13 @@ export class MdlTableComponent<T>
   @Input() public totalLength?: number;
   @Output() public displayedColumnsChange = new EventEmitter<ColumnDisplayInfo[]>();
   @Output() public filterChange = new EventEmitter<string>();
-  @Output() public shouldRefresh = new EventEmitter<string>();
+  @Output() public shouldRefresh = new EventEmitter<DateTime>();
   @Output() public shouldRequestBackend = new EventEmitter<ShouldRequestBackendType>();
   @ViewChild(MatPaginator) public paginator?: MatPaginator;
   @ViewChild(MatTable, { static: true }) public table!: MatTable<T>;
 
   public expandedRow: T | null = null;
+  public refreshAt = signal<DateTime>(DateTime.now());
   public selectionModel = new SelectionModel<T>(true, []);
 
   constructor(
@@ -335,8 +340,6 @@ export class MdlTableComponent<T>
     this.rowDefs.forEach((rowDef) => this.table.addRowDef(rowDef));
     this.headerRowDefs.forEach((headerRowDef) => this.table.addHeaderRowDef(headerRowDef));
     this.table.setNoDataRow(this.noDataRow);
-
-    // this.table.s
   }
 
   public ngAfterViewInit() {
@@ -380,7 +383,8 @@ export class MdlTableComponent<T>
   }
 
   public refresh() {
-    this.shouldRefresh.emit('test');
+    this.refreshAt.set(DateTime.now());
+    this.shouldRefresh.emit(DateTime.now());
   }
 
   /** Resets page index to 0 and forces page changed event to be triggered.
