@@ -47,6 +47,13 @@
       (click)="dark.enabled = !dark.enabled">
       <mat-icon [innerText]="dark.enabled ? 'light_mode' : 'dark_mode'"></mat-icon>
     </button>
+    <a
+      mat-flat-button
+      color="accent"
+      href="https://github.com/ThomasPrioul/mdl-angular-libs"
+      target="_blank"
+      ><img src="/assets/GitHub_Logo_White.png" width="80px"
+    /></a>
   </mat-toolbar-row>
   <mat-toolbar-row *ngIf="brk.breakpoints[breakpoints.XSmall]">
     <mat-slide-toggle color="primary" class="self-center" [(ngModel)]="simpleMenu">
