@@ -1,4 +1,5 @@
-<mat-toolbar *ngIf="breakpoints$ | async as brk">
+@if (breakpoints$ | async; as brk){
+<mat-toolbar>
   <mat-toolbar-row>
     <div class="logos">
       <div class="sncf-logo" [class.simple-menu]="simpleMenu">
@@ -38,37 +39,54 @@
       [(ngModel)]="fixedHeight">
       Hauteur de page fixe
     </mat-slide-toggle>
-    <button
-      *ngIf="!brk.breakpoints[breakpoints.XSmall]"
+    @if (!brk.breakpoints[breakpoints.XSmall]) {
+    <mat-button-toggle-group
+      class="options small dark"
       appDarkMode
-      #dark="darkMode"
-      mat-icon-button
-      [matTooltip]="dark.enabled ? 'Mode clair' : 'Mode sombre'"
-      (click)="dark.enabled = !dark.enabled">
-      <mat-icon [innerText]="dark.enabled ? 'light_mode' : 'dark_mode'"></mat-icon>
-    </button>
+      [(value)]="dark.enabled"
+      #dark="darkMode">
+      <mat-button-toggle value="auto" matTooltip="Suit le réglage système">auto</mat-button-toggle>
+      <mat-button-toggle value="light" matTooltip="Mode clair"
+        ><mat-icon>light_mode</mat-icon></mat-button-toggle
+      >
+      <mat-button-toggle value="dark" matTooltip="Mode sombre"
+        ><mat-icon>dark_mode</mat-icon></mat-button-toggle
+      >
+    </mat-button-toggle-group>
+    }
     <a
       mat-flat-button
       color="accent"
       href="https://github.com/ThomasPrioul/mdl-angular-libs"
       target="_blank"
-      ><img src="/assets/GitHub_Logo_White.png" width="80px"
+      ><img src="assets/GitHub_Logo_White.png" width="80px"
     /></a>
   </mat-toolbar-row>
-  <mat-toolbar-row *ngIf="brk.breakpoints[breakpoints.XSmall]">
+  @if (brk.breakpoints[breakpoints.XSmall]) {
+  <mat-toolbar-row>
     <mat-slide-toggle color="primary" class="self-center" [(ngModel)]="simpleMenu">
       Menu simple
     </mat-slide-toggle>
     <mat-slide-toggle color="primary" class="ms-auto" [(ngModel)]="fixedHeight">
       Hauteur de page fixe
     </mat-slide-toggle>
-    <button
+
+    @if (!brk.breakpoints[breakpoints.XSmall]) {
+    <mat-button-toggle-group
+      class="options small dark"
       appDarkMode
-      #dark="darkMode"
-      mat-icon-button
-      [matTooltip]="dark.enabled ? 'Mode clair' : 'Mode sombre'"
-      (click)="dark.enabled = !dark.enabled">
-      <mat-icon [innerText]="dark.enabled ? 'light_mode' : 'dark_mode'"></mat-icon>
-    </button>
+      [(value)]="dark.enabled"
+      #dark="darkMode">
+      <mat-button-toggle [value]="null">auto</mat-button-toggle>
+      <mat-button-toggle [value]="false" matTooltip="Mode clair"
+        ><mat-icon>light_mode</mat-icon></mat-button-toggle
+      >
+      <mat-button-toggle [value]="true" matTooltip="Mode sombre"
+        ><mat-icon>dark_mode</mat-icon></mat-button-toggle
+      >
+    </mat-button-toggle-group>
+    }
   </mat-toolbar-row>
+  }
 </mat-toolbar>
+}
