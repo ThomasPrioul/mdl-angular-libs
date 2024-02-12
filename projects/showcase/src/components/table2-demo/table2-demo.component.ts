@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { ChangeDetectionStrategy, Component, OnInit, ViewChild, signal } from '@angular/core';
+import { MatTable, MatTableDataSource, MatTableModule } from '@angular/material/table';
 import {
   ColumnDisplayInfo,
   MdlTableComponent,
@@ -49,6 +49,7 @@ import { LuxonModule } from 'luxon-angular';
 })
 export class Table2DemoComponent {
   private _pagination: PaginationType = 'backend';
+  @ViewChild(MdlTableComponent, { static: true }) public table!: MdlTableComponent<Serie>;
 
   protected DateTime = DateTime;
   protected addonsPosition: 'left' | 'right' = 'left';
@@ -109,6 +110,12 @@ export class Table2DemoComponent {
       this.dataSource.data = [];
       this.loading.set(false);
     }, 1000);
+  }
+
+  protected refreshBackend(lastRefreshDate: Date) {
+    const paging = this.table.lastPaginatedRequest;
+    if (!paging) return;
+    this.requestBackend(paging);
   }
 
   protected requestBackend(params: ShouldRequestBackendType) {

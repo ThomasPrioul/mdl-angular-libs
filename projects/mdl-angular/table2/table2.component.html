@@ -1,9 +1,24 @@
 @if ( header !== false && (title || searchBar || (actionButtons !== false && (columnsEditor ||
-fullscreenButton))) ) {
+fullscreenButton || refreshButton))) ) {
 <div class="header">
   <div class="left-side">
     @if (title) {
     <div class="title">{{ title }}</div>
+    } @if (refreshButton && actionButtons !== false) {
+    <div class="action-buttons">
+      <button
+        style="margin: 0 -0.5rem"
+        mat-icon-button
+        [disabled]="loading === true"
+        matTooltip="Rafraîchir"
+        (click)="refresh()">
+        @if (loading === true) {
+        <mdl-spinner [diameter]="24"></mdl-spinner>
+        } @else {
+        <mat-icon>refresh</mat-icon>
+        }
+      </button>
+    </div>
     } @if (searchBar) {
     <mdl-table-searchbar
       class="searchbar"
@@ -12,17 +27,8 @@ fullscreenButton))) ) {
       (filterChange)="filter = $event"></mdl-table-searchbar>
     }
   </div>
-  @if (actionButtons !== false && (columnsEditor || fullscreenButton)) {
+  @if (actionButtons !== false && (columnsEditor || fullscreenButton|| refreshButton)) {
   <div class="action-buttons">
-    <!-- <button
-        mat-icon-button
-        [matTooltip]="search.visible ? 'Fermer la recherche' : 'Ouvrir la recherche'"
-        (click)="toggleSearch()">
-        <mat-icon>{{ search.visible ? "search_off" : "search" }}</mat-icon>
-      </button> -->
-    <!-- <button mat-icon-button matTooltip="Filtres">
-      <mat-icon>filter_list</mat-icon>
-    </button> -->
     @if (columnsEditor) {
     <button
       mat-icon-button

@@ -22,6 +22,7 @@ import {
   OnChanges,
   SimpleChanges,
   AfterViewChecked,
+  signal,
 } from '@angular/core';
 import {
   MatColumnDef,
@@ -60,7 +61,6 @@ import {
   Subject,
   Subscription,
   debounce,
-  debounceTime,
   map,
   merge,
   of,
@@ -132,7 +132,9 @@ export class MdlTableComponent<T>
   private _filter: string = '';
   private _fullscreenButton: boolean = false;
   private _header: boolean | undefined = undefined;
+  private _lastPaginatedRequest?: ShouldRequestBackendType | undefined;
   private _pageSizes: number[] = [10, 25, 100];
+  private _refreshButton: boolean = false;
   private _requerySubscription?: Subscription;
   private _searchBar: boolean = false;
   private _selection = false;
@@ -161,6 +163,7 @@ export class MdlTableComponent<T>
   @Input() public totalLength?: number;
   @Output() public displayedColumnsChange = new EventEmitter<ColumnDisplayInfo[]>();
   @Output() public filterChange = new EventEmitter<string>();
+  @Output() public shouldRefresh = new EventEmitter<Date>();
   @Output() public shouldRequestBackend = new EventEmitter<ShouldRequestBackendType>();
   @ViewChild(MatPaginator) public paginator?: MatPaginator;
   @ViewChild(MatTable, { static: true }) public table!: MatTable<T>;
@@ -220,6 +223,11 @@ export class MdlTableComponent<T>
   }
 
   @Input()
+  public get refreshButton(): BooleanInput {
+    return this._refreshButton;
+  }
+
+  @Input()
   public get searchBar(): BooleanInput {
     return this._searchBar;
   }
@@ -273,12 +281,20 @@ export class MdlTableComponent<T>
     this._header = coerceBooleanProperty(value);
   }
 
+  public get lastPaginatedRequest(): ShouldRequestBackendType | undefined {
+    return this._lastPaginatedRequest;
+  }
+
   /** Array with page sizes. */
   public set pageSizes(value: number[]) {
     if (value.length === 0) throw new Error('Page length options cannot be empty');
     if (value.some((x) => x <= 0))
       throw new Error('Page length options cannot contain 0 or negative values');
     this._pageSizes = value;
+  }
+
+  public set refreshButton(value: BooleanInput) {
+    this._refreshButton = coerceBooleanProperty(value);
   }
 
   public set searchBar(value: BooleanInput) {
@@ -342,6 +358,7 @@ export class MdlTableComponent<T>
     this._destroy.next();
     this._destroy.complete();
     this.shouldRequestBackend.complete();
+    this.shouldRefresh.complete();
   }
 
   @Input() public trackByFn: (index: number, row: T) => number | string = (
@@ -363,6 +380,10 @@ export class MdlTableComponent<T>
         : this.dataSource;
 
     return rows.every((row) => this.selectionModel.isSelected(row));
+  }
+
+  public refresh() {
+    this.shouldRefresh.emit(new Date());
   }
 
   /** Resets page index to 0 and forces page changed event to be triggered.
@@ -492,6 +513,7 @@ export class MdlTableComponent<T>
                 searchValue: this.filter,
               }
           ),
+          tap((info) => (this._lastPaginatedRequest = info)),
           tap((info) => this.shouldRequestBackend.emit(info))
         )
         .subscribe()
