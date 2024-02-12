@@ -70,8 +70,6 @@ import {
   tap,
   timer,
 } from 'rxjs';
-import { DateTime } from 'luxon';
-import { LuxonModule } from 'luxon-angular';
 
 export type PaginationType = 'none' | 'frontend' | 'backend';
 export type ShouldRequestBackendType = {
@@ -93,7 +91,6 @@ export type ShouldRequestBackendType = {
   imports: [
     // NG
     CommonModule,
-    LuxonModule,
 
     // Material
     MatDividerModule,
@@ -135,6 +132,7 @@ export class MdlTableComponent<T>
   private _filter: string = '';
   private _fullscreenButton: boolean = false;
   private _header: boolean | undefined = undefined;
+  private _lastPaginatedRequest?: ShouldRequestBackendType | undefined;
   private _pageSizes: number[] = [10, 25, 100];
   private _refreshButton: boolean = false;
   private _requerySubscription?: Subscription;
@@ -145,7 +143,6 @@ export class MdlTableComponent<T>
   @ViewChild(SearchbarComponent)
   protected readonly searchbar!: SearchbarComponent;
 
-  protected DateTime = DateTime;
   protected columnsOverlayOpen: boolean = false;
 
   @ContentChild(MatNoDataRow) public noDataRow!: MatNoDataRow;
@@ -166,13 +163,12 @@ export class MdlTableComponent<T>
   @Input() public totalLength?: number;
   @Output() public displayedColumnsChange = new EventEmitter<ColumnDisplayInfo[]>();
   @Output() public filterChange = new EventEmitter<string>();
-  @Output() public shouldRefresh = new EventEmitter<DateTime>();
+  @Output() public shouldRefresh = new EventEmitter<Date>();
   @Output() public shouldRequestBackend = new EventEmitter<ShouldRequestBackendType>();
   @ViewChild(MatPaginator) public paginator?: MatPaginator;
   @ViewChild(MatTable, { static: true }) public table!: MatTable<T>;
 
   public expandedRow: T | null = null;
-  public refreshAt = signal<DateTime>(DateTime.now());
   public selectionModel = new SelectionModel<T>(true, []);
 
   constructor(
@@ -285,6 +281,10 @@ export class MdlTableComponent<T>
     this._header = coerceBooleanProperty(value);
   }
 
+  public get lastPaginatedRequest(): ShouldRequestBackendType | undefined {
+    return this._lastPaginatedRequest;
+  }
+
   /** Array with page sizes. */
   public set pageSizes(value: number[]) {
     if (value.length === 0) throw new Error('Page length options cannot be empty');
@@ -383,8 +383,7 @@ export class MdlTableComponent<T>
   }
 
   public refresh() {
-    this.refreshAt.set(DateTime.now());
-    this.shouldRefresh.emit(DateTime.now());
+    this.shouldRefresh.emit(new Date());
   }
 
   /** Resets page index to 0 and forces page changed event to be triggered.
@@ -514,6 +513,7 @@ export class MdlTableComponent<T>
                 searchValue: this.filter,
               }
           ),
+          tap((info) => (this._lastPaginatedRequest = info)),
           tap((info) => this.shouldRequestBackend.emit(info))
         )
         .subscribe()

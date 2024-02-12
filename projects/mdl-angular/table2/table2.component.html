@@ -1,9 +1,24 @@
 @if ( header !== false && (title || searchBar || (actionButtons !== false && (columnsEditor ||
-fullscreenButton))) ) {
+fullscreenButton || refreshButton))) ) {
 <div class="header">
   <div class="left-side">
     @if (title) {
     <div class="title">{{ title }}</div>
+    } @if (refreshButton && actionButtons !== false) {
+    <div class="action-buttons">
+      <button
+        style="margin: 0 -0.5rem"
+        mat-icon-button
+        [disabled]="loading === true"
+        matTooltip="Rafraîchir"
+        (click)="refresh()">
+        @if (loading === true) {
+        <mdl-spinner [diameter]="24"></mdl-spinner>
+        } @else {
+        <mat-icon>refresh</mat-icon>
+        }
+      </button>
+    </div>
     } @if (searchBar) {
     <mdl-table-searchbar
       class="searchbar"
@@ -50,15 +65,6 @@ fullscreenButton))) ) {
       [mdlFullscreenButton]="el">
       <mat-icon>fullscreen</mat-icon>
     </button>
-    } @if (refreshButton) {
-    <div class="refresh">
-      <button mat-icon-button matTooltip="Rafraîchir les données" (click)="refresh()">
-        <mat-icon>refresh</mat-icon>
-      </button>
-      <p class="dtRefresh" matTooltip="Heure du dernier chargement de données" style="cursor: help">
-        {{ refreshAt() | dateTimeToLocaleString : DateTime.TIME_24_WITH_SECONDS }}
-      </p>
-    </div>
     }
   </div>
   }

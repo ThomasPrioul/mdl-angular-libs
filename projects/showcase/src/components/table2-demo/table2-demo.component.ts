@@ -47,7 +47,7 @@ import { LuxonModule } from 'luxon-angular';
   styleUrls: ['./table2-demo.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class Table2DemoComponent implements OnInit {
+export class Table2DemoComponent {
   private _pagination: PaginationType = 'backend';
   @ViewChild(MdlTableComponent, { static: true }) public table!: MdlTableComponent<Serie>;
 
@@ -77,10 +77,6 @@ export class Table2DemoComponent implements OnInit {
 
   constructor() {
     this.dataSource = new MatTableDataSource<Serie>();
-  }
-
-  ngOnInit(): void {
-    this.table.shouldRefresh.pipe().subscribe((x) => console.log(x));
   }
 
   protected get pagination(): PaginationType {
@@ -116,8 +112,10 @@ export class Table2DemoComponent implements OnInit {
     }, 1000);
   }
 
-  protected refreshBackend(p: any) {
-    console.log(p);
+  protected refreshBackend(lastRefreshDate: Date) {
+    const paging = this.table.lastPaginatedRequest;
+    if (!paging) return;
+    this.requestBackend(paging);
   }
 
   protected requestBackend(params: ShouldRequestBackendType) {
