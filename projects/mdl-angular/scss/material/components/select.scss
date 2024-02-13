@@ -15,6 +15,8 @@
 .light,
 .dark .light {
   @include mat.select-color(theme.$light-theme);
+  --mat-select-enabled-trigger-text-color: colors.$cool-gray-11;
+  --mat-select-placeholder-text-color: colors.$cool-gray-9;
 }
 
 .small {
@@ -29,11 +31,10 @@
 //   }
 // }
 
-.mat-mdc-select-placeholder {
-  color: #4d4f53;
-  font-weight: 400;
-  font-size: 16px;
-}
+// .mat-mdc-select-placeholder {
+//   font-weight: 400;
+//   font-size: 16px;
+// }
 
 html {
   --mdc-shape-medium: 8px;
