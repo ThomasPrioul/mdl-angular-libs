@@ -33,6 +33,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 })
 export class SearchbarComponent {
   private _filter: string = '';
+  private _placeHolder: string = '';
 
   @Output() public filterChange = new EventEmitter<string>();
 
@@ -41,9 +42,18 @@ export class SearchbarComponent {
     return this._filter;
   }
 
+  @Input()
+  public get placeHolder(): string {
+    return this._placeHolder;
+  }
+
   public set filter(value: string) {
     if (this._filter === value) return;
     this._filter = value;
     this.filterChange.emit(value);
+  }
+
+  public set placeHolder(value: string) {
+    this._placeHolder = value;
   }
 }
