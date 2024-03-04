@@ -4,6 +4,10 @@ import { DateTime } from 'luxon';
 
 @Injectable()
 export class DemoDateAdapter extends LuxonDateAdapter {
+  public override compareDate(first: DateTime<boolean>, second: DateTime<boolean>): number {
+    return +first - +second;
+  }
+
   public override format(date: DateTime<boolean>, displayFormat: string | string[]): string {
     if (Array.isArray(displayFormat)) {
       for (let currentFormat of displayFormat) {
