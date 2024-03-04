@@ -134,7 +134,6 @@ export class MdlTableComponent<T>
   private _header: boolean | undefined = undefined;
   private _lastPaginatedRequest?: ShouldRequestBackendType | undefined;
   private _pageSizes: number[] = [10, 25, 100];
-  private _placeHolder: string = '';
   private _refreshButton: boolean = false;
   private _requerySubscription?: Subscription;
   private _searchBar: boolean = false;
@@ -159,6 +158,8 @@ export class MdlTableComponent<T>
   @Input() public loading: boolean | null = null;
   @Input() public pageSize?: number;
   @Input() public pagination: PaginationType = 'none';
+  @Input()
+  public placeholder: string = '';
   @Input() public rowClasses?: (row: T) => string[];
   @Input() public title?: string;
   @Input() public totalLength?: number;
@@ -221,11 +222,6 @@ export class MdlTableComponent<T>
   @Input()
   public get pageSizes(): number[] {
     return this._pageSizes;
-  }
-
-  @Input()
-  public get placeHolder() {
-    return this._placeHolder;
   }
 
   @Input()
@@ -297,10 +293,6 @@ export class MdlTableComponent<T>
     if (value.some((x) => x <= 0))
       throw new Error('Page length options cannot contain 0 or negative values');
     this._pageSizes = value;
-  }
-
-  public set placeHolder(value: string) {
-    this._placeHolder = value;
   }
 
   public set refreshButton(value: BooleanInput) {
