@@ -158,6 +158,8 @@ export class MdlTableComponent<T>
   @Input() public loading: boolean | null = null;
   @Input() public pageSize?: number;
   @Input() public pagination: PaginationType = 'none';
+  @Input()
+  public placeholder: string = '';
   @Input() public rowClasses?: (row: T) => string[];
   @Input() public title?: string;
   @Input() public totalLength?: number;

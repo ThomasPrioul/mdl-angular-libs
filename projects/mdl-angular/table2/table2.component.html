@@ -24,6 +24,7 @@ fullscreenButton || refreshButton))) ) {
       class="searchbar"
       #search
       [filter]="filter"
+      [placeholder]="placeholder"
       (filterChange)="filter = $event"></mdl-table-searchbar>
     }
   </div>
