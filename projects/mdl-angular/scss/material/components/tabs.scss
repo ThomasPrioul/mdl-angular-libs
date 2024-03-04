@@ -15,7 +15,7 @@
 .dark .light {
   @include mat.tabs-color(theme.$light-theme);
 
-  --mat-tab-header-pagination-icon-color: colors.$blue;
+  --mat-tab-header-pagination-icon-color: #{colors.$blue};
 }
 
 .mdc-tab-indicator .mdc-tab-indicator__content--underline {
