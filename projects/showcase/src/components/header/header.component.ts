@@ -19,6 +19,7 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatMenuModule } from '@angular/material/menu';
 
 @Component({
   selector: 'app-header',
@@ -28,6 +29,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
     FormsModule,
     MatToolbarModule,
     MatButtonToggleModule,
+    MatMenuModule,
     MatSlideToggleModule,
     MatTooltipModule,
     MatButtonModule,

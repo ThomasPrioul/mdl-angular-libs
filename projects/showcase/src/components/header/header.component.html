@@ -14,79 +14,85 @@
         MDL lib demo
       </button>
     </div>
-    <div
-      *ngIf="!brk.breakpoints[breakpoints.XSmall]"
-      class="small self-center"
-      appDarkMode
-      #dark="darkMode"
-      [class.light]="!dark.enabledSignal()">
-      <mat-form-field>
-        <mat-icon matIconPrefix>search</mat-icon>
-        <input type="text" placeholder="Rechercher..." matInput />
-      </mat-form-field>
-    </div>
-    <mat-slide-toggle
-      *ngIf="!brk.breakpoints[breakpoints.XSmall]"
-      color="primary"
-      class="self-center"
-      [(ngModel)]="simpleMenu">
-      Menu simple
-    </mat-slide-toggle>
-    <mat-slide-toggle
-      *ngIf="!brk.breakpoints[breakpoints.XSmall]"
-      color="primary"
-      class="ms-auto"
-      [(ngModel)]="fixedHeight">
-      Hauteur de page fixe
-    </mat-slide-toggle>
-    @if (!brk.breakpoints[breakpoints.XSmall]) {
-    <mat-button-toggle-group
-      class="options small dark"
-      appDarkMode
-      [(value)]="dark.enabled"
-      #dark="darkMode">
-      <mat-button-toggle value="auto" matTooltip="Suit le réglage système">auto</mat-button-toggle>
-      <mat-button-toggle value="light" matTooltip="Mode clair"
-        ><mat-icon>light_mode</mat-icon></mat-button-toggle
-      >
-      <mat-button-toggle value="dark" matTooltip="Mode sombre"
-        ><mat-icon>dark_mode</mat-icon></mat-button-toggle
-      >
-    </mat-button-toggle-group>
-    }
-    <a
-      mat-flat-button
-      color="accent"
-      href="https://github.com/ThomasPrioul/mdl-angular-libs"
-      target="_blank"
-      ><img src="assets/GitHub_Logo_White.png" width="80px"
-    /></a>
-  </mat-toolbar-row>
-  @if (brk.breakpoints[breakpoints.XSmall]) {
-  <mat-toolbar-row>
-    <mat-slide-toggle color="primary" class="self-center" [(ngModel)]="simpleMenu">
-      Menu simple
-    </mat-slide-toggle>
-    <mat-slide-toggle color="primary" class="ms-auto" [(ngModel)]="fixedHeight">
-      Hauteur de page fixe
-    </mat-slide-toggle>
+    <div class="ms-auto flex gap-4 items-center">
+      @if (!brk.breakpoints[breakpoints.XSmall]) {
+      <div
+        class="small self-center"
+        appDarkMode
+        #dark="darkMode"
+        [class.light]="!dark.enabledSignal()">
+        <mat-form-field>
+          <mat-icon matIconPrefix>search</mat-icon>
+          <input type="text" placeholder="Rechercher..." matInput />
+        </mat-form-field>
+      </div>
+      <mat-slide-toggle color="primary" class="self-center" [(ngModel)]="simpleMenu">
+        Menu simple
+      </mat-slide-toggle>
+      <mat-slide-toggle color="primary" class="ms-auto" [(ngModel)]="fixedHeight">
+        Hauteur de page fixe
+      </mat-slide-toggle>
+      <mat-button-toggle-group
+        class="options small dark"
+        style="font-size: 14px"
+        appDarkMode
+        [(value)]="dark.enabled"
+        #dark="darkMode">
+        <mat-button-toggle value="auto" matTooltip="Suit le réglage système"
+          >auto</mat-button-toggle
+        >
+        <mat-button-toggle value="light" matTooltip="Mode clair"
+          ><mat-icon>light_mode</mat-icon></mat-button-toggle
+        >
+        <mat-button-toggle value="dark" matTooltip="Mode sombre"
+          ><mat-icon>dark_mode</mat-icon></mat-button-toggle
+        >
+      </mat-button-toggle-group>
+      } @else {
+      <button mat-icon-button [matMenuTriggerFor]="menu">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <div mat-menu-item>
+          <mat-slide-toggle color="primary" [(ngModel)]="simpleMenu">
+            Menu simple
+          </mat-slide-toggle>
+        </div>
+        <div mat-menu-item>
+          <mat-slide-toggle color="primary" [(ngModel)]="fixedHeight">
+            Hauteur de page fixe
+          </mat-slide-toggle>
+        </div>
+        <div mat-menu-item>
+          <div style="align-self: center; margin-right: 1rem">Thème:</div>
+          <mat-button-toggle-group
+            class="options small"
+            style="font-size: 14px"
+            appDarkMode
+            [(value)]="dark.enabled"
+            #dark="darkMode">
+            <mat-button-toggle value="auto" matTooltip="Suit le réglage système"
+              >auto</mat-button-toggle
+            >
+            <mat-button-toggle value="light" matTooltip="Mode clair"
+              ><mat-icon style="margin-right: 0">light_mode</mat-icon></mat-button-toggle
+            >
+            <mat-button-toggle value="dark" matTooltip="Mode sombre"
+              ><mat-icon style="margin-right: 0">dark_mode</mat-icon></mat-button-toggle
+            >
+          </mat-button-toggle-group>
+        </div>
+      </mat-menu>
 
-    @if (!brk.breakpoints[breakpoints.XSmall]) {
-    <mat-button-toggle-group
-      class="options small dark"
-      appDarkMode
-      [(value)]="dark.enabled"
-      #dark="darkMode">
-      <mat-button-toggle [value]="null">auto</mat-button-toggle>
-      <mat-button-toggle [value]="false" matTooltip="Mode clair"
-        ><mat-icon>light_mode</mat-icon></mat-button-toggle
-      >
-      <mat-button-toggle [value]="true" matTooltip="Mode sombre"
-        ><mat-icon>dark_mode</mat-icon></mat-button-toggle
-      >
-    </mat-button-toggle-group>
-    }
+      }
+      <a
+        mat-flat-button
+        color="accent"
+        href="https://github.com/ThomasPrioul/mdl-angular-libs"
+        target="_blank"
+        ><img src="assets/GitHub_Logo_White.png" width="80px"
+      /></a>
+    </div>
   </mat-toolbar-row>
-  }
 </mat-toolbar>
 }
