@@ -1,0 +1,25 @@
+@for ( vehicle of consist.vehicles | orientation : reversed; track vehicle; let firstVeh =
+$first;let lastVeh = $last) {
+<div>
+  @if (vehicle | vehicleImg : consist : imgRepo() : reversed; as img) {
+  <img
+    class="vehicle-image"
+    alt=""
+    [srcset]="img.path + ' ' + imgScale + 'w'"
+    sizes="100px"
+    [ngStyle]="img | vehicleImgStyle : scale : reversed" />
+  } @else {
+  <div
+    class="vehicle-outline"
+    [ngStyle]="{ width: 70, height: 40, path: '' } | vehicleImgStyle : scale : reversed : true"
+    [ngClass]="{ first: firstVeh, last: lastVeh }"></div>
+  }
+  <div class="vehicle-id">
+    <div class="num-ef">{{ vehicle.numImmatEf }}</div>
+    <div class="num-ef">{{ vehicle.friendlyName }}</div>
+    <div class="num-ef">{{ vehicle.coherencePosition }}</div>
+    <!-- <div class="position-coherence">{{ vehicle.position }}</div>
+      <div class="position">{{ vehicle.index }}</div> -->
+  </div>
+</div>
+}

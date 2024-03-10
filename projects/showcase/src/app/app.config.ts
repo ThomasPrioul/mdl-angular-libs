@@ -69,7 +69,7 @@ export const DEFAULT_DATEFORMAT_PROVIDER: Provider = {
 const routes: Route[] = [
   {
     path: 'home',
-    loadComponent: () => import('../pages/home.component').then((c) => c.HomeComponent),
+    loadComponent: () => import('../pages/home/home.component').then((c) => c.HomeComponent),
     children: [
       {
         path: 'table2',
@@ -89,6 +89,10 @@ const routes: Route[] = [
         redirectTo: 'table2',
       },
     ],
+  },
+  {
+    path: 'diagnostic',
+    loadComponent: () => import('../pages/diag/diag.component').then((c) => c.DiagComponent),
   },
   {
     path: '',

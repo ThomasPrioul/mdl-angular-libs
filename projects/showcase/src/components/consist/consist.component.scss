@@ -1,0 +1,52 @@
+$gap-between-vehicles: 0.5rem;
+
+:host {
+  display: grid;
+  grid-template-rows: auto auto;
+  grid-auto-flow: column;
+  row-gap: 1rem;
+  margin-bottom: 1rem;
+
+  display: flex;
+
+  .vehicle-image {
+    margin-top: auto;
+    object-position: left bottom;
+    object-fit: none;
+    user-select: none;
+    max-width: unset;
+    // min-height: 40px;
+  }
+
+  .vehicle-id {
+    padding: 0 0.25rem;
+    text-align: center;
+
+    .num-ef {
+      font-weight: bold;
+    }
+
+    .position-coherence {
+      font-weight: bold;
+      color: red;
+    }
+  }
+
+  .vehicle-outline {
+    margin-top: auto;
+    aspect-ratio: 2.5 / 1;
+    border: var(--mat-divider-width, 1px) solid var(--mat-divider-color);
+    border-radius: 0.25rem;
+    padding: 0.25rem 1rem;
+
+    &.first {
+      border-top-left-radius: 50px;
+      border-bottom-left-radius: 15px;
+    }
+
+    &.last {
+      border-top-right-radius: 50px;
+      border-bottom-right-radius: 15px;
+    }
+  }
+}

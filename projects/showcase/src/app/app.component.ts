@@ -54,6 +54,10 @@ export class AppComponent {
         },
       ],
     },
+    {
+      text: 'Diagnostics MET',
+      link: '/diagnostic',
+    },
     // {
     //   text: 'Paramètres',
     //   link: '/settings/',
