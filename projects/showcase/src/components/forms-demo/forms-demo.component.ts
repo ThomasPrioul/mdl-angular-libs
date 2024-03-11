@@ -201,6 +201,12 @@ export class FormsDemoComponent {
     this.codeOutput = parseFunction(code)?.call(undefined);
   }
 
+  protected onPasteTest(event: ClipboardEvent) {
+    event.stopPropagation();
+    event.preventDefault();
+    console.log('intercepted paste!');
+  }
+
   protected onSelectionChange(event: MatSelectChange) {
     //console.log(event);
   }
