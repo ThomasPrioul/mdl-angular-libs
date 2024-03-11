@@ -15,7 +15,10 @@
           multiple
           [formControl]="seriesControl"
           placeholder="Sélectionnez...">
-          <mdl-select-filter withCheckAll #filter></mdl-select-filter>
+          <mdl-select-filter
+            withCheckAll
+            #filter
+            (onPaste)="onPasteTest($event)"></mdl-select-filter>
           <div *mdlSelectNoResults="filter" class="no-data-label">Aucune série trouvée</div>
           <!-- <button mdlSelectAll>Tout sélectionner</button>
           <button mdlSelectClearAll>Tout désélectionner</button> -->

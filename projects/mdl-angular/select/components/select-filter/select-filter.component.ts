@@ -3,10 +3,12 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  EventEmitter,
   Input,
   OnDestroy,
   OnInit,
   Optional,
+  Output,
   ViewChild,
 } from '@angular/core';
 
@@ -34,8 +36,8 @@ const verticalNavKeys = ['ArrowUp', 'ArrowDown', 'PageUp', 'PageDown'];
     MatFormFieldModule,
     MatInputModule,
     MatIconModule,
-    MatButtonModule
-],
+    MatButtonModule,
+  ],
   templateUrl: './select-filter.component.html',
   styleUrls: ['./select-filter.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -44,11 +46,11 @@ export class MdlSelectFilterComponent implements AfterViewInit, OnInit, OnDestro
   @ViewChild('searchInput', { static: true })
   private readonly _input!: ElementRef<HTMLInputElement>;
 
+  @ViewChild(MatCheckbox) private checkAllComponent?: MatCheckbox;
+
   private _withCheckAll: boolean = false;
   private oldValue: string = '';
   private sub?: Subscription;
-
-  @ViewChild(MatCheckbox) private checkAllComponent?: MatCheckbox;
 
   @Input() public placeholder?: string = 'Recherche';
 
@@ -138,6 +140,8 @@ export class MdlSelectFilterComponent implements AfterViewInit, OnInit, OnDestro
   public ngOnDestroy() {
     this.sub?.unsubscribe();
   }
+
+  @Output() public onPaste = new EventEmitter<ClipboardEvent>(); // ($event: ClipboardEvent) => void = () => {};
 
   protected onClearClick() {
     this._input.nativeElement.value = '';

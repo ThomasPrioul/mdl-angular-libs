@@ -1,5 +1,5 @@
 @if (withCheckAll) {
-  <mat-checkbox color="primary" mdlSelectGlobalCheckbox></mat-checkbox>
+<mat-checkbox color="primary" mdlSelectGlobalCheckbox></mat-checkbox>
 }
 <mat-form-field class="select-filter-input small">
   <mat-icon matIconPrefix>search</mat-icon>
@@ -9,15 +9,16 @@
     matInput
     #searchInput
     (focus)="onFocus($event)"
+    (paste)="onPaste.next($event)"
     [placeholder]="placeholder!" />
   @if (searchInput.value) {
-    <button
-      matSuffix
-      mat-icon-button
-      class="button-clear"
-      aria-label="Clear filter"
-      (click)="onClearClick()">
-      <mat-icon>close</mat-icon>
-    </button>
+  <button
+    matSuffix
+    mat-icon-button
+    class="button-clear"
+    aria-label="Clear filter"
+    (click)="onClearClick()">
+    <mat-icon>close</mat-icon>
+  </button>
   }
 </mat-form-field>
