@@ -30,7 +30,7 @@ export type DoorModel = {
   hasWheelChairStep: boolean;
 };
 export type VehicleModel = {
-  numImmatEf: string;
+  numIntEf: string;
   friendlyName: string;
   signalTechnicalPrefix: string;
   coherencePosition: number;
@@ -38,6 +38,5 @@ export type VehicleModel = {
   bogie1: BogieModel | null;
   bogie2: BogieModel | null;
   acRooms: ACRoom[];
-
-  // type?: 'EXT1' | 'EXT2' | 'coach',
+  type: 'EXT1' | 'EXT2' | 'coach';
 };

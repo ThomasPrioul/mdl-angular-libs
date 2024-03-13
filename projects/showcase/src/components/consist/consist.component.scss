@@ -1,11 +1,9 @@
-$gap-between-vehicles: 0.5rem;
-
 :host {
   display: grid;
   grid-template-rows: auto auto;
   grid-auto-flow: column;
-  row-gap: 1rem;
-  margin-bottom: 1rem;
+  row-gap: 1em;
+  margin-bottom: 1em;
 
   display: flex;
 
@@ -19,7 +17,7 @@ $gap-between-vehicles: 0.5rem;
   }
 
   .vehicle-id {
-    padding: 0 0.25rem;
+    padding: 0 0.25em;
     text-align: center;
 
     .num-ef {
@@ -34,19 +32,37 @@ $gap-between-vehicles: 0.5rem;
 
   .vehicle-outline {
     margin-top: auto;
-    aspect-ratio: 2.5 / 1;
+    // aspect-ratio: 2.5 / 1;
     border: var(--mat-divider-width, 1px) solid var(--mat-divider-color);
-    border-radius: 0.25rem;
-    padding: 0.25rem 1rem;
+    border-radius: 0.25em;
+    // padding: 0.25em 1em;
 
     &.first {
-      border-top-left-radius: 50px;
-      border-bottom-left-radius: 15px;
+      border-top-left-radius: 3.5em;
+      border-bottom-left-radius: 0.5em;
     }
 
     &.last {
-      border-top-right-radius: 50px;
-      border-bottom-right-radius: 15px;
+      border-top-right-radius: 3.5em;
+      border-bottom-right-radius: 0.5em;
+    }
+  }
+
+  .ext-icons-host {
+    position: relative;
+    font-size: 2em;
+
+    .driver-icon {
+      position: absolute;
+      top: 0;
+    }
+
+    &.first .driver-icon {
+      right: -1.25em;
+    }
+
+    &.last .driver-icon {
+      left: -1.25em;
     }
   }
 }

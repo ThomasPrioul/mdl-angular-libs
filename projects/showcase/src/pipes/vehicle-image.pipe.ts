@@ -67,14 +67,22 @@ export class VehicleImgStylePipe implements PipeTransform {
 
     if ((img.mirrorX === true && !reverse) || (img.mirrorX === false && reverse))
       transform = 'scaleX(-1)';
-    return {
-      'width.px': img.width && !outline ? img.width * scale : undefined,
-      'height.px': img.height && !outline ? img.height * scale : undefined,
-      'min-width.px': img.width && outline ? img.width * scale : undefined,
-      'min-height.px': img.height && outline ? img.height * scale : undefined,
-      'object-position': this.getObjectPosition(img, scale),
-      transform: transform,
-    };
+
+    if (outline) {
+      return {
+        'width.em': img.width,
+        'height.em': img.height,
+        'min-width.px': img.width ? img.width * scale : undefined,
+        'min-height.px': img.height ? img.height * scale : undefined,
+      };
+    } else {
+      return {
+        'width.px': img.width ? img.width * scale : undefined,
+        'height.px': img.height ? img.height * scale : undefined,
+        'object-position': this.getObjectPosition(img, scale),
+        transform: transform,
+      };
+    }
   }
 
   private getObjectPosition(img: VehicleImg, scale: number = 1) {
@@ -96,7 +104,7 @@ function defaultPositionKey(vehicle: VehicleModel, consist: ConsistModel) {
     ? 'EXT1'
     : vehicle.coherencePosition === positions[positions.length - 1]
     ? 'EXT2'
-    : vehicle.numImmatEf.slice(undefined, vehicle.numImmatEf.length - 3);
+    : vehicle.numIntEf.slice(undefined, vehicle.numIntEf.length - 3);
 }
 
 function getImgFullPathWithOrientation(img: VehicleImg | string, reversed: boolean) {
@@ -122,13 +130,13 @@ function getImgFullPathWithOrientation(img: VehicleImg | string, reversed: boole
 }
 
 function regio2nPositionKey(vehicle: VehicleModel) {
-  let results = Array.from(vehicle.numImmatEf.matchAll(/Z[ZR]?\d{2}(\d{2})\d{3}/g));
+  let results = Array.from(vehicle.numIntEf.matchAll(/Z[ZR]?\d{2}(\d{2})\d{3}/g));
 
   return results[0][1];
 }
 
 function ter2nNGPositionKey(vehicle: VehicleModel) {
-  const [_, caisse, numStr] = Array.from(vehicle.numImmatEf.matchAll(/(Z[ZR]?\d{2,3})(\d{3})/g))[0];
+  const [_, caisse, numStr] = Array.from(vehicle.numIntEf.matchAll(/(Z[ZR]?\d{2,3})(\d{3})/g))[0];
   const num = parseInt(numStr);
   return { Z26: 'Z1', Z262: 'Z2', Z263: 'Z3' }[caisse] + ((num & 0x01) == 1 ? 'L' : 'R');
 }

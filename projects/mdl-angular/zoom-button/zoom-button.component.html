@@ -1,4 +1,4 @@
-<div class="small">
+<div class="small" style="display: flex">
   <button mat-icon-button [disabled]="zoomValue === minZoom" (click)="changeZoom(-0.1)">
     <mat-icon>remove</mat-icon>
   </button>
@@ -12,7 +12,7 @@
   (click)="resetZoom()">
   {{ getZoomValueString() }}
 </button>
-<div class="small">
+<div class="small" style="display: flex">
   <button mat-icon-button [disabled]="zoomValue === maxZoom" (click)="changeZoom(0.1)">
     <mat-icon>add</mat-icon>
   </button>
