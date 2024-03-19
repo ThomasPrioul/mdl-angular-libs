@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MAT_LUXON_DATE_FORMATS, MatLuxonDateModule } from '@angular/material-luxon-adapter';
 import { MatButtonModule } from '@angular/material/button';
@@ -42,6 +42,8 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { DEFAULT_DATEFORMAT_PROVIDER } from '../../app/app.config';
 import { DateAdapter } from '@angular/material/core';
 import { DemoDateAdapter } from '../../helpers/custom-date.adapter';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { NotificationService } from '../../services/notification.service';
 
 const DEMO_DATE_RANGE_PRESETS: DateRangePreset<DateTime>[] = [
   {
@@ -130,6 +132,7 @@ const today = DateTime.now().startOf('day');
     MatLuxonDateModule,
     MatSelectModule,
     MatSlideToggleModule,
+    MatSnackBarModule,
     MatTooltipModule,
     // MDL
     MdlCastPipe,
@@ -182,6 +185,8 @@ export class FormsDemoComponent {
   );
   protected readonly seriesControl = new FormControl<string[]>([]);
   protected readonly today = today;
+
+  protected notifications = inject(NotificationService);
 
   protected codeOutput: any;
 
