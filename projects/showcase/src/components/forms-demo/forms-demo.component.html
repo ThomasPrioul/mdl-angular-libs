@@ -210,4 +210,22 @@
       </div>
     </div>
   </mat-expansion-panel>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title> Notifications </mat-panel-title>
+      <mat-panel-description> Examples of themed snack bars </mat-panel-description>
+    </mat-expansion-panel-header>
+
+    <div class="flex gap-2">
+      <button mat-button color="primary" (click)="notifications.info('Hello from button', 2000)">
+        2s info
+      </button>
+      <button mat-button color="warn" (click)="notifications.error('It\'s broken', 5000)">
+        5s error
+      </button>
+      <button mat-button color="accent" (click)="notifications.success('Changes saved!')">
+        Infinite success
+      </button>
+    </div>
+  </mat-expansion-panel>
 </mat-accordion>
