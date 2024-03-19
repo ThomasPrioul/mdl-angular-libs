@@ -6,8 +6,19 @@
       "name": "ng serve",
       "type": "chrome",
       "request": "launch",
-      // "preLaunchTask": "npm: start",
       "url": "http://localhost:4200/"
+    },
+    {
+      "name": "ng serve (firefox)",
+      "type": "firefox",
+      "request": "launch",
+      "url": "http://localhost:4200/",
+      "pathMappings": [
+        {
+          "url": "webpack:///projects/showcase",
+          "path": "${workspaceFolder}/projects/showcase"
+        }
+      ]
     },
     {
       "name": "ng test",
