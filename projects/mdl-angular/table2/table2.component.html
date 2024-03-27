@@ -63,7 +63,7 @@ fullscreenButton || refreshButton))) ) {
       mat-icon-button
       [matTooltip]="mfb.fullscreen ? 'Sortir du plein écran' : 'Afficher en plein écran'"
       #mfb="mdlFullscreenButton"
-      [mdlFullscreenButton]="el">
+      [mdlFullscreenButton]="fullscreenRoot ?? el">
       <mat-icon>fullscreen</mat-icon>
     </button>
     }

@@ -163,6 +163,7 @@ export class MdlTableComponent<T>
   @Input() public rowClasses?: (row: T) => string[];
   @Input() public title?: string;
   @Input() public totalLength?: number;
+  @Input() public fullscreenRoot?: ElementRef;
   @Output() public displayedColumnsChange = new EventEmitter<ColumnDisplayInfo[]>();
   @Output() public filterChange = new EventEmitter<string>();
   @Output() public shouldRefresh = new EventEmitter<Date>();
