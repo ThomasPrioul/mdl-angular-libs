@@ -25,4 +25,14 @@
 
 .mat-mdc-tab-nav-bar {
   --mat-tab-header-divider-height: 0;
+  --mdc-tab-indicator-active-indicator-shape: 4px;
+}
+
+.mat-mdc-tab-link.mdc-tab {
+  border-radius: 4px 4px 0 0;
+
+  .mdc-tab__ripple::before,
+  .mat-ripple.mat-mdc-tab-ripple {
+    border-radius: 4px 4px 0 0;
+  }
 }
