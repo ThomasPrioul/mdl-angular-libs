@@ -457,6 +457,7 @@ export class MdlTableComponent<T>
   private configurePaginationCallbacks() {
     this._requerySubscription?.unsubscribe();
     this._requerySubscription = undefined;
+    this.clearSelection();
 
     if (this.dataSource instanceof MatTableDataSource) {
       if (this.pagination !== 'backend') {
@@ -517,6 +518,7 @@ export class MdlTableComponent<T>
               }
           ),
           tap((info) => (this._lastPaginatedRequest = info)),
+          tap(() => this.clearSelection()),
           tap((info) => this.shouldRequestBackend.emit(info))
         )
         .subscribe()
