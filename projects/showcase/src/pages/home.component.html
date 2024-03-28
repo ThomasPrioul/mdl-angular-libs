@@ -1,7 +1,11 @@
 <nav
+  elementRef
+  #nav="elementRef"
   mat-tab-nav-bar
   [tabPanel]="tabPanel"
   fitInkBarToContent
+  class="mat-app-background"
+  [class.fixed]="fixedLayout()"
   mat-stretch-tabs="false"
   mat-align-tabs="start">
   <a
@@ -25,6 +29,8 @@
     Formulaires
   </a>
 </nav>
-<mat-tab-nav-panel #tabPanel>
+<mat-tab-nav-panel
+  #tabPanel
+  [style.margin-top.px]="fixedLayout() ? nav.nativeElement.offsetHeight : 0">
   <router-outlet></router-outlet>
 </mat-tab-nav-panel>
