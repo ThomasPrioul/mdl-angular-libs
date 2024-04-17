@@ -12,7 +12,6 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { FormsModule } from '@angular/forms';
-import { DarkModeDirective } from '../../directives/dark-mode.directive';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
@@ -20,6 +19,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatMenuModule } from '@angular/material/menu';
+import { DarkModeService } from '../../../../mdl-angular/dark/dark-mode.service';
 
 @Component({
   selector: 'app-header',
@@ -36,8 +36,6 @@ import { MatMenuModule } from '@angular/material/menu';
     MatIconModule,
     MatFormFieldModule,
     MatInputModule,
-
-    DarkModeDirective,
   ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
@@ -47,6 +45,8 @@ export class HeaderComponent {
   private _fixedHeight!: boolean;
   private _menuOpen!: boolean;
   private _simpleMenu!: boolean;
+
+  protected readonly darkMode = inject(DarkModeService);
 
   protected breakpoints = Breakpoints;
   protected breakpoints$ = inject(BreakpointObserver).observe([

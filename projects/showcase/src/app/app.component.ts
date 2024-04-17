@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MdlSideMenuItemComponent, SideMenu } from 'mdl-angular/side-menu-item';
 import { MainSideMenuDirective } from '../directives/main-side-menu.directive';
@@ -9,6 +9,7 @@ import { bootstrapApplication } from '@angular/platform-browser';
 import { appConfig } from './app.config';
 import { HeaderComponent } from '../components/header/header.component';
 import packageJson from 'mdl-angular/package.json';
+import { DarkModeService } from 'mdl-angular/dark';
 
 @Component({
   selector: 'app-showcase',
@@ -31,6 +32,8 @@ import packageJson from 'mdl-angular/package.json';
   ],
 })
 export class AppComponent {
+  private readonly _dark = inject(DarkModeService);
+
   private appEnvIndex: number = 0;
 
   protected appEnv: string = appEnv[0];

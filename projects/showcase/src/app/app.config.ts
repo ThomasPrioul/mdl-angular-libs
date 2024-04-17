@@ -15,6 +15,7 @@ import {
 } from '@angular/material-luxon-adapter';
 import { Settings } from 'luxon';
 import { MatDatepickerIntl } from '@angular/material/datepicker';
+import { DarkModeService } from '../../../mdl-angular/dark/dark-mode.service';
 
 function frenchRangeLabel(page: number, pageSize: number, length: number) {
   if (length == 0 || pageSize == 0) return `0 sur ${length}`;
@@ -51,6 +52,7 @@ function getFrenchPaginatorIntl() {
   return intl;
 }
 
+let darkMode: DarkModeService | null = null;
 export const DEFAULT_DATEFORMAT_PROVIDER: Provider = {
   provide: MAT_DATE_FORMATS,
   useValue: <MatDateFormats>{
@@ -121,6 +123,15 @@ export const appConfig: ApplicationConfig = {
         color: 'primary',
         subscriptSizing: 'dynamic',
         floatLabel: 'always',
+      },
+    },
+    {
+      provide: DarkModeService,
+      useFactory: () => {
+        if (!darkMode) {
+          darkMode = new DarkModeService();
+        }
+        return darkMode;
       },
     },
   ],

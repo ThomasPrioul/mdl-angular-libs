@@ -16,11 +16,7 @@
     </div>
     <div class="ms-auto flex gap-4 items-center">
       @if (!brk.breakpoints[breakpoints.XSmall]) {
-      <div
-        class="small self-center"
-        appDarkMode
-        #dark="darkMode"
-        [class.light]="!dark.enabledSignal()">
+      <div class="small self-center" [class.light]="!darkMode.applyDark()">
         <mat-form-field>
           <mat-icon matIconPrefix>search</mat-icon>
           <input type="text" placeholder="Rechercher..." matInput />
@@ -35,9 +31,8 @@
       <mat-button-toggle-group
         class="options small dark"
         style="font-size: 14px"
-        appDarkMode
-        [(value)]="dark.enabled"
-        #dark="darkMode">
+        [value]="darkMode.theme()"
+        (valueChange)="darkMode.theme.set($event)">
         <mat-button-toggle value="auto" matTooltip="Suit le réglage système"
           >auto</mat-button-toggle
         >
@@ -68,9 +63,8 @@
           <mat-button-toggle-group
             class="options small"
             style="font-size: 14px"
-            appDarkMode
-            [(value)]="dark.enabled"
-            #dark="darkMode">
+            [value]="darkMode.theme()"
+            (valueChange)="darkMode.theme.set($event)">
             <mat-button-toggle value="auto" matTooltip="Suit le réglage système"
               >auto</mat-button-toggle
             >
