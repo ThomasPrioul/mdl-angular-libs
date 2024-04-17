@@ -163,9 +163,9 @@
       </ng-container>
 
       <tr class="mat-mdc-row mdc-data-table__row" *matNoDataRow>
-        <td *ngIf="loading() === false" class="mat-mdc-cell mdc-data-table__cell" colspan="1000">
-          Aucune série trouvée :-(
-        </td>
+        @if (loading() === false) {
+        <td class="mat-mdc-cell mdc-data-table__cell" colspan="1000">Aucune série trouvée :-(</td>
+        }
       </tr>
     </mdl-table2>
   </mat-drawer-content>

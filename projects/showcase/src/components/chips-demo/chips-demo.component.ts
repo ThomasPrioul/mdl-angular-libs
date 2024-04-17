@@ -1,6 +1,6 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { CommonModule } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, ElementRef, ViewChild, signal } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -83,7 +83,7 @@ function arrayChunks<T>(array: T[], chunkSize: number) {
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    CommonModule,
+    AsyncPipe,
     FormsModule,
     ScrollingModule,
     ReactiveFormsModule,

@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { AsyncPipe, NgStyle } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -20,15 +20,19 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatMenuModule } from '@angular/material/menu';
 import { DarkModeService } from '../../../../mdl-angular/dark/dark-mode.service';
+import { OverlayModule } from '@angular/cdk/overlay';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-header',
   standalone: true,
   imports: [
-    CommonModule,
+    AsyncPipe,
+    NgStyle,
     FormsModule,
     MatToolbarModule,
     MatButtonToggleModule,
+    MatCardModule,
     MatMenuModule,
     MatSlideToggleModule,
     MatTooltipModule,
@@ -36,6 +40,7 @@ import { DarkModeService } from '../../../../mdl-angular/dark/dark-mode.service'
     MatIconModule,
     MatFormFieldModule,
     MatInputModule,
+    OverlayModule,
   ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
@@ -56,6 +61,7 @@ export class HeaderComponent {
     Breakpoints.Large,
     Breakpoints.XLarge,
   ]);
+  protected popupOpen = false;
 
   public readonly hostElement = inject(ElementRef<HTMLElement>);
 

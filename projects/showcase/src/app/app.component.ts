@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { NgClass, NgStyle } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MdlSideMenuItemComponent, SideMenu } from 'mdl-angular/side-menu-item';
@@ -19,7 +19,8 @@ import { DarkModeService } from 'mdl-angular/dark';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     // NG
-    CommonModule,
+    NgClass,
+    NgStyle,
     RouterOutlet,
     // MAT
     MatSidenavModule,

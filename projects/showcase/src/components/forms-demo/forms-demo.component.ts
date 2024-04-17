@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { JsonPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MAT_LUXON_DATE_FORMATS, MatLuxonDateModule } from '@angular/material-luxon-adapter';
@@ -117,7 +117,7 @@ const today = DateTime.now().startOf('day');
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     // NG
-    CommonModule,
+    JsonPipe,
     FormsModule,
     ReactiveFormsModule,
     // Material

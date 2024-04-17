@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { AsyncPipe, JsonPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, ElementRef, ViewChild, signal } from '@angular/core';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import {
@@ -28,7 +28,8 @@ import { LuxonModule } from 'luxon-angular';
   selector: 'app-table2-demo',
   standalone: true,
   imports: [
-    CommonModule,
+    AsyncPipe,
+    JsonPipe,
     FormsModule,
     LuxonModule,
     MatButtonModule,

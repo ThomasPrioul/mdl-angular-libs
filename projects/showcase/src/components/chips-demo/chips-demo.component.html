@@ -3,15 +3,14 @@
 <mat-form-field class="codes-list flex w-full">
   <mat-label>Code(s) défaut</mat-label>
   <mat-chip-grid #chipGrid matTextPrefix class="pb-1 dark">
-    <mat-chip-row
-      *ngFor="let item of selectedItems.selected | sorted"
-      (removed)="remove(item)"
-      [matTooltip]="allItemsMap.get(item)?.libelle ?? ''">
+    @for (item of selectedItems.selected | sorted; track item) {
+    <mat-chip-row (removed)="remove(item)" [matTooltip]="allItemsMap.get(item)?.libelle ?? ''">
       {{ item }}
       <button matChipRemove>
         <mat-icon>cancel</mat-icon>
       </button>
     </mat-chip-row>
+    }
   </mat-chip-grid>
   <mat-autocomplete
     #auto="matAutocomplete"
