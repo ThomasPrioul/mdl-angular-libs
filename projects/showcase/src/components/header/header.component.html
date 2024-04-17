@@ -16,11 +16,7 @@
     </div>
     <div class="ms-auto flex gap-4 items-center">
       @if (!brk.breakpoints[breakpoints.XSmall]) {
-      <div
-        class="small self-center"
-        appDarkMode
-        #dark="darkMode"
-        [class.light]="!dark.enabledSignal()">
+      <div class="small self-center" [class.light]="!darkMode.applyDark()">
         <mat-form-field>
           <mat-icon matIconPrefix>search</mat-icon>
           <input type="text" placeholder="Rechercher..." matInput />
@@ -35,9 +31,8 @@
       <mat-button-toggle-group
         class="options small dark"
         style="font-size: 14px"
-        appDarkMode
-        [(value)]="dark.enabled"
-        #dark="darkMode">
+        [value]="darkMode.theme()"
+        (valueChange)="darkMode.theme.set($event)">
         <mat-button-toggle value="auto" matTooltip="Suit le réglage système"
           >auto</mat-button-toggle
         >
@@ -48,43 +43,6 @@
           ><mat-icon>dark_mode</mat-icon></mat-button-toggle
         >
       </mat-button-toggle-group>
-      } @else {
-      <button mat-icon-button [matMenuTriggerFor]="menu">
-        <mat-icon>more_vert</mat-icon>
-      </button>
-      <mat-menu #menu="matMenu">
-        <div mat-menu-item>
-          <mat-slide-toggle color="primary" [(ngModel)]="simpleMenu">
-            Menu simple
-          </mat-slide-toggle>
-        </div>
-        <div mat-menu-item>
-          <mat-slide-toggle color="primary" [(ngModel)]="fixedHeight">
-            Hauteur de page fixe
-          </mat-slide-toggle>
-        </div>
-        <div mat-menu-item>
-          <div style="align-self: center; margin-right: 1rem">Thème:</div>
-          <mat-button-toggle-group
-            class="options small"
-            style="font-size: 14px"
-            appDarkMode
-            [(value)]="dark.enabled"
-            #dark="darkMode">
-            <mat-button-toggle value="auto" matTooltip="Suit le réglage système"
-              >auto</mat-button-toggle
-            >
-            <mat-button-toggle value="light" matTooltip="Mode clair"
-              ><mat-icon style="margin-right: 0">light_mode</mat-icon></mat-button-toggle
-            >
-            <mat-button-toggle value="dark" matTooltip="Mode sombre"
-              ><mat-icon style="margin-right: 0">dark_mode</mat-icon></mat-button-toggle
-            >
-          </mat-button-toggle-group>
-        </div>
-      </mat-menu>
-
-      }
       <a
         mat-flat-button
         color="accent"
@@ -92,6 +50,61 @@
         target="_blank"
         ><img src="assets/GitHub_Logo_White.png" width="80px"
       /></a>
+      } @else {
+      <button
+        mat-icon-button
+        matTooltip="Menu"
+        cdkOverlayOrigin
+        #trigger="cdkOverlayOrigin"
+        (click)="popupOpen = !popupOpen">
+        <mat-icon>more_vert</mat-icon>
+        <ng-template
+          cdkConnectedOverlay
+          cdkConnectedOverlayHasBackdrop
+          cdkConnectedOverlayDisposeOnNavigation
+          cdkConnectedOverlayBackdropClass="cdk-overlay-transparent-backdrop"
+          [cdkConnectedOverlayOrigin]="trigger"
+          [cdkConnectedOverlayOpen]="popupOpen"
+          (detach)="popupOpen = false"
+          (backdropClick)="popupOpen = false">
+          <mat-card>
+            <mat-card-content>
+              <mat-slide-toggle class="w-full" color="primary" [(ngModel)]="simpleMenu">
+                Menu simple
+              </mat-slide-toggle>
+              <mat-slide-toggle class="w-full" color="primary" [(ngModel)]="fixedHeight">
+                Hauteur de page fixe
+              </mat-slide-toggle>
+              <div class="flex w-full">
+                <div style="align-self: center; margin-right: 1rem">Thème:</div>
+                <mat-button-toggle-group
+                  class="options small"
+                  style="font-size: 14px"
+                  [value]="darkMode.theme()"
+                  (valueChange)="darkMode.theme.set($event)">
+                  <mat-button-toggle value="auto" matTooltip="Suit le réglage système"
+                    >auto</mat-button-toggle
+                  >
+                  <mat-button-toggle value="light" matTooltip="Mode clair"
+                    ><mat-icon style="margin-right: 0">light_mode</mat-icon></mat-button-toggle
+                  >
+                  <mat-button-toggle value="dark" matTooltip="Mode sombre"
+                    ><mat-icon style="margin-right: 0">dark_mode</mat-icon></mat-button-toggle
+                  >
+                </mat-button-toggle-group>
+              </div>
+              <a
+                mat-flat-button
+                color="accent"
+                href="https://github.com/ThomasPrioul/mdl-angular-libs"
+                target="_blank"
+                ><img src="assets/GitHub_Logo_White.png" width="80px"
+              /></a>
+            </mat-card-content>
+          </mat-card>
+        </ng-template>
+      </button>
+      }
     </div>
   </mat-toolbar-row>
 </mat-toolbar>

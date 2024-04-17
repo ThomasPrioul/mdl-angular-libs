@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { NgClass, NgStyle } from '@angular/common';
 import { ChangeDetectionStrategy, Component, HostBinding, Input, ViewChild } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatRippleModule } from '@angular/material/core';
@@ -12,7 +12,8 @@ import { RouterLinkActive, RouterLink } from '@angular/router';
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
-    CommonModule,
+    NgClass,
+    NgStyle,
     RouterLink,
     RouterLinkActive,
     MatRippleModule,

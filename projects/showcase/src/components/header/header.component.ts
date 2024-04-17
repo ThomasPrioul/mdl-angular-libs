@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { AsyncPipe, NgStyle } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -12,7 +12,6 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { FormsModule } from '@angular/forms';
-import { DarkModeDirective } from '../../directives/dark-mode.directive';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
@@ -20,15 +19,20 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatMenuModule } from '@angular/material/menu';
+import { DarkModeService } from '../../../../mdl-angular/dark/dark-mode.service';
+import { OverlayModule } from '@angular/cdk/overlay';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-header',
   standalone: true,
   imports: [
-    CommonModule,
+    AsyncPipe,
+    NgStyle,
     FormsModule,
     MatToolbarModule,
     MatButtonToggleModule,
+    MatCardModule,
     MatMenuModule,
     MatSlideToggleModule,
     MatTooltipModule,
@@ -36,8 +40,7 @@ import { MatMenuModule } from '@angular/material/menu';
     MatIconModule,
     MatFormFieldModule,
     MatInputModule,
-
-    DarkModeDirective,
+    OverlayModule,
   ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
@@ -48,6 +51,8 @@ export class HeaderComponent {
   private _menuOpen!: boolean;
   private _simpleMenu!: boolean;
 
+  protected readonly darkMode = inject(DarkModeService);
+
   protected breakpoints = Breakpoints;
   protected breakpoints$ = inject(BreakpointObserver).observe([
     Breakpoints.XSmall,
@@ -56,6 +61,7 @@ export class HeaderComponent {
     Breakpoints.Large,
     Breakpoints.XLarge,
   ]);
+  protected popupOpen = false;
 
   public readonly hostElement = inject(ElementRef<HTMLElement>);
 

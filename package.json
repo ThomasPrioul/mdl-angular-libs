@@ -1,6 +1,6 @@
 {
   "name": "mdl-angular",
-  "version": "0.0.33",
+  "version": "1.0.0",
   "scripts": {
     "start": "npm-run-all clean --parallel lib:watch showcase:start-waiton",
     "build": "run-s lib:build showcase:build",
@@ -14,7 +14,7 @@
     "showcase:watch": "ng build showcase --watch --configuration development",
     "showcase:test": "ng test showcase",
     "clean": "rimraf dist",
-    "gh-pages": "ng build showcase --output-path docs --base-href /mdl-angular-libs/",
+    "gh-pages": "ng build showcase --output-path docs --base-href /mdl-angular-libs/ && mv docs/browser/* docs",
     "publish": "npm run lib:build && cp README.md dist/mdl-angular/ && npm publish dist/mdl-angular/"
   },
   "private": true,

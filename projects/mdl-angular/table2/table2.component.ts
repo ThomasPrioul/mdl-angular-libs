@@ -38,7 +38,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
-import { CommonModule } from '@angular/common';
+import { NgClass, NgStyle, NgTemplateOutlet } from '@angular/common';
 import {
   MatPaginator,
   MatPaginatorIntl,
@@ -90,7 +90,9 @@ export type ShouldRequestBackendType = {
   // providers: [{ provide: MatPaginatorIntl, useClass: MyCustomPaginatorIntl }],
   imports: [
     // NG
-    CommonModule,
+    NgClass,
+    NgStyle,
+    NgTemplateOutlet,
 
     // Material
     MatDividerModule,
@@ -155,6 +157,7 @@ export class MdlTableComponent<T>
   public allowExpandFn?: (item: T) => boolean;
   @Input() public detailsRow: TemplateRef<any> | null = null;
   @Input() public dividers: 'top' | 'bottom' | 'both' | 'none' = 'bottom';
+  @Input() public fullscreenRoot?: ElementRef;
   @Input() public loading: boolean | null = null;
   @Input() public pageSize?: number;
   @Input() public pagination: PaginationType = 'none';
@@ -163,7 +166,6 @@ export class MdlTableComponent<T>
   @Input() public rowClasses?: (row: T) => string[];
   @Input() public title?: string;
   @Input() public totalLength?: number;
-  @Input() public fullscreenRoot?: ElementRef;
   @Output() public displayedColumnsChange = new EventEmitter<ColumnDisplayInfo[]>();
   @Output() public filterChange = new EventEmitter<string>();
   @Output() public shouldRefresh = new EventEmitter<Date>();

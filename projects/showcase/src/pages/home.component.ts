@@ -1,9 +1,7 @@
-import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  HostListener,
   NgZone,
   OnDestroy,
   ViewChild,
@@ -14,7 +12,7 @@ import { Table2DemoComponent } from '../components/table2-demo/table2-demo.compo
 import { FormsDemoComponent } from '../components/forms-demo/forms-demo.component';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { ScrollDispatcher, ScrollingModule } from '@angular/cdk/scrolling';
-import { Observable, Subject, map, pairwise, startWith, takeUntil, tap } from 'rxjs';
+import { Subject, map, pairwise, startWith, takeUntil, tap } from 'rxjs';
 import { ElementRefDirective } from 'mdl-angular';
 
 @Component({
@@ -24,7 +22,6 @@ import { ElementRefDirective } from 'mdl-angular';
   standalone: true,
   imports: [
     // NG
-    CommonModule,
     RouterLinkActive,
     RouterLink,
     RouterOutlet,
