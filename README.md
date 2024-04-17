@@ -147,7 +147,7 @@ La librairie embarque le logo SNCF en SVG, pour l'utiliser dans votre HTML, modi
   // ... autres assets
   {
     "glob": "*.svg",
-    "input": "projects/mdl-angular/assets/",
+    "input": "node_modules/mdl-angular/assets/",
     "output": "/assets/"
   }
 ],
