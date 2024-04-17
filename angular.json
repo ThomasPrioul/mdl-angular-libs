@@ -55,11 +55,11 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-devkit/build-angular:application",
           "options": {
             "outputPath": "dist/showcase",
             "index": "projects/showcase/src/index.html",
-            "main": "projects/showcase/src/main.ts",
+            "browser": "projects/showcase/src/main.ts",
             "polyfills": [
               "zone.js"
             ],
@@ -81,6 +81,7 @@
               "includePaths": [
                 "dist",
                 "projects/showcase/src",
+                "projects/showcase/",
                 "node_modules"
               ]
             },
@@ -103,9 +104,7 @@
               "outputHashing": "none"
             },
             "development": {
-              "buildOptimizer": false,
               "optimization": false,
-              "vendorChunk": true,
               "extractLicenses": false,
               "sourceMap": true,
               "namedChunks": true
