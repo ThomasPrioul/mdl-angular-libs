@@ -44,6 +44,7 @@ import { DateAdapter } from '@angular/material/core';
 import { DemoDateAdapter } from '../../helpers/custom-date.adapter';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { NotificationService } from '../../services/notification.service';
+import { MdlTimePickerComponent } from 'mdl-angular/time-picker';
 
 const DEMO_DATE_RANGE_PRESETS: DateRangePreset<DateTime>[] = [
   {
@@ -143,6 +144,7 @@ const today = DateTime.now().startOf('day');
     MdlSelectFilterComponent,
     MdlSelectNoResultsDirective,
     MdlSpinnerComponent,
+    MdlTimePickerComponent,
     MdlTreeItemHiddenPipe,
     MdlTreeOptionComponent,
     MdlTreeSelectDirective,
@@ -180,15 +182,15 @@ export class FormsDemoComponent {
   });
   protected readonly maxDate = today.plus({ month: 3 });
   protected readonly minDate = today.minus({ month: 3 });
+  protected readonly selectedTime = new FormControl<string | null>(null);
   protected readonly series: Serie[] = SERIES.sort((a, b) =>
     sortNomTechniqueComplet(a.nomTechniqueComplet, b.nomTechniqueComplet)
   );
   protected readonly seriesControl = new FormControl<string[]>([]);
   protected readonly today = today;
 
-  protected notifications = inject(NotificationService);
-
   protected codeOutput: any;
+  protected notifications = inject(NotificationService);
 
   constructor() {
     this.dateForm.valueChanges.pipe(startWith(() => this.dateForm.getRawValue())).subscribe(() => {

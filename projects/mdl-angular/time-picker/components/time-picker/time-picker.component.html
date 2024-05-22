@@ -1,0 +1,66 @@
+<button
+  mat-icon-button
+  cdkOverlayOrigin
+  #trigger="cdkOverlayOrigin"
+  (click)="overlayOpen = !overlayOpen">
+  <div>
+    <mat-icon>schedule</mat-icon>
+  </div>
+
+  <ng-template
+    cdkConnectedOverlay
+    cdkConnectedOverlayHasBackdrop
+    cdkConnectedOverlayDisposeOnNavigation
+    cdkConnectedOverlayBackdropClass="cdk-overlay-transparent-backdrop"
+    [cdkConnectedOverlayOrigin]="trigger"
+    [cdkConnectedOverlayOpen]="overlayOpen"
+    (detach)="overlayOpen = false"
+    (backdropClick)="overlayOpen = false">
+    <mat-card cdkFocusInitial cdkTrapFocus cdkTrapFocusAutoCapture [@transformMenu]="'enter'">
+      <div
+        style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); max-height: 300px">
+        <mat-selection-list
+          #hours
+          hideSingleSelectionIndicator
+          [formControl]="time.controls.hours"
+          [multiple]="false"
+          style="overflow-y: auto">
+          @for (hour of ['08', '12', '16', '20']; track hour) {
+          <mat-list-option [value]="hour">{{ hour }}</mat-list-option>
+          }
+        </mat-selection-list>
+        <mat-selection-list
+          #minutes
+          hideSingleSelectionIndicator
+          [formControl]="time.controls.minutes"
+          [multiple]="false"
+          style="overflow-y: auto">
+          @for (minute of ['00', '15', '30', '45']; track minute) {
+          <mat-list-option [value]="minute">{{ minute }}</mat-list-option>
+          }
+        </mat-selection-list>
+        <mat-selection-list
+          #seconds
+          hideSingleSelectionIndicator
+          [formControl]="time.controls.seconds"
+          [multiple]="false"
+          style="overflow-y: auto">
+          @for (second of ['00', '30']; track second) {
+          <mat-list-option [value]="second">{{ second }}</mat-list-option>
+          }
+        </mat-selection-list>
+      </div>
+      <!-- <mat-card-header style="align-items: center">
+      <mat-card-title>Gestion des colonnes</mat-card-title>
+    </mat-card-header> -->
+      <mat-card-content> </mat-card-content>
+      <mat-card-actions align="end" style="margin: 0.5rem; gap: 0.5rem">
+        <!-- <button mat-stroked-button color="primary" (click)="canceled.emit()">Annuler</button> -->
+        <button mat-flat-button color="primary" (click)="submit(hours, minutes, seconds)">
+          OK
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </ng-template>
+</button>
+<span> {{ selectedTime }}</span>

@@ -34,7 +34,9 @@
 
       <mat-form-field style="min-width: 400px">
         <mat-label>Tree select (avec filtre)</mat-label>
-        <mdl-spinner *ngIf="false" overlay></mdl-spinner>
+        @if (false) {
+        <mdl-spinner overlay></mdl-spinner>
+        }
         <mat-select
           placeholder="Filtrer par série/sous-série"
           multiple
@@ -112,8 +114,8 @@
           <mat-date-range-picker #picker2 [startAt]="dateForm.controls.end.value ?? today">
             <mdl-date-picker [showPreviousMonthCalendar]="doubleCal.checked">
               <div class="flex flex-wrap gap-y-2 justify-end">
+                @if (dateForm.controls.start.value || dateForm.controls.end.value) {
                 <button
-                  *ngIf="dateForm.controls.start.value || dateForm.controls.end.value"
                   mat-stroked-button
                   color="warn"
                   matDateRangePickerCancel
@@ -121,6 +123,7 @@
                   <mat-icon>delete</mat-icon>
                   Supprimer
                 </button>
+                }
                 <button mat-stroked-button color="primary" matDateRangePickerCancel>Annuler</button>
                 <button mat-flat-button color="primary" matDateRangePickerApply>Modifier</button>
               </div>
@@ -153,6 +156,15 @@
         </div>
       </div>
     </div>
+  </mat-expansion-panel>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title> Time pickers</mat-panel-title>
+      <mat-panel-description
+        >Time pickers sous formes de selects multiples personnalisables</mat-panel-description
+      >
+    </mat-expansion-panel-header>
+    <mdl-time-picker [formControl]="selectedTime"></mdl-time-picker>
   </mat-expansion-panel>
   <mat-expansion-panel>
     <mat-expansion-panel-header>
