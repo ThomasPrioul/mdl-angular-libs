@@ -45,12 +45,7 @@ import { DoubleCalendarHeaderComponent } from '../double-calendar-header.compone
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   standalone: true,
-  imports: [
-    MatButtonModule,
-    MatDatepickerModule,
-    EmptyCalendarHeaderComponent,
-    MatListModule
-],
+  imports: [MatButtonModule, MatDatepickerModule, EmptyCalendarHeaderComponent, MatListModule],
 })
 export class MdlDatePicker<D> implements AfterViewInit, OnInit, OnDestroy, OnChanges {
   private _portal!: TemplatePortal;
@@ -82,15 +77,19 @@ export class MdlDatePicker<D> implements AfterViewInit, OnInit, OnDestroy, OnCha
     this.datepicker = singledatepicker ?? daterangepicker!;
     this.sub.add(
       this.datepicker.openedStream.subscribe(() => {
-        // @ts-ignore
-        (this.datepicker._overlayRef as OverlayRef).addPanelClass('with-presets');
-
-        this.datepickerContent = // @ts-ignore
-          (this.datepicker._componentRef as ComponentRef<MatDatepickerContent<any, any>>).instance;
         setTimeout(() => {
           // @ts-ignore
+          (this.datepicker._overlayRef as OverlayRef).addPanelClass('with-presets');
+
+          this.datepickerContent = // @ts-ignore
+          (this.datepicker._componentRef as ComponentRef<MatDatepickerContent<any, any>>).instance;
+
+          // @ts-ignore
           this.srcCalendar = this.datepickerContent._calendar;
-          if (!this.srcCalendar) return;
+          if (!this.srcCalendar) {
+            console.error('Did not detect source calendar');
+            return;
+          }
           this.sub.add(
             this.srcCalendar.stateChanges.pipe(startWith({})).subscribe(() => {
               this.syncCalendars();
@@ -150,7 +149,11 @@ export class MdlDatePicker<D> implements AfterViewInit, OnInit, OnDestroy, OnCha
 
   protected applyPreset(preset: DateRangePreset<D>) {
     const range = preset.calculateDateRange(this.dateAdapter);
-    if (!this.srcCalendar) return;
+    if (!this.srcCalendar) {
+      console.error('No source calendar!');
+      return;
+    }
+
     if (this.daterangepicker) {
       this.datepickerContent._handleUserSelection({ value: null });
       this.datepickerContent._handleUserSelection({ value: range.start });
