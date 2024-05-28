@@ -85,7 +85,7 @@ export class MdlDatePicker<D> implements AfterViewInit, OnInit, OnDestroy, OnCha
         if (this.getCalendarReference()) return;
 
         this.datepickerContent._animationDone.pipe(take(1)).subscribe(() => {
-          if (this.getCalendarReference()) {
+          if (!this.getCalendarReference()) {
             throw new Error('Could not get calendar reference :-(');
           }
         });
