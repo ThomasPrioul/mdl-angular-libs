@@ -17,8 +17,8 @@ import {
   OnInit,
   OnChanges,
   SimpleChanges,
-  ChangeDetectorRef,
 } from '@angular/core';
+import { OverlayRef } from '@angular/cdk/overlay';
 import { MatButtonModule } from '@angular/material/button';
 import { DateAdapter } from '@angular/material/core';
 import {
@@ -28,7 +28,7 @@ import {
   MatDatepickerContent,
   MatCalendar,
 } from '@angular/material/datepicker';
-import { Subscription, startWith } from 'rxjs';
+import { Subscription, startWith, take } from 'rxjs';
 import { DATE_RANGE_PRESETS, DateRangePreset } from '../../utilities';
 import { EmptyCalendarHeaderComponent } from '../empty-calendar-header.component';
 import { MatListModule } from '@angular/material/list';
@@ -55,7 +55,7 @@ export class MdlDatePicker<D> implements AfterViewInit, OnInit, OnDestroy, OnCha
 
   protected DoubleCalendarHeaderComponent = DoubleCalendarHeaderComponent;
   protected datepicker: MatDateRangePicker<D> | MatDatepicker<D>;
-  protected datepickerContent?: any;
+  protected datepickerContent?: MatDatepickerContent<any>;
   protected leftCalendar?: MatCalendar<D>;
   protected srcCalendar?: MatCalendar<D>;
 
@@ -77,24 +77,17 @@ export class MdlDatePicker<D> implements AfterViewInit, OnInit, OnDestroy, OnCha
     this.datepicker = singledatepicker ?? daterangepicker!;
     this.sub.add(
       this.datepicker.openedStream.subscribe(() => {
-        setTimeout(() => {
-          // @ts-ignore
-          (this.datepicker._overlayRef as OverlayRef).addPanelClass('with-presets');
-
-          this.datepickerContent = // @ts-ignore
+        // @ts-ignore
+        (this.datepicker._overlayRef as OverlayRef).addPanelClass('with-presets');
+        this.datepickerContent = // @ts-ignore
           (this.datepicker._componentRef as ComponentRef<MatDatepickerContent<any, any>>).instance;
 
-          // @ts-ignore
-          this.srcCalendar = this.datepickerContent._calendar;
-          if (!this.srcCalendar) {
-            console.error('Did not detect source calendar');
-            return;
+        if (this.getCalendarReference()) return;
+
+        this.datepickerContent._animationDone.pipe(take(1)).subscribe(() => {
+          if (this.getCalendarReference()) {
+            throw new Error('Could not get calendar reference :-(');
           }
-          this.sub.add(
-            this.srcCalendar.stateChanges.pipe(startWith({})).subscribe(() => {
-              this.syncCalendars();
-            })
-          );
         });
       })
     );
@@ -154,12 +147,14 @@ export class MdlDatePicker<D> implements AfterViewInit, OnInit, OnDestroy, OnCha
       return;
     }
 
+    if (!this.datepickerContent) return;
+
     if (this.daterangepicker) {
-      this.datepickerContent._handleUserSelection({ value: null });
-      this.datepickerContent._handleUserSelection({ value: range.start });
-      this.datepickerContent._handleUserSelection({ value: range.end });
+      this.datepickerContent._handleUserSelection({ value: null, event: undefined! });
+      this.datepickerContent._handleUserSelection({ value: range.start, event: undefined! });
+      this.datepickerContent._handleUserSelection({ value: range.end, event: undefined! });
     } else if (this.singledatepicker) {
-      this.datepickerContent._handleUserSelection({ value: range.start });
+      this.datepickerContent._handleUserSelection({ value: range.start, event: undefined! });
     }
   }
 
@@ -168,6 +163,20 @@ export class MdlDatePicker<D> implements AfterViewInit, OnInit, OnDestroy, OnCha
       this.leftCalendar = calendar;
       this.sub.add(this.leftCalendar.stateChanges.subscribe(() => this.syncCalendars('left')));
     }
+  }
+
+  private getCalendarReference(): boolean {
+    // @ts-ignore
+    this.srcCalendar = this.datepickerContent._calendar;
+    if (!this.srcCalendar) {
+      return false;
+    }
+    this.sub.add(
+      this.srcCalendar.stateChanges.pipe(startWith({})).subscribe(() => {
+        this.syncCalendars();
+      })
+    );
+    return true;
   }
 
   private syncCalendars(from: 'left' | 'right' = 'right') {
