@@ -15,6 +15,7 @@ export type ConsistModel = {
   codeSerieMateriel: string;
   codeSerieMere: string | null;
   codeSerieRacine: string;
+  serieName: string;
   lcnCode: string;
   fleetName: string;
   stf: string;

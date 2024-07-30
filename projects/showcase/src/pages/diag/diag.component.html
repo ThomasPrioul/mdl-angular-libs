@@ -1,27 +1,32 @@
-<div class="flex flex-col gap-2">
-  <span class="page-title">
-    <span> Mon train: </span>
-    @for (mr of train().composition; track mr.numImmatEf; let first = $first) { @if (!first) {
-    <span> | </span>
-    }
-    <span>{{ mr.numImmatEf }}</span>
-    }
-  </span>
-  <div class="flex gap-4 items-start">
-    @for (mr of train().composition; track mr.numImmatEf; let first = $first) {
-    <div class="flex gap-2">
-      <div class="family-badge">{{ mr.codeSerieMateriel }}</div>
-      <div class="family-badge">{{ mr.stf }}| {{ mr.fleetName }}</div>
+<div class="flex gap-4 items-center">
+  <span class="page-title"> Mon train: </span>
+  @for (mr of train().composition; track mr.numImmatEf; let first = $first) { @if (!first) {
+  <i> et </i>
+  }
+  <div
+    class="flex gap-4 items-center"
+    style="background: #f2f2f2; border-radius: 1em; padding: 0.5em 1em">
+    <div class="flex gap-2 flex-col">
+      <div style="font-weight: bold">{{ mr.numImmatEf }}</div>
+      <div style="font-size: 0.75em; opacity: 0.6" class="flex items-center gap-2">
+        <mat-icon inline>wifi</mat-icon>
+        <div>XXX secondes</div>
+      </div>
     </div>
-    }
+    <div class="flex flex-col gap-1">
+      <div class="family-badge" style="font-size: 0.75em">{{ mr.serieName }}</div>
+      <div class="family-badge" style="font-size: 0.75em">{{ mr.stf }}| {{ mr.fleetName }}</div>
+    </div>
+  </div>
+  }
+  <div class="ms-auto flex gap-2 small justify-self-center">
+    <button mat-icon-button matTooltip="Retourner le train" (click)="reversed = !reversed">
+      <mat-icon>swap_horiz</mat-icon>
+    </button>
+    <mdl-zoom-button [minZoom]="0.5" [(zoomValue)]="scale"></mdl-zoom-button>
   </div>
 </div>
-<div class="flex gap-2 small justify-self-center">
-  <button mat-icon-button matTooltip="Retourner le train" (click)="reversed = !reversed">
-    <mat-icon>swap_horiz</mat-icon>
-  </button>
-  <mdl-zoom-button [minZoom]="0.5" [(zoomValue)]="scale"></mdl-zoom-button>
-</div>
+
 <div class="train" [style.font-size.em]="scale">
   @if (train().mission.previousOrCurrentStation; as previousStation) {
   <div>
