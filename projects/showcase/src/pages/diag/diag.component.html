@@ -20,13 +20,25 @@
   <button mat-icon-button matTooltip="Retourner le train" (click)="reversed = !reversed">
     <mat-icon>swap_horiz</mat-icon>
   </button>
-  <mdl-zoom-button [(zoomValue)]="scale"></mdl-zoom-button>
+  <mdl-zoom-button [minZoom]="0.5" [(zoomValue)]="scale"></mdl-zoom-button>
 </div>
-<div class="train">
-  @for (consist of train().composition | orientation: reversed; track consist.numImmatEf) {
-  <div class="flex flex-col">
+<div class="train" [style.font-size.em]="scale">
+  @if (train().mission.previousOrCurrentStation; as previousStation) {
+  <div>
+    {{ previousStation }}
+  </div>
+  } @for (consist of train().composition | orientation: reversed; track consist.numImmatEf) {
+  <div class="flex flex-col gap-2">
     <div class="family-badge mx-auto">Rame {{ consist.numImmatEf }}</div>
-    <app-consist [consist]="consist" [reversed]="reversed" [scale]="scale"></app-consist>
+    <app-consist
+      [consist]="consist"
+      [consistData]="train().states[consist.numImmatEf]"
+      [reversed]="reversed"
+      [scale]="scale"></app-consist>
+  </div>
+  } @if (train().mission.nextStation; as nextStation) {
+  <div>
+    {{ nextStation }}
   </div>
   }
 </div>

@@ -36,7 +36,8 @@ export class DiagComponent {
         tractionType: 'EMU',
         vehicles: [
           {
-            numImmatEf: 'Z50001',
+            numIntEf: 'Z50001',
+            type: 'EXT1',
             friendlyName: 'V1',
             signalTechnicalPrefix: 'V1',
             acRooms: [],
@@ -46,7 +47,8 @@ export class DiagComponent {
             coherencePosition: 1,
           },
           {
-            numImmatEf: 'ZR501001',
+            numIntEf: 'ZR501001',
+            type: 'coach',
             friendlyName: 'V2',
             signalTechnicalPrefix: 'V2',
             acRooms: [],
@@ -56,7 +58,8 @@ export class DiagComponent {
             coherencePosition: 2,
           },
           {
-            numImmatEf: 'ZZ502001',
+            numIntEf: 'ZZ502001',
+            type: 'coach',
             friendlyName: 'V3',
             signalTechnicalPrefix: 'V3',
             coherencePosition: 3,
@@ -66,7 +69,8 @@ export class DiagComponent {
             bogie2: null,
           },
           {
-            numImmatEf: 'ZR503001',
+            numIntEf: 'ZR503001',
+            type: 'coach',
             friendlyName: 'V4',
             signalTechnicalPrefix: 'V4',
             coherencePosition: 4,
@@ -76,7 +80,8 @@ export class DiagComponent {
             bogie2: null,
           },
           {
-            numImmatEf: 'ZR504001',
+            numIntEf: 'ZR504001',
+            type: 'coach',
             friendlyName: 'V5',
             signalTechnicalPrefix: 'V5',
             coherencePosition: 5,
@@ -86,7 +91,8 @@ export class DiagComponent {
             bogie2: null,
           },
           {
-            numImmatEf: 'ZR505001',
+            numIntEf: 'ZR505001',
+            type: 'coach',
             friendlyName: 'V6',
             signalTechnicalPrefix: 'V6',
             coherencePosition: 6,
@@ -96,7 +102,8 @@ export class DiagComponent {
             bogie2: null,
           },
           {
-            numImmatEf: 'ZR506001',
+            numIntEf: 'ZR506001',
+            type: 'coach',
             friendlyName: 'V7',
             signalTechnicalPrefix: 'V7',
             coherencePosition: 7,
@@ -106,7 +113,8 @@ export class DiagComponent {
             bogie2: null,
           },
           {
-            numImmatEf: 'Z50002',
+            numIntEf: 'Z50002',
+            type: 'EXT2',
             friendlyName: 'V8',
             signalTechnicalPrefix: 'V8',
             coherencePosition: 8,
@@ -128,7 +136,8 @@ export class DiagComponent {
         tractionType: 'EMU',
         vehicles: [
           {
-            numImmatEf: 'Z50003',
+            numIntEf: 'Z50003',
+            type: 'EXT1',
             friendlyName: 'V1',
             signalTechnicalPrefix: 'V1',
             acRooms: [],
@@ -138,7 +147,8 @@ export class DiagComponent {
             coherencePosition: 1,
           },
           {
-            numImmatEf: 'ZR501003',
+            numIntEf: 'ZR501003',
+            type: 'coach',
             friendlyName: 'V2',
             signalTechnicalPrefix: 'V2',
             acRooms: [],
@@ -148,7 +158,8 @@ export class DiagComponent {
             coherencePosition: 2,
           },
           {
-            numImmatEf: 'ZZ502003',
+            numIntEf: 'ZZ502003',
+            type: 'coach',
             friendlyName: 'V3',
             signalTechnicalPrefix: 'V3',
             coherencePosition: 3,
@@ -158,7 +169,8 @@ export class DiagComponent {
             bogie2: null,
           },
           {
-            numImmatEf: 'ZR503003',
+            numIntEf: 'ZR503003',
+            type: 'coach',
             friendlyName: 'V4',
             signalTechnicalPrefix: 'V4',
             coherencePosition: 4,
@@ -168,7 +180,8 @@ export class DiagComponent {
             bogie2: null,
           },
           {
-            numImmatEf: 'ZR504003',
+            numIntEf: 'ZR504003',
+            type: 'coach',
             friendlyName: 'V5',
             signalTechnicalPrefix: 'V5',
             coherencePosition: 5,
@@ -178,7 +191,8 @@ export class DiagComponent {
             bogie2: null,
           },
           {
-            numImmatEf: 'ZR505003',
+            numIntEf: 'ZR505003',
+            type: 'coach',
             friendlyName: 'V6',
             signalTechnicalPrefix: 'V6',
             coherencePosition: 6,
@@ -188,7 +202,8 @@ export class DiagComponent {
             bogie2: null,
           },
           {
-            numImmatEf: 'ZR506003',
+            numIntEf: 'ZR506003',
+            type: 'coach',
             friendlyName: 'V7',
             signalTechnicalPrefix: 'V7',
             coherencePosition: 7,
@@ -198,7 +213,8 @@ export class DiagComponent {
             bogie2: null,
           },
           {
-            numImmatEf: 'Z50004',
+            numIntEf: 'Z50004',
+            type: 'EXT2',
             friendlyName: 'V8',
             signalTechnicalPrefix: 'V8',
             coherencePosition: 8,
@@ -227,13 +243,14 @@ export class DiagComponent {
         },
         totalPassengers: 42,
         vehicleStates: {
-          Z50001: <CabinState>{
+          Z50001: {
             nbPassengers: 2,
             acRooms: {},
             cabinAcRoom: null,
             BP_URG: true,
             inService: true,
             Q_UM: false,
+            isExtremity: true,
           },
         },
       },
