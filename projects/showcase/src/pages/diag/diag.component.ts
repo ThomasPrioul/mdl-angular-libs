@@ -1,11 +1,18 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Signal, signal } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { DateTime } from 'luxon';
 import { MdlZoomButtonComponent } from 'mdl-angular/zoom-button';
 import { ConsistComponent } from '../../components/consist/consist.component';
 import { CabinState, TrainModel } from '../../models/met';
-import { OrientationPipe } from '../../pipes/orientation.pipe';
+import { ReversePipe } from '../../pipes/reverse.pipe';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { map, startWith } from 'rxjs';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { EXAMPLE_Z50000, EXAMPLE_Z57000 } from '../../data/trains';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { LuxonModule } from 'luxon-angular';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -15,255 +22,47 @@ import { OrientationPipe } from '../../pipes/orientation.pipe';
   imports: [
     // NG
     CommonModule,
+    ReactiveFormsModule,
+
+    // Material
+    MatButtonToggleModule,
     MatIconModule,
+    MatSlideToggleModule,
+
+    // Luxon
+    LuxonModule,
+
+    // MDL
     MdlZoomButtonComponent,
+
+    // App
     ConsistComponent,
-    OrientationPipe,
+    ReversePipe,
   ],
 })
 export class DiagComponent {
+  protected leadingCabinRightSide: Signal<boolean>;
   protected reversed: boolean = false;
-  protected train = signal<TrainModel>({
-    composition: [
-      {
-        codeSerieMateriel: 'Z50000-8C-KVB',
-        codeSerieMere: 'Z50000-8C',
-        codeSerieRacine: 'Z50000',
-        serieName: 'Z50000 \\ 8 caisses \\ KVB',
-        fleetName: 'Flotte Transilien Ligne H',
-        lcnCode: 'Z50',
-        numImmatEf: '01H',
-        stf: 'SPN',
-        tractionType: 'EMU',
-        vehicles: [
-          {
-            numIntEf: 'Z50001',
-            type: 'EXT1',
-            friendlyName: 'V1',
-            signalTechnicalPrefix: 'V1',
-            acRooms: [],
-            doors: [],
-            bogie1: null,
-            bogie2: null,
-            coherencePosition: 1,
-          },
-          {
-            numIntEf: 'ZR501001',
-            type: 'coach',
-            friendlyName: 'V2',
-            signalTechnicalPrefix: 'V2',
-            acRooms: [],
-            doors: [],
-            bogie1: null,
-            bogie2: null,
-            coherencePosition: 2,
-          },
-          {
-            numIntEf: 'ZZ502001',
-            type: 'coach',
-            friendlyName: 'V3',
-            signalTechnicalPrefix: 'V3',
-            coherencePosition: 3,
-            acRooms: [],
-            doors: [],
-            bogie1: null,
-            bogie2: null,
-          },
-          {
-            numIntEf: 'ZR503001',
-            type: 'coach',
-            friendlyName: 'V4',
-            signalTechnicalPrefix: 'V4',
-            coherencePosition: 4,
-            acRooms: [],
-            doors: [],
-            bogie1: null,
-            bogie2: null,
-          },
-          {
-            numIntEf: 'ZR504001',
-            type: 'coach',
-            friendlyName: 'V5',
-            signalTechnicalPrefix: 'V5',
-            coherencePosition: 5,
-            acRooms: [],
-            doors: [],
-            bogie1: null,
-            bogie2: null,
-          },
-          {
-            numIntEf: 'ZR505001',
-            type: 'coach',
-            friendlyName: 'V6',
-            signalTechnicalPrefix: 'V6',
-            coherencePosition: 6,
-            acRooms: [],
-            doors: [],
-            bogie1: null,
-            bogie2: null,
-          },
-          {
-            numIntEf: 'ZR506001',
-            type: 'coach',
-            friendlyName: 'V7',
-            signalTechnicalPrefix: 'V7',
-            coherencePosition: 7,
-            acRooms: [],
-            doors: [],
-            bogie1: null,
-            bogie2: null,
-          },
-          {
-            numIntEf: 'Z50002',
-            type: 'EXT2',
-            friendlyName: 'V8',
-            signalTechnicalPrefix: 'V8',
-            coherencePosition: 8,
-            acRooms: [],
-            doors: [],
-            bogie1: null,
-            bogie2: null,
-          },
-        ],
-      },
-      {
-        codeSerieMateriel: 'Z50000-8C-KVB',
-        codeSerieMere: 'Z50000-8C',
-        codeSerieRacine: 'Z50000',
-        serieName: 'Z50000 \\ 8 caisses \\ KVB',
-        fleetName: 'Flotte Transilien Ligne H',
-        lcnCode: 'Z50',
-        numImmatEf: '02H',
-        stf: 'SPN',
-        tractionType: 'EMU',
-        vehicles: [
-          {
-            numIntEf: 'Z50003',
-            type: 'EXT1',
-            friendlyName: 'V1',
-            signalTechnicalPrefix: 'V1',
-            acRooms: [],
-            doors: [],
-            bogie1: null,
-            bogie2: null,
-            coherencePosition: 1,
-          },
-          {
-            numIntEf: 'ZR501003',
-            type: 'coach',
-            friendlyName: 'V2',
-            signalTechnicalPrefix: 'V2',
-            acRooms: [],
-            doors: [],
-            bogie1: null,
-            bogie2: null,
-            coherencePosition: 2,
-          },
-          {
-            numIntEf: 'ZZ502003',
-            type: 'coach',
-            friendlyName: 'V3',
-            signalTechnicalPrefix: 'V3',
-            coherencePosition: 3,
-            acRooms: [],
-            doors: [],
-            bogie1: null,
-            bogie2: null,
-          },
-          {
-            numIntEf: 'ZR503003',
-            type: 'coach',
-            friendlyName: 'V4',
-            signalTechnicalPrefix: 'V4',
-            coherencePosition: 4,
-            acRooms: [],
-            doors: [],
-            bogie1: null,
-            bogie2: null,
-          },
-          {
-            numIntEf: 'ZR504003',
-            type: 'coach',
-            friendlyName: 'V5',
-            signalTechnicalPrefix: 'V5',
-            coherencePosition: 5,
-            acRooms: [],
-            doors: [],
-            bogie1: null,
-            bogie2: null,
-          },
-          {
-            numIntEf: 'ZR505003',
-            type: 'coach',
-            friendlyName: 'V6',
-            signalTechnicalPrefix: 'V6',
-            coherencePosition: 6,
-            acRooms: [],
-            doors: [],
-            bogie1: null,
-            bogie2: null,
-          },
-          {
-            numIntEf: 'ZR506003',
-            type: 'coach',
-            friendlyName: 'V7',
-            signalTechnicalPrefix: 'V7',
-            coherencePosition: 7,
-            acRooms: [],
-            doors: [],
-            bogie1: null,
-            bogie2: null,
-          },
-          {
-            numIntEf: 'Z50004',
-            type: 'EXT2',
-            friendlyName: 'V8',
-            signalTechnicalPrefix: 'V8',
-            coherencePosition: 8,
-            acRooms: [],
-            doors: [],
-            bogie1: null,
-            bogie2: null,
-          },
-        ],
-      },
-    ],
-    mission: {
-      misionNumber: '123456',
-      missionCode: 'POVA',
-      nextStation: 'Saint-Denis',
-      previousOrCurrentStation: 'Paris Nord',
-    },
-    states: {
-      '01H': {
-        lastCommunication: DateTime.now().minus({ seconds: 5 }),
-        geolocation: {
-          latitude: 47.3819,
-          longitude: 0.6867,
-          altitude: null,
-          orientation: null,
-        },
-        totalPassengers: 42,
-        vehicleStates: {
-          Z50001: {
-            nbPassengers: 2,
-            acRooms: {},
-            cabinAcRoom: null,
-            BP_URG: true,
-            inService: true,
-            Q_UM: false,
-            isExtremity: true,
-          },
-        },
-      },
-    },
-    weather: {
-      localHumidityPercent: 70,
-      localTemperatureCelsius: 15.1,
-      type: 'cloudy',
-      locality: 'Saint-Denis',
-    },
+  protected topView: Signal<boolean>;
+  protected train = signal<TrainModel>(EXAMPLE_Z57000);
+  protected userSettings = new FormGroup({
+    scale: new FormControl<number>(1, { nonNullable: true }),
+    orientation: new FormControl<'left' | 'right'>('right', { nonNullable: true }),
+    view: new FormControl<'side' | 'top'>('side', { nonNullable: true }),
+    vehicleImages: new FormControl<boolean>(true, { nonNullable: true }),
   });
 
-  public scale: number = 1;
+  constructor() {
+    this.topView = toSignal(
+      this.userSettings.controls.view.valueChanges.pipe(map((view) => view === 'top')),
+      { initialValue: this.userSettings.controls.view.value === 'top' }
+    );
+
+    this.leadingCabinRightSide = toSignal(
+      this.userSettings.controls.orientation.valueChanges.pipe(
+        map((orientation) => orientation === 'right')
+      ),
+      { initialValue: this.userSettings.controls.orientation.value === 'right' }
+    );
+  }
 }

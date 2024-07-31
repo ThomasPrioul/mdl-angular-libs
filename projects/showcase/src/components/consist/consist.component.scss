@@ -4,8 +4,15 @@
   grid-auto-flow: column;
   row-gap: 1em;
   margin-bottom: 1em;
+  line-height: 1;
 
   display: flex;
+
+  .vehicle-column {
+    gap: 1em;
+    display: flex;
+    flex-direction: column;
+  }
 
   .vehicle-image {
     margin-top: auto;
@@ -39,12 +46,19 @@
 
     &.first {
       border-top-left-radius: 3.5em;
-      border-bottom-left-radius: 0.5em;
+      border-bottom-left-radius: 3.5em;
+      &:not(.top) {
+        border-bottom-left-radius: 0.5em;
+      }
     }
 
     &.last {
       border-top-right-radius: 3.5em;
-      border-bottom-right-radius: 0.5em;
+      border-bottom-right-radius: 3.5em;
+
+      &:not(.top) {
+        border-bottom-right-radius: 0.5em;
+      }
     }
   }
 

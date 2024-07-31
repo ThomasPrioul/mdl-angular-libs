@@ -148,7 +148,7 @@ function z26500Keys(consist: ConsistModel): VehicleImageRepo {
     SNU: 'T2REMI',
     SPC: 'T2ZOU',
   };
-  const region = regions[consist.stf]!;
+  const region = regions[consist.fleetManager]!;
   let repo = {
     Z1L: `/SNCF/AE/Z26500_${region}_Z1_L.GIF`,
     Z2L: `/SNCF/AE/Z26500_${region}_Z2_L.GIF`,
@@ -163,7 +163,7 @@ function z26500Keys(consist: ConsistModel): VehicleImageRepo {
 
 function z5550Keys(consist: ConsistModel): VehicleImageRepo {
   // SNU PCLM Z55500L
-  if (consist.stf === 'SNU') return z56700Keys;
+  if (consist.fleetManager === 'SNU') return z56700Keys;
 
   // General case
   const regions: { [stf: string]: string } = {
@@ -174,7 +174,7 @@ function z5550Keys(consist: ConsistModel): VehicleImageRepo {
     SPC: 'T2PACA',
     SRA: 'ARA',
   };
-  const region = regions[consist.stf]!;
+  const region = regions[consist.fleetManager]!;
   let repo = {
     '00': { path: `/SNCF/AE/REGIO2N_VE1N1_${region}_L.GIF` },
     '14': { path: `/SNCF/AE/REGIO2N_VI2NL_${region}_R.GIF` },
@@ -198,16 +198,16 @@ function z5550Keys(consist: ConsistModel): VehicleImageRepo {
   } else if (consist.codeSerieMateriel === 'Z5550--C083GC') {
     repo['62'].path = `/SNCF/AE/REGIO2N_VI1N1_${region}_R.GIF`;
   } else if (consist.codeSerieMateriel === 'Z5550--C083N083') {
-    if (consist.stf === 'SBR') {
+    if (consist.fleetManager === 'SBR') {
       repo['14'].path = '/SNCF/AE/REGIO2N_VI2NL_BRET.GIF';
       repo['55'].path = '/SNCF/AE/REGIO2N_VI2NC_BREI.GIF';
-    } else if (consist.stf === 'SOC') {
+    } else if (consist.fleetManager === 'SOC') {
       repo['14'].path = '/SNCF/AE/REGIO2N_VI2NL_LIO.GIF';
       repo['55'].path = '/SNCF/AE/REGIO2N_VI2NC_LIO.GIF';
       repo['62'].path = '/SNCF/AE/REGIO2N_VI1N1_LIO_R.GIF';
     }
   } else if (consist.codeSerieMateriel === 'Z5550--L110N110') {
-    if (consist.stf === 'SBR') {
+    if (consist.fleetManager === 'SBR') {
       repo['14'].path = '/SNCF/AE/REGIO2N_VI2NL_BRET.GIF';
       repo['54'].path = '/SNCF/AE/REGIO2N_VI2NL_BREI.GIF';
       repo['74'].path = '/SNCF/AE/REGIO2N_VI2NL_BRET.GIF';

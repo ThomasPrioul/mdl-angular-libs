@@ -1,16 +1,17 @@
-@for ( vehicle of consist.vehicles | orientation : reversed; track vehicle; let firstVeh =
-$first;let lastVeh = $last) { @if (firstVeh && vehicle.type !== 'coach' &&
-driverPresence(vehicle.type === 'EXT1' ? 'EXT1' : 'EXT2')) {
+@for ( vehicle of consist.vehicles | reverse : reversed; track vehicle; let firstVeh = $first;let
+lastVeh = $last) { @if (firstVeh && vehicle.type !== 'coach' && driverPresence(vehicle.type ===
+'EXT1' ? 'EXT1' : 'EXT2')) {
 <div class="ext-icons-host first">
   <mat-icon class="driver-icon" inline>accessibility</mat-icon>
 </div>
 }
 
-<div>
-  @if (vehicle | vehicleImg : consist : imgRepo() : reversed; as img) {
+<div class="vehicle-column">
+  @if (!topView && useVehicleImages && (vehicle | vehicleImg : consist : imgRepo() : reversed); as
+  img) {
   <img
     class="vehicle-image"
-    alt=""
+    [alt]="vehicle.friendlyName"
     [srcset]="img.path + ' ' + imgScale + 'w'"
     sizes="100px"
     [ngStyle]="img | vehicleImgStyle : scale : reversed" />
@@ -18,7 +19,7 @@ driverPresence(vehicle.type === 'EXT1' ? 'EXT1' : 'EXT2')) {
   <div
     class="vehicle-outline"
     [ngStyle]="{ width: 7, height: 3, path: '' } | vehicleImgStyle : scale : reversed : true"
-    [ngClass]="{ first: firstVeh, last: lastVeh }"></div>
+    [ngClass]="{ first: firstVeh, last: lastVeh, top: topView }"></div>
   }
   <div class="vehicle-id">
     <div class="num-ef">{{ vehicle.numIntEf }}</div>

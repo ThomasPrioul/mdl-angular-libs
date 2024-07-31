@@ -8,9 +8,17 @@ export * from './dynamic';
 export * from './pis';
 export * from './weather';
 
+/** Model sent from API to frontend */
 export type TrainModel = {
+  /** Train composition, contains all static info to generate a basic diagram */
   composition: ConsistModel[];
-  mission: MissionState;
+
+  /** Mission information for this train. */
+  mission?: MissionState;
+
+  /** Dynamic states dictionary, keyed by consist id. */
   states: Record<string, ConsistState>;
-  weather: WeatherState;
+
+  /** Outdoor weather info. */
+  weather?: WeatherState;
 };

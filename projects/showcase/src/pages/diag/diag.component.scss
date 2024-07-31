@@ -7,6 +7,21 @@
   padding: 2rem 2.5rem;
 }
 
+.consist-info-host {
+  background: var(--mdc-filled-text-field-container-color);
+  border-radius: 3.5em 3.5em 0.5em 0.5em;
+  padding: 0.5em 2em;
+
+  .consist-id {
+    font-weight: bold;
+  }
+
+  .communication-text {
+    font-size: 0.75em;
+    opacity: 0.6;
+  }
+}
+
 .family-badge {
   color: #fff;
   font-weight: 500;
@@ -44,11 +59,19 @@
   align-items: center;
   overflow-x: auto;
 
-  > :first-child {
+  > .station {
+    line-height: 1;
+
+    .station-img {
+      width: 3em;
+    }
+  }
+
+  :nth-child(1 of .consist-host) {
     margin-left: auto;
   }
 
-  > :last-child {
+  :nth-last-child(1 of .consist-host) {
     margin-right: auto;
   }
 }

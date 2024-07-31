@@ -8,7 +8,7 @@ import {
 } from '../../pipes/vehicle-image.pipe';
 import { ConsistModel, ConsistState } from '../../models/met';
 import { NgVarDirective } from '../../directives/ng-var.directive';
-import { OrientationPipe } from '../../pipes/orientation.pipe';
+import { ReversePipe } from '../../pipes/reverse.pipe';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
@@ -21,7 +21,7 @@ import { MatIconModule } from '@angular/material/icon';
     CommonModule,
     MatIconModule,
     NgVarDirective,
-    OrientationPipe,
+    ReversePipe,
     VehicleImgRepoPipe,
     VehicleImgPipe,
     VehicleImgStylePipe,
@@ -33,6 +33,8 @@ export class ConsistComponent {
 
   @Input() public reversed: boolean = false;
   @Input() public scale: number = 1;
+  @Input() public topView: boolean = false;
+  @Input() public useVehicleImages: boolean = false;
 
   public imgRepo = signal<VehicleImageRepo | undefined>(undefined);
 

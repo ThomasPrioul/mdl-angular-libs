@@ -1,49 +1,98 @@
-<div class="flex gap-4 items-center">
-  <span class="page-title"> Mon train: </span>
-  @for (mr of train().composition; track mr.numImmatEf; let first = $first) { @if (!first) {
+<div class="flex gap-4 items-center flex-wrap">
+  <div class="page-title">
+    Mon train: @if(train().mission; as mission) { ( @if(mission.missionNumber) {<span>{{
+      mission.missionNumber
+    }}</span
+    >} @if (mission.missionNumber && mission.missionCode) { - } @if(mission.missionCode) {<span>{{
+      mission.missionCode
+    }}</span
+    >} ) }
+  </div>
+  @for (consist of train().composition; track consist.numImmatEf; let first = $first) { @if (!first)
+  {
   <i> et </i>
   }
-  <div
-    class="flex gap-4 items-center"
-    style="background: #f2f2f2; border-radius: 1em; padding: 0.5em 1em">
-    <div class="flex gap-2 flex-col">
-      <div style="font-weight: bold">{{ mr.numImmatEf }}</div>
-      <div style="font-size: 0.75em; opacity: 0.6" class="flex items-center gap-2">
-        <mat-icon inline>wifi</mat-icon>
-        <div>XXX secondes</div>
+  <div class="flex gap-4 items-center consist-info-host">
+    <div class="flex gap-1 flex-col">
+      <div class="flex gap-1 items-center">
+        <div class="consist-id">{{ consist.numImmatEf }}</div>
+        <div class="family-badge" style="font-size: 0.75em">{{ consist.trainSeriesName }}</div>
+        <div class="family-badge" style="font-size: 0.75em">{{ consist.fleetManager }}</div>
+      </div>
+      <div class="flex items-center gap-2 communication-text">
+        <mat-icon inline>{{
+          train().states[consist.numImmatEf].lastCommunication !== null ? "wifi" : "wifi_off"
+        }}</mat-icon>
+        @if (train().states[consist.numImmatEf].lastCommunication; as lastCommDate) {
+        <div>{{ lastCommDate | dateTimeToRelative : { style: "short" } }}</div>
+        }
       </div>
     </div>
-    <div class="flex flex-col gap-1">
-      <div class="family-badge" style="font-size: 0.75em">{{ mr.serieName }}</div>
-      <div class="family-badge" style="font-size: 0.75em">{{ mr.stf }}| {{ mr.fleetName }}</div>
-    </div>
+    <!-- <div class="flex flex-col gap-1">
+      <div class="family-badge" style="font-size: 0.75em">{{ consist.trainSeriesName }}</div>
+      <div class="family-badge" style="font-size: 0.75em">
+        {{ consist.fleetManager }} | {{ consist.fleetName }}
+      </div>
+    </div> -->
   </div>
   }
-  <div class="ms-auto flex gap-2 small justify-self-center">
-    <button mat-icon-button matTooltip="Retourner le train" (click)="reversed = !reversed">
-      <mat-icon>swap_horiz</mat-icon>
-    </button>
-    <mdl-zoom-button [minZoom]="0.5" [(zoomValue)]="scale"></mdl-zoom-button>
+  <div class="ms-auto flex flex-wrap gap-2 small items-center">
+    <div class="mdl-form-field">
+      <label class="mdl-label">Cabine menante</label>
+      <mat-button-toggle-group
+        class="options dark"
+        [formControl]="userSettings.controls.orientation">
+        <mat-button-toggle value="left">Gauche</mat-button-toggle>
+        <mat-button-toggle value="right">Droite</mat-button-toggle>
+      </mat-button-toggle-group>
+    </div>
+    <div class="mdl-form-field">
+      <label class="mdl-label">Vue</label>
+      <mat-button-toggle-group class="options dark" [formControl]="userSettings.controls.view">
+        <mat-button-toggle value="side">De côté</mat-button-toggle>
+        <mat-button-toggle value="top">Du dessus</mat-button-toggle>
+      </mat-button-toggle-group>
+    </div>
+    <mat-slide-toggle [formControl]="userSettings.controls.vehicleImages"
+      >Images véhicules</mat-slide-toggle
+    >
+    <div class="mdl-form-field">
+      <label class="mdl-label">Échelle</label>
+      <mdl-zoom-button
+        [minZoom]="0.5"
+        [formControl]="userSettings.controls.scale"></mdl-zoom-button>
+    </div>
   </div>
 </div>
 
-<div class="train" [style.font-size.em]="scale">
-  @if (train().mission.previousOrCurrentStation; as previousStation) {
-  <div>
-    {{ previousStation }}
+<div class="train" [style.font-size.em]="userSettings.controls.scale.value">
+  @if (train().mission; as mission) {
+  <div class="station flex self-stretch">
+    <div class="flex flex-col gap-1 m-auto">
+      <img class="station-img" src="/assets/station.svg" />
+      {{ leadingCabinRightSide() ? mission.previousOrCurrentStation : mission.nextStation }}
+    </div>
   </div>
-  } @for (consist of train().composition | orientation: reversed; track consist.numImmatEf) {
-  <div class="flex flex-col gap-2">
+  } @for (consist of train().composition | reverse: leadingCabinRightSide(); track
+  consist.numImmatEf) {
+  <div class="consist-host flex flex-col gap-2">
     <div class="family-badge mx-auto">Rame {{ consist.numImmatEf }}</div>
     <app-consist
       [consist]="consist"
       [consistData]="train().states[consist.numImmatEf]"
-      [reversed]="reversed"
-      [scale]="scale"></app-consist>
+      [reversed]="
+        (train().states[consist.numImmatEf].orientation === 'reversed') != leadingCabinRightSide()
+      "
+      [scale]="userSettings.controls.scale.value"
+      [useVehicleImages]="userSettings.controls.vehicleImages.value"
+      [topView]="topView()"></app-consist>
   </div>
-  } @if (train().mission.nextStation; as nextStation) {
-  <div>
-    {{ nextStation }}
+  } @if (train().mission; as mission) {
+  <div class="station flex self-stretch">
+    <div class="flex flex-col gap-1 m-auto">
+      <img class="station-img" src="/assets/station.svg" />
+      {{ leadingCabinRightSide() ? mission.nextStation : mission.previousOrCurrentStation }}
+    </div>
   </div>
   }
 </div>

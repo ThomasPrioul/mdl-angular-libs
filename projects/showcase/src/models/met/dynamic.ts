@@ -15,11 +15,6 @@ export type CabinState = VehicleBaseState & {
   cabinAcRoom: ACRoomState | null;
   isExtremity: true;
 };
-export type VehicleBaseState = {
-  nbPassengers: number | null;
-  acRooms: Record<string, ACRoomState>;
-};
-
 export type ConsistState = {
   lastCommunication: DateTime | null;
   geolocation: {
@@ -29,11 +24,16 @@ export type ConsistState = {
     orientation: number | null;
   } | null;
   totalPassengers: number | null;
+  orientation?: 'reversed';
   vehicleStates: Record<string, VehicleState | CabinState>;
 };
 export type DoorState = BaseDoorState & {
   stepState?: BaseDoorState;
   wheelChairStepState?: BaseDoorState;
+};
+export type VehicleBaseState = {
+  nbPassengers: number | null;
+  acRooms: Record<string, ACRoomState>;
 };
 export type VehicleState = VehicleBaseState & {
   isExtremity: false;
