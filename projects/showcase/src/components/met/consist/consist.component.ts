@@ -41,6 +41,8 @@ export class ConsistComponent {
   /** Whether to use images. If false, outlines are used. */
   @Input() public useVehicleImages: boolean = false;
 
+  @Input() public vehicleIdPosition: 'top' | 'bottom' | null = null;
+
   public imgRepo = signal<VehicleImageRepo | undefined>(undefined);
 
   /** Static consist information (vehicles, organs, etc). */

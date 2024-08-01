@@ -54,11 +54,13 @@ export class DiagComponent {
   protected readonly trainCompoInOrder: Signal<ConsistModel[]>;
   protected readonly userSettings = new FormGroup({
     example: new FormControl<'z50000' | 'z57000'>('z50000', { nonNullable: true }),
+    vehicleIdPosition: new FormControl<'top' | 'bottom' | null>('bottom'),
     scale: new FormControl<number>(1, { nonNullable: true }),
     orientation: new FormControl<'left' | 'right'>('right', { nonNullable: true }),
     view: new FormControl<'side' | 'top'>('side', { nonNullable: true }),
     vehicleImages: new FormControl<boolean>(true, { nonNullable: true }),
   });
+  protected readonly vehicleIdPosition: Signal<'top' | 'bottom' | null>;
 
   constructor() {
     this.topView = toSignal(
@@ -92,6 +94,10 @@ export class DiagComponent {
           (states[numEf].orientation === 'reversed') != reversed,
         ])
       );
+    });
+
+    this.vehicleIdPosition = toSignal(this.userSettings.controls.vehicleIdPosition.valueChanges, {
+      initialValue: this.userSettings.controls.vehicleIdPosition.value,
     });
   }
 }

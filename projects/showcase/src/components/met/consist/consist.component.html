@@ -6,6 +6,15 @@ driverPresence(vehicle.type === 'EXT1' ? 'EXT1' : 'EXT2')) {
 </div>
 }
 <div class="vehicle-column">
+  @if (vehicleIdPosition === 'top') {
+  <div class="vehicle-id">
+    <div class="num-ef">{{ vehicle.numIntEf }}</div>
+    <div class="num-ef">{{ vehicle.friendlyName }}</div>
+    <!-- <div class="num-ef">{{ vehicle.coherencePosition }}</div> -->
+    <!-- <div class="position-coherence">{{ vehicle.position }}</div>
+        <div class="position">{{ vehicle.index }}</div> -->
+  </div>
+  }
   <met-vehicle
     [consist]="consist"
     [position]="firstVeh ? 'first' : lastVeh ? 'last' : undefined"
@@ -16,6 +25,8 @@ driverPresence(vehicle.type === 'EXT1' ? 'EXT1' : 'EXT2')) {
     [scale]="scale"
     [imgRepo]="imgRepo()">
   </met-vehicle>
+  @if (vehicleIdPosition === 'bottom') {
+
   <div class="vehicle-id">
     <div class="num-ef">{{ vehicle.numIntEf }}</div>
     <div class="num-ef">{{ vehicle.friendlyName }}</div>
@@ -23,6 +34,7 @@ driverPresence(vehicle.type === 'EXT1' ? 'EXT1' : 'EXT2')) {
     <!-- <div class="position-coherence">{{ vehicle.position }}</div>
       <div class="position">{{ vehicle.index }}</div> -->
   </div>
+  }
 </div>
 @if (lastVeh && vehicle.type !== 'coach' && driverPresence(vehicle.type === 'EXT2' ? 'EXT2' :
 'EXT1')) {

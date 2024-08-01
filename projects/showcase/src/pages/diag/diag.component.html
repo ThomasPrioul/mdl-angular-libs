@@ -47,6 +47,16 @@
       </mat-button-toggle-group>
     </div>
     <div class="mdl-form-field">
+      <label class="mdl-label">N° de véhicules</label>
+      <mat-button-toggle-group
+        class="options dark"
+        [formControl]="userSettings.controls.vehicleIdPosition">
+        <mat-button-toggle value="top">Dessus</mat-button-toggle>
+        <mat-button-toggle value="bottom">Dessous</mat-button-toggle>
+        <mat-button-toggle [value]="null">Masqués</mat-button-toggle>
+      </mat-button-toggle-group>
+    </div>
+    <div class="mdl-form-field">
       <label class="mdl-label">Cabine menante</label>
       <mat-button-toggle-group
         class="options dark"
@@ -62,9 +72,16 @@
         <mat-button-toggle value="top">Du dessus</mat-button-toggle>
       </mat-button-toggle-group>
     </div>
-    <mat-slide-toggle [formControl]="userSettings.controls.vehicleImages"
-      >Images véhicules</mat-slide-toggle
-    >
+    <div class="mdl-form-field">
+      <label class="mdl-label">Véhicules</label>
+      <mat-button-toggle-group
+        class="options dark"
+        [formControl]="userSettings.controls.vehicleImages">
+        <mat-button-toggle [value]="true">Images</mat-button-toggle>
+        <mat-button-toggle [value]="false">Dessins</mat-button-toggle>
+      </mat-button-toggle-group>
+    </div>
+    <!-- <mat-slide-toggle [formControl]="userSettings.controls.vehicleImages"></mat-slide-toggle> -->
     <div class="mdl-form-field">
       <label class="mdl-label">Échelle</label>
       <mdl-zoom-button
@@ -82,8 +99,11 @@
   </met-station>
   } @for (consist of trainCompoInOrder(); track consist.numImmatEf) {
   <div class="consist-host flex flex-col gap-2">
+    @if (vehicleIdPosition() === 'bottom') {
     <div class="family-badge mx-auto">Rame {{ consist.numImmatEf }}</div>
+    }
     <met-consist
+      [vehicleIdPosition]="vehicleIdPosition()"
       [consist]="consist"
       [consistData]="train().states[consist.numImmatEf]"
       [rightToLeft]="consistOrientations()[consist.numImmatEf]"
@@ -91,6 +111,9 @@
       [useVehicleImages]="userSettings.controls.vehicleImages.value"
       [topView]="topView()">
     </met-consist>
+    @if (vehicleIdPosition() === 'top') {
+    <div class="family-badge mx-auto">Rame {{ consist.numImmatEf }}</div>
+    }
   </div>
   } @if (train().mission; as mission) {
   <met-station
