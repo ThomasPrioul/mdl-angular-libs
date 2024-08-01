@@ -214,7 +214,7 @@ export const EXAMPLE_Z50000: TrainModel = {
   },
   states: {
     '01H': {
-      lastCommunication: DateTime.now().minus({ seconds: 5 }),
+      lastCommunication: DateTime.now().minus({ seconds: 1 }),
       geolocation: {
         latitude: 47.3819,
         longitude: 0.6867,
@@ -230,6 +230,28 @@ export const EXAMPLE_Z50000: TrainModel = {
           BP_URG: true,
           inService: true,
           Q_UM: false,
+          isExtremity: true,
+        },
+      },
+    },
+    '02H': {
+      lastCommunication: DateTime.now().minus({ seconds: 3 }),
+      orientation: 'reversed',
+      geolocation: {
+        latitude: 47.3819,
+        longitude: 0.6867,
+        altitude: null,
+        orientation: null,
+      },
+      totalPassengers: 42,
+      vehicleStates: {
+        Z50003: {
+          nbPassengers: null,
+          acRooms: {},
+          cabinAcRoom: null,
+          BP_URG: false,
+          inService: false,
+          Q_UM: true,
           isExtremity: true,
         },
       },

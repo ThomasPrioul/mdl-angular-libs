@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Signal, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, Signal, signal } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { DateTime } from 'luxon';
 import { MdlZoomButtonComponent } from 'mdl-angular/zoom-button';
-import { ConsistComponent } from '../../components/consist/consist.component';
-import { CabinState, TrainModel } from '../../models/met';
+import { ConsistComponent } from '../../components/met/consist/consist.component';
+import { CabinState, ConsistModel, TrainModel } from '../../models/met';
 import { ReversePipe } from '../../pipes/reverse.pipe';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
@@ -13,6 +13,13 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { EXAMPLE_Z50000, EXAMPLE_Z57000 } from '../../data/trains';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { LuxonModule } from 'luxon-angular';
+import { StationComponent } from '../../components/met/station/station.component';
+import { registerInlineMaterialIcons } from 'mdl-angular';
+
+const examples = {
+  z50000: EXAMPLE_Z50000,
+  z57000: EXAMPLE_Z57000,
+};
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -23,29 +30,30 @@ import { LuxonModule } from 'luxon-angular';
     // NG
     CommonModule,
     ReactiveFormsModule,
-
     // Material
     MatButtonToggleModule,
     MatIconModule,
     MatSlideToggleModule,
-
     // Luxon
     LuxonModule,
-
     // MDL
     MdlZoomButtonComponent,
-
     // App
     ConsistComponent,
     ReversePipe,
+    StationComponent,
   ],
 })
 export class DiagComponent {
-  protected leadingCabinRightSide: Signal<boolean>;
-  protected reversed: boolean = false;
-  protected topView: Signal<boolean>;
-  protected train = signal<TrainModel>(EXAMPLE_Z57000);
-  protected userSettings = new FormGroup({
+  /** Dictionary, for each consist keyed by numEf, value is whether rightToLeft orientation should be applied. */
+  protected readonly consistOrientations: Signal<Record<string, boolean>>;
+  /** Whether the leading cabin is on the right side of the screen (right to left representation). */
+  protected readonly leadingCabinRightSide: Signal<boolean>;
+  protected readonly topView: Signal<boolean>;
+  protected readonly train: Signal<TrainModel>;
+  protected readonly trainCompoInOrder: Signal<ConsistModel[]>;
+  protected readonly userSettings = new FormGroup({
+    example: new FormControl<'z50000' | 'z57000'>('z50000', { nonNullable: true }),
     scale: new FormControl<number>(1, { nonNullable: true }),
     orientation: new FormControl<'left' | 'right'>('right', { nonNullable: true }),
     view: new FormControl<'side' | 'top'>('side', { nonNullable: true }),
@@ -58,11 +66,32 @@ export class DiagComponent {
       { initialValue: this.userSettings.controls.view.value === 'top' }
     );
 
+    this.train = toSignal(
+      this.userSettings.controls.example.valueChanges.pipe(map((example) => examples[example])),
+      { initialValue: examples[this.userSettings.controls.example.value] }
+    );
+
     this.leadingCabinRightSide = toSignal(
       this.userSettings.controls.orientation.valueChanges.pipe(
         map((orientation) => orientation === 'right')
       ),
       { initialValue: this.userSettings.controls.orientation.value === 'right' }
     );
+
+    this.trainCompoInOrder = computed(() => {
+      const compo = this.train().composition;
+      return this.leadingCabinRightSide() ? [...compo].reverse() : compo;
+    });
+
+    this.consistOrientations = computed(() => {
+      const states = this.train().states;
+      const reversed = this.leadingCabinRightSide();
+      return Object.fromEntries(
+        Object.keys(states).map((numEf) => [
+          numEf,
+          (states[numEf].orientation === 'reversed') != reversed,
+        ])
+      );
+    });
   }
 }

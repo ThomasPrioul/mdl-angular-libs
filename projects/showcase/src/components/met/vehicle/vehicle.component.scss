@@ -1,0 +1,34 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  margin-top: auto;
+}
+
+.vehicle-image {
+  object-position: left bottom;
+  object-fit: none;
+  user-select: none;
+  max-width: unset;
+}
+
+.vehicle-outline {
+  border: var(--mat-divider-width, 2px) solid var(--mat-divider-color);
+  border-radius: 0.25em;
+
+  &.first {
+    border-top-left-radius: 3.5em;
+    border-bottom-left-radius: 3.5em;
+    &:not(.top) {
+      border-bottom-left-radius: 0.5em;
+    }
+  }
+
+  &.last {
+    border-top-right-radius: 3.5em;
+    border-bottom-right-radius: 3.5em;
+
+    &:not(.top) {
+      border-bottom-right-radius: 0.5em;
+    }
+  }
+}

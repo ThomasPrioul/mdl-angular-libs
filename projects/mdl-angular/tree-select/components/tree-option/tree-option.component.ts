@@ -1,5 +1,4 @@
 import {
-  APP_INITIALIZER,
   AfterContentInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,

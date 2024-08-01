@@ -36,7 +36,16 @@
     </div> -->
   </div>
   }
+
+  <!-- Settings -->
   <div class="ms-auto flex flex-wrap gap-2 small items-center">
+    <div class="mdl-form-field">
+      <label class="mdl-label">Exemple</label>
+      <mat-button-toggle-group class="options dark" [formControl]="userSettings.controls.example">
+        <mat-button-toggle value="z50000">NAT</mat-button-toggle>
+        <mat-button-toggle value="z57000">Régio2N</mat-button-toggle>
+      </mat-button-toggle-group>
+    </div>
     <div class="mdl-form-field">
       <label class="mdl-label">Cabine menante</label>
       <mat-button-toggle-group
@@ -67,32 +76,26 @@
 
 <div class="train" [style.font-size.em]="userSettings.controls.scale.value">
   @if (train().mission; as mission) {
-  <div class="station flex self-stretch">
-    <div class="flex flex-col gap-1 m-auto">
-      <img class="station-img" src="/assets/station.svg" />
-      {{ leadingCabinRightSide() ? mission.previousOrCurrentStation : mission.nextStation }}
-    </div>
-  </div>
-  } @for (consist of train().composition | reverse: leadingCabinRightSide(); track
-  consist.numImmatEf) {
+  <met-station
+    class="self-stretch"
+    [station]="leadingCabinRightSide() ? mission.previousOrCurrentStation : mission.nextStation">
+  </met-station>
+  } @for (consist of trainCompoInOrder(); track consist.numImmatEf) {
   <div class="consist-host flex flex-col gap-2">
     <div class="family-badge mx-auto">Rame {{ consist.numImmatEf }}</div>
-    <app-consist
+    <met-consist
       [consist]="consist"
       [consistData]="train().states[consist.numImmatEf]"
-      [reversed]="
-        (train().states[consist.numImmatEf].orientation === 'reversed') != leadingCabinRightSide()
-      "
+      [rightToLeft]="consistOrientations()[consist.numImmatEf]"
       [scale]="userSettings.controls.scale.value"
       [useVehicleImages]="userSettings.controls.vehicleImages.value"
-      [topView]="topView()"></app-consist>
+      [topView]="topView()">
+    </met-consist>
   </div>
   } @if (train().mission; as mission) {
-  <div class="station flex self-stretch">
-    <div class="flex flex-col gap-1 m-auto">
-      <img class="station-img" src="/assets/station.svg" />
-      {{ leadingCabinRightSide() ? mission.nextStation : mission.previousOrCurrentStation }}
-    </div>
-  </div>
+  <met-station
+    class="self-stretch"
+    [station]="leadingCabinRightSide() ? mission.nextStation : mission.previousOrCurrentStation">
+  </met-station>
   }
 </div>

@@ -5,14 +5,15 @@ import {
   VehicleImgPipe,
   VehicleImgStylePipe,
   VehicleImageRepo,
-} from '../../pipes/vehicle-image.pipe';
-import { ConsistModel, ConsistState } from '../../models/met';
-import { NgVarDirective } from '../../directives/ng-var.directive';
-import { ReversePipe } from '../../pipes/reverse.pipe';
+} from '../../../pipes/vehicle-image.pipe';
+import { ConsistModel, ConsistState } from '../../../models/met';
+import { NgVarDirective } from '../../../directives/ng-var.directive';
+import { ReversePipe } from '../../../pipes/reverse.pipe';
 import { MatIconModule } from '@angular/material/icon';
+import { VehicleComponent } from '../vehicle/vehicle.component';
 
 @Component({
-  selector: 'app-consist',
+  selector: 'met-consist',
   standalone: true,
   templateUrl: './consist.component.html',
   styleUrls: ['./consist.component.scss'],
@@ -25,24 +26,30 @@ import { MatIconModule } from '@angular/material/icon';
     VehicleImgRepoPipe,
     VehicleImgPipe,
     VehicleImgStylePipe,
+    VehicleComponent,
   ],
 })
 export class ConsistComponent {
   private _consist!: ConsistModel;
   private _consistData?: ConsistState;
 
-  @Input() public reversed: boolean = false;
+  /** Whether the first cabin should display on the right side of the screen. */
+  @Input() public rightToLeft: boolean = false;
   @Input() public scale: number = 1;
+  /** Whether to use a top view instead of a side view (no images in top view, only outlines). */
   @Input() public topView: boolean = false;
+  /** Whether to use images. If false, outlines are used. */
   @Input() public useVehicleImages: boolean = false;
 
   public imgRepo = signal<VehicleImageRepo | undefined>(undefined);
 
+  /** Static consist information (vehicles, organs, etc). */
   @Input()
   public get consist(): ConsistModel {
     return this._consist;
   }
 
+  /** Dynamic consist information (functional values for organs). */
   @Input()
   public get consistData(): ConsistState | undefined {
     return this._consistData;
@@ -57,15 +64,10 @@ export class ConsistComponent {
     this._consistData = value;
   }
 
-  @HostBinding('style.font-size.em')
-  protected get textScale(): number {
-    return 0.8 * this.scale;
-  }
-
-  protected get imgScale(): number {
-    return Math.floor((1 / this.scale) * 100);
-  }
-
+  // @HostBinding('style.font-size.em')
+  // protected get textScale(): number {
+  //   return 0.8 * this.scale;
+  // }
   protected driverPresence(extremity: 'EXT1' | 'EXT2') {
     if (!this._consist || !this._consistData) return false;
     const index = extremity === 'EXT1' ? 0 : this._consist.vehicles.length - 1;

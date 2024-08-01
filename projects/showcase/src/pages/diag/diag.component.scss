@@ -59,14 +59,6 @@
   align-items: center;
   overflow-x: auto;
 
-  > .station {
-    line-height: 1;
-
-    .station-img {
-      width: 3em;
-    }
-  }
-
   :nth-child(1 of .consist-host) {
     margin-left: auto;
   }

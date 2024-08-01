@@ -16,6 +16,7 @@ import {
 import { Settings } from 'luxon';
 import { MatDatepickerIntl } from '@angular/material/datepicker';
 import { DarkModeService } from '../../../mdl-angular/dark/dark-mode.service';
+import { provideHttpClient } from '@angular/common/http';
 
 function frenchRangeLabel(page: number, pageSize: number, length: number) {
   if (length == 0 || pageSize == 0) return `0 sur ${length}`;
@@ -106,6 +107,7 @@ const setupLuxon = () => (Settings.defaultLocale = navigator.language);
 export const appConfig: ApplicationConfig = {
   providers: [
     provideAnimations(),
+    provideHttpClient(),
     provideRouter(routes, withHashLocation()),
     {
       provide: APP_INITIALIZER,

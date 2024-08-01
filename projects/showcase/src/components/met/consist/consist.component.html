@@ -1,0 +1,32 @@
+@for ( vehicle of consist.vehicles | reverse : rightToLeft; track vehicle.numIntEf; let firstVeh =
+$first;let lastVeh = $last) { @if (firstVeh && vehicle.type !== 'coach' &&
+driverPresence(vehicle.type === 'EXT1' ? 'EXT1' : 'EXT2')) {
+<div class="ext-icons-host first">
+  <mat-icon class="driver-icon" inline>accessibility</mat-icon>
+</div>
+}
+<div class="vehicle-column">
+  <met-vehicle
+    [consist]="consist"
+    [position]="firstVeh ? 'first' : lastVeh ? 'last' : undefined"
+    [rightToLeft]="rightToLeft"
+    [topView]="topView"
+    [useImages]="useVehicleImages"
+    [vehicle]="vehicle"
+    [scale]="scale"
+    [imgRepo]="imgRepo()">
+  </met-vehicle>
+  <div class="vehicle-id">
+    <div class="num-ef">{{ vehicle.numIntEf }}</div>
+    <div class="num-ef">{{ vehicle.friendlyName }}</div>
+    <!-- <div class="num-ef">{{ vehicle.coherencePosition }}</div> -->
+    <!-- <div class="position-coherence">{{ vehicle.position }}</div>
+      <div class="position">{{ vehicle.index }}</div> -->
+  </div>
+</div>
+@if (lastVeh && vehicle.type !== 'coach' && driverPresence(vehicle.type === 'EXT2' ? 'EXT2' :
+'EXT1')) {
+<div class="ext-icons-host last">
+  <mat-icon class="driver-icon" inline>accessibility</mat-icon>
+</div>
+} }

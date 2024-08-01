@@ -1,0 +1,13 @@
+@if (!topView && useImages && (vehicle | vehicleImg : consist : imgRepo : rightToLeft); as img) {
+<img
+  class="vehicle-image"
+  [alt]="vehicle.friendlyName"
+  [srcset]="img.path + ' ' + imgScale + 'w'"
+  sizes="100px"
+  [ngStyle]="img | vehicleImgStyle : scale : rightToLeft" />
+} @else {
+<div
+  class="vehicle-outline"
+  [ngStyle]="{ width: 7, height: 3, path: '' } | vehicleImgStyle : scale : rightToLeft : true"
+  [ngClass]="{ first: position === 'first', last: position === 'last', top: topView }"></div>
+}
