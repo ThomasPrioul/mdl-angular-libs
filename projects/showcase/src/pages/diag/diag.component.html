@@ -1,4 +1,4 @@
-<div class="flex gap-4 items-center flex-wrap">
+<div class="flex gap-4 items-baseline flex-wrap">
   <div class="page-title">
     Mon train: @if(train().mission; as mission) { ( @if(mission.missionNumber) {<span>{{
       mission.missionNumber
@@ -38,86 +38,142 @@
   }
 
   <!-- Settings -->
-  <div class="ms-auto flex flex-wrap gap-2 small items-center">
-    <div class="mdl-form-field">
-      <label class="mdl-label">Exemple</label>
-      <mat-button-toggle-group class="options dark" [formControl]="userSettings.controls.example">
-        <mat-button-toggle value="z50000">NAT</mat-button-toggle>
-        <mat-button-toggle value="z57000">Régio2N</mat-button-toggle>
-      </mat-button-toggle-group>
-    </div>
-    <div class="mdl-form-field">
-      <label class="mdl-label">N° de véhicules</label>
-      <mat-button-toggle-group
-        class="options dark"
-        [formControl]="userSettings.controls.vehicleIdPosition">
-        <mat-button-toggle value="top">Dessus</mat-button-toggle>
-        <mat-button-toggle value="bottom">Dessous</mat-button-toggle>
-        <mat-button-toggle [value]="null">Masqués</mat-button-toggle>
-      </mat-button-toggle-group>
-    </div>
-    <div class="mdl-form-field">
-      <label class="mdl-label">Cabine menante</label>
-      <mat-button-toggle-group
-        class="options dark"
-        [formControl]="userSettings.controls.orientation">
-        <mat-button-toggle value="left">Gauche</mat-button-toggle>
-        <mat-button-toggle value="right">Droite</mat-button-toggle>
-      </mat-button-toggle-group>
-    </div>
-    <div class="mdl-form-field">
-      <label class="mdl-label">Vue</label>
-      <mat-button-toggle-group class="options dark" [formControl]="userSettings.controls.view">
-        <mat-button-toggle value="side">De côté</mat-button-toggle>
-        <mat-button-toggle value="top">Du dessus</mat-button-toggle>
-      </mat-button-toggle-group>
-    </div>
-    <div class="mdl-form-field">
-      <label class="mdl-label">Véhicules</label>
-      <mat-button-toggle-group
-        class="options dark"
-        [formControl]="userSettings.controls.vehicleImages">
-        <mat-button-toggle [value]="true">Images</mat-button-toggle>
-        <mat-button-toggle [value]="false">Dessins</mat-button-toggle>
-      </mat-button-toggle-group>
-    </div>
-    <!-- <mat-slide-toggle [formControl]="userSettings.controls.vehicleImages"></mat-slide-toggle> -->
-    <div class="mdl-form-field">
-      <label class="mdl-label">Échelle</label>
-      <mdl-zoom-button
-        [minZoom]="0.5"
-        [formControl]="userSettings.controls.scale"></mdl-zoom-button>
-    </div>
-  </div>
+  <mat-accordion class="ms-auto w-min" displayMode="flat">
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title> Paramètres </mat-panel-title>
+        <!-- <mat-panel-description>
+          Select stylisés avec recherche, bouton "all" et visu arborescence (tree)
+        </mat-panel-description> -->
+      </mat-expansion-panel-header>
+      <div class="flex flex-wrap gap-2 small items-center">
+        <div class="mdl-form-field">
+          <label class="mdl-label">Exemple</label>
+          <mat-button-toggle-group
+            class="options dark"
+            [formControl]="userSettings.controls.example">
+            <mat-button-toggle value="z50000">NAT</mat-button-toggle>
+            <mat-button-toggle value="z57000">Régio2N</mat-button-toggle>
+          </mat-button-toggle-group>
+        </div>
+        <div class="mdl-form-field">
+          <label class="mdl-label">N° de véhicules</label>
+          <mat-button-toggle-group
+            class="options dark"
+            [formControl]="userSettings.controls.vehicleIdPosition">
+            <mat-button-toggle value="top">Dessus</mat-button-toggle>
+            <mat-button-toggle value="bottom">Dessous</mat-button-toggle>
+            <mat-button-toggle [value]="null">Masqués</mat-button-toggle>
+          </mat-button-toggle-group>
+        </div>
+        <div class="mdl-form-field">
+          <label class="mdl-label">Cabine menante</label>
+          <mat-button-toggle-group
+            class="options dark"
+            [formControl]="userSettings.controls.orientation">
+            <mat-button-toggle value="left">Gauche</mat-button-toggle>
+            <mat-button-toggle value="right">Droite</mat-button-toggle>
+          </mat-button-toggle-group>
+        </div>
+        <div class="mdl-form-field">
+          <label class="mdl-label">Vue</label>
+          <mat-button-toggle-group class="options dark" [formControl]="userSettings.controls.view">
+            <mat-button-toggle value="side">De côté</mat-button-toggle>
+            <mat-button-toggle value="top">Du dessus</mat-button-toggle>
+          </mat-button-toggle-group>
+        </div>
+        <div class="mdl-form-field">
+          <label class="mdl-label">Agencement des UM</label>
+          <mat-button-toggle-group
+            class="options dark"
+            [formControl]="userSettings.controls.verticalConsistStacking">
+            <mat-button-toggle [value]="false">Alignés (utiliser la largeur)</mat-button-toggle>
+            <mat-button-toggle [value]="true"
+              >Retour à la ligne (utiliser la hauteur)</mat-button-toggle
+            >
+          </mat-button-toggle-group>
+        </div>
+        <div class="mdl-form-field">
+          <label class="mdl-label">Véhicules</label>
+          <mat-button-toggle-group
+            class="options dark"
+            [formControl]="userSettings.controls.vehicleImages">
+            <mat-button-toggle [value]="true">Images</mat-button-toggle>
+            <mat-button-toggle [value]="false">Dessins</mat-button-toggle>
+          </mat-button-toggle-group>
+        </div>
+        <!-- <mat-slide-toggle [formControl]="userSettings.controls.vehicleImages"></mat-slide-toggle> -->
+        <div class="mdl-form-field">
+          <label class="mdl-label">Échelle</label>
+          <mdl-zoom-button
+            [minZoom]="0.5"
+            [formControl]="userSettings.controls.scale"></mdl-zoom-button>
+        </div>
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
 </div>
 
-<div class="train" [style.font-size.em]="userSettings.controls.scale.value">
+<div class="layout flex gap-2">
   @if (train().mission; as mission) {
   <met-station
-    class="self-stretch"
+    [ngStyle]="{
+      'align-self': verticalConsistStacking()
+        ? leadingCabinRightSide()
+          ? 'flex-end'
+          : 'flex-start'
+        : 'center'
+    }"
     [station]="leadingCabinRightSide() ? mission.previousOrCurrentStation : mission.nextStation">
   </met-station>
-  } @for (consist of trainCompoInOrder(); track consist.numImmatEf) {
-  <div class="consist-host flex flex-col gap-2">
-    @if (vehicleIdPosition() === 'bottom') {
-    <div class="family-badge mx-auto">Rame {{ consist.numImmatEf }}</div>
-    }
-    <met-consist
-      [vehicleIdPosition]="vehicleIdPosition()"
-      [consist]="consist"
-      [consistData]="train().states[consist.numImmatEf]"
-      [rightToLeft]="consistOrientations()[consist.numImmatEf]"
-      [scale]="userSettings.controls.scale.value"
-      [useVehicleImages]="userSettings.controls.vehicleImages.value"
-      [topView]="topView()">
-    </met-consist>
-    @if (vehicleIdPosition() === 'top') {
-    <div class="family-badge mx-auto">Rame {{ consist.numImmatEf }}</div>
+  }
+
+  <div
+    class="train"
+    [ngClass]="{ 'flex-wrap': verticalConsistStacking() }"
+    [style.font-size.em]="userSettings.controls.scale.value">
+    @for (consist of trainCompoInOrder(); track consist.numImmatEf; let firstConsist = $first; let
+    lastConsist = $last) {
+    <div
+      class="consist-host flex flex-col gap-2"
+      [ngClass]="{
+        'ms-auto':
+        (firstConsist && (!verticalConsistStacking() || verticalConsistStacking() === leadingCabinRightSide())) || (
+          lastConsist && verticalConsistStacking() && !leadingCabinRightSide()
+        ) || (verticalConsistStacking() && !lastConsist && !firstConsist),
+        'me-auto':
+          (firstConsist && verticalConsistStacking() && !leadingCabinRightSide()) ||
+          (lastConsist && (!verticalConsistStacking() || verticalConsistStacking() === leadingCabinRightSide())) ||
+          (verticalConsistStacking() && !lastConsist && !firstConsist),
+      }">
+      @if (vehicleIdPosition() === 'bottom') {
+      <div class="family-badge mx-auto">Rame {{ consist.numImmatEf }}</div>
+      }
+      <met-consist
+        [consist]="consist"
+        [consistData]="train().states[consist.numImmatEf]"
+        [rightToLeft]="consistOrientations()[consist.numImmatEf]"
+        [scale]="userSettings.controls.scale.value"
+        [topView]="topView()"
+        [useVehicleImages]="userSettings.controls.vehicleImages.value"
+        [vehicleIdPosition]="vehicleIdPosition()">
+      </met-consist>
+      @if (vehicleIdPosition() === 'top') {
+      <div class="family-badge mx-auto">Rame {{ consist.numImmatEf }}</div>
+      }
+    </div>
     }
   </div>
-  } @if (train().mission; as mission) {
+
+  @if (train().mission; as mission) {
   <met-station
-    class="self-stretch"
+    [ngStyle]="{
+      'align-self': verticalConsistStacking()
+        ? leadingCabinRightSide()
+          ? 'flex-start'
+          : 'flex-end'
+        : 'center'
+    }"
     [station]="leadingCabinRightSide() ? mission.nextStation : mission.previousOrCurrentStation">
   </met-station>
   }

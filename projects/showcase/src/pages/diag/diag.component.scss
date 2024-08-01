@@ -58,12 +58,5 @@
   gap: 0.5rem;
   align-items: center;
   overflow-x: auto;
-
-  :nth-child(1 of .consist-host) {
-    margin-left: auto;
-  }
-
-  :nth-last-child(1 of .consist-host) {
-    margin-right: auto;
-  }
+  padding: 0.5rem;
 }

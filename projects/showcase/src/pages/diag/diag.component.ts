@@ -1,20 +1,19 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, computed, Signal, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, Signal } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { DateTime } from 'luxon';
 import { MdlZoomButtonComponent } from 'mdl-angular/zoom-button';
 import { ConsistComponent } from '../../components/met/consist/consist.component';
-import { CabinState, ConsistModel, TrainModel } from '../../models/met';
+import { ConsistModel, TrainModel } from '../../models/met';
 import { ReversePipe } from '../../pipes/reverse.pipe';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
-import { map, startWith } from 'rxjs';
+import { map } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { EXAMPLE_Z50000, EXAMPLE_Z57000 } from '../../data/trains';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { LuxonModule } from 'luxon-angular';
 import { StationComponent } from '../../components/met/station/station.component';
-import { registerInlineMaterialIcons } from 'mdl-angular';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 const examples = {
   z50000: EXAMPLE_Z50000,
@@ -32,6 +31,7 @@ const examples = {
     ReactiveFormsModule,
     // Material
     MatButtonToggleModule,
+    MatExpansionModule,
     MatIconModule,
     MatSlideToggleModule,
     // Luxon
@@ -59,8 +59,10 @@ export class DiagComponent {
     orientation: new FormControl<'left' | 'right'>('right', { nonNullable: true }),
     view: new FormControl<'side' | 'top'>('side', { nonNullable: true }),
     vehicleImages: new FormControl<boolean>(true, { nonNullable: true }),
+    verticalConsistStacking: new FormControl<boolean>(false, { nonNullable: true }),
   });
   protected readonly vehicleIdPosition: Signal<'top' | 'bottom' | null>;
+  protected readonly verticalConsistStacking: Signal<boolean>;
 
   constructor() {
     this.topView = toSignal(
@@ -80,11 +82,6 @@ export class DiagComponent {
       { initialValue: this.userSettings.controls.orientation.value === 'right' }
     );
 
-    this.trainCompoInOrder = computed(() => {
-      const compo = this.train().composition;
-      return this.leadingCabinRightSide() ? [...compo].reverse() : compo;
-    });
-
     this.consistOrientations = computed(() => {
       const states = this.train().states;
       const reversed = this.leadingCabinRightSide();
@@ -98,6 +95,18 @@ export class DiagComponent {
 
     this.vehicleIdPosition = toSignal(this.userSettings.controls.vehicleIdPosition.valueChanges, {
       initialValue: this.userSettings.controls.vehicleIdPosition.value,
+    });
+
+    this.verticalConsistStacking = toSignal(
+      this.userSettings.controls.verticalConsistStacking.valueChanges,
+      { initialValue: this.userSettings.controls.verticalConsistStacking.value }
+    );
+
+    this.trainCompoInOrder = computed(() => {
+      const compo = this.train().composition;
+      return !this.verticalConsistStacking() && this.leadingCabinRightSide()
+        ? [...compo].reverse()
+        : compo;
     });
   }
 }
