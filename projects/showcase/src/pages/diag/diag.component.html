@@ -1,50 +1,61 @@
-<div class="flex gap-4 items-baseline flex-wrap">
-  <div class="page-title">
-    Mon train: @if(train().mission; as mission) { ( @if(mission.missionNumber) {<span>{{
-      mission.missionNumber
-    }}</span
-    >} @if (mission.missionNumber && mission.missionCode) { - } @if(mission.missionCode) {<span>{{
-      mission.missionCode
-    }}</span
-    >} ) }
-  </div>
-  @for (consist of train().composition; track consist.numImmatEf; let first = $first) { @if (!first)
-  {
-  <i> et </i>
-  }
-  <div class="flex gap-4 items-center consist-info-host">
-    <div class="flex gap-1 flex-col">
-      <div class="flex gap-1 items-center">
-        <div class="consist-id">{{ consist.numImmatEf }}</div>
-        <div class="family-badge" style="font-size: 0.75em">{{ consist.trainSeriesName }}</div>
-        <div class="family-badge" style="font-size: 0.75em">{{ consist.fleetManager }}</div>
-      </div>
-      <div class="flex items-center gap-2 communication-text">
-        <mat-icon inline>{{
-          train().states[consist.numImmatEf].lastCommunication !== null ? "wifi" : "wifi_off"
-        }}</mat-icon>
-        @if (train().states[consist.numImmatEf].lastCommunication; as lastCommDate) {
-        <div>{{ lastCommDate | dateTimeToRelative : { style: "short" } }}</div>
+<div class="flex gap-4 items-start">
+  <div class="flex items-center gap-4">
+    <div class="page-title">
+      <div>
+        Mon train:
+        @if (train().mission; as mission) {
+          (
+          @if (mission.missionNumber) {
+            <span>{{ mission.missionNumber }}</span>
+          }
+          @if (mission.missionNumber && mission.missionCode) {
+            -
+          }
+          @if (mission.missionCode) {
+            <span>{{ mission.missionCode }}</span>
+          }
+          )
         }
       </div>
+      @if (train().mission?.nextStation; as nextStation) {
+        <div>Prochaine gare : {{ nextStation }}</div>
+      }
     </div>
-    <!-- <div class="flex flex-col gap-1">
+    @for (consist of train().composition; track consist.numImmatEf; let first = $first) {
+      @if (!first) {
+        <i> et </i>
+      }
+      <div class="flex gap-4 items-center consist-info-host">
+        <div class="flex gap-1 flex-col">
+          <div class="flex gap-1 items-center">
+            <div class="consist-id">{{ consist.numImmatEf }}</div>
+            <div class="family-badge" style="font-size: 0.75em">{{ consist.trainSeriesName }}</div>
+            <div class="family-badge" style="font-size: 0.75em">{{ consist.fleetManager }}</div>
+          </div>
+          <div class="flex items-center gap-2 communication-text">
+            <mat-icon inline>{{
+              train().states[consist.numImmatEf].lastCommunication !== null ? "wifi" : "wifi_off"
+            }}</mat-icon>
+            @if (train().states[consist.numImmatEf].lastCommunication; as lastCommDate) {
+              <div>{{ lastCommDate | dateTimeToRelative: { style: "short" } }}</div>
+            }
+          </div>
+        </div>
+        <!-- <div class="flex flex-col gap-1">
       <div class="family-badge" style="font-size: 0.75em">{{ consist.trainSeriesName }}</div>
       <div class="family-badge" style="font-size: 0.75em">
         {{ consist.fleetManager }} | {{ consist.fleetName }}
       </div>
     </div> -->
+      </div>
+    }
   </div>
-  }
 
   <!-- Settings -->
-  <mat-accordion class="ms-auto w-min" displayMode="flat">
+  <mat-accordion displayMode="flat">
     <mat-expansion-panel>
       <mat-expansion-panel-header>
         <mat-panel-title> Paramètres </mat-panel-title>
-        <!-- <mat-panel-description>
-          Select stylisés avec recherche, bouton "all" et visu arborescence (tree)
-        </mat-panel-description> -->
       </mat-expansion-panel-header>
       <div class="flex flex-wrap gap-2 small items-center">
         <div class="mdl-form-field">
@@ -54,6 +65,7 @@
             [formControl]="userSettings.controls.example">
             <mat-button-toggle value="z50000">NAT</mat-button-toggle>
             <mat-button-toggle value="z57000">Régio2N</mat-button-toggle>
+            <mat-button-toggle value="um4">UM4</mat-button-toggle>
           </mat-button-toggle-group>
         </div>
         <div class="mdl-form-field">
@@ -86,7 +98,7 @@
           <label class="mdl-label">Agencement des UM</label>
           <mat-button-toggle-group
             class="options dark"
-            [formControl]="userSettings.controls.verticalConsistStacking">
+            [formControl]="userSettings.controls.wrapConsists">
             <mat-button-toggle [value]="false">Alignés (utiliser la largeur)</mat-button-toggle>
             <mat-button-toggle [value]="true"
               >Retour à la ligne (utiliser la hauteur)</mat-button-toggle
@@ -102,7 +114,6 @@
             <mat-button-toggle [value]="false">Dessins</mat-button-toggle>
           </mat-button-toggle-group>
         </div>
-        <!-- <mat-slide-toggle [formControl]="userSettings.controls.vehicleImages"></mat-slide-toggle> -->
         <div class="mdl-form-field">
           <label class="mdl-label">Échelle</label>
           <mdl-zoom-button
@@ -114,67 +125,56 @@
   </mat-accordion>
 </div>
 
-<div class="layout flex gap-2">
+<div class="layout flex gap-2 justify-between" [class.flex-row-reverse]="leadingCabinRightSide()">
   @if (train().mission; as mission) {
-  <met-station
-    [ngStyle]="{
-      'align-self': verticalConsistStacking()
-        ? leadingCabinRightSide()
-          ? 'flex-end'
-          : 'flex-start'
-        : 'center'
-    }"
-    [station]="leadingCabinRightSide() ? mission.previousOrCurrentStation : mission.nextStation">
-  </met-station>
+    <met-station
+      [style.font-size.em]="userSettings.controls.scale.value"
+      class="self-start"
+      [station]="mission.nextStation">
+    </met-station>
   }
 
   <div
-    class="train"
-    [ngClass]="{ 'flex-wrap': verticalConsistStacking() }"
+    class="train justify-between flex-row"
+    [class.flex-wrap]="userSettings.controls.wrapConsists.value"
+    [class.flex-row-reverse]="leadingCabinRightSide()"
     [style.font-size.em]="userSettings.controls.scale.value">
-    @for (consist of trainCompoInOrder(); track consist.numImmatEf; let firstConsist = $first; let
-    lastConsist = $last) {
-    <div
-      class="consist-host flex flex-col gap-2"
-      [ngClass]="{
-        'ms-auto':
-        (firstConsist && (!verticalConsistStacking() || verticalConsistStacking() === leadingCabinRightSide())) || (
-          lastConsist && verticalConsistStacking() && !leadingCabinRightSide()
-        ) || (verticalConsistStacking() && !lastConsist && !firstConsist),
-        'me-auto':
-          (firstConsist && verticalConsistStacking() && !leadingCabinRightSide()) ||
-          (lastConsist && (!verticalConsistStacking() || verticalConsistStacking() === leadingCabinRightSide())) ||
-          (verticalConsistStacking() && !lastConsist && !firstConsist),
-      }">
-      @if (vehicleIdPosition() === 'bottom') {
-      <div class="family-badge mx-auto">Rame {{ consist.numImmatEf }}</div>
-      }
-      <met-consist
-        [consist]="consist"
-        [consistData]="train().states[consist.numImmatEf]"
-        [rightToLeft]="consistOrientations()[consist.numImmatEf]"
-        [scale]="userSettings.controls.scale.value"
-        [topView]="topView()"
-        [useVehicleImages]="userSettings.controls.vehicleImages.value"
-        [vehicleIdPosition]="vehicleIdPosition()">
-      </met-consist>
-      @if (vehicleIdPosition() === 'top') {
-      <div class="family-badge mx-auto">Rame {{ consist.numImmatEf }}</div>
-      }
-    </div>
+    @for (
+      consist of train().composition;
+      track consist.numImmatEf;
+      let firstConsist = $first;
+      let lastConsist = $last
+    ) {
+      <div
+        class="consist-host flex flex-col gap-2"
+        [ngClass]="{
+          'ms-auto': (!firstConsist && !lastConsist) || (!leadingCabinRightSide() && lastConsist),
+          'me-auto': (!firstConsist && !lastConsist) || (leadingCabinRightSide() && lastConsist),
+        }">
+        @if (vehicleIdPosition() !== "top") {
+          <div class="family-badge mx-auto">Rame {{ consist.numImmatEf }}</div>
+        }
+        <met-consist
+          [consist]="consist"
+          [consistData]="train().states[consist.numImmatEf]"
+          [rightToLeft]="consistOrientations()[consist.numImmatEf]"
+          [scale]="userSettings.controls.scale.value"
+          [topView]="topView()"
+          [useVehicleImages]="userSettings.controls.vehicleImages.value"
+          [vehicleIdPosition]="vehicleIdPosition()">
+        </met-consist>
+        @if (vehicleIdPosition() === "top") {
+          <div class="family-badge mx-auto">Rame {{ consist.numImmatEf }}</div>
+        }
+      </div>
     }
   </div>
 
   @if (train().mission; as mission) {
-  <met-station
-    [ngStyle]="{
-      'align-self': verticalConsistStacking()
-        ? leadingCabinRightSide()
-          ? 'flex-start'
-          : 'flex-end'
-        : 'center'
-    }"
-    [station]="leadingCabinRightSide() ? mission.nextStation : mission.previousOrCurrentStation">
-  </met-station>
+    <met-station
+      [style.font-size.em]="userSettings.controls.scale.value"
+      class="self-end"
+      [station]="mission.previousOrCurrentStation">
+    </met-station>
   }
 </div>

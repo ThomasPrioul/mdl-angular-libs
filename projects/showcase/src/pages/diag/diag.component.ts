@@ -9,16 +9,15 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { map } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { EXAMPLE_Z50000, EXAMPLE_Z57000 } from '../../data/trains';
+import { EXAMPLE_UM4, EXAMPLE_Z50000, EXAMPLE_Z57000 } from '../../data/trains';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { LuxonModule } from 'luxon-angular';
 import { StationComponent } from '../../components/met/station/station.component';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { z } from 'zod';
+import { FormGroupOf } from '../../helpers/form-group';
 
-const examples = {
-  z50000: EXAMPLE_Z50000,
-  z57000: EXAMPLE_Z57000,
-};
+type SettingsModel = z.infer<typeof settingsModel>;
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -51,35 +50,47 @@ export class DiagComponent {
   protected readonly leadingCabinRightSide: Signal<boolean>;
   protected readonly topView: Signal<boolean>;
   protected readonly train: Signal<TrainModel>;
-  protected readonly trainCompoInOrder: Signal<ConsistModel[]>;
-  protected readonly userSettings = new FormGroup({
-    example: new FormControl<'z50000' | 'z57000'>('z50000', { nonNullable: true }),
+  protected readonly userSettings: FormGroupOf<SettingsModel> = new FormGroup({
+    example: new FormControl<'z50000' | 'z57000' | 'um4'>('z50000', { nonNullable: true }),
     vehicleIdPosition: new FormControl<'top' | 'bottom' | null>('bottom'),
     scale: new FormControl<number>(1, { nonNullable: true }),
     orientation: new FormControl<'left' | 'right'>('right', { nonNullable: true }),
     view: new FormControl<'side' | 'top'>('side', { nonNullable: true }),
     vehicleImages: new FormControl<boolean>(true, { nonNullable: true }),
-    verticalConsistStacking: new FormControl<boolean>(false, { nonNullable: true }),
+    wrapConsists: new FormControl<boolean>(true, { nonNullable: true }),
   });
   protected readonly vehicleIdPosition: Signal<'top' | 'bottom' | null>;
-  protected readonly verticalConsistStacking: Signal<boolean>;
 
   constructor() {
+    try {
+      const met_form = localStorage.getItem('met_form');
+      if (met_form) {
+        this.userSettings.reset(settingsModel.parse(JSON.parse(met_form)), { emitEvent: false });
+      }
+    } catch (error) {
+      console.warn('Could not restore form data', error);
+      localStorage.removeItem('met_form');
+    }
+
+    this.userSettings.valueChanges.subscribe(() =>
+      localStorage.setItem('met_form', JSON.stringify(this.userSettings.getRawValue())),
+    );
+
     this.topView = toSignal(
       this.userSettings.controls.view.valueChanges.pipe(map((view) => view === 'top')),
-      { initialValue: this.userSettings.controls.view.value === 'top' }
+      { initialValue: this.userSettings.controls.view.value === 'top' },
     );
 
     this.train = toSignal(
       this.userSettings.controls.example.valueChanges.pipe(map((example) => examples[example])),
-      { initialValue: examples[this.userSettings.controls.example.value] }
+      { initialValue: examples[this.userSettings.controls.example.value] },
     );
 
     this.leadingCabinRightSide = toSignal(
       this.userSettings.controls.orientation.valueChanges.pipe(
-        map((orientation) => orientation === 'right')
+        map((orientation) => orientation === 'right'),
       ),
-      { initialValue: this.userSettings.controls.orientation.value === 'right' }
+      { initialValue: this.userSettings.controls.orientation.value === 'right' },
     );
 
     this.consistOrientations = computed(() => {
@@ -89,24 +100,27 @@ export class DiagComponent {
         Object.keys(states).map((numEf) => [
           numEf,
           (states[numEf].orientation === 'reversed') != reversed,
-        ])
+        ]),
       );
     });
 
     this.vehicleIdPosition = toSignal(this.userSettings.controls.vehicleIdPosition.valueChanges, {
       initialValue: this.userSettings.controls.vehicleIdPosition.value,
     });
-
-    this.verticalConsistStacking = toSignal(
-      this.userSettings.controls.verticalConsistStacking.valueChanges,
-      { initialValue: this.userSettings.controls.verticalConsistStacking.value }
-    );
-
-    this.trainCompoInOrder = computed(() => {
-      const compo = this.train().composition;
-      return !this.verticalConsistStacking() && this.leadingCabinRightSide()
-        ? [...compo].reverse()
-        : compo;
-    });
   }
 }
+
+const settingsModel = z.object({
+  example: z.enum(['z50000', 'z57000', 'um4']),
+  vehicleIdPosition: z.enum(['top', 'bottom']).nullable(),
+  scale: z.number(),
+  orientation: z.enum(['left', 'right']),
+  view: z.enum(['side', 'top']),
+  vehicleImages: z.boolean(),
+  wrapConsists: z.boolean(),
+});
+const examples = {
+  z50000: EXAMPLE_Z50000,
+  z57000: EXAMPLE_Z57000,
+  um4: EXAMPLE_UM4,
+};

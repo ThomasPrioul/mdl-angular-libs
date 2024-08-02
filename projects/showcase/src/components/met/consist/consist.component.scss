@@ -1,12 +1,8 @@
 :host {
-  display: grid;
-  grid-template-rows: auto auto;
-  grid-auto-flow: column;
+  display: flex;
   row-gap: 1em;
   margin-bottom: 1em;
   line-height: 1;
-
-  display: flex;
 
   .vehicle-column {
     gap: 1em;

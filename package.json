@@ -34,6 +34,7 @@
     "luxon-angular": "^6.0.0",
     "rxjs": "~7.8.1",
     "tslib": "^2.6.2",
+    "zod": "^3.23.8",
     "zone.js": "~0.14.3"
   },
   "devDependencies": {
@@ -52,6 +53,7 @@
     "ng-packagr": "^17.1.2",
     "npm-run-all": "^4.1.5",
     "postcss": "^8.4.33",
+    "prettier": "^3.3.3",
     "rimraf": "^5.0.5",
     "tailwindcss": "^3.4.1",
     "typescript": "~5.3.3",
