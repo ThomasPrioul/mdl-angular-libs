@@ -180,7 +180,7 @@ Le mode dark/light **doit** être spécifié explicitement au niveau d'un conten
 Pour le gérer au global dans l'application, veillez à bien utiliser la classe mat-app-background dans votre fichier index.html :
 
 ```html
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
   <head>
     <meta charset="utf-8" />
@@ -196,42 +196,44 @@ Pour le gérer au global dans l'application, veillez à bien utiliser la classe 
 
 Ici la présence de la classe **light** force toute l'application en mode **light**.
 
-Pour gérer dynamiquement cette classe sur l'élément body, on ne peut pas directement utiliser un binding, mais on peut utiliser une directive sur le bouton qui va permettre de changer le thème et utiliser la classe Renderer2:
+Pour gérer dynamiquement cette classe sur l'élément body, on peut utiliser le DarkModeService mis à disposition.
+Il suffit de l'injecter au moins une fois dans l'application (app provider ou alors appcomponent) pour qu'il soit actif.
+
+Dans app.component.ts
 
 ```ts
-// Créer un fichier dark-mode.directive.ts dans votre projet
-import { coerceBooleanProperty } from "@angular/cdk/coercion";
-import { Directive, Injectable, Input, Renderer2, inject } from "@angular/core";
-
-@Directive({ selector: "[appDarkMode]", exportAs: "darkMode", standalone: true })
-export class DarkModeDirective {
-  private _enabled: boolean = false;
-  private renderer = inject(Renderer2);
-
-  constructor() {
-    this.enabled = coerceBooleanProperty(localStorage.getItem("dark"));
-  }
-
-  public get enabled() {
-    return this._enabled;
-  }
-
-  public set enabled(value: boolean) {
-    this._enabled = value;
-    localStorage.setItem("dark", `${this.enabled}`);
-
-    this.renderer.addClass(document.body, value ? "dark" : "light");
-    this.renderer.removeClass(document.body, value ? "light" : "dark");
-  }
-}
+import { DarkModeService } from 'mdl-angular/dark';
+// Dans component
+private readonly _dark = inject(DarkModeService);
 ```
 
+Il est aussi possible de l'injecter dans un composant permettant d'interagir avec le réglage du dark mode.
+
+Dans header.component.ts
+
+```ts
+import { DarkModeService } from 'mdl-angular/dark';
+
+// Dans component
+protected readonly darkMode = inject(DarkModeService);
+```
+
+Dans header.component.html
+
 ```html
-<!-- Utilisation de la directive-->
-<button appDarkMode #dark="darkMode" mat-menu-item (click)="dark.enabled = !dark.enabled">
-  <mat-icon [innerText]="dark.enabled ? 'light_mode' : 'dark_mode'"></mat-icon>
-  <span [innerText]="dark.enabled ? 'Mode clair' : 'Mode sombre'"></span>
-</button>
+<mat-button-toggle-group
+  class="options small"
+  style="font-size: 14px"
+  [value]="darkMode.theme()"
+  (valueChange)="darkMode.theme.set($event)">
+  <mat-button-toggle value="auto" matTooltip="Suit le réglage système">auto</mat-button-toggle>
+  <mat-button-toggle value="light" matTooltip="Mode clair">
+    <mat-icon style="margin-right: 0">light_mode</mat-icon>
+  </mat-button-toggle>
+  <mat-button-toggle value="dark" matTooltip="Mode sombre">
+    <mat-icon style="margin-right: 0">dark_mode</mat-icon>
+  </mat-button-toggle>
+</mat-button-toggle-group>
 ```
 
 ## Démonstrateur
