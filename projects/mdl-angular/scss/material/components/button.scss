@@ -143,6 +143,12 @@
   &.mat-button-toggle-disabled * {
     cursor: not-allowed;
   }
+
+  &.mat-button-toggle-checked {
+    .mat-pseudo-checkbox {
+      display: none;
+    }
+  }
 }
 
 .mat-button-toggle-group {
