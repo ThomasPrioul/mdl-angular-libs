@@ -44,5 +44,5 @@ export enum Themes {
 export const darkModeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
 export const systemPrefersDark$ = fromEvent<MediaQueryList>(darkModeMediaQuery, 'change').pipe(
   startWith(darkModeMediaQuery),
-  map((list: MediaQueryList) => list.matches)
+  map((list: MediaQueryList) => list.matches),
 );
