@@ -1,1 +1,1 @@
-import("./chunk-VU2BEZCT.js").then(t=>t.launchApp());
+import("./chunk-4SPZ6DOE.js").then(t=>t.launchApp());
