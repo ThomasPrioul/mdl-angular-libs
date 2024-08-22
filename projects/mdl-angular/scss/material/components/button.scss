@@ -46,8 +46,8 @@
   .mat-mdc-unelevated-button.mat-primary,
   .mat-mdc-fab.mat-primary,
   .mat-mdc-mini-fab.mat-primary {
-    color: mat.get-color-from-palette(palettes.$primary-dark, default-contrast) !important;
-    --mat-mdc-button-persistent-ripple-color: mat.get-color-from-palette(
+    color: mat.m2-get-color-from-palette(palettes.$primary-dark, default-contrast) !important;
+    --mat-mdc-button-persistent-ripple-color: mat.m2-get-color-from-palette(
       palettes.$primary-dark,
       default-contrast
     ) !important;
@@ -56,8 +56,8 @@
 
   .mat-mdc-fab.mat-primary,
   .mat-mdc-mini-fab.mat-primary {
-    --mdc-fab-icon-color: mat.get-color-from-palette(palettes.$primary-dark, default-contrast);
-    --mat-mdc-fab-color: mat.get-color-from-palette(palettes.$primary-dark, default-contrast);
+    --mdc-fab-icon-color: mat.m2-get-color-from-palette(palettes.$primary-dark, default-contrast);
+    --mat-mdc-fab-color: mat.m2-get-color-from-palette(palettes.$primary-dark, default-contrast);
   }
 }
 
