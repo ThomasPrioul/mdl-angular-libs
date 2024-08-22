@@ -1,5 +1,5 @@
-<div class="small">
-  <button mat-icon-button [disabled]="zoomValue === minZoom" (click)="changeZoom(-0.1)">
+<div class="small" style="display: flex">
+  <button mat-icon-button [disabled]="disabled || zoomValue === minZoom" (click)="changeZoom(-0.1)">
     <mat-icon>remove</mat-icon>
   </button>
 </div>
@@ -8,12 +8,13 @@
   class="zoom-level"
   mat-button
   matTooltip="Réinitialiser le niveau de zoom"
-  [matTooltipDisabled]="zoomValue === 1"
+  [disabled]="disabled"
+  [matTooltipDisabled]="disabled || zoomValue === 1"
   (click)="resetZoom()">
   {{ getZoomValueString() }}
 </button>
-<div class="small">
-  <button mat-icon-button [disabled]="zoomValue === maxZoom" (click)="changeZoom(0.1)">
+<div class="small" style="display: flex">
+  <button mat-icon-button [disabled]="disabled || zoomValue === maxZoom" (click)="changeZoom(0.1)">
     <mat-icon>add</mat-icon>
   </button>
 </div>

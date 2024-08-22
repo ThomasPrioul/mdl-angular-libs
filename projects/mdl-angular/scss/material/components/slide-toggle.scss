@@ -19,6 +19,10 @@ button.mdc-switch {
   --mdc-switch-track-width: 48px;
   --mdc-switch-track-height: 24px;
   --mdc-switch-track-shape: 12px;
+  --mat-switch-unselected-handle-size: 14px !important;
+  --mat-switch-selected-handle-size: 14px !important;
+  --mat-switch-pressed-handle-size: 14px !important;
+  --mat-switch-with-icon-handle-size: 14px !important;
 
   --mdc-switch-selected-icon-color: none;
 
