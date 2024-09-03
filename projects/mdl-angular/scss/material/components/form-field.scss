@@ -82,8 +82,8 @@ textarea::placeholder {
 
   /* 8px round corners */
   .mat-mdc-text-field-wrapper.mdc-text-field {
-    border-bottom-left-radius: var(--mdc-shape-small);
-    border-bottom-right-radius: var(--mdc-shape-small);
+    border-radius: var(--mdc-shape-small);
+    // border-bottom-right-radius: var(--mdc-shape-small);
 
     &.mdc-text-field--disabled {
       cursor: not-allowed;
