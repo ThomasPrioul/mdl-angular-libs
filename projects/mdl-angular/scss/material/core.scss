@@ -28,3 +28,7 @@
 div.mat-mdc-autocomplete-panel {
   border-radius: 8px !important;
 }
+
+.mat-mdc-option .mdc-list-item__primary-text {
+  flex-basis: 100%;
+}

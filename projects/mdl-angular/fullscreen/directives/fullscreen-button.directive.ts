@@ -7,15 +7,7 @@ import { FullscreenService } from '../services/fullscreen.service';
   exportAs: 'mdlFullscreenButton',
 })
 export class MdlFullscreenButtonDirective {
-  private _fullscreenRoot: ElementRef | undefined;
-
-  @Input('mdlFullscreenButton')
-  public get fullscreenRoot(): ElementRef | undefined | '' {
-    return this._fullscreenRoot;
-  }
-  public set fullscreenRoot(value: ElementRef | undefined | '') {
-    if (value) this._fullscreenRoot = value;
-  }
+  private _fullscreenRoot: ElementRef | HTMLElement | undefined;
 
   constructor(el: ElementRef<HTMLElement>, private service: FullscreenService) {
     el.nativeElement.addEventListener('click', () => {
@@ -29,7 +21,16 @@ export class MdlFullscreenButtonDirective {
     });
   }
 
+  @Input('mdlFullscreenButton')
+  public get fullscreenRoot(): ElementRef | HTMLElement | undefined | '' {
+    return this._fullscreenRoot;
+  }
+
   public get fullscreen() {
     return this.service.isInFullScreen;
+  }
+
+  public set fullscreenRoot(value: ElementRef | HTMLElement | undefined | '') {
+    if (value) this._fullscreenRoot = value;
   }
 }

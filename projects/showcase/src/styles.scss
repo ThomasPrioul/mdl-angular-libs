@@ -43,25 +43,10 @@
 @tailwind components;
 @tailwind utilities;
 
-*,
-::before,
-::after {
-  border-style: unset;
-}
-
-html,
-body {
-  height: auto;
-}
-
-body {
-  margin: 0;
-  font-family: mdl.$font-sans-serif, "Helvetica Neue", sans-serif;
-}
-
-router-outlet {
-  display: none;
-}
+@import "scss/base.scss";
+@import "scss/badges.scss";
+@import "scss/forms.scss";
+@import "scss/settings-drawer.scss";
 
 // @use '../../bottom-sheet/bottom-sheet-theme';
 // @use '../../grid-list/grid-list-theme';
@@ -75,15 +60,26 @@ mdl-table2.alternate-lines {
   }
 }
 
-fieldset {
-  padding: 0.6rem 1rem 1rem 1rem;
-  border: var(--mat-divider-width) solid var(--mat-divider-color);
-  border-radius: 0.5rem;
+body {
+  --lighter-outline-color: color-mix(in srgb, currentColor 35%, var(--mat-app-background-color));
+  --base-outline-color: color-mix(in srgb, currentColor 50%, var(--mat-app-background-color));
+  --stronger-outline-color: color-mix(in srgb, currentColor 75%, var(--mat-app-background-color));
+}
 
-  > legend {
-    font-weight: 500;
-    padding-right: 0.5rem;
-    padding-left: 0.25rem;
-    margin-left: -0.25rem;
-  }
+.mat-typography {
+  line-height: 1;
+}
+
+.valid {
+  --lighter-outline-color: color-mix(in srgb, green 60%, var(--mat-app-background-color));
+  --base-outline-color: color-mix(in srgb, green 80%, var(--mat-app-background-color));
+  --stronger-outline-color: color-mix(in srgb, green 100%, var(--mat-app-background-color));
+}
+
+.valid-filter {
+  filter: sepia(100%) hue-rotate(60deg) saturate(3);
+}
+
+.error-filter {
+  filter: sepia(100%) hue-rotate(-55deg) saturate(15);
 }

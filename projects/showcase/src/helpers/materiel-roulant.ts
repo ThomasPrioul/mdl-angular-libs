@@ -1,10 +1,10 @@
-/** Compare deux séries par le champ @see {@link SerieEnginBase.codeSerieMateriel}.*/
+/** Compare deux séries par le champ {@link SerieEnginBase.codeSerieMateriel}.*/
 export function compareSerieBase<T extends { codeSerieMateriel: string }>(a: T, b: T) {
   return a.codeSerieMateriel.localeCompare(b.codeSerieMateriel);
 }
 
-export function sortEngins<T extends { numImmatEf: string }>(a: T, b: T): number {
-  return sortNumEfOrSerie(a.numImmatEf, b.numImmatEf);
+export function sortEngins<T extends { registration: string }>(a: T, b: T): number {
+  return sortNumEfOrSerie(a.registration, b.registration);
 }
 
 /** Trie un numéro d'engin ou un code série matériel, gère les préfixes, suffixes en lettre et les noms type "TGVIRIS". */

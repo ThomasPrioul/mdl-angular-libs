@@ -11,24 +11,25 @@ import { _getOptionScrollPosition } from '@angular/material/core';
 import { MatSelect } from '@angular/material/select';
 import { MdlSelectFilterComponent } from '../components/select-filter/select-filter.component';
 
-/** Affiche le template si aucun résultat n'existe dans le @see MatSelect après une recherche via un composant @see MdlSelectFilterComponent. */
+/** Affiche le template si aucun résultat n'existe dans le {@link MatSelect} après une recherche via un composant {@link MdlSelectFilterComponent}. */
 @Directive({
   selector: '[mdlSelectNoResults]',
   exportAs: 'mdlSelectNoResults',
   standalone: true,
 })
 export class MdlSelectNoResultsDirective implements AfterViewInit, OnDestroy {
+  private readonly callback: () => void;
+
   private hasView = false;
+  private sub?: Subscription;
 
   @Input('mdlSelectNoResults')
   public filter?: MdlSelectFilterComponent;
-  private sub?: Subscription;
-  private readonly callback: () => void;
 
   constructor(
     private templateRef: TemplateRef<any>,
     private viewContainer: ViewContainerRef,
-    private select: MatSelect
+    private select: MatSelect,
   ) {
     this.callback = this.onFilterDown.bind(this);
   }
@@ -51,7 +52,7 @@ export class MdlSelectNoResultsDirective implements AfterViewInit, OnDestroy {
           this.filter?.input.removeEventListener('keyup', this.callback);
           this.filter?.input.removeEventListener('focus', this.callback);
         }
-      })
+      }),
     );
   }
 

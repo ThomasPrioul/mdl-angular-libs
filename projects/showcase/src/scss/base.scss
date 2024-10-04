@@ -1,0 +1,19 @@
+*,
+::before,
+::after {
+  border-style: unset;
+}
+
+html,
+body {
+  height: auto;
+}
+
+body {
+  margin: 0;
+  font-family: mdl.$font-sans-serif, "Helvetica Neue", sans-serif;
+}
+
+router-outlet {
+  display: none;
+}

@@ -10,7 +10,7 @@ export class FullscreenService implements OnDestroy {
 
   public isInFullScreen$ = fromEvent(document, 'fullscreenchange').pipe(
     map(() => document.fullscreenElement != null),
-    startWith(false)
+    startWith(false),
   );
 
   constructor() {
@@ -30,8 +30,8 @@ export class FullscreenService implements OnDestroy {
     await document.exitFullscreen();
   }
 
-  public async enableFullScreen(element: ElementRef) {
-    const elHtml = element.nativeElement as HTMLElement;
+  public async enableFullScreen(element: ElementRef | HTMLElement) {
+    const elHtml = element instanceof ElementRef ? (element.nativeElement as HTMLElement) : element;
     try {
       await elHtml.requestFullscreen();
     } catch (err) {

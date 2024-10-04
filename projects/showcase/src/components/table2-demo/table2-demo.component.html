@@ -1,8 +1,8 @@
-<mat-drawer-container>
+<mat-drawer-container class="settings-drawer-container">
   <mat-drawer #drawer mode="over" position="end" autoFocus="first-tabbable">
-    <div class="side-drawer">
+    <div class="settings-drawer">
       <div
-        class="side-drawer-header dark sticky z-10 top-0"
+        class="settings-drawer-header dark sticky z-10 top-0"
         style="color: white; background-color: #333">
         <h1 class="mat-h1" style="margin-top: 1rem; margin-left: 0.75rem">Paramètres</h1>
         <button mat-icon-button (click)="drawer.close()">
@@ -18,15 +18,16 @@
             <mat-button-toggle value="backend">Backend</mat-button-toggle>
           </mat-button-toggle-group>
           <div class="flex flex-col gap-2"></div>
-          @if (pagination !== 'backend') {
-          <button mat-raised-button (click)="loadData()" [disabled]="loading() === true">
-            <span>Charger données</span>
-          </button>
-          <button mat-stroked-button (click)="loadEmptyData()" [disabled]="loading() === true">
-            <span>Charger données vides</span>
-          </button>
-          } @if (pagination === 'backend') {
-          <pre>{{ table.shouldRequestBackend | async | json }}</pre>
+          @if (pagination !== "backend") {
+            <button mat-raised-button (click)="loadData()" [disabled]="loading() === true">
+              <span>Charger données</span>
+            </button>
+            <button mat-stroked-button (click)="loadEmptyData()" [disabled]="loading() === true">
+              <span>Charger données vides</span>
+            </button>
+          }
+          @if (pagination === "backend") {
+            <pre>{{ table.shouldRequestBackend | async | json }}</pre>
           }
 
           <div>Côté des addons de pagination</div>
@@ -78,13 +79,13 @@
   </mat-drawer>
   <mat-drawer-content>
     @if (!drawer.opened) {
-    <button
-      mat-mini-fab
-      color="primary"
-      style="position: absolute; top: -0px; right: 4px; z-index: 1"
-      (click)="!drawer.opened ? drawer.open() : drawer.close()">
-      <mat-icon>menu</mat-icon>
-    </button>
+      <button
+        mat-mini-fab
+        color="primary"
+        style="position: absolute; top: -0px; right: 4px; z-index: 1"
+        (click)="!drawer.opened ? drawer.open() : drawer.close()">
+        <mat-icon>menu</mat-icon>
+      </button>
     }
     <mdl-table2
       #table
@@ -113,10 +114,11 @@
       [class.alternate-lines]="enableAlternateLinesCss.checked">
       <ng-template #paginatorAddons>
         <div class="flex gap-3 items-center flex-wrap p-3">
-          @if (enableSelection.checked && selectedItems().length) { @for (item of selectedItems();
-          track item.codeSerieMateriel) {
-          <div class="mdl-table-badge">{{ item.codeSerieMateriel }}</div>
-          } }
+          @if (enableSelection.checked && selectedItems().length) {
+            @for (item of selectedItems(); track item.codeSerieMateriel) {
+              <div class="mdl-table-badge">{{ item.codeSerieMateriel }}</div>
+            }
+          }
         </div>
       </ng-template>
 
@@ -164,7 +166,7 @@
 
       <tr class="mat-mdc-row mdc-data-table__row" *matNoDataRow>
         @if (loading() === false) {
-        <td class="mat-mdc-cell mdc-data-table__cell" colspan="1000">Aucune série trouvée :-(</td>
+          <td class="mat-mdc-cell mdc-data-table__cell" colspan="1000">Aucune série trouvée :-(</td>
         }
       </tr>
     </mdl-table2>

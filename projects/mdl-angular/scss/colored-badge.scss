@@ -5,7 +5,7 @@
   &.#{$name} {
     .light &,
     .dark .light & {
-      background: mix($background, #fff, 10%);
+      background: mix($background, #fff, 30%);
     }
 
     .dark &,

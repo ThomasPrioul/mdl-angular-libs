@@ -2,6 +2,35 @@
   display: block;
 }
 
+.hamburger-menu {
+  width: 20px;
+  height: 20px;
+  stroke: currentColor;
+  transition: all 0.2s;
+
+  path {
+    fill: none;
+    color: inherit;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    transition: 0.2s;
+    transition-property: d;
+  }
+
+  &.open {
+    .top-bar {
+      d: path("M1,0 L1,10");
+    }
+    .middle-bar {
+      d: path("M5,10 L5,0");
+    }
+    .bottom-bar {
+      d: path("M9,0 L9,10");
+    }
+  }
+}
+
 .mat-mdc-card {
   --mdc-elevated-card-container-shape: 8px;
   --mdc-elevated-card-container-elevation: 0px 5px 5px -3px rgba(0, 0, 0, 0.2),

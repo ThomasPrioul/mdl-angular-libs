@@ -1,4 +1,4 @@
-@import "../scss/responsive.scss";
+@use "../../scss/responsive.scss";
 
 :host {
   position: relative;
@@ -6,7 +6,7 @@
   flex-direction: column;
   height: 100%;
 
-  @include big-screen() {
+  @include responsive.big-screen() {
     .mat-mdc-tab-nav-bar {
       padding: 8px 16px 0;
     }
@@ -31,7 +31,7 @@
         padding: 0.5rem;
         padding-top: 0.5rem;
 
-        @include big-screen() {
+        @include responsive.big-screen() {
           padding: 2.5rem;
           padding-top: 1.5rem;
         }
@@ -51,7 +51,7 @@
     .mat-mdc-tab-body-content {
       gap: 1.5rem;
       padding: 0.5rem;
-      @include big-screen() {
+      @include responsive.big-screen() {
         padding: 1.5rem;
       }
       display: flex;
