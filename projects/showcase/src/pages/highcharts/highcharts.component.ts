@@ -24,7 +24,7 @@ Dashboards.PluginHandler.addPlugin(Dashboards.DataGridPlugin);
 export class HighchartsComponent {
   private readonly isAsync = true;
 
-  private options = {};
+  private options: Dashboards.Board.Options = {};
 
   constructor(
     public elementRef: ElementRef,
@@ -167,7 +167,7 @@ export class HighchartsComponent {
                 {
                   value: 900,
                   zIndex: 7,
-                  dashStyle: 'shortDash',
+                  dashStyle: 'ShortDash',
                   label: {
                     text: 'RDA',
                     align: 'right',
@@ -252,7 +252,7 @@ export class HighchartsComponent {
               plotLines: [
                 {
                   value: 8,
-                  dashStyle: 'shortDash',
+                  dashStyle: 'ShortDash',
                   label: {
                     text: 'RDA',
                     align: 'right',
