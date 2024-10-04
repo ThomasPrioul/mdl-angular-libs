@@ -48,6 +48,10 @@
 @import "scss/forms.scss";
 @import "scss/settings-drawer.scss";
 
+@import "highcharts/css/highcharts.css";
+@import "@highcharts/dashboards/css/dashboards.css";
+@import "@highcharts/dashboards/css/datagrid.css";
+
 // @use '../../bottom-sheet/bottom-sheet-theme';
 // @use '../../grid-list/grid-list-theme';
 

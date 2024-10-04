@@ -58,10 +58,10 @@ export class AppComponent {
         },
       ],
     },
-    // {
-    //   text: 'Paramètres',
-    //   link: '/settings/',
-    // },
+    {
+      text: 'Highcharts',
+      link: '/highcharts',
+    },
   ];
   protected simpleMenu: boolean = false;
   protected version = packageJson.version;

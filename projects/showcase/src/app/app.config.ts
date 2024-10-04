@@ -92,6 +92,11 @@ const routes: Route[] = [
     ],
   },
   {
+    path: 'highcharts',
+    loadComponent: () =>
+      import('../pages/highcharts/highcharts.component').then((c) => c.HighchartsComponent),
+  },
+  {
     path: '',
     pathMatch: 'full',
     redirectTo: 'home',
