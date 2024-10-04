@@ -1,111 +1,113 @@
-@if (breakpoints$ | async; as brk){
-<mat-toolbar>
-  <mat-toolbar-row>
-    <div class="logos">
-      <div class="sncf-logo" [class.simple-menu]="simpleMenu">
-        <img alt="SNCF" src="assets/logo-sncf.svg" />
+@if (breakpoints$ | async; as brk) {
+  <mat-toolbar>
+    <mat-toolbar-row>
+      <div class="logos">
+        <div class="sncf-logo" [class.simple-menu]="simpleMenu">
+          <img alt="SNCF" src="assets/logo-sncf.svg" />
+        </div>
+        <button mat-button class="mdl menu-button" (click)="menuOpen = !menuOpen">
+          <div class="flex gap-2 items-center">
+            <svg class="hamburger-menu" [class.open]="menuOpen" viewBox="-1 -1 12 12">
+              <path class="top-bar" d="M0,1 L10,1"></path>
+              <path class="middle-bar" d="M0,5 L10,5"></path>
+              <path class="bottom-bar" d="M0,9 L10,9"></path>
+            </svg>
+            MDL lib demo
+          </div>
+        </button>
       </div>
-      <button mat-button class="mdl menu-button" (click)="menuOpen = !menuOpen">
-        <mat-icon
-          style="transition: transform 175ms ease-in-out"
-          [ngStyle]="{ transform: menuOpen ? 'rotate(90deg)' : undefined }">
-          menu
-        </mat-icon>
-        MDL lib demo
-      </button>
-    </div>
-    <div class="ms-auto flex gap-4 items-center">
-      @if (!brk.breakpoints[breakpoints.XSmall]) {
-      <div class="small self-center" [class.light]="!darkMode.applyDark()">
-        <mat-form-field>
-          <mat-icon matIconPrefix>search</mat-icon>
-          <input type="text" placeholder="Rechercher..." matInput />
-        </mat-form-field>
+      <div class="ms-auto flex gap-4 items-center">
+        @if (!brk.breakpoints[breakpoints.XSmall]) {
+          <div class="small self-center" [class.light]="!darkMode.applyDark()">
+            <mat-form-field>
+              <mat-icon matIconPrefix>search</mat-icon>
+              <input type="text" placeholder="Rechercher..." matInput />
+            </mat-form-field>
+          </div>
+          <mat-slide-toggle color="primary" class="self-center" [(ngModel)]="simpleMenu">
+            Menu simple
+          </mat-slide-toggle>
+          <mat-slide-toggle color="primary" class="ms-auto" [(ngModel)]="fixedHeight">
+            Hauteur de page fixe
+          </mat-slide-toggle>
+          <mat-button-toggle-group
+            class="options small dark"
+            style="font-size: 14px"
+            [value]="darkMode.theme()"
+            (valueChange)="darkMode.theme.set($event)">
+            <mat-button-toggle value="auto" matTooltip="Suit le réglage système"
+              >auto</mat-button-toggle
+            >
+            <mat-button-toggle value="light" matTooltip="Mode clair"
+              ><mat-icon>light_mode</mat-icon></mat-button-toggle
+            >
+            <mat-button-toggle value="dark" matTooltip="Mode sombre"
+              ><mat-icon>dark_mode</mat-icon></mat-button-toggle
+            >
+          </mat-button-toggle-group>
+          <a
+            mat-flat-button
+            color="accent"
+            href="https://github.com/ThomasPrioul/mdl-angular-libs"
+            target="_blank"
+            ><img src="assets/GitHub_Logo_White.png" alt="GitHub logo" width="80px"
+          /></a>
+        } @else {
+          <button
+            mat-icon-button
+            matTooltip="Menu"
+            cdkOverlayOrigin
+            #trigger="cdkOverlayOrigin"
+            (click)="popupOpen = !popupOpen">
+            <mat-icon>more_vert</mat-icon>
+            <ng-template
+              cdkConnectedOverlay
+              cdkConnectedOverlayHasBackdrop
+              cdkConnectedOverlayDisposeOnNavigation
+              cdkConnectedOverlayBackdropClass="cdk-overlay-transparent-backdrop"
+              [cdkConnectedOverlayOrigin]="trigger"
+              [cdkConnectedOverlayOpen]="popupOpen"
+              (detach)="popupOpen = false"
+              (backdropClick)="popupOpen = false">
+              <mat-card>
+                <mat-card-content>
+                  <mat-slide-toggle class="w-full" color="primary" [(ngModel)]="simpleMenu">
+                    Menu simple
+                  </mat-slide-toggle>
+                  <mat-slide-toggle class="w-full" color="primary" [(ngModel)]="fixedHeight">
+                    Hauteur de page fixe
+                  </mat-slide-toggle>
+                  <div class="flex w-full">
+                    <div style="align-self: center; margin-right: 1rem">Thème:</div>
+                    <mat-button-toggle-group
+                      class="options small"
+                      style="font-size: 14px"
+                      [value]="darkMode.theme()"
+                      (valueChange)="darkMode.theme.set($event)">
+                      <mat-button-toggle value="auto" matTooltip="Suit le réglage système"
+                        >auto</mat-button-toggle
+                      >
+                      <mat-button-toggle value="light" matTooltip="Mode clair"
+                        ><mat-icon style="margin-right: 0">light_mode</mat-icon></mat-button-toggle
+                      >
+                      <mat-button-toggle value="dark" matTooltip="Mode sombre"
+                        ><mat-icon style="margin-right: 0">dark_mode</mat-icon></mat-button-toggle
+                      >
+                    </mat-button-toggle-group>
+                  </div>
+                  <a
+                    mat-flat-button
+                    color="accent"
+                    href="https://github.com/ThomasPrioul/mdl-angular-libs"
+                    target="_blank"
+                    ><img src="assets/GitHub_Logo_White.png" alt="GitHub logo" width="80px"
+                  /></a>
+                </mat-card-content>
+              </mat-card>
+            </ng-template>
+          </button>
+        }
       </div>
-      <mat-slide-toggle color="primary" class="self-center" [(ngModel)]="simpleMenu">
-        Menu simple
-      </mat-slide-toggle>
-      <mat-slide-toggle color="primary" class="ms-auto" [(ngModel)]="fixedHeight">
-        Hauteur de page fixe
-      </mat-slide-toggle>
-      <mat-button-toggle-group
-        class="options small dark"
-        style="font-size: 14px"
-        [value]="darkMode.theme()"
-        (valueChange)="darkMode.theme.set($event)">
-        <mat-button-toggle value="auto" matTooltip="Suit le réglage système"
-          >auto</mat-button-toggle
-        >
-        <mat-button-toggle value="light" matTooltip="Mode clair"
-          ><mat-icon>light_mode</mat-icon></mat-button-toggle
-        >
-        <mat-button-toggle value="dark" matTooltip="Mode sombre"
-          ><mat-icon>dark_mode</mat-icon></mat-button-toggle
-        >
-      </mat-button-toggle-group>
-      <a
-        mat-flat-button
-        color="accent"
-        href="https://github.com/ThomasPrioul/mdl-angular-libs"
-        target="_blank"
-        ><img src="assets/GitHub_Logo_White.png" width="80px"
-      /></a>
-      } @else {
-      <button
-        mat-icon-button
-        matTooltip="Menu"
-        cdkOverlayOrigin
-        #trigger="cdkOverlayOrigin"
-        (click)="popupOpen = !popupOpen">
-        <mat-icon>more_vert</mat-icon>
-        <ng-template
-          cdkConnectedOverlay
-          cdkConnectedOverlayHasBackdrop
-          cdkConnectedOverlayDisposeOnNavigation
-          cdkConnectedOverlayBackdropClass="cdk-overlay-transparent-backdrop"
-          [cdkConnectedOverlayOrigin]="trigger"
-          [cdkConnectedOverlayOpen]="popupOpen"
-          (detach)="popupOpen = false"
-          (backdropClick)="popupOpen = false">
-          <mat-card>
-            <mat-card-content>
-              <mat-slide-toggle class="w-full" color="primary" [(ngModel)]="simpleMenu">
-                Menu simple
-              </mat-slide-toggle>
-              <mat-slide-toggle class="w-full" color="primary" [(ngModel)]="fixedHeight">
-                Hauteur de page fixe
-              </mat-slide-toggle>
-              <div class="flex w-full">
-                <div style="align-self: center; margin-right: 1rem">Thème:</div>
-                <mat-button-toggle-group
-                  class="options small"
-                  style="font-size: 14px"
-                  [value]="darkMode.theme()"
-                  (valueChange)="darkMode.theme.set($event)">
-                  <mat-button-toggle value="auto" matTooltip="Suit le réglage système"
-                    >auto</mat-button-toggle
-                  >
-                  <mat-button-toggle value="light" matTooltip="Mode clair"
-                    ><mat-icon style="margin-right: 0">light_mode</mat-icon></mat-button-toggle
-                  >
-                  <mat-button-toggle value="dark" matTooltip="Mode sombre"
-                    ><mat-icon style="margin-right: 0">dark_mode</mat-icon></mat-button-toggle
-                  >
-                </mat-button-toggle-group>
-              </div>
-              <a
-                mat-flat-button
-                color="accent"
-                href="https://github.com/ThomasPrioul/mdl-angular-libs"
-                target="_blank"
-                ><img src="assets/GitHub_Logo_White.png" width="80px"
-              /></a>
-            </mat-card-content>
-          </mat-card>
-        </ng-template>
-      </button>
-      }
-    </div>
-  </mat-toolbar-row>
-</mat-toolbar>
+    </mat-toolbar-row>
+  </mat-toolbar>
 }

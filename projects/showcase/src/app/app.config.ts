@@ -70,7 +70,7 @@ export const DEFAULT_DATEFORMAT_PROVIDER: Provider = {
 const routes: Route[] = [
   {
     path: 'home',
-    loadComponent: () => import('../pages/home.component').then((c) => c.HomeComponent),
+    loadComponent: () => import('../pages/home/home.component').then((c) => c.HomeComponent),
     children: [
       {
         path: 'table2',

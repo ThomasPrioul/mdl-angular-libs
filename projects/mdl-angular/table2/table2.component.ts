@@ -179,11 +179,11 @@ export class MdlTableComponent<T>
   constructor(
     @Optional() private _sort: MatSort | null,
     protected el: ElementRef,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
   ) {
     this.filterChange$ = this.filterChange.pipe(
       debounce((filter) => (filter ? timer(500) : of(filter))),
-      share()
+      share(),
     );
   }
 
@@ -368,7 +368,7 @@ export class MdlTableComponent<T>
 
   @Input() public trackByFn: (index: number, row: T) => number | string = (
     index: number,
-    row: T
+    row: T,
   ) => {
     return index;
   };
@@ -392,7 +392,7 @@ export class MdlTableComponent<T>
   }
 
   /** Resets page index to 0 and forces page changed event to be triggered.
-   * @see shouldRequestBackend emits a value in consequence.
+   * {@link shouldRequestBackend} emits a value in consequence.
    */
   public resetPageIndex() {
     if (!this.paginator) return;
@@ -517,13 +517,13 @@ export class MdlTableComponent<T>
                 orderBy: this.sort?.active ?? '',
                 orderDirection: this.sort?.direction ?? '',
                 searchValue: this.filter,
-              }
+              },
           ),
           tap((info) => (this._lastPaginatedRequest = info)),
           tap(() => this.clearSelection()),
-          tap((info) => this.shouldRequestBackend.emit(info))
+          tap((info) => this.shouldRequestBackend.emit(info)),
         )
-        .subscribe()
+        .subscribe(),
     );
   }
 
@@ -535,9 +535,9 @@ export class MdlTableComponent<T>
           takeUntil(this._destroy),
           tap(() => {
             if (this.paginator) this.paginator.pageIndex = 0;
-          })
+          }),
         )
-        .subscribe()
+        .subscribe(),
     );
   }
 }

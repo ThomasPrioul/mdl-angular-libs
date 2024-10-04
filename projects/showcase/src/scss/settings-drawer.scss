@@ -1,0 +1,70 @@
+@use "responsive.scss";
+
+// Side settings drawer
+.mat-drawer-container.settings-drawer-container {
+  height: 100%;
+
+  .mat-drawer-content {
+    padding: 1rem;
+    padding-top: 0.5rem;
+
+    @include responsive.big-screen() {
+      padding: 2.5rem;
+      padding-top: 1.5rem;
+    }
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .mat-drawer {
+    width: min-content;
+  }
+
+  .mat-drawer-side {
+    margin: 1.5rem 1rem 2.5rem 0;
+    border-radius: 0.5rem;
+    border: 0px solid var(--mat-sidenav-container-divider-color);
+  }
+
+  .settings-drawer {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1.5rem;
+
+    .settings-drawer-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: -1.5rem;
+      margin-bottom: 0;
+      padding: 0 0.75rem;
+      position: sticky;
+      z-index: 1;
+      top: 0px;
+      background: var(--mat-toolbar-container-background-color);
+      color: var(--mat-toolbar-container-text-color);
+
+      h1.mat-h1 {
+        margin-top: 1rem;
+        margin-left: 0.75rem;
+      }
+    }
+
+    .settings-drawer-content {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 1rem;
+
+      fieldset {
+        flex-shrink: 1;
+        flex-grow: 1;
+        display: flex;
+        align-items: center;
+        // justify-content: center;
+      }
+    }
+  }
+}
