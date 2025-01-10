@@ -15,5 +15,9 @@
   ],
   "lib": {
     "entryFile": "index.ts"
-  }
+  },
+  "allowedNonPeerDependencies": [
+    "copyfiles",
+    "typescript"
+  ]
 }
