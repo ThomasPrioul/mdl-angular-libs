@@ -11,7 +11,8 @@
       "input": "assets",
       "glob": "**/*",
       "output": "assets"
-    }
+    },
+    "schematics/**"
   ],
   "lib": {
     "entryFile": "index.ts"

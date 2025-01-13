@@ -1,0 +1,93 @@
+@use "mdl-angular/scss" as mdl;
+
+.app-header {
+  width: 100%;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  border-bottom: 1px solid #222;
+}
+
+.app-sidenav-container {
+  min-height: 100%;
+  width: 100%;
+  // height: auto !important;
+  height: max-content;
+  margin: 0;
+  transform: none;
+  z-index: 0;
+  position: relative;
+
+  .app-sidenav {
+    position: fixed;
+    top: 64px;
+    bottom: 0;
+    left: 0;
+    min-width: 260px;
+    border-right: 0;
+
+    &.sncf-nav {
+      min-width: unset;
+      width: 100px;
+
+      .menu-group {
+        > * {
+          border-top: 1px solid rgba(255, 255, 255, 0.3);
+
+          &:last-of-type {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+          }
+        }
+
+        &:first-child > *:first-child {
+          border-top: 0;
+        }
+      }
+
+      .menu {
+        min-width: unset;
+        width: 100px;
+      }
+    }
+
+    .menu {
+      height: 100%;
+      min-width: 250px;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+
+      &.prod {
+        background: mdl.$blue;
+        color: white;
+      }
+
+      &.local {
+        background: mdl.$gray;
+        color: white;
+      }
+
+      &.dev {
+        background: mdl.$purple;
+        color: white;
+      }
+
+      &.rec {
+        background: mdl.$cyan;
+        color: white;
+      }
+    }
+
+    .app-logo {
+      &.no-path {
+        border: 1px solid mdl.$text-light;
+      }
+    }
+  }
+}
+
+main {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}

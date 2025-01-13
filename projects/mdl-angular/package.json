@@ -7,15 +7,6 @@
     "email": "thomas.prioul@masteris.com"
   },
   "schematics": "./schematics/collection.json",
-  "ng-add": {
-    "save": "true",
-    "description": "Adds a custom template to the project.",
-    "factory": "./schematics/add-template/index#addTemplate"
-  },
-  "scripts": {
-    "build": "tsc -p tsconfig.schematics.json",
-    "postbuild": "copyfiles schematics/*/schema.json schematics/*/files/** schematics/collection.json ../../dist/mdl-angular/"
-  },
   "keywords": [
     "angular",
     "material",
@@ -36,7 +27,7 @@
     "@angular/cdk": "^18.2.0",
     "@angular/common": ">=18.2.0",
     "@angular/core": ">=18.2.0",
-    "@angular/material": "^18.2.0"
+    "@angular/material": "18.2.0"
   },
   "dependencies": {
     "tslib": "^2.3.0",
