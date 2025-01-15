@@ -7,6 +7,7 @@ import {
   SchematicContext,
   SchematicsException,
   Tree,
+  externalSchematic,
   url,
 } from '@angular-devkit/schematics';
 import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
@@ -14,6 +15,52 @@ import {
   addPackageJsonDependency,
   NodeDependencyType,
 } from '@schematics/angular/utility/dependencies';
+
+import * as ts from 'typescript';
+
+function addRoute(tree: Tree, routePath: string, componentPath: string, componentName: string): void {
+  const appRoutesPath = 'src/app/app.routes.ts';
+
+  if (!tree.exists(appRoutesPath)) {
+    throw new SchematicsException(`File ${appRoutesPath} does not exist.`);
+  }
+
+  const content = tree.read(appRoutesPath)?.toString('utf-8');
+  if (!content) {
+    throw new SchematicsException(`Could not read ${appRoutesPath}.`);
+  }
+
+  const sourceFile = ts.createSourceFile(appRoutesPath, content, ts.ScriptTarget.Latest, true);
+
+  // Nouvelle route à ajouter
+  const newRoute = `{
+    path: '${routePath}',
+    pathMatch: 'prefix',
+    loadComponent: () => import('${componentPath}').then((c) => c.${componentName}),
+  }`;
+
+  // Rechercher l'export de routes
+  const routesArrayMatch = sourceFile.getText().match(/export\s+const\s+routes\s*:\s*Routes\s*=\s*\[(.*)\]/s);
+
+  if (!routesArrayMatch) {
+    throw new SchematicsException(`Could not find routes array in app.routes.ts.`);
+  }
+
+  const routesArray = routesArrayMatch[1].trim();
+
+  // Ajouter la nouvelle route en gérant le cas où le tableau est vide
+  const updatedRoutesArray = routesArray
+    ? `${routesArray},\n  ${newRoute}` // Si le tableau contient déjà des éléments
+    : `  ${newRoute}`; // Si le tableau est vide
+
+  const updatedContent = sourceFile.getText().replace(
+    routesArrayMatch[0],
+    `export const routes: Routes = [${updatedRoutesArray}]`
+  );
+
+  // Écrire les modifications dans le fichier
+  tree.overwrite(appRoutesPath, updatedContent);
+}
 
 function installLibrary(): Rule {
   return (tree: Tree, context: SchematicContext) => {
@@ -27,6 +74,17 @@ function installLibrary(): Rule {
     // Execute `npm install`
     context.addTask(new NodePackageInstallTask());
     return tree;
+  };
+}
+
+function installAngularMaterial(): Rule {
+  return (_tree: Tree, _context: SchematicContext) => {
+    return externalSchematic('@angular/material', 'ng-add', {
+      theme: 'indigo-pink',
+      typography: true,
+      animations: 'enabled',
+      version: "^18.2.0", // Voir pour une installation dynamique
+    });
   };
 }
 
@@ -60,15 +118,38 @@ function installTailwind(): Rule {
 
 function addTailwindConfigFile(): Rule {
   return (tree: Tree, _context: SchematicContext) => {
-    const tailwindConfigFile = apply(url('./files/tailwind.config.txt'), [move('')]);
-    _context.logger.info('Adding tailwind.config.txt to the root of the project.');
-
-    // Si le fichier existe déjà, le remplacer
-    if (tree.exists('tailwind.config.txt')) {
-      tree.overwrite('tailwind.config.txt', tree.read('tailwind.config.txt')?.toString() || '');
+    const filePath = 'tailwind.config.js';
+    const fileContent = `
+      /** @type {import('tailwindcss').Config} */
+      module.exports = {
+        content: [
+          "./src/**/*.{html,ts}",
+        ],
+        safelist: [
+          "ms-2",
+          "me-2",
+          "ms-auto",
+          "me-auto",
+          "flex-row-reverse",
+          "flex-wrap",
+          "flex-wrap-reverse",
+          "bg-green-400",
+          "bg-red-400",
+        ],
+        theme: {
+          extend: {},
+        },
+        plugins: [],
+      }
+     `
+    // Vérifie si le fichier existe déjà
+    if (!tree.exists(filePath)) {
+      tree.create(filePath, fileContent);
+      _context.logger.info(`Fichier ${filePath} créé avec succès.`);
+    } else {
+      _context.logger.warn(`Le fichier ${filePath} existe déjà.`);
     }
-
-    return mergeWith(tailwindConfigFile)(tree, _context);
+    return tree;
   };
 }
 
@@ -82,9 +163,6 @@ function updateStyles(): Rule {
     const stylesContent = tree.read(stylesPath)?.toString('utf-8');
     const mdlStyles = `
       @use "mdl-angular/scss" as mdl;
-      @tailwind base;
-      @tailwind components;
-      @tailwind utilities;
       /* ... Votre CSS utilisant des variables MDL */
 
       /* Ajout des feuilles de styles MDL */
@@ -123,6 +201,10 @@ function updateStyles(): Rule {
       @import "mdl-angular/scss/colored-badge";
       @import "mdl-angular/scss/highlight";
       @import "mdl-angular/scss/panels";
+
+      @tailwind base;
+      @tailwind components;
+      @tailwind utilities;
       `;
 
     if (!stylesContent?.includes('@use "mdl-angular/scss"')) {
@@ -316,6 +398,25 @@ function addLayoutFiles(): Rule {
   };
 }
 
+function addExampleFiles(): Rule {
+  return (_tree: Tree, _context: SchematicContext) => {
+    const example = apply(url('./files/example'), [move('src/app/components/example')]);
+    return mergeWith(example);
+  };
+}
+
+function addExampleRoute() {
+  return (tree: Tree) => {
+    addRoute(
+      tree,
+      'example', // Le chemin de la route
+      './components/example/example.component', // Le chemin du composant
+      'ExampleComponent' // Le nom du composant
+    );
+    return tree;
+  };
+}
+
 function updateAppComponent(): Rule {
   return (tree: Tree, context: SchematicContext) => {
     // Remplacer le contenu de app.component.html
@@ -385,10 +486,13 @@ function updateAppComponent(): Rule {
 export function ngAdd(): Rule {
   return chain([
     installLibrary(),
+    installAngularMaterial(),
     installTailwind(),
     addTailwindConfigFile(),
     updateStyles(),
     updateConfigOrMain(),
+    addExampleFiles(),
+    addExampleRoute(),
     updateAngularJson(),
     addLayoutFiles(),
     updateAppComponent()

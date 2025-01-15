@@ -1,0 +1,64 @@
+<div class="m-5">
+  <h1>Exemple de page</h1>
+
+  <div class="">
+    <h4>Information sur le thème</h4>
+    <div class="mt-3">
+      <p>Ce projet est un exemple de page utilisant le thème mdl-angular.</p>
+      <p>le header et la barre de navigation verticale se situent dans src/app/components/layout</p>
+      <p>
+        Pour ajouter un nouvel item dans la barre de navigation, ajouter un élément dans menus se trouvant dans src/app/components/layout/vertical-nav/vertical-nav.component.ts
+      </p>
+      <div class="mt-5 mb-8 first:mt-0 last:mb-0 relative overflow-hidden rounded-2xl">
+        <div class="pt-2 bg-slate-800 shadow-lg group">
+          <div class="flex text-slate-400 text-xs leading-6">
+            <div class="flex-none text-sky-300 border-t border-b border-t-transparent border-b-sky-300 px-4 py-1 flex items-center">src/app/components/layout/vertical-nav/vertical-nav.component.ts</div>
+            <div class="flex-auto flex items-center bg-slate-700/50 border border-slate-500/30 rounded-tl"></div>
+          </div>
+          <div class="children:my-0 children:!shadow-none children:bg-transparent">
+            <pre class="language-python">
+              <code class="language-python">
+                <pre class="bg-gray-800 text-white p-4 rounded-lg overflow-auto">
+                protected menus: SideMenu[] = [
+                &#123;
+                  text: 'Accueil',
+                  link: '/home',
+                  icon: 'home',
+                  children: [
+                    &#123;
+                      text: 'Exemple',
+                      link: '/home/example',
+                      icon: 'table_rows',
+                    &#125;,
+                  ],
+                &#125;,
+                ];
+                </pre>
+              </code>
+            </pre>
+          </div>
+        </div>
+        <div class="pointer-events-none absolute inset-0 rounded-2xl dark:ring-1 dark:ring-white/10 dark:ring-inset" aria-hidden="true"></div>
+      </div>
+
+    </div>
+
+    <div class="mt-3">
+      <h4>Les composants instalés:</h4>
+      <ul class="list-disc list-outside pl-10">
+        <li>mdl-angular</li>
+        <li>Angular Material</li>
+        <li>Tailwind</li>
+      </ul>
+    </div>
+
+    <div class="mt-3">
+      <h4>Liens utiles:</h4>
+      <ul class="list-disc list-outside pl-10">
+        <li><a href="https://thomasprioul.github.io/mdl-angular-libs/" target="_blank">mdl-angular Démo</a></li>
+        <li><a href="https://github.com/ThomasPrioul/mdl-angular-libs" target="_blank">Github de mdl-angular</a></li>
+        <li><a href="https://material.angular.io/components/categories" target="_blank">Angular material components</a></li>
+      </ul>
+    </div>
+
+  </div>

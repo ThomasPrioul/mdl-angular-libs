@@ -37,7 +37,7 @@ export class VerticalNavComponent {
 
   protected appEnv: string = appEnv[0];
   protected fixedHeight: boolean = true;
-  protected menuOpen: boolean = false;
+  protected menuOpen: boolean = true;
   protected menus: SideMenu[] = [
     {
       text: 'Accueil',
@@ -45,23 +45,14 @@ export class VerticalNavComponent {
       icon: 'home',
       children: [
         {
-          text: 'Table2',
-          link: '/home/table2',
+          text: 'Exemple',
+          link: '/home/example',
           icon: 'table_rows',
-        },
-        {
-          text: 'Forms',
-          link: '/home/forms',
-          icon: 'list',
         },
       ],
     },
-    // {
-    //   text: 'Paramètres',
-    //   link: '/settings/',
-    // },
   ];
-  protected simpleMenu: boolean = false;
+  protected simpleMenu: boolean = true;
   protected version = packageJson.version;
 
   protected changeEnv() {
