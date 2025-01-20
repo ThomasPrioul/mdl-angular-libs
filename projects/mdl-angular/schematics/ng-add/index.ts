@@ -18,7 +18,7 @@ import {
 
 import * as ts from 'typescript';
 
-function addRoute(tree: Tree, routePath: string, componentPath: string, componentName: string): void {
+function addRoute(tree: Tree, routePath: string, componentPath: string|null, componentName: string|null, redirectTo: string|null = null): void {
   const appRoutesPath = 'src/app/app.routes.ts';
 
   if (!tree.exists(appRoutesPath)) {
@@ -33,11 +33,20 @@ function addRoute(tree: Tree, routePath: string, componentPath: string, componen
   const sourceFile = ts.createSourceFile(appRoutesPath, content, ts.ScriptTarget.Latest, true);
 
   // Nouvelle route à ajouter
-  const newRoute = `{
-    path: '${routePath}',
-    pathMatch: 'prefix',
-    loadComponent: () => import('${componentPath}').then((c) => c.${componentName}),
-  }`;
+  let newRoute
+  if (redirectTo === null) {
+    newRoute = `{
+      path: '${routePath}',
+      pathMatch: 'prefix',
+      loadComponent: () => import('${componentPath}').then((c) => c.${componentName}),
+    }`;
+  } else {
+    newRoute = `{
+     path: '${routePath}',
+     pathMatch: 'full',
+     redirectTo: '${redirectTo}'
+    }`;
+  }
 
   // Rechercher l'export de routes
   const routesArrayMatch = sourceFile.getText().match(/export\s+const\s+routes\s*:\s*Routes\s*=\s*\[(.*)\]/s);
@@ -83,7 +92,6 @@ function installAngularMaterial(): Rule {
       theme: 'indigo-pink',
       typography: true,
       animations: 'enabled',
-      version: "^18.2.0", // Voir pour une installation dynamique
     });
   };
 }
@@ -392,9 +400,10 @@ function updateAngularJson(): Rule {
 
 function addLayoutFiles(): Rule {
   return (_tree: Tree, _context: SchematicContext) => {
-    const layout = apply(url('./files/layout'), [move('src/app/components/layout')]);
+    // const layout = apply(url('./files/layout'), [move('src/app/components/layout')]);
     const core = apply(url('./files/core'), [move('src/app/core')]);
-    return chain([mergeWith(layout), mergeWith(core)]);
+    return mergeWith(core);
+    // return chain([mergeWith(layout), mergeWith(core)]);
   };
 }
 
@@ -409,7 +418,14 @@ function addExampleRoute() {
   return (tree: Tree) => {
     addRoute(
       tree,
-      'example', // Le chemin de la route
+      '', // Le chemin de la route
+      null,
+      null,
+      'home/example'
+    );
+    addRoute(
+      tree,
+      'home/example', // Le chemin de la route
       './components/example/example.component', // Le chemin du composant
       'ExampleComponent' // Le nom du composant
     );
@@ -433,7 +449,7 @@ function updateAppComponent(): Rule {
     if (tree.exists(tsPath)) {
       let tsContent = tree.read(tsPath)?.toString('utf-8');
       if (tsContent) {
-        const importStatement = `import { VerticalNavComponent } from './components/layout/vertical-nav/vertical-nav.component';`;
+        const importStatement = `import { VerticalNavComponent } from './core/components/layout/vertical-nav/vertical-nav.component';`;
         const componentDecoratorRegex = /@Component\(\{([\s\S]*?)\}\)/;
         const importsRegex = /imports:\s*\[([\s\S]*?)\]/;
 
