@@ -24,27 +24,26 @@ import { OverlayModule } from '@angular/cdk/overlay';
 import { MatCardModule } from '@angular/material/card';
 
 @Component({
-  selector: 'app-header',
-  standalone: true,
-  imports: [
-    AsyncPipe,
-    NgStyle,
-    FormsModule,
-    MatToolbarModule,
-    MatButtonToggleModule,
-    MatCardModule,
-    MatMenuModule,
-    MatSlideToggleModule,
-    MatTooltipModule,
-    MatButtonModule,
-    MatIconModule,
-    MatFormFieldModule,
-    MatInputModule,
-    OverlayModule,
-  ],
-  templateUrl: './header.component.html',
-  styleUrl: './header.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-header',
+    imports: [
+        AsyncPipe,
+        NgStyle,
+        FormsModule,
+        MatToolbarModule,
+        MatButtonToggleModule,
+        MatCardModule,
+        MatMenuModule,
+        MatSlideToggleModule,
+        MatTooltipModule,
+        MatButtonModule,
+        MatIconModule,
+        MatFormFieldModule,
+        MatInputModule,
+        OverlayModule,
+    ],
+    templateUrl: './header.component.html',
+    styleUrl: './header.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HeaderComponent {
   private _fixedHeight!: boolean;

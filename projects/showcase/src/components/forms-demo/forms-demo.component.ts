@@ -111,61 +111,59 @@ const DEMO_DATE_RANGE_PRESETS: DateRangePreset<DateTime>[] = [
 const today = DateTime.now().startOf('day');
 
 @Component({
-  selector: 'app-forms-demo',
-  standalone: true,
-  templateUrl: './forms-demo.component.html',
-  styleUrls: ['./forms-demo.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    // NG
-    JsonPipe,
-    FormsModule,
-    ReactiveFormsModule,
-    // Material
-    MatButtonModule,
-    MatButtonToggleModule,
-    MatCheckboxModule,
-    MatDatepickerModule,
-    MatExpansionModule,
-    MatFormFieldModule,
-    MatIconModule,
-    MatInputModule,
-    MatLuxonDateModule,
-    MatSelectModule,
-    MatSlideToggleModule,
-    MatSnackBarModule,
-    MatTooltipModule,
-    // MDL
-    MdlCastPipe,
-    MdlDatePicker,
-    MdlSelectGlobalCheckboxDirective,
-    MdlSelectAllDirective,
-    MdlSelectClearAllDirective,
-    MdlSelectFilterComponent,
-    MdlSelectNoResultsDirective,
-    MdlSpinnerComponent,
-    MdlTimePickerComponent,
-    MdlTreeItemHiddenPipe,
-    MdlTreeOptionComponent,
-    MdlTreeSelectDirective,
-    MdlTreeSelectSummaryPipe,
-    MdlZoomButtonComponent,
-    TypeSafeMatCellDef,
-    // App
-    SeriesFilterPipe,
-    SeriesOptionsFilterPipe,
-    SeriesOptionsPipe,
-    ChipsDemoComponent,
-  ],
-  providers: [
-    { provide: DATE_RANGE_PRESETS, useValue: DEMO_DATE_RANGE_PRESETS },
-
-    DEFAULT_DATEFORMAT_PROVIDER,
-    {
-      provide: DateAdapter,
-      useClass: DemoDateAdapter,
-    },
-  ],
+    selector: 'app-forms-demo',
+    templateUrl: './forms-demo.component.html',
+    styleUrls: ['./forms-demo.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        // NG
+        JsonPipe,
+        FormsModule,
+        ReactiveFormsModule,
+        // Material
+        MatButtonModule,
+        MatButtonToggleModule,
+        MatCheckboxModule,
+        MatDatepickerModule,
+        MatExpansionModule,
+        MatFormFieldModule,
+        MatIconModule,
+        MatInputModule,
+        MatLuxonDateModule,
+        MatSelectModule,
+        MatSlideToggleModule,
+        MatSnackBarModule,
+        MatTooltipModule,
+        // MDL
+        MdlCastPipe,
+        MdlDatePicker,
+        MdlSelectGlobalCheckboxDirective,
+        MdlSelectAllDirective,
+        MdlSelectClearAllDirective,
+        MdlSelectFilterComponent,
+        MdlSelectNoResultsDirective,
+        MdlSpinnerComponent,
+        MdlTimePickerComponent,
+        MdlTreeItemHiddenPipe,
+        MdlTreeOptionComponent,
+        MdlTreeSelectDirective,
+        MdlTreeSelectSummaryPipe,
+        MdlZoomButtonComponent,
+        TypeSafeMatCellDef,
+        // App
+        SeriesFilterPipe,
+        SeriesOptionsFilterPipe,
+        SeriesOptionsPipe,
+        ChipsDemoComponent,
+    ],
+    providers: [
+        { provide: DATE_RANGE_PRESETS, useValue: DEMO_DATE_RANGE_PRESETS },
+        DEFAULT_DATEFORMAT_PROVIDER,
+        {
+            provide: DateAdapter,
+            useClass: DemoDateAdapter,
+        },
+    ]
 })
 export class FormsDemoComponent {
   protected readonly dateForm = new FormGroup(

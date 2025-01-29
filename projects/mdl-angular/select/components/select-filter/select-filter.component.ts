@@ -28,19 +28,18 @@ const cssClass = 'with-filter-host';
 const verticalNavKeys = ['ArrowUp', 'ArrowDown', 'PageUp', 'PageDown'];
 
 @Component({
-  selector: 'mdl-select-filter',
-  standalone: true,
-  imports: [
-    MatCheckboxModule,
-    MdlSelectGlobalCheckboxDirective,
-    MatFormFieldModule,
-    MatInputModule,
-    MatIconModule,
-    MatButtonModule,
-  ],
-  templateUrl: './select-filter.component.html',
-  styleUrls: ['./select-filter.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'mdl-select-filter',
+    imports: [
+        MatCheckboxModule,
+        MdlSelectGlobalCheckboxDirective,
+        MatFormFieldModule,
+        MatInputModule,
+        MatIconModule,
+        MatButtonModule,
+    ],
+    templateUrl: './select-filter.component.html',
+    styleUrls: ['./select-filter.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MdlSelectFilterComponent implements AfterViewInit, OnInit, OnDestroy {
   @ViewChild('searchInput', { static: true })

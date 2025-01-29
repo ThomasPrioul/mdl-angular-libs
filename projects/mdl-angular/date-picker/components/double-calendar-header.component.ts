@@ -13,9 +13,9 @@ import { Subject, takeUntil } from 'rxjs';
 
 /** Custom header component for datepicker. */
 @Component({
-  selector: 'mdl-double-calendar-header',
-  styles: [
-    `
+    selector: 'mdl-double-calendar-header',
+    styles: [
+        `
       :host {
         display: block;
         position: relative;
@@ -41,8 +41,8 @@ import { Subject, takeUntil } from 'rxjs';
         text-align: center;
       }
     `,
-  ],
-  template: `
+    ],
+    template: `
     <div class="content-host">
       <button mat-icon-button (click)="previousClicked('year')">
         <mat-icon>keyboard_double_arrow_left</mat-icon>
@@ -59,9 +59,8 @@ import { Subject, takeUntil } from 'rxjs';
       </button>
     </div>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [MatButtonModule, MatIconModule],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [MatButtonModule, MatIconModule]
 })
 export class DoubleCalendarHeaderComponent<D> implements OnDestroy {
   private _destroyed = new Subject<void>();

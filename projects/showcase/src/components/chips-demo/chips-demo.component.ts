@@ -77,27 +77,26 @@ function arrayChunks<T>(array: T[], chunkSize: number) {
  * @title Chips Autocomplete
  */
 @Component({
-  selector: 'app-chips-demo',
-  templateUrl: 'chips-demo.component.html',
-  styleUrls: ['chips-demo.component.scss'],
-  standalone: true,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    AsyncPipe,
-    FormsModule,
-    ScrollingModule,
-    ReactiveFormsModule,
-    MatAutocompleteModule,
-    MatChipsModule,
-    MatFormFieldModule,
-    MatIconModule,
-    MatProgressBarModule,
-    MatTooltipModule,
-    MdlAutocompleteStayOpenDirective,
-    MdlHighlightWithPipe,
-    MdlSortedArrayPipe,
-    MdlSpinnerComponent,
-  ],
+    selector: 'app-chips-demo',
+    templateUrl: 'chips-demo.component.html',
+    styleUrls: ['chips-demo.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        AsyncPipe,
+        FormsModule,
+        ScrollingModule,
+        ReactiveFormsModule,
+        MatAutocompleteModule,
+        MatChipsModule,
+        MatFormFieldModule,
+        MatIconModule,
+        MatProgressBarModule,
+        MatTooltipModule,
+        MdlAutocompleteStayOpenDirective,
+        MdlHighlightWithPipe,
+        MdlSortedArrayPipe,
+        MdlSpinnerComponent,
+    ]
 })
 export class ChipsDemoComponent {
   @ViewChild('input')

@@ -39,13 +39,12 @@ import { DoubleCalendarHeaderComponent } from '../double-calendar-header.compone
  * Forces the user to define action buttons as child content like the mat-picker-actions component.
  */
 @Component({
-  selector: 'mdl-date-picker',
-  styleUrls: ['date-picker.component.scss'],
-  templateUrl: 'date-picker.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None,
-  standalone: true,
-  imports: [MatButtonModule, MatDatepickerModule, EmptyCalendarHeaderComponent, MatListModule],
+    selector: 'mdl-date-picker',
+    styleUrls: ['date-picker.component.scss'],
+    templateUrl: 'date-picker.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    encapsulation: ViewEncapsulation.None,
+    imports: [MatButtonModule, MatDatepickerModule, EmptyCalendarHeaderComponent, MatListModule]
 })
 export class MdlDatePicker<D> implements AfterViewInit, OnInit, OnDestroy, OnChanges {
   private _portal!: TemplatePortal;

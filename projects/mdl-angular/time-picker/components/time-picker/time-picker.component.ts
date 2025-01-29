@@ -13,27 +13,26 @@ import { MatIconModule } from '@angular/material/icon';
 import { matMenuAnimations } from '@angular/material/menu';
 import { MatListModule, MatSelectionList } from '@angular/material/list';
 @Component({
-  selector: 'mdl-time-picker',
-  standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    OverlayModule,
-    MatButtonModule,
-    MatCardModule,
-    MatIconModule,
-    MatListModule,
-  ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './time-picker.component.html',
-  styleUrl: './time-picker.component.scss',
-  animations: [matMenuAnimations.transformMenu],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => MdlTimePickerComponent),
-      multi: true,
-    },
-  ],
+    selector: 'mdl-time-picker',
+    imports: [
+        ReactiveFormsModule,
+        OverlayModule,
+        MatButtonModule,
+        MatCardModule,
+        MatIconModule,
+        MatListModule,
+    ],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    templateUrl: './time-picker.component.html',
+    styleUrl: './time-picker.component.scss',
+    animations: [matMenuAnimations.transformMenu],
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => MdlTimePickerComponent),
+            multi: true,
+        },
+    ]
 })
 export class MdlTimePickerComponent implements ControlValueAccessor {
   private _overlayOpen: boolean = false;

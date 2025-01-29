@@ -23,12 +23,11 @@ const checkboxPadding = 12;
 
 /** Tree option used in material mdl "tree" select */
 @Component({
-  selector: 'mdl-tree-option',
-  standalone: true,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  styleUrls: ['./tree-option.component.scss'],
-  templateUrl: './tree-option.component.html',
-  imports: [MatIconModule, MatButtonModule, MatPseudoCheckboxModule],
+    selector: 'mdl-tree-option',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    styleUrls: ['./tree-option.component.scss'],
+    templateUrl: './tree-option.component.html',
+    imports: [MatIconModule, MatButtonModule, MatPseudoCheckboxModule]
 })
 export class MdlTreeOptionComponent<K, T> implements AfterContentInit, OnInit {
   private static _iconInitialized = false;

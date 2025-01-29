@@ -6,20 +6,19 @@ import { MatIconModule } from '@angular/material/icon';
 import { RouterLinkActive, RouterLink } from '@angular/router';
 
 @Component({
-  selector: 'mdl-side-menu-item',
-  templateUrl: 'side-menu-item.component.html',
-  styleUrls: ['side-menu-item.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [
-    NgClass,
-    NgStyle,
-    RouterLink,
-    RouterLinkActive,
-    MatRippleModule,
-    MatButtonModule,
-    MatIconModule,
-  ],
+    selector: 'mdl-side-menu-item',
+    templateUrl: 'side-menu-item.component.html',
+    styleUrls: ['side-menu-item.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        NgClass,
+        NgStyle,
+        RouterLink,
+        RouterLinkActive,
+        MatRippleModule,
+        MatButtonModule,
+        MatIconModule,
+    ]
 })
 export class MdlSideMenuItemComponent {
   @ViewChild(RouterLinkActive) private rla?: RouterLinkActive;
