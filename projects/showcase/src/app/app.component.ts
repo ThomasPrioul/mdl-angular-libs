@@ -12,25 +12,24 @@ import packageJson from 'mdl-angular/package.json';
 import { DarkModeService } from 'mdl-angular/dark';
 
 @Component({
-  selector: 'app-showcase',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
-  standalone: true,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    // NG
-    NgClass,
-    NgStyle,
-    RouterOutlet,
-    // MAT
-    MatSidenavModule,
-    // MDL
-    MdlSideMenuItemComponent,
-    // APP
-    MainSideMenuDirective,
-    FlattenMenusPipe,
-    HeaderComponent,
-  ],
+    selector: 'app-showcase',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        // NG
+        NgClass,
+        NgStyle,
+        RouterOutlet,
+        // MAT
+        MatSidenavModule,
+        // MDL
+        MdlSideMenuItemComponent,
+        // APP
+        MainSideMenuDirective,
+        FlattenMenusPipe,
+        HeaderComponent,
+    ]
 })
 export class AppComponent {
   private readonly _dark = inject(DarkModeService);

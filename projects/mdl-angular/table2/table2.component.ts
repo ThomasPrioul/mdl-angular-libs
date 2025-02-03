@@ -81,43 +81,38 @@ export type ShouldRequestBackendType = {
 };
 
 @Component({
-  selector: 'mdl-table2, mdl-table',
-  templateUrl: 'table2.component.html',
-  styleUrls: ['table2.component.scss'],
-  standalone: true,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  animations: [matMenuAnimations.transformMenu],
-  // providers: [{ provide: MatPaginatorIntl, useClass: MyCustomPaginatorIntl }],
-  imports: [
-    // NG
-    NgClass,
-    NgStyle,
-    NgTemplateOutlet,
-
-    // Material
-    MatDividerModule,
-    MatTableModule,
-    MatIconModule,
-    MatButtonModule,
-    MatTooltipModule,
-    MatSortModule,
-    MatCheckboxModule,
-    MatProgressSpinnerModule,
-    MatPaginatorModule,
-
-    // CDK
-    OverlayModule,
-    A11yModule,
-
-    // MDL
-    MdlFullscreenButtonDirective,
-    MdlSpinnerComponent,
-
-    // This
-    forwardRef(() => WithSelectionPipe),
-    SearchbarComponent,
-    ColumnsComponent,
-  ],
+    selector: 'mdl-table2, mdl-table',
+    templateUrl: 'table2.component.html',
+    styleUrls: ['table2.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    animations: [matMenuAnimations.transformMenu],
+    // providers: [{ provide: MatPaginatorIntl, useClass: MyCustomPaginatorIntl }],
+    imports: [
+        // NG
+        NgClass,
+        NgStyle,
+        NgTemplateOutlet,
+        // Material
+        MatDividerModule,
+        MatTableModule,
+        MatIconModule,
+        MatButtonModule,
+        MatTooltipModule,
+        MatSortModule,
+        MatCheckboxModule,
+        MatProgressSpinnerModule,
+        MatPaginatorModule,
+        // CDK
+        OverlayModule,
+        A11yModule,
+        // MDL
+        MdlFullscreenButtonDirective,
+        MdlSpinnerComponent,
+        // This
+        forwardRef(() => WithSelectionPipe),
+        SearchbarComponent,
+        ColumnsComponent,
+    ]
 })
 export class MdlTableComponent<T>
   implements AfterContentInit, AfterViewInit, OnDestroy, OnChanges, AfterViewChecked

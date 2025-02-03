@@ -14,11 +14,10 @@ import { MdlSpinnerComponent } from '../components/spinner.component';
 
 /** Loading directive using a mdl-spinner absolutely positioned to the center of the targeted DOM element.*/
 @Directive({
-  // eslint-disable-next-line @angular-eslint/directive-selector
-  selector: '[mdlLoading]',
-  standalone: true,
-  // @ts-ignore
-  imports: [MdlSpinnerComponent],
+    // eslint-disable-next-line @angular-eslint/directive-selector
+    selector: '[mdlLoading]',
+    // @ts-ignore
+    imports: [MdlSpinnerComponent]
 })
 export class MdlLoadingDirective implements OnChanges {
   @HostBinding('style.overflow')
@@ -59,12 +58,11 @@ export class MdlLoadingDirective implements OnChanges {
 }
 
 @Component({
-  selector: 'mdl-loading-wrapper',
-  standalone: true,
-  imports: [MdlSpinnerComponent],
-  template: `<mdl-spinner></mdl-spinner><span>{{ text }}</span>`,
-  styles: [
-    `
+    selector: 'mdl-loading-wrapper',
+    imports: [MdlSpinnerComponent],
+    template: `<mdl-spinner></mdl-spinner><span>{{ text }}</span>`,
+    styles: [
+        `
       :host {
         display: flex;
         justify-content: center;
@@ -85,7 +83,7 @@ export class MdlLoadingDirective implements OnChanges {
         margin-left: 0.5rem;
       }
     `,
-  ],
+    ]
 })
 export class MdlLoadingWrapperComponent {
   @Input() public text?: string;

@@ -17,19 +17,18 @@ import { FormsModule } from '@angular/forms';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
-  selector: 'mdl-table-searchbar',
-  standalone: true,
-  imports: [
-    FormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatIconModule,
-    MatTooltipModule,
-    MatButtonModule,
-  ],
-  templateUrl: './searchbar.component.html',
-  styleUrls: ['./searchbar.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'mdl-table-searchbar',
+    imports: [
+        FormsModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatIconModule,
+        MatTooltipModule,
+        MatButtonModule,
+    ],
+    templateUrl: './searchbar.component.html',
+    styleUrls: ['./searchbar.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SearchbarComponent {
   private _filter: string = '';

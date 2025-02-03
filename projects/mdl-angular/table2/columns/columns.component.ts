@@ -46,24 +46,23 @@ export type ColumnDisplayInfo<T = any> = {
 };
 
 @Component({
-  selector: 'mdl-table-columns',
-  standalone: true,
-  imports: [
-    FormsModule,
-    MatCardModule,
-    MatIconModule,
-    MatDividerModule,
-    MatCheckboxModule,
-    MatPseudoCheckboxModule,
-    MatSlideToggleModule,
-    MatButtonModule,
-    DragDropModule,
-    A11yModule,
-    forwardRef(() => ColumnNameDirective),
-  ],
-  templateUrl: './columns.component.html',
-  styleUrls: ['./columns.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'mdl-table-columns',
+    imports: [
+        FormsModule,
+        MatCardModule,
+        MatIconModule,
+        MatDividerModule,
+        MatCheckboxModule,
+        MatPseudoCheckboxModule,
+        MatSlideToggleModule,
+        MatButtonModule,
+        DragDropModule,
+        A11yModule,
+        forwardRef(() => ColumnNameDirective),
+    ],
+    templateUrl: './columns.component.html',
+    styleUrls: ['./columns.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ColumnsComponent {
   protected _columns?: ColumnDisplayInfo[];

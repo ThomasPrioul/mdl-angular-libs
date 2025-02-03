@@ -16,27 +16,23 @@ import { Subject, map, pairwise, startWith, takeUntil, tap } from 'rxjs';
 import { ElementRefDirective } from 'mdl-angular';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss'],
-  standalone: true,
-  imports: [
-    // NG
-    RouterLinkActive,
-    RouterLink,
-    RouterOutlet,
-
-    // Material
-    MatTabsModule,
-    ScrollingModule,
-
-    // MDL
-    ElementRefDirective,
-
-    // App
-    Table2DemoComponent,
-    FormsDemoComponent,
-  ],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    templateUrl: './home.component.html',
+    styleUrls: ['./home.component.scss'],
+    imports: [
+        // NG
+        RouterLinkActive,
+        RouterLink,
+        RouterOutlet,
+        // Material
+        MatTabsModule,
+        ScrollingModule,
+        // MDL
+        ElementRefDirective,
+        // App
+        Table2DemoComponent,
+        FormsDemoComponent,
+    ]
 })
 export class HomeComponent implements OnDestroy {
   @ViewChild(MatTabNav, { static: true }) private readonly matTabNav!: MatTabNav;

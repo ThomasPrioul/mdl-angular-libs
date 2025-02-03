@@ -25,28 +25,27 @@ import { DateTime } from 'luxon';
 import { LuxonModule } from 'luxon-angular';
 
 @Component({
-  selector: 'app-table2-demo',
-  standalone: true,
-  imports: [
-    AsyncPipe,
-    JsonPipe,
-    FormsModule,
-    LuxonModule,
-    MatButtonModule,
-    MatButtonToggleModule,
-    MatCheckboxModule,
-    MatDividerModule,
-    MatIconModule,
-    MatSidenavModule,
-    MatSlideToggleModule,
-    MatSortModule,
-    MatTableModule,
-    MdlTableComponent,
-    TypeSafeMatCellDef,
-  ],
-  templateUrl: './table2-demo.component.html',
-  styleUrls: ['./table2-demo.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-table2-demo',
+    imports: [
+        AsyncPipe,
+        JsonPipe,
+        FormsModule,
+        LuxonModule,
+        MatButtonModule,
+        MatButtonToggleModule,
+        MatCheckboxModule,
+        MatDividerModule,
+        MatIconModule,
+        MatSidenavModule,
+        MatSlideToggleModule,
+        MatSortModule,
+        MatTableModule,
+        MdlTableComponent,
+        TypeSafeMatCellDef,
+    ],
+    templateUrl: './table2-demo.component.html',
+    styleUrls: ['./table2-demo.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class Table2DemoComponent {
   private _pagination: PaginationType = 'backend';

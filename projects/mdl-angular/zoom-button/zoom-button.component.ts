@@ -5,18 +5,17 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
-  selector: 'mdl-zoom-button',
-  templateUrl: 'zoom-button.component.html',
-  styleUrls: ['zoom-button.component.scss'],
-  standalone: true,
-  imports: [MatTooltipModule, MatIconModule, MatButtonModule],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => MdlZoomButtonComponent),
-      multi: true,
-    },
-  ],
+    selector: 'mdl-zoom-button',
+    templateUrl: 'zoom-button.component.html',
+    styleUrls: ['zoom-button.component.scss'],
+    imports: [MatTooltipModule, MatIconModule, MatButtonModule],
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => MdlZoomButtonComponent),
+            multi: true,
+        },
+    ]
 })
 export class MdlZoomButtonComponent implements ControlValueAccessor {
   @Input() public disabled = false;
