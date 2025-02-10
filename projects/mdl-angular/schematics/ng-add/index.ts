@@ -7,7 +7,7 @@ import {
   SchematicContext,
   SchematicsException,
   Tree,
-  externalSchematic,
+  // externalSchematic,
   url,
 } from '@angular-devkit/schematics';
 import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
@@ -17,6 +17,31 @@ import {
 } from '@schematics/angular/utility/dependencies';
 
 import * as ts from 'typescript';
+// import * as https from "https";
+// import { IncomingMessage } from "http";
+
+// function getLatestVersion(packageName: string): Promise<string> {
+//   return new Promise((resolve, reject) => {
+//     https.get(`https://registry.npmjs.org/${packageName}/latest`, (res: IncomingMessage) => {
+//       let data = '';
+//
+//       res.on('data', (chunk: any) => { // chunk est un Buffer, mais TypeScript l'infère mal
+//         data += chunk;
+//       });
+//
+//       res.on('end', () => {
+//         try {
+//           const jsonData = JSON.parse(data);
+//           resolve(jsonData.version);
+//         } catch (error) {
+//           reject(error);
+//         }
+//       });
+//     }).on('error', (error: Error) => {
+//       reject(error);
+//     });
+//   });
+// }
 
 function addRoute(tree: Tree, routePath: string, componentPath: string|null, componentName: string|null, redirectTo: string|null = null): void {
   const appRoutesPath = 'src/app/app.routes.ts';
@@ -86,38 +111,64 @@ function installLibrary(): Rule {
   };
 }
 
-function installAngularMaterial(): Rule {
-  return (_tree: Tree, _context: SchematicContext) => {
-    return externalSchematic('@angular/material', 'ng-add', {
-      theme: 'indigo-pink',
-      typography: true,
-      animations: 'enabled',
-    });
-  };
-}
+// function installAngularMaterial(): Rule {
+//   return (_tree: Tree, _context: SchematicContext) => {
+//     return externalSchematic('@angular/material', 'ng-add', {
+//       theme: 'indigo-pink',
+//       typography: true,
+//       animations: 'enabled',
+//     });
+//   };
+// }
+
+// function installTailwind(): Rule {
+//   return (tree: Tree, context: SchematicContext) => {
+//     const packages = ['tailwindcss', 'postcss', 'autoprefixer'];
+//     const tasks: Promise<void>[] = [];
+//
+//     for (const packageName of packages) {
+//       tasks.push(
+//         getLatestVersion(packageName)
+//           .then((latestVersion) => {
+//             addPackageJsonDependency(tree, {
+//               type: NodeDependencyType.Dev,
+//               name: packageName,
+//               version: latestVersion,
+//               overwrite: false,
+//             });
+//             context.logger.info(`✅ Added ${packageName} ${latestVersion} to package.json`);
+//           })
+//           .catch(() => {
+//             context.logger.error(`Impossible de récupérer la dernière version de ${packageName}`);
+//           })
+//       );
+//     }
+//
+//     return Promise.all(tasks).then(() => {
+//       // Ajouter la tâche npm install après l'ajout des dépendances
+//       context.addTask(new NodePackageInstallTask());
+//     });
+//   };
+// }
 
 function installTailwind(): Rule {
   return (tree: Tree, context: SchematicContext) => {
-    // Ajouter les dépendances TailwindCSS, PostCSS et Autoprefixer dans les devDependencies
-    addPackageJsonDependency(tree, {
-      type: NodeDependencyType.Dev,
-      name: 'tailwindcss',
-      version: '^3.0.0', // Remplacer par la version réelle
-    });
+    const packages = [
+      {'name': 'tailwindcss', version: '^3.4.1'},
+      {'name': 'postcss', version: '^8.4.33'},
+      {'name': 'autoprefixer', version: '^10.4.17'}
+    ];
 
-    addPackageJsonDependency(tree, {
-      type: NodeDependencyType.Dev,
-      name: 'postcss',
-      version: '^8.0.0', // Remplacer par la version réelle
-    });
+    for (const pkg of packages) {
+        addPackageJsonDependency(tree, {
+          type: NodeDependencyType.Dev,
+          name: pkg.name,
+          version: pkg.version,
+          overwrite: false,
+        });
+        context.logger.info(`✅ Added ${pkg.name} ${pkg.version} to package.json`);
+    }
 
-    addPackageJsonDependency(tree, {
-      type: NodeDependencyType.Dev,
-      name: 'autoprefixer',
-      version: '^10.0.0', // Remplacer par la version réelle
-    });
-
-    // Ajouter la tâche npm install pour installer les dépendances
     context.addTask(new NodePackageInstallTask());
 
     return tree;
@@ -127,29 +178,28 @@ function installTailwind(): Rule {
 function addTailwindConfigFile(): Rule {
   return (tree: Tree, _context: SchematicContext) => {
     const filePath = 'tailwind.config.js';
-    const fileContent = `
-      /** @type {import('tailwindcss').Config} */
-      module.exports = {
-        content: [
-          "./src/**/*.{html,ts}",
-        ],
-        safelist: [
-          "ms-2",
-          "me-2",
-          "ms-auto",
-          "me-auto",
-          "flex-row-reverse",
-          "flex-wrap",
-          "flex-wrap-reverse",
-          "bg-green-400",
-          "bg-red-400",
-        ],
-        theme: {
-          extend: {},
-        },
-        plugins: [],
-      }
-     `
+    const fileContent = `/** @type {import('tailwindcss').Config} */
+module.exports = {
+  content: [
+    "./src/**/*.{html,ts}",
+  ],
+  safelist: [
+    "ms-2",
+    "me-2",
+    "ms-auto",
+    "me-auto",
+    "flex-row-reverse",
+    "flex-wrap",
+    "flex-wrap-reverse",
+    "bg-green-400",
+    "bg-red-400",
+  ],
+  theme: {
+    extend: {},
+  },
+  plugins: [],
+}
+`;
     // Vérifie si le fichier existe déjà
     if (!tree.exists(filePath)) {
       tree.create(filePath, fileContent);
@@ -169,51 +219,51 @@ function updateStyles(): Rule {
     }
 
     const stylesContent = tree.read(stylesPath)?.toString('utf-8');
-    const mdlStyles = `
-      @use "mdl-angular/scss" as mdl;
-      /* ... Votre CSS utilisant des variables MDL */
+    const mdlStyles = `@use "mdl-angular/scss" as mdl;
+/* ... Votre CSS utilisant des variables MDL */
 
-      /* Ajout des feuilles de styles MDL */
-      @import "mdl-angular/scss/fonts";
-      @import "mdl-angular/scss/material/core";
-      @import "mdl-angular/scss/material/components/autocomplete";
-      @import "mdl-angular/scss/material/components/badge";
-      @import "mdl-angular/scss/material/components/button";
-      @import "mdl-angular/scss/material/components/card";
-      @import "mdl-angular/scss/material/components/chips";
-      @import "mdl-angular/scss/material/components/checkbox";
-      @import "mdl-angular/scss/material/components/dialog";
-      @import "mdl-angular/scss/material/components/expansion";
-      @import "mdl-angular/scss/material/components/table";
-      @import "mdl-angular/scss/material/components/datepicker";
-      @import "mdl-angular/scss/material/components/divider";
-      @import "mdl-angular/scss/material/components/input";
-      @import "mdl-angular/scss/material/components/menu";
-      @import "mdl-angular/scss/material/components/option";
-      @import "mdl-angular/scss/material/components/paginator";
-      @import "mdl-angular/scss/material/components/progress-bar";
-      @import "mdl-angular/scss/material/components/progress-spinner";
-      @import "mdl-angular/scss/material/components/radio";
-      @import "mdl-angular/scss/material/components/select";
-      @import "mdl-angular/scss/material/components/slide-toggle";
-      @import "mdl-angular/scss/material/components/slider";
-      @import "mdl-angular/scss/material/components/sidenav";
-      @import "mdl-angular/scss/material/components/sort";
-      @import "mdl-angular/scss/material/components/tabs";
-      @import "mdl-angular/scss/material/components/toolbar";
-      @import "mdl-angular/scss/material/components/tooltip";
-      @import "mdl-angular/scss/material/components/tree";
-      @import "mdl-angular/scss/material/components/snack-bar";
-      @import "mdl-angular/scss/material/components/form-field";
-      @import "mdl-angular/scss/material/components/stepper";
-      @import "mdl-angular/scss/colored-badge";
-      @import "mdl-angular/scss/highlight";
-      @import "mdl-angular/scss/panels";
+/* Ajout des feuilles de styles MDL */
+@import "mdl-angular/scss/fonts";
+@import "mdl-angular/scss/material/core";
+@import "mdl-angular/scss/material/components/autocomplete";
+@import "mdl-angular/scss/material/components/badge";
+@import "mdl-angular/scss/material/components/button";
+@import "mdl-angular/scss/material/components/card";
+@import "mdl-angular/scss/material/components/chips";
+@import "mdl-angular/scss/material/components/checkbox";
+@import "mdl-angular/scss/material/components/dialog";
+@import "mdl-angular/scss/material/components/expansion";
+@import "mdl-angular/scss/material/components/table";
+@import "mdl-angular/scss/material/components/datepicker";
+@import "mdl-angular/scss/material/components/divider";
+@import "mdl-angular/scss/material/components/input";
+@import "mdl-angular/scss/material/components/menu";
+@import "mdl-angular/scss/material/components/option";
+@import "mdl-angular/scss/material/components/paginator";
+@import "mdl-angular/scss/material/components/progress-bar";
+@import "mdl-angular/scss/material/components/progress-spinner";
+@import "mdl-angular/scss/material/components/radio";
+@import "mdl-angular/scss/material/components/select";
+@import "mdl-angular/scss/material/components/slide-toggle";
+@import "mdl-angular/scss/material/components/slider";
+@import "mdl-angular/scss/material/components/sidenav";
+@import "mdl-angular/scss/material/components/sort";
+@import "mdl-angular/scss/material/components/tabs";
+@import "mdl-angular/scss/material/components/toolbar";
+@import "mdl-angular/scss/material/components/tooltip";
+@import "mdl-angular/scss/material/components/tree";
+@import "mdl-angular/scss/material/components/snack-bar";
+@import "mdl-angular/scss/material/components/form-field";
+@import "mdl-angular/scss/material/components/stepper";
+@import "mdl-angular/scss/colored-badge";
+@import "mdl-angular/scss/highlight";
+@import "mdl-angular/scss/panels";
+@import "mdl-angular/scss/material/icons.scss";
 
-      @tailwind base;
-      @tailwind components;
-      @tailwind utilities;
-      `;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+`;
 
     if (!stylesContent?.includes('@use "mdl-angular/scss"')) {
       tree.overwrite(stylesPath, stylesContent + mdlStyles);
@@ -227,19 +277,18 @@ function updateConfigOrMain(): Rule {
     const configPath = 'src/app/app.config.ts'; // Chemin du fichier app.config.ts
     const mainPath = 'src/main.ts'; // Chemin du fichier main.ts
 
-    const providersCode = `
-        provideAnimations(),
-        {
-          provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
-          useValue: {
-            appearance: "outline",
-            color: "primary",
-            subscriptSizing: "dynamic",
-            floatLabel: "always",
-          },
-        },
-        { provide: MAT_DIALOG_DATA, useValue: {} }
-      `;
+    const providersCode = `provideAnimations(),
+{
+  provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
+  useValue: {
+    appearance: "outline",
+    color: "primary",
+    subscriptSizing: "dynamic",
+    floatLabel: "always",
+  },
+},
+{ provide: MAT_DIALOG_DATA, useValue: {} }
+`;
 
     const importsToAdd = [
       `import { MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldDefaultOptions } from "@angular/material/form-field";`,
@@ -467,9 +516,15 @@ function updateAppComponent(): Rule {
 
           if (importsMatch) {
             // Ajouter VerticalNavComponent à la liste existante
-            const existingImports = importsMatch[1];
+            let existingImports = importsMatch[1]; // Vérifier si la dernière entrée de la liste se termine par une virgule
+            if (existingImports && existingImports.endsWith(',')) {
+              // Supprimer la dernière virgule avant d'ajouter
+              existingImports = existingImports.slice(0, -1).trim();
+            }
             if (!existingImports.includes('VerticalNavComponent')) {
-              const updatedImports = `imports: [${existingImports.trim()}, VerticalNavComponent]`;
+              const updatedImports = existingImports
+                ? `imports: [${existingImports}, VerticalNavComponent]`
+                : `imports: [VerticalNavComponent]`;
               tsContent = tsContent.replace(importsRegex, updatedImports);
               context.logger.info(`Updated imports array in @Component for ${tsPath}`);
             } else {
@@ -502,7 +557,7 @@ function updateAppComponent(): Rule {
 export function ngAdd(): Rule {
   return chain([
     installLibrary(),
-    installAngularMaterial(),
+    // installAngularMaterial(),
     installTailwind(),
     addTailwindConfigFile(),
     updateStyles(),
