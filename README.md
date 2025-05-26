@@ -35,6 +35,16 @@ Un bouton à trois zones pour gérer un niveau de zoom.
 
 Un ensemble de boutons de navigation en fil d'Ariane à utiliser dans votre navbar.
 
+### mdl-angular/date-picker
+
+Une surcharge au mat-date-picker ou mat-date-range-picker qui ajoute :
+
+- des presets de date,
+- un calendrier double optionnel
+
+![Photo mdl-date-picker](./screenshots/mdl-date-picker.png)
+
+
 ### mdl-angular/fullscreen
 
 Un service et une directive pour gérer l'API fullscreen sur n'importe quel élément du DOM.
