@@ -29,7 +29,7 @@ Un component spinner autonome **mdl-spinner**, et une directive **mdlLoading** p
 
 Un bouton à trois zones pour gérer un niveau de zoom.
 
-![Photo mdl-tree-select](./screenshots/mdl-zoom-button.png)
+![Photo mdl-zoom-button](./screenshots/mdl-zoom-button.png)
 
 ### mdl-angular/breadcrumbs
 
@@ -43,14 +43,14 @@ Un service et une directive pour gérer l'API fullscreen sur n'importe quel él�
 
 Un component menu-item récursif pour gérer des menus multi-niveaux sur un panneau à gauche de votre application (via un mat-drawer par exemple).
 
-![Photo mdl-tree-select](./screenshots/mdl-side-menu-item.png)
+![Photo mdl-side-menu-item](./screenshots/mdl-side-menu-item.png)
 
 ### mdl-angular/select
 
 Un component et une directive structurelle pour ajouter un filtre à un mat-select.
 Il faut ajouter un pipe côté applicatif pour agir sur la valeur du filtre (en supprimant/masquant des mat-option).
 
-![Photo mdl-tree-select](./screenshots/mdl-select-filter.png)
+![Photo mdl-select](./screenshots/mdl-select-filter.png)
 
 ### mdl-angular/tree-select
 
@@ -62,7 +62,7 @@ Directive, components et pipes pour transformer un mat-select en tree-select ave
 
 Extension du mat-table pour gérer le mode frontend/backend pour la pagination, ajout d'une toolbar, bouton plein écran, gestion de la sélection des lignes, etc.
 
-![Photo mdl-tree-select](./screenshots/mdl-table2.png)
+![Photo mdl-table2](./screenshots/mdl-table2.png)
 
 ## Dépendances
 
