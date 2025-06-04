@@ -56,6 +56,18 @@ export class AppComponent {
           link: '/home/forms',
           icon: 'list',
         },
+        {
+          text: 'External link',
+          link: 'https://google.com',
+          external: true,
+          children: [
+            {
+              text: 'Maps',
+              link: 'https://google.com/maps',
+              external: true,
+            }
+          ]
+        }
       ],
     },
     // {
