@@ -1,44 +1,80 @@
-<div class="menu-item-content" [ngClass]="{ active: rla.isActive }">
-  <a
-    matRipple
-    [matRippleDisabled]="!menu.ripple"
-    [matRippleColor]="menu.rippleColor ?? '#FFFFFF4F'"
-    [routerLink]="menu.link"
-    [routerLinkActiveOptions]="{
-      paths: menu.link === '/' ? 'exact' : 'subset',
-      queryParams: 'ignored',
-      matrixParams: 'ignored',
-      fragment: 'ignored'
-    }"
-    [ngStyle]="{ 'padding-left.px': !simple ? 10 + 16 * level : 0 }"
-    routerLinkActive="active"
-    #rla="routerLinkActive">
-    @if (menu.icon && menu.icon.startsWith('sncf')) {
-      <mat-icon
-        [svgIcon]="menu.icon"
-        [style]="menu.style">
-      </mat-icon>
+@if (menu.external) {
+  <div class="menu-item-content">
+    <a [href]="menu.link" target="_blank"
+      matRipple
+      [matRippleDisabled]="!menu.ripple"
+      [matRippleColor]="menu.rippleColor ?? '#FFFFFF4F'"
+      [ngStyle]="{ 'padding-left.px': !simple ? 10 + 16 * level : 0 }">
+      @if (menu.icon && menu.icon.startsWith('sncf')) {
+        <mat-icon
+          [svgIcon]="menu.icon"
+          [style]="menu.style">
+        </mat-icon>
+      }
+      @if (menu.icon && !menu.icon.startsWith('sncf')) {
+        <mat-icon [style]="menu.style">{{
+          menu.icon
+        }}</mat-icon>
+      }
+      <div class="content">{{ menu.text }}</div>
+    </a>
+    @if (!simple && menu.children && menu.children!.length > 0) {
+      <button
+        class="menu-item-expand-button"
+        (click)="toggleItem($event)"
+        mat-icon-button
+        [attr.aria-label]="'Ouvrir le menu ' + menu.text">
+        <mat-icon class="expand-icon mat-icon-rtl-mirror" [ngClass]="{ expanded: expanded }">
+          expand_more
+        </mat-icon>
+      </button>
     }
-    @if (menu.icon && !menu.icon.startsWith('sncf')) {
-      <mat-icon [style]="menu.style">{{
-        menu.icon
-      }}</mat-icon>
+  </div>
+}
+@else {
+  <div class="menu-item-content" [ngClass]="{ active: rla.isActive }">
+    <a
+      matRipple
+      [matRippleDisabled]="!menu.ripple"
+      [matRippleColor]="menu.rippleColor ?? '#FFFFFF4F'"
+      [routerLink]="menu.link"
+      [routerLinkActiveOptions]="{
+        paths: menu.link === '/' ? 'exact' : 'subset',
+        queryParams: 'ignored',
+        matrixParams: 'ignored',
+        fragment: 'ignored'
+      }"
+      [ngStyle]="{ 'padding-left.px': !simple ? 10 + 16 * level : 0 }"
+      routerLinkActive="active"
+      #rla="routerLinkActive">
+      @if (menu.icon && menu.icon.startsWith('sncf')) {
+        <mat-icon
+          [svgIcon]="menu.icon"
+          [style]="menu.style">
+        </mat-icon>
+      }
+      @if (menu.icon && !menu.icon.startsWith('sncf')) {
+        <mat-icon [style]="menu.style">{{
+          menu.icon
+        }}</mat-icon>
+      }
+      <div class="content">{{ menu.text }}</div>
+    </a>
+    @if (!simple && menu.children && menu.children!.length > 0) {
+      <button
+        [disabled]="rla.isActive"
+        class="menu-item-expand-button"
+        (click)="toggleItem($event)"
+        mat-icon-button
+        [attr.aria-label]="'Ouvrir le menu ' + menu.text">
+        <mat-icon class="expand-icon mat-icon-rtl-mirror" [ngClass]="{ expanded: expanded }">
+          expand_more
+        </mat-icon>
+      </button>
     }
-    <div class="content">{{ menu.text }}</div>
-  </a>
-  @if (!simple && menu.children && menu.children!.length > 0) {
-    <button
-      [disabled]="rla.isActive"
-      class="menu-item-expand-button"
-      (click)="toggleItem($event)"
-      mat-icon-button
-      [attr.aria-label]="'Ouvrir le menu ' + menu.text">
-      <mat-icon class="expand-icon mat-icon-rtl-mirror" [ngClass]="{ expanded: expanded }">
-        expand_more
-      </mat-icon>
-    </button>
-  }
-</div>
+  </div>
+}
+
 @if (!simple && expanded) {
   @for (menuChild of menu.children ?? []; track menuChild) {
     <mdl-side-menu-item
