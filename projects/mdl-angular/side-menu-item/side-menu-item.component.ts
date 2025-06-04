@@ -52,6 +52,7 @@ export interface SideMenu {
   icon?: string;
   svgIcon?: string;
   link: string;
+  external?: boolean;
   ripple?: boolean;
   rippleColor?: string;
   slot?: string;
