@@ -1,0 +1,37 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "mdl-angular",
+  "projectType": "library",
+  "sourceRoot": "projects/mdl-angular",
+  "prefix": "lib",
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:ng-packagr",
+      "options": {
+        "project": "projects/mdl-angular/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "projects/mdl-angular/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "projects/mdl-angular/tsconfig.lib.json"
+        }
+      },
+      "defaultConfiguration": "production",
+      "outputs": [
+        "{workspaceRoot}/dist/mdl-angular"
+      ]
+    },
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "tsConfig": "projects/mdl-angular/tsconfig.spec.json",
+        "polyfills": [
+          "zone.js",
+          "zone.js/testing"
+        ]
+      }
+    }
+  }
+}
