@@ -3,7 +3,10 @@
 
   "customizations": {
     "vscode": {
-      "extensions": ["streetsidesoftware.code-spell-checker"]
+      "extensions": [
+        "streetsidesoftware.code-spell-checker",
+        "mhutchie.git-graph"
+      ]
     }
   },
   "forwardPorts": [4200]
