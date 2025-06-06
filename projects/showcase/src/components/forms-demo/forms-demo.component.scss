@@ -21,3 +21,52 @@
   z-index: 1;
   top: 0px;
 }
+
+.transilien-line {
+  aspect-ratio: 1;
+  width: 1em;
+  background-size: cover;
+
+  &.A {
+    background-image: url(../../assets/Transilien_Lines/RER_A.svg);
+  }
+  &.B {
+    background-image: url(../../assets/Transilien_Lines/RER_B.svg);
+  }
+  &.C {
+    background-image: url(../../assets/Transilien_Lines/RER_C.svg);
+  }
+  &.D {
+    background-image: url(../../assets/Transilien_Lines/RER_D.svg);
+  }
+  &.E {
+    background-image: url(../../assets/Transilien_Lines/RER_E.svg);
+  }
+  &.S {
+    background-image: url(../../assets/Transilien_Lines/RER_S.svg);
+  }
+  &.H {
+    background-image: url(../../assets/Transilien_Lines/Train_H.svg);
+  }
+  &.J {
+    background-image: url(../../assets/Transilien_Lines/Train_J.svg);
+  }
+  &.K {
+    background-image: url(../../assets/Transilien_Lines/Train_K.svg);
+  }
+  &.L {
+    background-image: url(../../assets/Transilien_Lines/Train_L.svg);
+  }
+  &.N {
+    background-image: url(../../assets/Transilien_Lines/Train_N.svg);
+  }
+  &.R {
+    background-image: url(../../assets/Transilien_Lines/Train_R.svg);
+  }
+  &.U {
+    background-image: url(../../assets/Transilien_Lines/Train_U.svg);
+  }
+  &.V {
+    background-image: url(../../assets/Transilien_Lines/Train_V.svg);
+  }
+}
