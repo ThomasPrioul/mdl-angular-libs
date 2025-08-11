@@ -8,7 +8,7 @@ import { FlattenMenusPipe } from '../pipes/flatten-menus.pipe';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { appConfig } from './app.config';
 import { HeaderComponent } from '../components/header/header.component';
-import packageJson from 'mdl-angular/package.json';
+import {version} from 'mdl-angular/package.json';
 import { DarkModeService } from 'mdl-angular/dark';
 
 @Component({
@@ -76,7 +76,7 @@ export class AppComponent {
     // },
   ];
   protected simpleMenu: boolean = false;
-  protected version = packageJson.version;
+  protected version = version;
 
   protected changeEnv() {
     if (++this.appEnvIndex >= appEnv.length) this.appEnvIndex = 0;
