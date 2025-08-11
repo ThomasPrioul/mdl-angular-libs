@@ -1,10 +1,11 @@
-import { Directive, OnDestroy, Optional } from "@angular/core";
+import { Directive, input, OnDestroy, Optional } from "@angular/core";
 import { MatCheckbox } from "@angular/material/checkbox";
 import { MatSelect } from "@angular/material/select";
 
-import { Subject, debounceTime, takeUntil } from "rxjs";
+import { Subject, debounceTime, merge, takeUntil } from "rxjs";
 
 import { MdlTreeSelectDirective } from "mdl-angular/tree-select";
+import { toObservable } from '@angular/core/rxjs-interop';
 
 @Directive({
   standalone: true,
@@ -14,12 +15,14 @@ export class MdlSelectGlobalCheckboxDirective implements OnDestroy {
   private _destroy = new Subject<void>();
   private nbSelected: number = 0;
 
+  public withFilter= input<boolean>(false);
+
   constructor(
     private select: MatSelect,
     private checkbox: MatCheckbox,
     @Optional() private treeSelect: MdlTreeSelectDirective<any, any> | null
   ) {
-    this.select._selectionModel.changed
+    merge(toObservable(this.withFilter), this.select._selectionModel.changed)
       .pipe(takeUntil(this._destroy), debounceTime(50))
       .subscribe(() => {
         this.nbSelected = this.treeSelect
@@ -40,7 +43,7 @@ export class MdlSelectGlobalCheckboxDirective implements OnDestroy {
     this.checkbox.change.pipe(takeUntil(this._destroy)).subscribe((evt) => {
       const items =
         this.treeSelect?.treeOptions
-          .filter((item) => !item.item.children && !item.option.disabled)
+          .filter((item) => !item.item.children && (this.withFilter() ? !item.option.disabled : true))
           .map((item) => item.option) ?? this.select.options.filter(opt => !opt.disabled);
 
       if (!evt.checked) {

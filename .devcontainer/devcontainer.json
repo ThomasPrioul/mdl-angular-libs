@@ -1,13 +1,57 @@
 {
-  "image": "mcr.microsoft.com/devcontainers/typescript-node",
-
+  "name": "Old mdl-angular lib",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:1-20-bookworm",
+  // Features to add to the dev container. More info: https://containers.dev/features.
+  // "features": {},	
+  "features": {
+    "ghcr.io/devcontainers-extra/features/nx-npm:1": {}
+  },
+  "containerEnv": {
+    "http_proxy": "${localEnv:http_proxy}",
+    "HTTP_PROXY": "${localEnv:http_proxy}",
+    "https_proxy": "${localEnv:https_proxy}",
+    "HTTPS_PROXY": "${localEnv:https_proxy}",
+    "no_proxy": "${localEnv:no_proxy}",
+    "NO_PROXY": "${localEnv:no_proxy}"
+  },
+  "remoteEnv": {
+    "http_proxy": "${localEnv:http_proxy}",
+    "HTTP_PROXY": "${localEnv:http_proxy}",
+    "https_proxy": "${localEnv:https_proxy}",
+    "HTTPS_PROXY": "${localEnv:https_proxy}",
+    "no_proxy": "${localEnv:no_proxy}",
+    "NO_PROXY": "${localEnv:no_proxy}"
+  },
+  "runArgs": [
+    "--network=host"
+  ],
+  "otherPortsAttributes": {
+    "onAutoForward": "ignore"
+  },
   "customizations": {
     "vscode": {
+      "settings": {
+        "remote.autoForwardPorts": false,
+        "remote.forwardOnOpen": false
+      },
       "extensions": [
+        "-esbenp.prettier-vscode",
+        "-cyrilletuzi.angular-schematics",
+        "aljazsim.tsco",
+        "angular.ng-template",
+        "bradlc.vscode-tailwindcss",
+        "dbaeumer.vscode-eslint",
+        "ecmel.vscode-html-css",
+        "mhutchie.git-graph",
+        "nrwl.angular-console",
+        "pucelle.vscode-css-navigation",
         "streetsidesoftware.code-spell-checker",
-        "mhutchie.git-graph"
+        "streetsidesoftware.code-spell-checker-french",
+        "stylelint.vscode-stylelint"
       ]
     }
   },
-  "forwardPorts": [4200]
+  "forwardPorts": [
+    4200
+  ]
 }

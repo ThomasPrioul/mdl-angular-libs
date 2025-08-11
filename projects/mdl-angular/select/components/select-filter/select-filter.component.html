@@ -1,5 +1,5 @@
 @if (withCheckAll) {
-<mat-checkbox color="primary" mdlSelectGlobalCheckbox></mat-checkbox>
+<mat-checkbox color="primary" mdlSelectGlobalCheckbox [withFilter]="!!searchInput.value"></mat-checkbox>
 }
 <mat-form-field class="select-filter-input small">
   <mat-icon matIconPrefix>search</mat-icon>
