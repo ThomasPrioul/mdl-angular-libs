@@ -1,9 +1,16 @@
 import { NgClass, NgStyle } from '@angular/common';
-import { ChangeDetectionStrategy, Component, HostBinding, Input, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  HostBinding,
+  inject,
+  Input,
+  ViewChild,
+} from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatRippleModule } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
-import { RouterLinkActive, RouterLink } from '@angular/router';
+import { RouterLinkActive, RouterLink, Router } from '@angular/router';
 
 @Component({
   selector: 'mdl-side-menu-item',
@@ -24,6 +31,10 @@ import { RouterLinkActive, RouterLink } from '@angular/router';
 export class MdlSideMenuItemComponent {
   @ViewChild(RouterLinkActive) private rla?: RouterLinkActive;
 
+  /** Collapse the menu when navigating to another route */
+  @Input()
+  public collapseOnNavigationOut = false;
+
   @Input()
   public level: number = 0;
   @Input()
@@ -38,6 +49,12 @@ export class MdlSideMenuItemComponent {
 
   protected get expanded() {
     return this.menu.expanded || (this.rla && this.rla.isActive);
+  }
+
+  protected isActiveChange(active: boolean) {
+    if (this.collapseOnNavigationOut && !active) {
+      this.menu.expanded = false;
+    }
   }
 
   protected toggleItem(event: MouseEvent) {

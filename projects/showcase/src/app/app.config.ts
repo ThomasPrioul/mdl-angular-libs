@@ -16,6 +16,7 @@ import {
 import { Settings } from 'luxon';
 import { MatDatepickerIntl } from '@angular/material/datepicker';
 import { provideHttpClient } from '@angular/common/http';
+import { OtherComponent } from '../pages/other/other.component';
 
 function frenchRangeLabel(page: number, pageSize: number, length: number) {
   if (length == 0 || pageSize == 0) return `0 sur ${length}`;
@@ -90,6 +91,10 @@ const routes: Route[] = [
         redirectTo: 'table2',
       },
     ],
+  },
+  {
+    path: 'other',
+    component: OtherComponent,
   },
   {
     path: '',
