@@ -242,4 +242,17 @@
       </button>
     </div>
   </mat-expansion-panel>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title> Lignes RER </mat-panel-title>
+      <mat-panel-description> Test </mat-panel-description>
+    </mat-expansion-panel-header>
+    <div class="flex gap-2">
+      <ul>
+        @for (line of transilienLines; track line) {
+          <li class="transilien-line" [class]="line"></li>
+        }
+      </ul>
+    </div>
+  </mat-expansion-panel>
 </mat-accordion>

@@ -65,10 +65,14 @@ export class AppComponent {
               text: 'Maps',
               link: 'https://google.com/maps',
               external: true,
-            }
-          ]
-        }
+            },
+          ],
+        },
       ],
+    },
+    {
+      text: 'Other',
+      link: '/other',
     },
     // {
     //   text: 'Paramètres',

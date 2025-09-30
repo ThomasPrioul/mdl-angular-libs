@@ -168,6 +168,21 @@ const today = DateTime.now().startOf('day');
   ],
 })
 export class FormsDemoComponent {
+  protected readonly transilienLines = [
+    "A",
+    "B",
+    "C",
+    "D",
+    "E",
+    "H",
+    "J",
+    "K",
+    "L",
+    "N",
+    "U",
+    "R",
+  ];
+
   protected readonly dateForm = new FormGroup(
     {
       start: new FormControl<DateTime | null>(null),

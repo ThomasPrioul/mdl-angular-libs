@@ -1,20 +1,17 @@
 @if (menu.external) {
   <div class="menu-item-content">
-    <a [href]="menu.link" target="_blank"
+    <a
+      [href]="menu.link"
+      target="_blank"
       matRipple
       [matRippleDisabled]="!menu.ripple"
       [matRippleColor]="menu.rippleColor ?? '#FFFFFF4F'"
       [ngStyle]="{ 'padding-left.px': !simple ? 10 + 16 * level : 0 }">
-      @if (menu.icon && menu.icon.startsWith('sncf')) {
-        <mat-icon
-          [svgIcon]="menu.icon"
-          [style]="menu.style">
-        </mat-icon>
+      @if (menu.icon && menu.icon.startsWith("sncf")) {
+        <mat-icon [svgIcon]="menu.icon" [style]="menu.style"> </mat-icon>
       }
-      @if (menu.icon && !menu.icon.startsWith('sncf')) {
-        <mat-icon [style]="menu.style">{{
-          menu.icon
-        }}</mat-icon>
+      @if (menu.icon && !menu.icon.startsWith("sncf")) {
+        <mat-icon [style]="menu.style">{{ menu.icon }}</mat-icon>
       }
       <div class="content">{{ menu.text }}</div>
     </a>
@@ -30,33 +27,28 @@
       </button>
     }
   </div>
-}
-@else {
+} @else {
   <div class="menu-item-content" [ngClass]="{ active: rla.isActive }">
     <a
       matRipple
       [matRippleDisabled]="!menu.ripple"
       [matRippleColor]="menu.rippleColor ?? '#FFFFFF4F'"
       [routerLink]="menu.link"
+      (isActiveChange)="isActiveChange($event)"
       [routerLinkActiveOptions]="{
         paths: menu.link === '/' ? 'exact' : 'subset',
         queryParams: 'ignored',
         matrixParams: 'ignored',
-        fragment: 'ignored'
+        fragment: 'ignored',
       }"
       [ngStyle]="{ 'padding-left.px': !simple ? 10 + 16 * level : 0 }"
       routerLinkActive="active"
       #rla="routerLinkActive">
-      @if (menu.icon && menu.icon.startsWith('sncf')) {
-        <mat-icon
-          [svgIcon]="menu.icon"
-          [style]="menu.style">
-        </mat-icon>
+      @if (menu.icon && menu.icon.startsWith("sncf")) {
+        <mat-icon [svgIcon]="menu.icon" [style]="menu.style"> </mat-icon>
       }
-      @if (menu.icon && !menu.icon.startsWith('sncf')) {
-        <mat-icon [style]="menu.style">{{
-          menu.icon
-        }}</mat-icon>
+      @if (menu.icon && !menu.icon.startsWith("sncf")) {
+        <mat-icon [style]="menu.style">{{ menu.icon }}</mat-icon>
       }
       <div class="content">{{ menu.text }}</div>
     </a>
@@ -77,9 +69,6 @@
 
 @if (!simple && expanded) {
   @for (menuChild of menu.children ?? []; track menuChild) {
-    <mdl-side-menu-item
-      class="child"
-      [level]="level + 1"
-    [menu]="menuChild"></mdl-side-menu-item>
+    <mdl-side-menu-item class="child" [level]="level + 1" [menu]="menuChild"></mdl-side-menu-item>
   }
 }
