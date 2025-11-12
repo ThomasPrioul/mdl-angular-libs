@@ -34,7 +34,7 @@ import {
   MatTableModule,
 } from '@angular/material/table';
 import { MatSort, MatSortModule, Sort, SortDirection } from '@angular/material/sort';
-import { SelectionModel } from '@angular/cdk/collections';
+import { SelectionChange, SelectionModel } from '@angular/cdk/collections';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
@@ -243,7 +243,7 @@ export class MdlTableComponent<T>
   }
 
   @Output()
-  public get selectionChanged() {
+  public get selectionChanged(): Subject<SelectionChange<T>> {
     return this.selectionModel.changed;
   }
 
