@@ -121,14 +121,14 @@ export class MdlSelectFilterComponent implements AfterViewInit, OnInit, OnDestro
       this.select?._keyManager.setActiveItem(null!);
     };
 
-    this.sub = this.select._panelDoneAnimatingStream.subscribe((done) => {
-      // Pas géré dans select.close sinon crée un gros lag à cause d'un redraw
-      if (done === 'void') {
-        this.input.value = '';
-      } else {
-        if (this.select?._keyManager.activeItemIndex === -1) this.input.focus();
-      }
+    this.sub = this.select._openedStream.subscribe((done) => {
+      if (this.select?._keyManager.activeItemIndex === -1) this.input.focus();
     });
+    
+    // Pas géré dans select.close sinon crée un gros lag à cause d'un redraw
+    this.sub.add(this.select._closedStream.subscribe(() => {
+      this.input.value = '';
+    }));
   }
 
   public ngAfterViewInit(): void {

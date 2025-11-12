@@ -7,14 +7,14 @@
   .mat-drawer-content {
     padding: 1rem;
     padding-top: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
 
     @include responsive.big-screen() {
       padding: 2.5rem;
       padding-top: 1.5rem;
     }
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
   }
 
   .mat-drawer {

@@ -17,6 +17,8 @@ import { Settings } from 'luxon';
 import { MatDatepickerIntl } from '@angular/material/datepicker';
 import { provideHttpClient } from '@angular/common/http';
 import { OtherComponent } from '../pages/other/other.component';
+import { MAT_SELECT_CONFIG } from '@angular/material/select';
+import { MAT_BUTTON_TOGGLE_DEFAULT_OPTIONS, MatButtonToggleDefaultOptions } from '@angular/material/button-toggle';
 
 function frenchRangeLabel(page: number, pageSize: number, length: number) {
   if (length == 0 || pageSize == 0) return `0 sur ${length}`;
@@ -130,5 +132,12 @@ export const appConfig: ApplicationConfig = {
         floatLabel: 'always',
       },
     },
+    {
+      provide: MAT_BUTTON_TOGGLE_DEFAULT_OPTIONS ,
+      useValue: <MatButtonToggleDefaultOptions>{
+        hideMultipleSelectionIndicator: true,
+        hideSingleSelectionIndicator: true,
+      }
+    }
   ],
 };
