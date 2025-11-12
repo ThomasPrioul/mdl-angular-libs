@@ -29,7 +29,7 @@
 }
 
 :root {
-  --mdc-shape-small: 8px;
+  --mat-shape-small: 8px;
   // --mat-form-field-container-text-weight: 400;
 }
 
@@ -44,7 +44,7 @@ textarea::placeholder {
 }
 
 .mat-mdc-form-field {
-  line-height: var(--mdc-typography-body1-line-height, 24px);
+  line-height: var(--mat-typography-body1-line-height, 24px);
 
   /* Outline hack */
   &.mat-mdc-form-field-label-always-float.mat-form-field-appearance-outline {
@@ -82,8 +82,8 @@ textarea::placeholder {
 
   /* 8px round corners */
   .mat-mdc-text-field-wrapper.mdc-text-field {
-    border-radius: var(--mdc-shape-small);
-    // border-bottom-right-radius: var(--mdc-shape-small);
+    border-radius: var(--mat-shape-small);
+    // border-bottom-right-radius: var(--mat-shape-small);
 
     &.mdc-text-field--disabled {
       cursor: not-allowed;
@@ -98,16 +98,16 @@ textarea::placeholder {
       .mdc-text-field__input,
       .mat-mdc-form-field-icon-prefix,
       .mat-mdc-form-field-icon-suffix {
-        --mat-icon-color: var(--mdc-outlined-text-field-input-text-color);
+        --mat-icon-color: var(--mat-form-field-outlined-input-text-color);
 
         .dark &,
         .light .dark & {
-          --mdc-outlined-text-field-input-text-color: #{colors.$cool-gray-1};
+          --mat-form-field-outlined-input-text-color: #{colors.$cool-gray-1};
         }
 
         .light &,
         .dark .light & {
-          --mdc-outlined-text-field-input-text-color: #{colors.$carbon};
+          --mat-form-field-outlined-input-text-color: #{colors.$carbon};
         }
       }
 
@@ -124,8 +124,8 @@ textarea::placeholder {
 
       .mat-mdc-form-field-icon-prefix,
       .mat-mdc-form-field-icon-suffix {
-        --mat-icon-color: var(--mdc-outlined-text-field-disabled-input-text-color);
-        color: var(--mdc-outlined-text-field-disabled-input-text-color);
+        --mat-icon-color: var(--mat-form-field-outlined-disabled-input-text-color);
+        color: var(--mat-form-field-outlined-disabled-input-text-color);
       }
 
       .mdc-floating-label--required:not(.mdc-floating-label--hide-required-marker)::after {
@@ -161,7 +161,7 @@ textarea::placeholder {
 
     /* Outlined field */
     &.mdc-text-field--outlined {
-      --mdc-outlined-text-field-container-shape: 8px;
+      --mat-form-field-outlined-container-shape: 8px;
 
       .dark &,
       .light .dark & {
@@ -202,14 +202,14 @@ textarea::placeholder {
           .mdc-notched-outline__leading,
           .mdc-notched-outline__notch,
           .mdc-notched-outline__trailing {
-            border-color: var(--mdc-theme-primary, #{colors.$blue});
+            border-color: var(--mat-theme-primary, #{colors.$blue});
           }
         }
         &.mdc-text-field--invalid.mdc-notched-outline {
           .mdc-notched-outline__leading,
           .mdc-notched-outline__notch,
           .mdc-notched-outline__trailing {
-            border-color: var(--mdc-theme-error, #{colors.$red});
+            border-color: var(--mat-theme-error, #{colors.$red});
           }
         }
       }
@@ -229,7 +229,7 @@ textarea::placeholder {
 
   // &.icon-fix {
   //   > .mdc-text-field {
-  //     padding-left: max(16px, calc(var(--mdc-shape-small, 4px) + 4px));
+  //     padding-left: max(16px, calc(var(--mat-shape-small, 4px) + 4px));
   //   }
   // }
 }
@@ -273,7 +273,7 @@ textarea::placeholder {
 .mdl-label {
   display: inline-block;
 
-  color: var(--mdc-outlined-text-field-label-text-color);
+  color: var(--mat-form-field-outlined-label-text-color);
   //color: rgba(0, 0, 0, 0.6); //colors.$cool-gray-9;
   font-weight: 500;
   margin-bottom: vars.$text-padding;

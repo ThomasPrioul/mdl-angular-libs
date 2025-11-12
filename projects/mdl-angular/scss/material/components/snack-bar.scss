@@ -17,16 +17,16 @@
 }
 
 .mat-mdc-snack-bar-container.mdl {
-  --mdc-snackbar-container-color: #{colors.$cool-gray-11};
-  --mdc-snackbar-container-shape: 8px;
-  --mdc-snackbar-supporting-text-line-height: 22px;
-  --mdc-snackbar-supporting-text-weight: 500;
-  --mdc-snackbar-supporting-text-color: white;
+  --mat-snackbar-container-color: #{colors.$cool-gray-11};
+  --mat-snackbar-container-shape: 8px;
+  --mat-snackbar-supporting-text-line-height: 22px;
+  --mat-snackbar-supporting-text-weight: 500;
+  --mat-snackbar-supporting-text-color: white;
   --mat-snack-bar-button-color: white;
   --progress-color: #{colors.$carbon};
 
-  background: var(--mdc-snackbar-container-color);
-  border-radius: var(--mdc-snackbar-container-shape);
+  background: var(--mat-snackbar-container-color);
+  border-radius: var(--mat-snackbar-container-shape);
 
   &[class^="duration"],
   &[class*=" duration"] {
@@ -53,7 +53,7 @@
 
   &.info {
     /* Syntaxe spéciale car utilisation d'une variable CSS */
-    --mdc-snackbar-container-color: #{colors.$primary};
+    --mat-snackbar-container-color: #{colors.$primary};
     --progress-color: #{colors.$strong-blue};
   }
 

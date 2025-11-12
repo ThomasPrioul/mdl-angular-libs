@@ -16,7 +16,7 @@ import { Subscription } from 'rxjs';
 export class MdlAutocompleteStayOpenDirective implements AfterViewInit, OnDestroy {
   private _resizeOnOptionSelected: boolean = false;
   private defaultClose!: () => void;
-  private defaultHandleKeyDown!: (event: KeyboardEvent) => void;
+  private defaultHandleKeyDown!: (event: Event) => void;
   private defaultResetActiveItem!: () => void;
   private defaultUpdatePanelState!: () => void;
   private skipOptionActivatedCallback = false;

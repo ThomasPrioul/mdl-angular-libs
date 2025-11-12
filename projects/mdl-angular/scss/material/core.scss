@@ -3,9 +3,12 @@
 @use "theme";
 @use "@angular/material" as mat;
 
-@include mat.core();
-@include mat.core-density(theme.$dark-theme);
-@include mat.core-typography(theme.$dark-theme);
+@include mat.elevation-classes();
+@include mat.app-background();
+@include mat.elevation-classes();
+@include mat.app-background();
+@include mat.elevation-classes();
+@include mat.app-background();
 // @include mat.core-theme(theme.$light-theme);
 // @include mat.strong-focus-indicators();
 // @include mat.strong-focus-indicators-theme(theme.$light-theme);
@@ -13,12 +16,14 @@
 
 .dark,
 .light .dark {
-  @include mat.core-color(theme.$dark-theme);
+  @include mat.elevation-classes();
+  @include mat.app-background();
 }
 
 .light,
 .dark .light {
-  @include mat.core-color(theme.$light-theme);
+  @include mat.elevation-classes();
+  @include mat.app-background();
 }
 
 .mat-mdc-menu-panel {
