@@ -3,12 +3,11 @@
 @use "theme";
 @use "@angular/material" as mat;
 
-@include mat.core();
+@include mat.app-background();
+@include mat.core-base(theme.$dark-theme);
 @include mat.core-density(theme.$dark-theme);
 @include mat.core-typography(theme.$dark-theme);
-// @include mat.core-theme(theme.$light-theme);
-// @include mat.strong-focus-indicators();
-// @include mat.strong-focus-indicators-theme(theme.$light-theme);
+@include mat.core-overrides();
 @include mat.elevation-classes();
 @include mat.typography-hierarchy(theme.$sncf-typography);
 
@@ -32,4 +31,9 @@ div.mat-mdc-autocomplete-panel {
 
 .mat-mdc-option .mdc-list-item__primary-text {
   flex-basis: 100%;
+}
+
+body {
+  background: var(--mat-sys-surface);
+  color: var(--mat-sys-on-surface);
 }

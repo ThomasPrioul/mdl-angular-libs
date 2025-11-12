@@ -11,7 +11,7 @@
   @include mat.chips-color(theme.$dark-theme);
 
   .mat-mdc-form-field .mat-mdc-chip-grid .mat-mdc-standard-chip {
-    --mdc-chip-elevated-container-color: #{colors.$cool-gray-9};
+    --mat-chip-elevated-container-color: #{colors.$cool-gray-9};
   }
 }
 

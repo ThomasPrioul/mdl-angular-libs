@@ -16,25 +16,25 @@
 }
 
 button.mdc-switch {
-  --mdc-switch-track-width: 48px;
-  --mdc-switch-track-height: 24px;
-  --mdc-switch-track-shape: 12px;
-  --mat-switch-unselected-handle-size: 14px !important;
-  --mat-switch-selected-handle-size: 14px !important;
-  --mat-switch-pressed-handle-size: 14px !important;
-  --mat-switch-with-icon-handle-size: 14px !important;
+  --mat-slide-toggle-track-width: 48px;
+  --mat-slide-toggle-track-height: 24px;
+  --mat-slide-toggle-track-shape: 12px;
+  --mat-slide-toggle-unselected-handle-size: 14px !important;
+  --mat-slide-toggle-selected-handle-size: 14px !important;
+  --mat-slide-toggle-pressed-handle-size: 14px !important;
+  --mat-slide-toggle-with-icon-handle-size: 14px !important;
 
-  --mdc-switch-selected-icon-color: none;
+  --mat-slide-toggle-selected-icon-color: none;
 
-  --mdc-switch-handle-width: 14px;
-  --mdc-switch-handle-shape: 8px;
-  --mdc-switch-handle-elevation-shadow: none;
-  --mdc-switch-handle-height: 14px;
-  --mdc-switch-handle-surface-color: none;
-  --mdc-switch-selected-handle-color: white;
-  --mdc-switch-selected-hover-handle-color: white;
-  --mdc-switch-selected-pressed-handle-color: white;
-  --mdc-switch-selected-focus-handle-color: white;
+  --mat-slide-toggle-handle-width: 14px;
+  --mat-slide-toggle-handle-shape: 8px;
+  --mat-slide-toggle-handle-elevation-shadow: none;
+  --mat-slide-toggle-handle-height: 14px;
+  --mat-slide-toggle-handle-surface-color: none;
+  --mat-slide-toggle-selected-handle-color: white;
+  --mat-slide-toggle-selected-hover-handle-color: white;
+  --mat-slide-toggle-selected-pressed-handle-color: white;
+  --mat-slide-toggle-selected-focus-handle-color: white;
 
   .mdc-switch__shadow,
   .mdc-switch__icons {

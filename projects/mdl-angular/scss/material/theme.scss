@@ -43,6 +43,17 @@ $dark-theme: (
     is-dark: true,
     foreground: colors.$dark-theme-foreground-palette,
     background: colors.$dark-theme-background-palette,
-  ),
-  typography: $sncf-typography,
-);
+    ),
+    typography: $sncf-typography,
+    );
+
+// $light-theme: mat-core.m2-theme($light-theme-dict);
+// $dark-theme: mat-core.m2-theme($dark-theme-dict);
+
+.light, .dark .light {
+  @include mat.m2-theme($light-theme);
+}
+
+.dark, .light .dark{
+  @include mat.m2-theme($dark-theme);
+}

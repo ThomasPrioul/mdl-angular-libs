@@ -2,7 +2,7 @@
   display: flex;
   position: sticky;
   z-index: 1;
-  background: var(--mat-select-panel-background-color);
+  background: var(--mat-select-panel-background-color, var(--mat-sys-surface-container));
   padding: 0.5rem;
   top: 0px;
   gap: 0.5rem;

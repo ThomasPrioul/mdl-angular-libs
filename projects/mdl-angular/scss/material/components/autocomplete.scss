@@ -4,6 +4,7 @@
 @include mat.autocomplete-base(theme.$light-theme);
 @include mat.autocomplete-density(theme.$light-theme);
 @include mat.autocomplete-typography(theme.$light-theme);
+@include mat.autocomplete-overrides();
 
 .dark,
 .light .dark {

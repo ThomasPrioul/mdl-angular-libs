@@ -8,7 +8,7 @@ mdl-date-picker {
   position: relative;
 
   .mat-mdc-icon-button:disabled {
-    opacity: var(--mdc-icon-button-disabled-icon-opacity) !important;
+    opacity: var(--mat-icon-button-disabled-icon-opacity) !important;
   }
 
   > .mat-calendar {
@@ -67,9 +67,9 @@ mdl-date-picker {
       border-right: 1px solid var(--mat-divider-color);
 
       .mat-mdc-list-base {
-        --mdc-list-list-item-label-text-size: 12px !important;
-        --mdc-list-list-item-label-text-line-height: 12px !important;
-        --mdc-list-list-item-one-line-container-height: 36px !important;
+        --mat-list-list-item-label-text-size: 12px !important;
+        --mat-list-list-item-label-text-line-height: 12px !important;
+        --mat-list-list-item-one-line-container-height: 36px !important;
 
         .mdc-list-item {
           padding-left: 16px;

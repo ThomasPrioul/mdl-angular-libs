@@ -1,7 +1,7 @@
 @use "../theme";
 @use "@angular/material" as mat;
 
-@include mat.toolbar-base(theme.$light-theme);
+@include mat.toolbar-theme(theme.$light-theme);
 @include mat.toolbar-density(theme.$light-theme);
 @include mat.toolbar-typography(theme.$light-theme);
 

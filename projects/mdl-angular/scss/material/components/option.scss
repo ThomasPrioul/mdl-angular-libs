@@ -4,6 +4,9 @@
 
 // @include mat.option-theme(theme.$light-theme);
 
+@include mat.option-base(theme.$dark-theme);
+@include mat.option-overrides();
+
 .dark,
 .light .dark {
   @include mat.option-color(theme.$dark-theme);
@@ -15,7 +18,7 @@
 }
 
 .mat-mdc-option {
-  --mdc-theme-text-primary-on-background: #{colors.$cool-gray-11};
+  --mat-theme-text-primary-on-background: #{colors.$cool-gray-11};
 
   .light & {
     --mat-option-selected-state-label-text-color: #{colors.$carbon};
@@ -26,11 +29,11 @@
   }
 
   --mat-option-label-text-weight: 400;
-  border-radius: var(--mdc-shape-small);
-  margin: 0 var(--mdc-shape-small);
+  border-radius: var(--mat-shape-small);
+  margin: 0 var(--mat-shape-small);
   // min-height: 48px !important;
-  // padding-top: var(--mdc-shape-small) !important;
-  // padding-bottom: var(--mdc-shape-small) !important;
+  // padding-top: var(--mat-shape-small) !important;
+  // padding-bottom: var(--mat-shape-small) !important;
   // background: white;
 
   &.mdc-list-item--selected {

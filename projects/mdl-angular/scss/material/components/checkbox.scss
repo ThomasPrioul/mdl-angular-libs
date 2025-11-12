@@ -4,12 +4,13 @@
 @include mat.checkbox-base(theme.$light-theme);
 @include mat.checkbox-density(theme.$light-theme);
 @include mat.checkbox-typography(theme.$light-theme);
+@include mat.checkbox-overrides();
 
 .dark,
 .light .dark {
   @include mat.checkbox-color(theme.$dark-theme);
   * {
-    --mdc-checkbox-selected-checkmark-color: #fff !important; //Using mat.get-color-from-palette() doesn't work for me so I hardcoded the color
+    --mat-checkbox-selected-checkmark-color: #fff !important; //Using mat.get-color-from-palette() doesn't work for me so I hardcoded the color
   }
 
   .mat-primary {
