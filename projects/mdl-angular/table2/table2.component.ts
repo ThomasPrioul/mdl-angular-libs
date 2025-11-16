@@ -23,6 +23,7 @@ import {
   SimpleChanges,
   AfterViewChecked,
   signal,
+  output,
 } from '@angular/core';
 import {
   MatColumnDef,
@@ -78,6 +79,15 @@ export type ShouldRequestBackendType = {
   orderBy: string;
   orderDirection: SortDirection;
   searchValue: string;
+};
+export type ActionBouttonsType = {
+  id: number;
+  label: string;
+  icon: string;
+  matTooltip: string;
+  color: 'primary' | 'accent' | 'warn' | undefined;
+  disabledCondition: () => boolean;
+  // callback: () => void;
 };
 
 @Component({
@@ -142,6 +152,8 @@ export class MdlTableComponent<T>
   private _selection = false;
   private requiresPaginationUpdate: boolean = false;
 
+  private _boutonsAction: ActionBouttonsType[] = [];
+
   @ViewChild(SearchbarComponent)
   protected readonly searchbar!: SearchbarComponent;
 
@@ -170,6 +182,7 @@ export class MdlTableComponent<T>
   @Output() public filterChange = new EventEmitter<string>();
   @Output() public shouldRefresh = new EventEmitter<Date>();
   @Output() public shouldRequestBackend = new EventEmitter<ShouldRequestBackendType>();
+  @Output() public actionFired = new EventEmitter<number>();
   @ViewChild(MatPaginator) public paginator?: MatPaginator;
   @ViewChild(MatTable, { static: true }) public table!: MatTable<T>;
 
@@ -190,6 +203,11 @@ export class MdlTableComponent<T>
   @Input()
   public get actionButtons(): BooleanInput {
     return this._actionButtons;
+  }
+
+  @Input()
+  public get boutonsAction(): ActionBouttonsType[] {
+    return this._boutonsAction;
   }
 
   @Input()
@@ -245,6 +263,10 @@ export class MdlTableComponent<T>
   @Output()
   public get selectionChanged(): Subject<SelectionChange<T>> {
     return this.selectionModel.changed;
+  }
+
+  public set boutonsAction(value: ActionBouttonsType[]) {
+    this._boutonsAction = value;
   }
 
   public set actionButtons(value: BooleanInput) {
@@ -389,6 +411,11 @@ export class MdlTableComponent<T>
 
   public refresh() {
     this.shouldRefresh.emit(new Date());
+  }
+
+  public emitAction(id: number) {
+    console.log(`Emit action: ${id}`);
+    this.actionFired.emit(id);
   }
 
   /** Resets page index to 0 and forces page changed event to be triggered.
