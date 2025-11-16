@@ -1,7 +1,15 @@
 import { AsyncPipe, JsonPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, ElementRef, ViewChild, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild,
+  signal,
+} from '@angular/core';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import {
+  ActionBouttonsType,
   ColumnDisplayInfo,
   MdlTableComponent,
   PaginationType,
@@ -48,7 +56,7 @@ import { LuxonModule } from 'luxon-angular';
   styleUrls: ['./table2-demo.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class Table2DemoComponent {
+export class Table2DemoComponent implements OnInit {
   private _pagination: PaginationType = 'backend';
 
   protected DateTime = DateTime;
@@ -75,6 +83,25 @@ export class Table2DemoComponent {
   protected selectedItems = signal<Serie[]>([]);
   protected totalItems = signal<number | undefined>(undefined);
 
+  protected btnsAction: ActionBouttonsType[] = [
+    {
+      id: 1,
+      label: '',
+      icon: 'science',
+      matTooltip: 'Bouton de test Serge',
+      color: 'primary',
+      disabledCondition: () => this.totalItems() === 43,
+    },
+    {
+      id: 2,
+      label: 'CSV',
+      icon: 'content_paste_go',
+      matTooltip: 'Exporter les données vers Excel',
+      color: 'primary',
+      disabledCondition: () => this.totalItems() === 0,
+    },
+  ];
+
   @ViewChild(MdlTableComponent, { static: true }) public table!: MdlTableComponent<Serie>;
 
   constructor(protected el: ElementRef) {
@@ -91,6 +118,12 @@ export class Table2DemoComponent {
       if (value !== 'backend') {
         this.dataSource.data = SERIES;
       }
+    });
+  }
+
+  ngOnInit() {
+    this.table?.actionFired.subscribe((label: string) => {
+      console.log(`Action fired: ${label}`);
     });
   }
 
@@ -130,7 +163,7 @@ export class Table2DemoComponent {
               serie.codeSerieMateriel.includes(params.searchValue) ||
               serie.codeSerieMere?.includes(params.searchValue) ||
               serie.nomTechniqueComplet.includes(params.searchValue) ||
-              serie.typeSerie.includes(params.searchValue)
+              serie.typeSerie.includes(params.searchValue),
           )
         : SERIES;
 
