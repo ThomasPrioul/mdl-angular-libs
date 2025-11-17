@@ -80,14 +80,13 @@ export type ShouldRequestBackendType = {
   orderDirection: SortDirection;
   searchValue: string;
 };
-export type ActionBouttonsType = {
+export type ActionButtonsType = {
   id: number;
   label: string;
   icon: string;
   matTooltip: string;
   color: 'primary' | 'accent' | 'warn' | undefined;
   disabledCondition: () => boolean;
-  // callback: () => void;
 };
 
 @Component({
@@ -152,7 +151,7 @@ export class MdlTableComponent<T>
   private _selection = false;
   private requiresPaginationUpdate: boolean = false;
 
-  private _boutonsAction: ActionBouttonsType[] = [];
+  private _boutonsAction: ActionButtonsType[] = [];
 
   @ViewChild(SearchbarComponent)
   protected readonly searchbar!: SearchbarComponent;
@@ -206,7 +205,7 @@ export class MdlTableComponent<T>
   }
 
   @Input()
-  public get boutonsAction(): ActionBouttonsType[] {
+  public get boutonsAction(): ActionButtonsType[] {
     return this._boutonsAction;
   }
 
@@ -265,7 +264,7 @@ export class MdlTableComponent<T>
     return this.selectionModel.changed;
   }
 
-  public set boutonsAction(value: ActionBouttonsType[]) {
+  public set boutonsAction(value: ActionButtonsType[]) {
     this._boutonsAction = value;
   }
 

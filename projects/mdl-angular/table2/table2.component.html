@@ -187,7 +187,7 @@
   }
   <footer class="table-footer">
     @if (addonsPosition === "left") {
-      <ng-container *ngTemplateOutlet="paginatorAddons"> </ng-container>
+      <ng-container [ngTemplateOutlet]="paginatorAddons"> </ng-container>
     }
     @if (pagination === "frontend" || pagination === "backend") {
       <mat-paginator
@@ -200,7 +200,7 @@
       </mat-paginator>
     }
     @if (addonsPosition === "right") {
-      <ng-container *ngTemplateOutlet="paginatorAddons"> </ng-container>
+      <ng-container *ngTemplateOutlet="paginatorAddons;"> </ng-container>
     }
   </footer>
 }

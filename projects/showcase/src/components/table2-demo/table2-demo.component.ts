@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import {
-  ActionBouttonsType,
+  ActionButtonsType,
   ColumnDisplayInfo,
   MdlTableComponent,
   PaginationType,
@@ -83,7 +83,7 @@ export class Table2DemoComponent implements OnInit {
   protected selectedItems = signal<Serie[]>([]);
   protected totalItems = signal<number | undefined>(undefined);
 
-  protected btnsAction: ActionBouttonsType[] = [
+  protected btnsAction: ActionButtonsType[] = [
     {
       id: 1,
       label: '',
