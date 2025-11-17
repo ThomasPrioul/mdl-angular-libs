@@ -65,6 +65,7 @@
             </ng-template>
           </button>
         }
+        <ng-container [ngTemplateOutlet]="buttonsAddons"> </ng-container>
         @if (fullscreenButton) {
           <button
             mat-icon-button
@@ -74,7 +75,7 @@
             <mat-icon>fullscreen</mat-icon>
           </button>
         }
-        @if (boutonsAction && boutonsAction.length > 0) {
+        <!-- @if (boutonsAction && boutonsAction.length > 0) {
           @for (btn of boutonsAction; track btn.label) {
             <button
               class="mat-unthemed mat-mdc-button-base"
@@ -86,7 +87,7 @@
               <mat-icon>{{ btn.icon }}</mat-icon>
             </button>
           }
-        }
+        } -->
       </div>
     }
   </div>
@@ -200,7 +201,7 @@
       </mat-paginator>
     }
     @if (addonsPosition === "right") {
-      <ng-container *ngTemplateOutlet="paginatorAddons;"> </ng-container>
+      <ng-container *ngTemplateOutlet="paginatorAddons"> </ng-container>
     }
   </footer>
 }

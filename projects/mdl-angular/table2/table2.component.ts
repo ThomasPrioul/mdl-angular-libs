@@ -151,8 +151,6 @@ export class MdlTableComponent<T>
   private _selection = false;
   private requiresPaginationUpdate: boolean = false;
 
-  private _boutonsAction: ActionButtonsType[] = [];
-
   @ViewChild(SearchbarComponent)
   protected readonly searchbar!: SearchbarComponent;
 
@@ -160,6 +158,7 @@ export class MdlTableComponent<T>
 
   @ContentChild(MatNoDataRow) public noDataRow!: MatNoDataRow;
   @ContentChild('paginatorAddons') public paginatorAddons: TemplateRef<any> | null = null;
+  @ContentChild('buttonsAddons') public buttonsAddons: TemplateRef<any> | null = null;
   @ContentChildren(MatColumnDef) public columnDefs!: QueryList<MatColumnDef>;
   @ContentChildren(MatHeaderRowDef) public headerRowDefs!: QueryList<MatHeaderRowDef>;
   @ContentChildren(MatRowDef) public rowDefs!: QueryList<MatRowDef<T>>;
@@ -202,11 +201,6 @@ export class MdlTableComponent<T>
   @Input()
   public get actionButtons(): BooleanInput {
     return this._actionButtons;
-  }
-
-  @Input()
-  public get boutonsAction(): ActionButtonsType[] {
-    return this._boutonsAction;
   }
 
   @Input()
@@ -262,10 +256,6 @@ export class MdlTableComponent<T>
   @Output()
   public get selectionChanged(): Subject<SelectionChange<T>> {
     return this.selectionModel.changed;
-  }
-
-  public set boutonsAction(value: ActionButtonsType[]) {
-    this._boutonsAction = value;
   }
 
   public set actionButtons(value: BooleanInput) {
@@ -410,11 +400,6 @@ export class MdlTableComponent<T>
 
   public refresh() {
     this.shouldRefresh.emit(new Date());
-  }
-
-  public emitAction(id: number) {
-    console.log(`Emit action: ${id}`);
-    this.actionFired.emit(id);
   }
 
   /** Resets page index to 0 and forces page changed event to be triggered.
