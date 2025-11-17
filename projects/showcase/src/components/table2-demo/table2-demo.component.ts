@@ -31,6 +31,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { sortCodeSerieMateriel, sortNomTechniqueComplet } from '../../helpers/materiel-roulant';
 import { DateTime } from 'luxon';
 import { LuxonModule } from 'luxon-angular';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-table2-demo',
@@ -49,6 +50,7 @@ import { LuxonModule } from 'luxon-angular';
     MatSlideToggleModule,
     MatSortModule,
     MatTableModule,
+    MatTooltipModule,
     MdlTableComponent,
     TypeSafeMatCellDef,
   ],
@@ -125,6 +127,10 @@ export class Table2DemoComponent implements OnInit {
     this.table?.actionFired.subscribe((label: string) => {
       console.log(`Action fired: ${label}`);
     });
+  }
+
+  protected buttonClicked(id: number) {
+    console.log(`Button with id ${id} selected`);
   }
 
   protected filterChanged(filter: string) {

@@ -98,7 +98,6 @@
       [searchBar]="enableSearchBar.checked"
       placeholder="Rechercher dans le tableau des données..."
       [actionButtons]="enableActionButtons.checked"
-      [boutonsAction]="btnsAction"
       [columnsEditor]="enableColumns.checked"
       [fullscreenButton]="enableFullscreen.checked"
       [fullscreenRoot]="el"
@@ -121,6 +120,19 @@
             }
           }
         </div>
+      </ng-template>
+      <ng-template #buttonsAddons>
+        @for (btn of btnsAction; track btn.id) {
+          <button
+            class="mat-unthemed mat-mdc-button-base"
+            mat-icon-button
+            [matTooltip]="btn.matTooltip"
+            [color]="btn.color"
+            [disabled]="btn.disabledCondition()"
+            (click)="buttonClicked(btn.id)">
+            <mat-icon>{{ btn.icon }}</mat-icon>
+          </button>
+        }
       </ng-template>
 
       <ng-container matColumnDef="date">
