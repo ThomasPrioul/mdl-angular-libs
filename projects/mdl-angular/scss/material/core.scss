@@ -9,6 +9,7 @@
 // @include mat.core-theme(theme.$light-theme);
 // @include mat.strong-focus-indicators();
 // @include mat.strong-focus-indicators-theme(theme.$light-theme);
+@include mat.elevation-classes();
 @include mat.typography-hierarchy(theme.$sncf-typography);
 
 .dark,

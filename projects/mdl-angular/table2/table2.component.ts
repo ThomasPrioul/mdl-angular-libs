@@ -23,6 +23,7 @@ import {
   SimpleChanges,
   AfterViewChecked,
   signal,
+  output,
 } from '@angular/core';
 import {
   MatColumnDef,
@@ -78,6 +79,14 @@ export type ShouldRequestBackendType = {
   orderBy: string;
   orderDirection: SortDirection;
   searchValue: string;
+};
+export type ActionButtonsType = {
+  id: number;
+  label: string;
+  icon: string;
+  matTooltip: string;
+  color: 'primary' | 'accent' | 'warn' | undefined;
+  disabledCondition: () => boolean;
 };
 
 @Component({
@@ -149,6 +158,7 @@ export class MdlTableComponent<T>
 
   @ContentChild(MatNoDataRow) public noDataRow!: MatNoDataRow;
   @ContentChild('paginatorAddons') public paginatorAddons: TemplateRef<any> | null = null;
+  @ContentChild('buttonsAddons') public buttonsAddons: TemplateRef<any> | null = null;
   @ContentChildren(MatColumnDef) public columnDefs!: QueryList<MatColumnDef>;
   @ContentChildren(MatHeaderRowDef) public headerRowDefs!: QueryList<MatHeaderRowDef>;
   @ContentChildren(MatRowDef) public rowDefs!: QueryList<MatRowDef<T>>;
@@ -170,6 +180,7 @@ export class MdlTableComponent<T>
   @Output() public filterChange = new EventEmitter<string>();
   @Output() public shouldRefresh = new EventEmitter<Date>();
   @Output() public shouldRequestBackend = new EventEmitter<ShouldRequestBackendType>();
+  @Output() public actionFired = new EventEmitter<number>();
   @ViewChild(MatPaginator) public paginator?: MatPaginator;
   @ViewChild(MatTable, { static: true }) public table!: MatTable<T>;
 

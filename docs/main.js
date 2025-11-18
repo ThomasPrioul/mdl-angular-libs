@@ -1,1 +1,1 @@
-import("./chunk-MGTJSPUR.js").then(t=>t.launchApp());
+import("./chunk-LUCZYYCN.js").then(t=>t.launchApp());
