@@ -24,13 +24,12 @@
       ]
     },
     "test": {
-      "executor": "@angular-devkit/build-angular:karma",
+      "executor": "@angular/build:unit-test",
       "options": {
+        "buildTarget": "mdl-angular:build",
         "tsConfig": "projects/mdl-angular/tsconfig.spec.json",
-        "polyfills": [
-          "zone.js",
-          "zone.js/testing"
-        ]
+        "runner": "vitest",
+        "setupFiles": ["projects/mdl-angular/test-setup.ts"]
       }
     }
   }
