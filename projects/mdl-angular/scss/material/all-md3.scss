@@ -1,0 +1,13 @@
+// Material Design 3 all-components convenience entry — mdl-angular
+//
+// Applies core + all component themes in one import.
+// For fine-grained control, use core-md3.scss + individual component files.
+//
+//   @use 'mdl-angular/scss/material/all-md3';
+@use "core-md3";
+@use "theme-md3" as theme;
+@use "@angular/material" as mat;
+
+// Component base styles (structure + density) are already included by core-md3.
+// This file only ensures component colors are applied for light/dark switching.
+// (mat.all-component-themes() in core-md3 covers everything at :root level.)

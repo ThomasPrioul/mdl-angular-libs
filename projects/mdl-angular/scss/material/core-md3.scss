@@ -1,0 +1,95 @@
+// Material Design 3 core styles for SNCF — mdl-angular
+//
+// Drop-in replacement for core.scss when consuming MD3.
+// Consumers import this instead of core.scss:
+//
+//   @use 'mdl-angular/scss/material/core-md3';
+//
+// Then optionally import component-specific overrides from
+// mdl-angular/scss/material/components/ as usual (they remain compatible).
+@use "theme-md3" as theme;
+@use "../colors";
+@use "@angular/material" as mat;
+
+// ─── Bootstrap ───────────────────────────────────────────────────────────────
+
+@include mat.core();
+
+// ─── Light theme (default) ───────────────────────────────────────────────────
+// Apply component base + structure (density, typography) once globally.
+@include mat.all-component-themes(theme.$light-theme);
+
+// Emit MD3 system tokens for the light theme, overriding with exact SNCF colors.
+// azure-palette generates primary=#005cbb (tone-40); we replace with SNCF blue.
+:root {
+  @include mat.system-level-colors(
+    theme.$light-theme,
+    $overrides: (
+      primary:                colors.$blue,
+      on-primary:             #ffffff,
+      primary-container:      colors.$blue-10,
+      on-primary-container:   #001b3f,
+      error:                  colors.$red,
+      on-error:               #ffffff,
+      error-container:        colors.$red-10,
+      on-error-container:     #410002,
+    )
+  );
+  @include mat.system-level-typography(theme.$light-theme);
+  @include mat.system-level-elevation(theme.$light-theme);
+  @include mat.system-level-shape(theme.$light-theme);
+}
+
+// ─── Dark theme (.dark class on body, managed by DarkModeService) ────────────
+
+.dark,
+.light .dark {
+  @include mat.all-component-colors(theme.$dark-theme);
+  @include mat.system-level-colors(
+    theme.$dark-theme,
+    $overrides: (
+      primary:              colors.$primary-dark,
+      on-primary:           #ffffff,
+      primary-container:    colors.$blue-10,
+      on-primary-container: #001b3f,
+      error:                colors.$red,
+      on-error:             #ffffff,
+      error-container:      colors.$red-10,
+      on-error-container:   #410002,
+    )
+  );
+}
+
+// ─── Light theme re-assertion (.light class, or nested .light inside .dark) ──
+
+.light,
+.dark .light {
+  @include mat.all-component-colors(theme.$light-theme);
+  @include mat.system-level-colors(
+    theme.$light-theme,
+    $overrides: (
+      primary:                colors.$blue,
+      on-primary:             #ffffff,
+      primary-container:      colors.$blue-10,
+      on-primary-container:   #001b3f,
+      error:                  colors.$red,
+      on-error:               #ffffff,
+      error-container:        colors.$red-10,
+      on-error-container:     #410002,
+    )
+  );
+}
+
+// ─── Menu / autocomplete shape (mirrors core.scss) ───────────────────────────
+
+.mat-mdc-menu-panel {
+  --mat-menu-container-shape: 8px !important;
+}
+
+div.mat-mdc-autocomplete-panel {
+  border-radius: 8px !important;
+}
+
+.mat-mdc-option .mdc-list-item__primary-text {
+  flex-basis: 100%;
+}
