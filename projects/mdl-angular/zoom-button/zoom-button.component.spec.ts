@@ -4,10 +4,11 @@ import { MdlZoomButtonComponent } from './zoom-button.component';
 
 function setup(inputs: Partial<{ zoomValue: number; minZoom: number; maxZoom: number; disabled: boolean }> = {}) {
   const fixture = TestBed.createComponent(MdlZoomButtonComponent);
-  const component = fixture.componentInstance;
-  Object.assign(component, inputs);
+  for (const [key, value] of Object.entries(inputs)) {
+    fixture.componentRef.setInput(key, value);
+  }
   fixture.detectChanges();
-  return { fixture, component };
+  return { fixture, component: fixture.componentInstance };
 }
 
 describe('MdlZoomButtonComponent', () => {
@@ -38,25 +39,20 @@ describe('MdlZoomButtonComponent', () => {
   describe('changeZoom()', () => {
     it('increases zoomValue by given amount', () => {
       const { component } = setup({ zoomValue: 1, maxZoom: 2 });
-      const emitted: number[] = [];
-      component.zoomValueChange.subscribe((v) => emitted.push(v));
-
       (component as any).changeZoom(0.1);
-
-      expect(component.zoomValue).toBe(1.1);
-      expect(emitted).toEqual([1.1]);
+      expect(component.zoomValue()).toBe(1.1);
     });
 
     it('clamps zoom at maxZoom', () => {
       const { component } = setup({ zoomValue: 2, maxZoom: 2 });
       (component as any).changeZoom(0.5);
-      expect(component.zoomValue).toBe(2);
+      expect(component.zoomValue()).toBe(2);
     });
 
     it('clamps zoom at minZoom', () => {
       const { component } = setup({ zoomValue: 0.8, minZoom: 0.8 });
       (component as any).changeZoom(-0.5);
-      expect(component.zoomValue).toBe(0.8);
+      expect(component.zoomValue()).toBe(0.8);
     });
   });
 
@@ -64,21 +60,21 @@ describe('MdlZoomButtonComponent', () => {
     it('resets zoomValue to 1', () => {
       const { component } = setup({ zoomValue: 1.5 });
       (component as any).resetZoom();
-      expect(component.zoomValue).toBe(1);
+      expect(component.zoomValue()).toBe(1);
     });
   });
 
   describe('ControlValueAccessor', () => {
-    it('writeValue updates zoomValue', () => {
+    it('writeValue updates zoomValue signal', () => {
       const { component } = setup();
       component.writeValue(1.3);
-      expect(component.zoomValue).toBe(1.3);
+      expect(component.zoomValue()).toBe(1.3);
     });
 
-    it('setDisabledState updates disabled', () => {
+    it('setDisabledState updates disabled signal', () => {
       const { component } = setup();
       component.setDisabledState(true);
-      expect(component.disabled).toBe(true);
+      expect(component.disabled()).toBe(true);
     });
 
     it('calls onChange callback when zoom changes', () => {

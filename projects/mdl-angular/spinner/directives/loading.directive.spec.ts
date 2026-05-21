@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { MdlLoadingDirective } from './loading.directive';
 
@@ -9,9 +9,9 @@ import { MdlLoadingDirective } from './loading.directive';
   template: `<div [mdlLoading]="loading" [mdlLoadingText]="text" [mdlLoadingBackdrop]="backdrop">content</div>`,
 })
 class TestHostComponent {
-  loading = false;
+  loading: boolean | undefined = false;
   text?: string;
-  backdrop = true;
+  backdrop: boolean | undefined = true;
 }
 
 describe('MdlLoadingDirective', () => {
@@ -73,7 +73,7 @@ describe('MdlLoadingDirective', () => {
   it('sets host position to relative', () => {
     const fixture = TestBed.createComponent(TestHostComponent);
     fixture.detectChanges();
-    const host = fixture.nativeElement.querySelector('[mdlLoading]') ?? fixture.nativeElement.querySelector('div');
+    const host = fixture.nativeElement.querySelector('div');
     expect(host.style.position).toBe('relative');
   });
 });

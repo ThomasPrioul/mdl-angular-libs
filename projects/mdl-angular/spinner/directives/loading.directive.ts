@@ -1,11 +1,12 @@
 import {
+  booleanAttribute,
   Component,
   ComponentRef,
   Directive,
   ElementRef,
   HostBinding,
   inject,
-  Input,
+  input,
   OnChanges,
   SimpleChanges,
   ViewContainerRef,
@@ -30,28 +31,24 @@ export class MdlLoadingDirective implements OnChanges {
 
   @HostBinding('style.position')
   public hostPosition: string = 'relative';
-  @Input() public mdlLoading: boolean | undefined = false;
-  @Input() public mdlLoadingText?: string;
-  @Input() public mdlLoadingBackdrop?: boolean = true;
 
-  @Input()
-  public set mdlLoadingOverflow(value: 'hidden' | 'visible' | 'auto') {
-    this._mdlLoadingOverflow = value;
-  }
-
-  public get mdlLoadingOverflow(): 'hidden' | 'visible' | 'auto' {
-    return this._mdlLoadingOverflow;
-  }
+  mdlLoading = input<boolean | undefined>(false);
+  mdlLoadingText = input<string | undefined>(undefined);
+  mdlLoadingBackdrop = input<boolean | undefined>(true);
+  mdlLoadingOverflow = input<'hidden' | 'visible' | 'auto'>('hidden');
 
   public ngOnChanges(simpleChanges: SimpleChanges) {
     if (!Object.keys(simpleChanges).includes('mdlLoading')) return;
 
-    if (this.mdlLoading && !this.componentRef) {
+    // Sync overflow from signal to HostBinding property
+    this._mdlLoadingOverflow = this.mdlLoadingOverflow();
+
+    if (this.mdlLoading() && !this.componentRef) {
       this.componentRef = this.viewContainerRef.createComponent(MdlLoadingWrapperComponent);
-      this.componentRef.instance.text = this.mdlLoadingText;
-      this.componentRef.instance.backdrop = this.mdlLoadingBackdrop;
+      this.componentRef.instance.text = this.mdlLoadingText();
+      this.componentRef.instance.backdrop = this.mdlLoadingBackdrop();
       this.elementRef.nativeElement.appendChild(this.componentRef.location.nativeElement);
-    } else if (!this.mdlLoading && this.componentRef) {
+    } else if (!this.mdlLoading() && this.componentRef) {
       this.componentRef.destroy();
       this.componentRef = undefined;
     }
@@ -88,8 +85,7 @@ export class MdlLoadingDirective implements OnChanges {
   ],
 })
 export class MdlLoadingWrapperComponent {
-  @Input() public text?: string;
   @HostBinding('class.backdrop')
-  @Input()
   public backdrop?: boolean;
+  public text?: string;
 }

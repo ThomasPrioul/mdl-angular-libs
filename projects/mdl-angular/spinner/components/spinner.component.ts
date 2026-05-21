@@ -1,10 +1,4 @@
-import {
-  BooleanInput,
-  NumberInput,
-  coerceBooleanProperty,
-  coerceNumberProperty,
-} from '@angular/cdk/coercion';
-import { Component, HostBinding, Input } from '@angular/core';
+import { booleanAttribute, numberAttribute, ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 
 export type WcsSpinnerMode = 'border' | 'growing';
 
@@ -18,46 +12,28 @@ export type WcsSpinnerMode = 'border' | 'growing';
   </svg> `,
   styleUrls: ['spinner.component.scss'],
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    '[style.height.px]': 'effectiveDiameter()',
+    '[style.width.px]': 'effectiveDiameter()',
+    '[style.--base-stroke-width.px]': 'effectiveStrokeWidth()',
+    '[class.overlay-spinner]': 'overlay()',
+  },
 })
 export class MdlSpinnerComponent {
   /**
    * Indicates the spinner display mode.
    * Accepted values: `border` or `growing`
    */
-  @Input() public mode: WcsSpinnerMode = 'border';
+  mode = input<WcsSpinnerMode>('border');
 
-  private _diameter: number = 32;
-  private _strokeWidth: number = 8;
-  private _overlay: boolean = false;
+  /** When true, forces diameter=28 and strokeWidth=9. */
+  overlay = input(false, { transform: booleanAttribute });
+  diameter = input(32, { transform: numberAttribute });
+  strokeWidth = input(8, { transform: numberAttribute });
 
-  @HostBinding('class.overlay-spinner')
-  @Input()
-  public get overlay() {
-    return this._overlay;
-  }
-
-  public set overlay(value: BooleanInput) {
-    this._overlay = coerceBooleanProperty(value);
-    this.diameter = 28;
-    this.strokeWidth = 9;
-  }
-
-  @HostBinding('style.height.px')
-  @HostBinding('style.width.px')
-  @Input()
-  public get diameter() {
-    return this._diameter;
-  }
-  public set diameter(value: NumberInput) {
-    this._diameter = coerceNumberProperty(value);
-  }
-
-  @HostBinding('style.--base-stroke-width.px')
-  @Input()
-  public get strokeWidth() {
-    return this._strokeWidth;
-  }
-  public set strokeWidth(value: NumberInput) {
-    this._strokeWidth = coerceNumberProperty(value);
-  }
+  /** Effective diameter: 28 when overlay, otherwise the diameter input. */
+  protected effectiveDiameter = computed(() => (this.overlay() ? 28 : this.diameter()));
+  /** Effective stroke width: 9 when overlay, otherwise the strokeWidth input. */
+  protected effectiveStrokeWidth = computed(() => (this.overlay() ? 9 : this.strokeWidth()));
 }

@@ -1,4 +1,4 @@
-@for (item of items; track item; let first = $first) {
+@for (item of items(); track item; let first = $first) {
   @if (!first) {
     <i
       class="material-icons breadcrumb-chevron"
