@@ -95,6 +95,11 @@ const routes: Route[] = [
     ],
   },
   {
+    path: 'theme-md3',
+    loadComponent: () =>
+      import('../pages/theme-md3/theme-md3.component').then((c) => c.ThemeMd3Component),
+  },
+  {
     path: 'other',
     component: OtherComponent,
   },

@@ -71,6 +71,11 @@ export class AppComponent {
       ],
     },
     {
+      text: 'Thème MD3',
+      link: '/theme-md3',
+      icon: 'palette',
+    },
+    {
       text: 'Other',
       link: '/other',
     },

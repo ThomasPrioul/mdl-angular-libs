@@ -1,0 +1,171 @@
+<div class="md3-page">
+
+  <!-- Header -->
+  <div class="page-header">
+    <h1>Material Design 3 — Thème SNCF</h1>
+    <p class="subtitle">
+      La lib <strong>mdl-angular</strong> supporte désormais MD3 via trois nouveaux fichiers SCSS,
+      sans impacter les projets existants en MD2.
+    </p>
+    <div class="badge-row">
+      <span class="badge md3">MD3</span>
+      <span class="badge compat">Compatible MD2 ✓</span>
+      <span class="badge angular">Angular 20+</span>
+    </div>
+  </div>
+
+  <mat-divider></mat-divider>
+
+  <!-- Tabs -->
+  <mat-tab-group animationDuration="200ms">
+
+    <!-- ─── Tab 1 : Migration ────────────────────────────────────────────── -->
+    <mat-tab label="Migration">
+      <div class="tab-content">
+
+        <section>
+          <h2>Comment migrer</h2>
+          <p>Un seul changement dans votre <code>styles.scss</code> :</p>
+          <pre class="code-block">{{ migrationCode }}</pre>
+          <p class="hint">
+            <mat-icon inline>info</mat-icon>
+            Les fichiers de composants (<code>button.scss</code>, <code>form-field.scss</code>…)
+            restent <strong>identiques</strong> — les overrides CSS SNCF sont compatibles avec les deux systèmes.
+          </p>
+        </section>
+
+        <section>
+          <h2>Mode MD3 dans la showcase</h2>
+          <pre class="code-block">nx serve showcase --configuration=md3
+nx build showcase --configuration=md3</pre>
+        </section>
+
+        <section>
+          <h2>Versioning</h2>
+          <div class="version-table">
+            <div class="version-row header">
+              <span>Version npm</span>
+              <span>Angular</span>
+              <span>Thème</span>
+              <span>Statut</span>
+            </div>
+            <div class="version-row">
+              <span><code>mdl-angular@1.x</code></span>
+              <span>19.x</span>
+              <span>MD2 uniquement</span>
+              <span class="badge maintenance">Maintenance</span>
+            </div>
+            <div class="version-row active">
+              <span><code>mdl-angular@2.x</code> (à venir)</span>
+              <span>20 / 21</span>
+              <span>MD2 + MD3 optionnel</span>
+              <span class="badge active-badge">En cours ← vous êtes ici</span>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </mat-tab>
+
+    <!-- ─── Tab 2 : Tokens SNCF ──────────────────────────────────────────── -->
+    <mat-tab label="Tokens SNCF">
+      <div class="tab-content">
+        <h2>Tokens système MD3 — valeurs SNCF</h2>
+        <p>
+          Angular Material 20 expose les couleurs via des tokens CSS <code>--mat-sys-*</code>.
+          <code>core-md3.scss</code> injecte les valeurs SNCF exactes via <code>$overrides</code>.
+        </p>
+
+        <div class="token-grid">
+          @for (token of tokens; track token.name) {
+            <div class="token-card" [class]="'group-' + token.group">
+              <div class="swatch" [style.background-color]="token.value.startsWith('#') ? token.value : 'var(' + token.name + ')'"></div>
+              <div class="token-info">
+                <code class="token-name">{{ token.name }}</code>
+                <span class="token-value">{{ token.value }}</span>
+                <span class="token-desc">{{ token.description }}</span>
+              </div>
+            </div>
+          }
+        </div>
+
+        <h2 style="margin-top: 2rem">Définition SCSS</h2>
+        <pre class="code-block">{{ themeDefinitionCode }}</pre>
+      </div>
+    </mat-tab>
+
+    <!-- ─── Tab 3 : Composants ───────────────────────────────────────────── -->
+    <mat-tab label="Composants">
+      <div class="tab-content">
+        <p class="hint">
+          <mat-icon inline>info</mat-icon>
+          Les composants ci-dessous utilisent le thème actif de la showcase.
+          Pour voir MD3, lancez avec <code>--configuration=md3</code>.
+        </p>
+
+        <!-- Boutons -->
+        <section>
+          <h3>Boutons</h3>
+          <div class="component-row">
+            <button mat-flat-button color="primary">Primary</button>
+            <button mat-stroked-button color="primary">Outlined</button>
+            <button mat-button color="primary">Text</button>
+            <button mat-raised-button color="primary">Elevated</button>
+            <button mat-flat-button color="warn">Warn</button>
+            <button mat-flat-button disabled>Disabled</button>
+          </div>
+          <div class="component-row small">
+            <button mat-flat-button color="primary" class="small">Small primary</button>
+            <button mat-icon-button color="primary"><mat-icon>add</mat-icon></button>
+            <button mat-icon-button><mat-icon>delete</mat-icon></button>
+          </div>
+        </section>
+
+        <mat-divider></mat-divider>
+
+        <!-- Formulaires -->
+        <section>
+          <h3>Champs de formulaire</h3>
+          <div class="form-row">
+            <mat-form-field>
+              <mat-label>Champ texte</mat-label>
+              <input matInput placeholder="Ex. Paris">
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Champ erreur</mat-label>
+              <input matInput value="valeur invalide">
+              <mat-error>Ce champ est requis</mat-error>
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Avec icône</mat-label>
+              <input matInput>
+              <mat-icon matSuffix>search</mat-icon>
+            </mat-form-field>
+          </div>
+        </section>
+
+        <mat-divider></mat-divider>
+
+        <!-- Chips & Checkboxes -->
+        <section>
+          <h3>Autres composants</h3>
+          <div class="component-row">
+            <mat-chip-set>
+              <mat-chip>Puce A</mat-chip>
+              <mat-chip>Puce B</mat-chip>
+              <mat-chip color="primary" selected>Sélectionnée</mat-chip>
+            </mat-chip-set>
+          </div>
+          <div class="component-row">
+            <mat-checkbox color="primary" checked>Coché</mat-checkbox>
+            <mat-checkbox color="primary">Non coché</mat-checkbox>
+            <mat-checkbox color="primary" indeterminate>Indéterminé</mat-checkbox>
+            <mat-checkbox disabled>Désactivé</mat-checkbox>
+          </div>
+        </section>
+
+      </div>
+    </mat-tab>
+
+  </mat-tab-group>
+</div>

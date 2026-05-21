@@ -71,6 +71,15 @@
           "extractLicenses": false,
           "sourceMap": true,
           "namedChunks": true
+        },
+        "md3": {
+          "optimization": false,
+          "extractLicenses": false,
+          "sourceMap": true,
+          "namedChunks": true,
+          "styles": [
+            "projects/showcase/src/styles-md3.scss"
+          ]
         }
       },
       "defaultConfiguration": "production"
@@ -83,6 +92,9 @@
         },
         "development": {
           "buildTarget": "showcase:build:development"
+        },
+        "md3": {
+          "buildTarget": "showcase:build:md3"
         }
       },
       "defaultConfiguration": "development"
