@@ -1,23 +1,23 @@
 @if (
   header !== false &&
-  (title ||
-    searchBar ||
-    (actionButtons !== false && (columnsEditor || fullscreenButton || refreshButton)))
+  (title() ||
+    searchBar() ||
+    (actionButtons !== false && (columnsEditor() || fullscreenButton() || refreshButton())))
 ) {
   <div class="header">
     <div class="left-side">
-      @if (title) {
-        <div class="title">{{ title }}</div>
+      @if (title()) {
+        <div class="title">{{ title() }}</div>
       }
-      @if (refreshButton && actionButtons !== false) {
+      @if (refreshButton() && actionButtons !== false) {
         <div class="action-buttons">
           <button
             style="margin: 0 -0.5rem"
             mat-icon-button
-            [disabled]="loading === true"
+            [disabled]="loading() === true"
             matTooltip="Rafraîchir"
             (click)="refresh()">
-            @if (loading === true) {
+            @if (loading() === true) {
               <mdl-spinner [diameter]="24"></mdl-spinner>
             } @else {
               <mat-icon>refresh</mat-icon>
@@ -25,18 +25,18 @@
           </button>
         </div>
       }
-      @if (searchBar) {
+      @if (searchBar()) {
         <mdl-table-searchbar
           class="searchbar"
           #search
           [filter]="filter"
-          [placeholder]="placeholder"
+          [placeholder]="placeholder()"
           (filterChange)="filter = $event"></mdl-table-searchbar>
       }
     </div>
-    @if (actionButtons !== false && (columnsEditor || fullscreenButton || refreshButton)) {
+    @if (actionButtons !== false && (columnsEditor() || fullscreenButton() || refreshButton())) {
       <div class="action-buttons">
-        @if (columnsEditor) {
+        @if (columnsEditor()) {
           <button
             mat-icon-button
             matTooltip="Colonnes"
@@ -65,32 +65,32 @@
             </ng-template>
           </button>
         }
-        <ng-container [ngTemplateOutlet]="buttonsAddons"> </ng-container>
-        @if (fullscreenButton) {
+        <ng-container [ngTemplateOutlet]="buttonsAddons() ?? null"> </ng-container>
+        @if (fullscreenButton()) {
           <button
             mat-icon-button
             [matTooltip]="mfb.fullscreen ? 'Sortir du plein écran' : 'Afficher en plein écran'"
             #mfb="mdlFullscreenButton"
-            [mdlFullscreenButton]="fullscreenRoot ?? el">
+            [mdlFullscreenButton]="fullscreenRoot() ?? el">
             <mat-icon>fullscreen</mat-icon>
           </button>
         }
       </div>
     }
   </div>
-  @if (dividers === "both" || dividers === "top") {
+  @if (dividers() === "both" || dividers() === "top") {
     <mat-divider></mat-divider>
   }
 }
 
 <div class="table-container">
-  @if (loading) {
+  @if (loading()) {
     <div class="loading-shade">
       <mdl-spinner></mdl-spinner>
     </div>
   }
   <div class="table-scroll" #scroller>
-    <table mat-table [dataSource]="dataSource" [trackBy]="trackByFn" multiTemplateDataRows>
+    <table mat-table [dataSource]="dataSource" [trackBy]="trackByFn()" multiTemplateDataRows>
       <!-- Checkbox column -->
       @if (selection && selectionModel) {
         <ng-container matColumnDef="selection" sticky>
@@ -122,7 +122,7 @@
       <ng-container matColumnDef="expand">
         <th mat-header-cell *matHeaderCellDef aria-label="row actions">Détail</th>
         <td mat-cell *matCellDef="let row">
-          @if (detailsRow && (allowExpandFn ? allowExpandFn(row) : true)) {
+          @if (detailsRow() && (allowExpandFn() ? allowExpandFn()!(row) : true)) {
             <button
               mat-icon-button
               aria-label="expand row"
@@ -137,14 +137,13 @@
           }
         </td>
       </ng-container>
-      <!-- expandedRow = expandedRow === row ? null : row; -->
-      @if (detailsRow) {
+      @if (detailsRow()) {
         <ng-container matColumnDef="expandedDetail">
           <td mat-cell *matCellDef="let row" [attr.colspan]="displayedColumns.length">
             <div
               style="min-height: 0"
               [ngStyle]="{ height: expandedRow === row ? 'max-content' : '0' }">
-              <ng-container *ngTemplateOutlet="detailsRow; context: { $implicit: row }">
+              <ng-container *ngTemplateOutlet="detailsRow(); context: { $implicit: row }">
               </ng-container>
             </div>
           </td>
@@ -159,7 +158,7 @@
         [ngClass]="rowClass(row)"
         mat-row
         *matRowDef="let row; columns: displayedColumns | withSelection: !!selection"></tr>
-      @if (detailsRow) {
+      @if (detailsRow()) {
         <tr
           mat-row
           *matRowDef="let row; columns: ['expandedDetail']"
@@ -169,26 +168,26 @@
     </table>
   </div>
 </div>
-@if (pagination === "frontend" || pagination === "backend" || paginatorAddons) {
-  @if (dividers === "both" || dividers === "bottom") {
+@if (pagination === "frontend" || pagination === "backend" || paginatorAddons()) {
+  @if (dividers() === "both" || dividers() === "bottom") {
     <mat-divider></mat-divider>
   }
   <footer class="table-footer">
-    @if (addonsPosition === "left") {
-      <ng-container [ngTemplateOutlet]="paginatorAddons"> </ng-container>
+    @if (addonsPosition() === "left") {
+      <ng-container [ngTemplateOutlet]="paginatorAddons() ?? null"> </ng-container>
     }
     @if (pagination === "frontend" || pagination === "backend") {
       <mat-paginator
-        [class.addon-right]="paginatorAddons !== null && addonsPosition === 'right'"
-        [disabled]="loading === true"
-        [length]="totalLength"
-        [pageSize]="pageSize"
+        [class.addon-right]="paginatorAddons() !== null && addonsPosition() === 'right'"
+        [disabled]="loading() === true"
+        [length]="totalLength()"
+        [pageSize]="pageSize()"
         [pageSizeOptions]="pageSizes"
         showFirstLastButtons>
       </mat-paginator>
     }
-    @if (addonsPosition === "right") {
-      <ng-container *ngTemplateOutlet="paginatorAddons"> </ng-container>
+    @if (addonsPosition() === "right") {
+      <ng-container *ngTemplateOutlet="paginatorAddons() ?? null"> </ng-container>
     }
   </footer>
 }

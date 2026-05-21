@@ -57,18 +57,19 @@ describe('MdlSelectFilterComponent — without MatSelect', () => {
   // because MdlSelectGlobalCheckboxDirective has a required MatSelect constructor dep.
   // The coercion logic is covered below via direct getter/setter test.
 
-  it('coerces withCheckAll from string "true" (setter)', () => {
+  it('coerces withCheckAll from string "true" via booleanAttribute transform', () => {
     const fixture = TestBed.createComponent(MdlSelectFilterComponent);
-    fixture.detectChanges();
-    (fixture.componentInstance as any).withCheckAll = 'true';
-    expect(fixture.componentInstance.withCheckAll).toBe(true);
+    fixture.componentRef.setInput('withCheckAll', 'true');
+    // No detectChanges — template renders mat-checkbox which requires MatSelect.
+    // We only assert the signal value here.
+    expect(fixture.componentInstance.withCheckAll()).toBe(true);
   });
 
-  it('coerces withCheckAll — "false" string → false', () => {
+  it('coerces withCheckAll — "false" string → false via booleanAttribute transform', () => {
     const fixture = TestBed.createComponent(MdlSelectFilterComponent);
+    fixture.componentRef.setInput('withCheckAll', 'false');
     fixture.detectChanges();
-    (fixture.componentInstance as any).withCheckAll = 'false';
-    expect(fixture.componentInstance.withCheckAll).toBe(false);
+    expect(fixture.componentInstance.withCheckAll()).toBe(false);
   });
 });
 

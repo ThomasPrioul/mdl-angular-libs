@@ -1,15 +1,15 @@
 import {
   AfterViewInit,
+  booleanAttribute,
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  EventEmitter,
-  Input,
   OnDestroy,
   OnInit,
   Optional,
-  Output,
-  ViewChild,
+  output,
+  input,
+  viewChild,
 } from '@angular/core';
 
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -20,7 +20,6 @@ import { MatSelect } from '@angular/material/select';
 import { Subscription } from 'rxjs';
 import { MatOption, _getOptionScrollPosition } from '@angular/material/core';
 import { ngClassToArray, skipDisabledOption } from 'mdl-angular';
-import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
 import { MatCheckbox, MatCheckboxModule } from '@angular/material/checkbox';
 import { MdlSelectGlobalCheckboxDirective } from '../../directives/global-checker.directive';
 
@@ -43,26 +42,22 @@ const verticalNavKeys = ['ArrowUp', 'ArrowDown', 'PageUp', 'PageDown'];
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MdlSelectFilterComponent implements AfterViewInit, OnInit, OnDestroy {
-  @ViewChild('searchInput', { static: true })
-  private readonly _input!: ElementRef<HTMLInputElement>;
+  // ViewChild kept with decorator: static:true ensures availability in ngOnInit
+  // (signal viewChild() resolves only after AfterViewInit)
+  private readonly _inputRef = viewChild.required<ElementRef<HTMLInputElement>>('searchInput');
+  private checkAllComponent = viewChild(MatCheckbox);
 
-  @ViewChild(MatCheckbox) private checkAllComponent?: MatCheckbox;
-
-  private _withCheckAll: boolean = false;
   private oldValue: string = '';
   private sub?: Subscription;
 
-  @Input() public placeholder?: string = 'Recherche';
+  placeholder = input<string>('Recherche');
+  withCheckAll = input(false, { transform: booleanAttribute });
+  onPaste = output<ClipboardEvent>();
 
   constructor(private ref: ElementRef<HTMLElement>, @Optional() private select?: MatSelect) {}
 
-  @Input()
-  public get withCheckAll(): BooleanInput {
-    return this._withCheckAll;
-  }
-
   public get input() {
-    return this._input.nativeElement;
+    return this._inputRef().nativeElement;
   }
 
   public get offsetHeight() {
@@ -70,11 +65,7 @@ export class MdlSelectFilterComponent implements AfterViewInit, OnInit, OnDestro
   }
 
   public get value() {
-    return this._input.nativeElement.value;
-  }
-
-  public set withCheckAll(value: BooleanInput) {
-    this._withCheckAll = coerceBooleanProperty(value);
+    return this._inputRef().nativeElement.value;
   }
 
   public ngOnInit() {
@@ -84,23 +75,19 @@ export class MdlSelectFilterComponent implements AfterViewInit, OnInit, OnDestro
     //@ts-ignore(2341)
     this.select._skipPredicate = skipDisabledOption;
 
-    // Surcharge du keydown pour gérer le décalage du scroll induit par la présence de l'input de filtrage.
-    // Dans le cas du tree-select, ce handler est appelé AVANT celui du tree-select, le defaultKeyDown appelle donc la surcharge du tree-select!
     const defaultKeyDown = this.select._handleKeydown.bind(this.select);
     this.select._handleKeydown = (event) => {
-      if (this.shouldInputHandleEvent(event)) return;
+      if (this.shouldInputHandleEvent(event as KeyboardEvent)) return;
 
       const previousActiveItem = this.select!._keyManager.activeItem;
       defaultKeyDown(event);
 
-      this.handleFilterFocus(previousActiveItem, event);
+      this.handleFilterFocus(previousActiveItem, event as KeyboardEvent);
 
-      // Attention sur ouverture du panneau le handler est appelé trop tôt, le panel n'est pas encore vraiment ouvert.
       const panel = this.select!.panel?.nativeElement as HTMLDivElement | undefined;
       if (!panel) return;
 
-      // Correction du scroll dans le sens vertical en présence du filtre
-      const key = event.key;
+      const key = (event as KeyboardEvent).key;
       this.fixScrollIfNeeded(panel, key);
     };
 
@@ -115,19 +102,18 @@ export class MdlSelectFilterComponent implements AfterViewInit, OnInit, OnDestro
     const defaultOpen = this.select.open.bind(this.select);
     this.select.open = () => {
       if (!this.select?.panelOpen) {
-        this.input.value = this.oldValue;
+        this._inputRef().nativeElement.value = this.oldValue;
       }
       defaultOpen();
       this.select?._keyManager.setActiveItem(null!);
     };
 
     this.sub = this.select._openedStream.subscribe((done) => {
-      if (this.select?._keyManager.activeItemIndex === -1) this.input.focus();
+      if (this.select?._keyManager.activeItemIndex === -1) this._inputRef().nativeElement.focus();
     });
-    
-    // Pas géré dans select.close sinon crée un gros lag à cause d'un redraw
+
     this.sub.add(this.select._closedStream.subscribe(() => {
-      this.input.value = '';
+      this._inputRef().nativeElement.value = '';
     }));
   }
 
@@ -141,11 +127,9 @@ export class MdlSelectFilterComponent implements AfterViewInit, OnInit, OnDestro
     this.sub?.unsubscribe();
   }
 
-  @Output() public onPaste = new EventEmitter<ClipboardEvent>(); // ($event: ClipboardEvent) => void = () => {};
-
   protected onClearClick() {
-    this._input.nativeElement.value = '';
-    this._input.nativeElement.focus();
+    this._inputRef().nativeElement.value = '';
+    this._inputRef().nativeElement.focus();
   }
 
   protected onFocus(event: FocusEvent) {
@@ -167,7 +151,7 @@ export class MdlSelectFilterComponent implements AfterViewInit, OnInit, OnDestro
     panel.scrollTop = last
       ? panel.scrollHeight
       : _getOptionScrollPosition(
-          element.offsetTop - filterHeight - additionalPadding, // padding
+          element.offsetTop - filterHeight - additionalPadding,
           element.offsetHeight,
           panel.scrollTop,
           panel.offsetHeight
@@ -183,20 +167,20 @@ export class MdlSelectFilterComponent implements AfterViewInit, OnInit, OnDestro
       newActiveItem?._getTabIndex() === '0' &&
       event.key === 'ArrowUp'
     ) {
-      this.input.focus();
-    } else if (this.withCheckAll && newActiveItem === null && this.checkAllComponent) {
+      this._inputRef().nativeElement.focus();
+    } else if (this.withCheckAll() && newActiveItem === null && this.checkAllComponent()) {
       if (
-        this.input === document.activeElement &&
-        !this.input.selectionStart &&
+        this._inputRef().nativeElement === document.activeElement &&
+        !this._inputRef().nativeElement.selectionStart &&
         event.key === 'ArrowLeft'
       )
-        this.checkAllComponent.focus();
+        this.checkAllComponent()!.focus();
       else if (
-        this.checkAllComponent?._inputElement.nativeElement === document.activeElement &&
+        this.checkAllComponent()?._inputElement.nativeElement === document.activeElement &&
         event.key === 'ArrowRight'
       ) {
-        this.input.focus();
-        setTimeout(() => this.input.setSelectionRange(0, 0));
+        this._inputRef().nativeElement.focus();
+        setTimeout(() => this._inputRef().nativeElement.setSelectionRange(0, 0));
       }
     }
   }
@@ -205,7 +189,7 @@ export class MdlSelectFilterComponent implements AfterViewInit, OnInit, OnDestro
     return (
       event.key === 'a' &&
       event.ctrlKey &&
-      document.activeElement === this.input &&
+      document.activeElement === this._inputRef().nativeElement &&
       this.value !== ''
     );
   }

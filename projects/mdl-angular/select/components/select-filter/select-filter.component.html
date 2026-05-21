@@ -1,4 +1,4 @@
-@if (withCheckAll) {
+@if (withCheckAll()) {
 <mat-checkbox color="primary" mdlSelectGlobalCheckbox [withFilter]="!!searchInput.value"></mat-checkbox>
 }
 <mat-form-field class="select-filter-input small">
@@ -9,8 +9,8 @@
     matInput
     #searchInput
     (focus)="onFocus($event)"
-    (paste)="onPaste.next($event)"
-    [placeholder]="placeholder!" />
+    (paste)="onPaste.emit($event)"
+    [placeholder]="placeholder()" />
   @if (searchInput.value) {
   <button
     matSuffix

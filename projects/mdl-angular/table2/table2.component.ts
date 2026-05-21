@@ -1,10 +1,12 @@
 import {
   Component,
   AfterContentInit,
-  ContentChildren,
-  QueryList,
-  ContentChild,
+  contentChildren,
+  contentChild,
   ViewChild,
+  viewChild,
+  input,
+  booleanAttribute,
   Input,
   Pipe,
   PipeTransform,
@@ -135,54 +137,67 @@ export class MdlTableComponent<T>
   private readonly filterChange$: Observable<string>;
 
   private _actionButtons: boolean | undefined;
-  private _columnsEditor: boolean = false;
   private _dataSource!: readonly T[] | MatTableDataSource<T>;
   private _defaultSortData?: (data: T[], sort: MatSort) => T[];
   private _defaultSortingDataAccessor?: (data: T, sortHeaderId: string) => string | number;
   private _displayedColumns!: ColumnDisplayInfo<T>[];
   private _filter: string = '';
-  private _fullscreenButton: boolean = false;
   private _header: boolean | undefined = undefined;
   private _lastPaginatedRequest?: ShouldRequestBackendType | undefined;
   private _pageSizes: number[] = [10, 25, 100];
-  private _refreshButton: boolean = false;
   private _requerySubscription?: Subscription;
-  private _searchBar: boolean = false;
   private _selection = false;
   private requiresPaginationUpdate: boolean = false;
 
-  @ViewChild(SearchbarComponent)
-  protected readonly searchbar!: SearchbarComponent;
+  // ─── Signal ViewChild ───────────────────────────────────────────────────────
+  protected readonly searchbar = viewChild(SearchbarComponent);
+  public readonly paginator = viewChild(MatPaginator);
+  // static:true required — MatTable must be available in ngAfterContentInit
+  @ViewChild(MatTable, { static: true }) public table!: MatTable<T>;
+
+  // ─── Signal ContentChild / ContentChildren ─────────────────────────────────
+  public noDataRow = contentChild(MatNoDataRow);
+  public paginatorAddons = contentChild<TemplateRef<any>>('paginatorAddons');
+  public buttonsAddons = contentChild<TemplateRef<any>>('buttonsAddons');
+  public columnDefs = contentChildren(MatColumnDef);
+  public headerRowDefs = contentChildren(MatHeaderRowDef);
+  public rowDefs = contentChildren(MatRowDef<T>);
 
   protected columnsOverlayOpen: boolean = false;
 
-  @ContentChild(MatNoDataRow) public noDataRow!: MatNoDataRow;
-  @ContentChild('paginatorAddons') public paginatorAddons: TemplateRef<any> | null = null;
-  @ContentChild('buttonsAddons') public buttonsAddons: TemplateRef<any> | null = null;
-  @ContentChildren(MatColumnDef) public columnDefs!: QueryList<MatColumnDef>;
-  @ContentChildren(MatHeaderRowDef) public headerRowDefs!: QueryList<MatHeaderRowDef>;
-  @ContentChildren(MatRowDef) public rowDefs!: QueryList<MatRowDef<T>>;
-  @Input() public addonsPosition: 'left' | 'right' = 'left';
-  @Input()
-  public allowExpandFn?: (item: T) => boolean;
-  @Input() public detailsRow: TemplateRef<any> | null = null;
-  @Input() public dividers: 'top' | 'bottom' | 'both' | 'none' = 'bottom';
-  @Input() public fullscreenRoot?: ElementRef;
-  @Input() public loading: boolean | null = null;
-  @Input() public pageSize?: number;
+  // ─── Signal inputs (simple) ────────────────────────────────────────────────
+  public addonsPosition = input<'left' | 'right'>('left');
+  public allowExpandFn = input<((item: T) => boolean) | undefined>(undefined);
+  public detailsRow = input<TemplateRef<any> | null>(null);
+  public dividers = input<'top' | 'bottom' | 'both' | 'none'>('bottom');
+  public fullscreenRoot = input<ElementRef | undefined>(undefined);
+  public loading = input<boolean | null>(null);
+  public pageSize = input<number | undefined>(undefined);
+  public placeholder = input<string>('');
+  public rowClasses = input<((row: T) => string[]) | undefined>(undefined);
+  public title = input<string | undefined>(undefined);
+  public totalLength = input<number | undefined>(undefined);
+  public trackByFn = input<(index: number, row: T) => number | string>(
+    (index: number, _row: T) => index,
+  );
+
+  // ─── Signal inputs (boolean coercion, no side effects) ────────────────────
+  public columnsEditor = input(false, { transform: booleanAttribute });
+  public fullscreenButton = input(false, { transform: booleanAttribute });
+  public refreshButton = input(false, { transform: booleanAttribute });
+  public searchBar = input(false, { transform: booleanAttribute });
+
+  // ─── Inputs kept as @Input (complex setters or ngOnChanges) ───────────────
   @Input() public pagination: PaginationType = 'none';
-  @Input()
-  public placeholder: string = '';
-  @Input() public rowClasses?: (row: T) => string[];
-  @Input() public title?: string;
-  @Input() public totalLength?: number;
-  @Output() public displayedColumnsChange = new EventEmitter<ColumnDisplayInfo[]>();
+
+  // ─── Signal outputs ────────────────────────────────────────────────────────
+  public displayedColumnsChange = output<ColumnDisplayInfo[]>();
+  public actionFired = output<number>();
+
+  // ─── EventEmitter outputs (kept — used with .pipe() or .complete()) ───────
   @Output() public filterChange = new EventEmitter<string>();
   @Output() public shouldRefresh = new EventEmitter<Date>();
   @Output() public shouldRequestBackend = new EventEmitter<ShouldRequestBackendType>();
-  @Output() public actionFired = new EventEmitter<number>();
-  @ViewChild(MatPaginator) public paginator?: MatPaginator;
-  @ViewChild(MatTable, { static: true }) public table!: MatTable<T>;
 
   public expandedRow: T | null = null;
   public selectionModel = new SelectionModel<T>(true, []);
@@ -204,11 +219,6 @@ export class MdlTableComponent<T>
   }
 
   @Input()
-  public get columnsEditor(): BooleanInput {
-    return this._columnsEditor;
-  }
-
-  @Input()
   public get dataSource(): readonly T[] | MatTableDataSource<T> {
     return this._dataSource;
   }
@@ -224,11 +234,6 @@ export class MdlTableComponent<T>
   }
 
   @Input()
-  public get fullscreenButton(): BooleanInput {
-    return this._fullscreenButton;
-  }
-
-  @Input()
   public get header() {
     return this._header;
   }
@@ -236,16 +241,6 @@ export class MdlTableComponent<T>
   @Input()
   public get pageSizes(): number[] {
     return this._pageSizes;
-  }
-
-  @Input()
-  public get refreshButton(): BooleanInput {
-    return this._refreshButton;
-  }
-
-  @Input()
-  public get searchBar(): BooleanInput {
-    return this._searchBar;
   }
 
   @Input()
@@ -260,10 +255,6 @@ export class MdlTableComponent<T>
 
   public set actionButtons(value: BooleanInput) {
     this._actionButtons = coerceBooleanProperty(value);
-  }
-
-  public set columnsEditor(value: BooleanInput) {
-    this._columnsEditor = coerceBooleanProperty(value);
   }
 
   public set dataSource(value: readonly T[] | MatTableDataSource<T>) {
@@ -289,10 +280,6 @@ export class MdlTableComponent<T>
     this.filterChange.emit((this._filter = value));
   }
 
-  public set fullscreenButton(value: BooleanInput) {
-    this._fullscreenButton = coerceBooleanProperty(value);
-  }
-
   public set header(value: BooleanInput) {
     this._header = coerceBooleanProperty(value);
   }
@@ -307,14 +294,6 @@ export class MdlTableComponent<T>
     if (value.some((x) => x <= 0))
       throw new Error('Page length options cannot contain 0 or negative values');
     this._pageSizes = value;
-  }
-
-  public set refreshButton(value: BooleanInput) {
-    this._refreshButton = coerceBooleanProperty(value);
-  }
-
-  public set searchBar(value: BooleanInput) {
-    this._searchBar = coerceBooleanProperty(value);
   }
 
   public get selected() {
@@ -352,10 +331,10 @@ export class MdlTableComponent<T>
   }
 
   public ngAfterContentInit() {
-    this.columnDefs.forEach((columnDef) => this.table.addColumnDef(columnDef));
-    this.rowDefs.forEach((rowDef) => this.table.addRowDef(rowDef));
-    this.headerRowDefs.forEach((headerRowDef) => this.table.addHeaderRowDef(headerRowDef));
-    this.table.setNoDataRow(this.noDataRow);
+    this.columnDefs().forEach((columnDef) => this.table.addColumnDef(columnDef));
+    this.rowDefs().forEach((rowDef) => this.table.addRowDef(rowDef));
+    this.headerRowDefs().forEach((headerRowDef) => this.table.addHeaderRowDef(headerRowDef));
+    this.table.setNoDataRow(this.noDataRow() ?? null);
   }
 
   public ngAfterViewInit() {
@@ -376,13 +355,6 @@ export class MdlTableComponent<T>
     this.shouldRequestBackend.complete();
     this.shouldRefresh.complete();
   }
-
-  @Input() public trackByFn: (index: number, row: T) => number | string = (
-    index: number,
-    row: T,
-  ) => {
-    return index;
-  };
 
   public clearSelection() {
     this.selectionModel.clear();
@@ -406,18 +378,19 @@ export class MdlTableComponent<T>
    * {@link shouldRequestBackend} emits a value in consequence.
    */
   public resetPageIndex() {
-    if (!this.paginator) return;
+    const pag = this.paginator();
+    if (!pag) return;
 
-    if (this.paginator.pageIndex !== 0) {
-      this.paginator.firstPage();
+    if (pag.pageIndex !== 0) {
+      pag.firstPage();
       return;
     }
 
-    this.paginator.page.emit({
+    pag.page.emit({
       pageIndex: 0,
       previousPageIndex: 0,
-      pageSize: this.paginator.pageSize,
-      length: this.paginator.length,
+      pageSize: pag.pageSize,
+      length: pag.length,
     });
   }
 
@@ -440,7 +413,7 @@ export class MdlTableComponent<T>
     if (
       !window.getSelection()?.isCollapsed ||
       // (this.detailsRowTemplate === null && this.detailsRow === null) ||
-      (this.allowExpandFn && !this.allowExpandFn(row))
+      (this.allowExpandFn() && !this.allowExpandFn()!(row))
     )
       return;
     this.expandedRow = this.expandedRow === row ? null : row;
@@ -460,10 +433,10 @@ export class MdlTableComponent<T>
 
   protected rowClass(row: T, main: boolean = true) {
     let classes: string[] = [];
-    if (!main && this.allowExpandFn && !this.allowExpandFn(row)) classes.push('hidden');
+    if (!main && this.allowExpandFn() && !this.allowExpandFn()!(row)) classes.push('hidden');
     if (this.expandedRow === row) classes.push('expanded');
     if (this.selectionModel.isSelected(row)) classes.push('selected');
-    if (this.rowClasses) classes.push(...this.rowClasses(row));
+    if (this.rowClasses()) classes.push(...this.rowClasses()!(row));
     return classes.length === 1 ? classes[0] : classes;
   }
 
@@ -478,7 +451,7 @@ export class MdlTableComponent<T>
       }
 
       if (this.pagination === 'frontend') {
-        this.dataSource.paginator = this.paginator ?? null;
+        this.dataSource.paginator = this.paginator() ?? null;
       } else {
         this.dataSource.paginator = null;
       }
@@ -513,7 +486,7 @@ export class MdlTableComponent<T>
     if (!this._requerySubscription) this._requerySubscription = new Subscription();
     const requerySources: Observable<string | Sort | PageEvent>[] = [this.filterChange$];
     if (this.sort) requerySources.push(this.sort.sortChange);
-    if (this.paginator) requerySources.push(this.paginator.page);
+    if (this.paginator()) requerySources.push(this.paginator()!.page);
 
     this._requerySubscription.add(
       merge(...requerySources)
@@ -523,8 +496,8 @@ export class MdlTableComponent<T>
           map(
             () =>
               <ShouldRequestBackendType>{
-                pageNum: this.paginator!.pageIndex + 1,
-                pageSize: this.paginator!.pageSize,
+                pageNum: this.paginator()!.pageIndex + 1,
+                pageSize: this.paginator()!.pageSize,
                 orderBy: this.sort?.active ?? '',
                 orderDirection: this.sort?.direction ?? '',
                 searchValue: this.filter,
@@ -545,7 +518,7 @@ export class MdlTableComponent<T>
         .pipe(
           takeUntil(this._destroy),
           tap(() => {
-            if (this.paginator) this.paginator.pageIndex = 0;
+            if (this.paginator()) this.paginator()!.pageIndex = 0;
           }),
         )
         .subscribe(),
