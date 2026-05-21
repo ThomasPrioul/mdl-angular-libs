@@ -52,7 +52,7 @@ export class MdlAutocompleteStayOpenDirective implements AfterViewInit, OnDestro
     this.trigger._handleKeydown = (event) => {
       //@ts-ignore(2341) ⚠️
       this.trigger._resetActiveItem = () => {};
-      this.defaultHandleKeyDown.bind(this.trigger)(event);
+      this.defaultHandleKeyDown.bind(this.trigger)(event as KeyboardEvent);
     };
 
     this.sub.add(
