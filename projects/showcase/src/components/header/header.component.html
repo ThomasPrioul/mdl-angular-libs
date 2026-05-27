@@ -45,6 +45,11 @@
               ><mat-icon>dark_mode</mat-icon></mat-button-toggle
             >
           </mat-button-toggle-group>
+          <span
+            class="version-info"
+            [matTooltip]="themeLabel + ' — Angular ' + angularVersion + ' · Material ' + materialVersion">
+            {{ themeLabel }} · ng{{ angularVersion }} · mat{{ materialVersion }}
+          </span>
           <a
             mat-flat-button
             color="accent"

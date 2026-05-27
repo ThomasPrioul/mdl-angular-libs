@@ -8,7 +8,7 @@ import { MatSelect } from '@angular/material/select';
 export class MdlSelectClearAllDirective {
   constructor(private select: MatSelect) {}
 
-  @HostListener('click') private onclick() {
+  @HostListener('click') protected onclick() {
     this.select._selectionModel.clear();
   }
 }

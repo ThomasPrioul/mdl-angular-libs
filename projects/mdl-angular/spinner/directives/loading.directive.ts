@@ -23,7 +23,7 @@ import { MdlSpinnerComponent } from '../components/spinner.component';
 })
 export class MdlLoadingDirective implements OnChanges {
   @HostBinding('style.overflow')
-  private _mdlLoadingOverflow: 'hidden' | 'visible' | 'auto' = 'hidden';
+  protected _mdlLoadingOverflow: 'hidden' | 'visible' | 'auto' = 'hidden';
 
   private componentRef?: ComponentRef<MdlLoadingWrapperComponent>;
   private elementRef: ElementRef<HTMLElement> = inject(ElementRef);

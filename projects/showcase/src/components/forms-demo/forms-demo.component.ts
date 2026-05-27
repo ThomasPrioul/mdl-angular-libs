@@ -10,13 +10,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectChange, MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { MdlCastPipe, TypeSafeMatCellDef } from 'mdl-angular';
 import {
   MdlSelectFilterComponent,
   MdlSelectNoResultsDirective,
-  MdlSelectAllDirective,
-  MdlSelectClearAllDirective,
-  MdlSelectGlobalCheckboxDirective,
 } from 'mdl-angular/select';
 import { MdlSpinnerComponent } from 'mdl-angular/spinner';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -136,11 +132,7 @@ const today = DateTime.now().startOf('day');
     MatSnackBarModule,
     MatTooltipModule,
     // MDL
-    MdlCastPipe,
     MdlDatePicker,
-    MdlSelectGlobalCheckboxDirective,
-    MdlSelectAllDirective,
-    MdlSelectClearAllDirective,
     MdlSelectFilterComponent,
     MdlSelectNoResultsDirective,
     MdlSpinnerComponent,
@@ -150,7 +142,6 @@ const today = DateTime.now().startOf('day');
     MdlTreeSelectDirective,
     MdlTreeSelectSummaryPipe,
     MdlZoomButtonComponent,
-    TypeSafeMatCellDef,
     // App
     SeriesFilterPipe,
     SeriesOptionsFilterPipe,

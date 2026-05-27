@@ -1,4 +1,4 @@
-import { AsyncPipe, NgStyle } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -6,8 +6,11 @@ import {
   EventEmitter,
   Input,
   Output,
+  VERSION,
   inject,
 } from '@angular/core';
+import { VERSION as MAT_VERSION } from '@angular/material/core';
+import { THEME_LABEL } from '../../environments/theme';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -28,7 +31,6 @@ import { MatCardModule } from '@angular/material/card';
   standalone: true,
   imports: [
     AsyncPipe,
-    NgStyle,
     FormsModule,
     MatToolbarModule,
     MatButtonToggleModule,
@@ -62,6 +64,10 @@ export class HeaderComponent {
     Breakpoints.XLarge,
   ]);
   protected popupOpen = false;
+
+  protected readonly angularVersion = VERSION.major;
+  protected readonly materialVersion = MAT_VERSION.major;
+  protected readonly themeLabel = THEME_LABEL;
 
   public readonly hostElement = inject(ElementRef<HTMLElement>);
 

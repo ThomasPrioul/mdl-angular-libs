@@ -8,8 +8,6 @@ import {
   signal,
 } from '@angular/core';
 import { MatTabNav, MatTabsModule } from '@angular/material/tabs';
-import { Table2DemoComponent } from '../../components/table2-demo/table2-demo.component';
-import { FormsDemoComponent } from '../../components/forms-demo/forms-demo.component';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { ScrollDispatcher, ScrollingModule } from '@angular/cdk/scrolling';
 import { Subject, map, pairwise, startWith, takeUntil, tap } from 'rxjs';
@@ -33,9 +31,6 @@ import { ElementRefDirective } from 'mdl-angular';
     // MDL
     ElementRefDirective,
 
-    // App
-    Table2DemoComponent,
-    FormsDemoComponent,
   ],
 })
 export class HomeComponent implements OnDestroy {

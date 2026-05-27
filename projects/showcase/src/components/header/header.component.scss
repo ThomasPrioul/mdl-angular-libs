@@ -102,6 +102,14 @@
   }
 }
 
+.version-info {
+  font-size: 0.7rem;
+  opacity: 0.65;
+  white-space: nowrap;
+  cursor: default;
+  letter-spacing: 0.02em;
+}
+
 @media (max-width: 959.98px) {
   .menu-button img {
     height: 18px;

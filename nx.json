@@ -15,5 +15,6 @@
     "sharedGlobals": [],
     "default": ["{projectRoot}/**/*", "sharedGlobals"],
     "production": ["default", "!{projectRoot}/tsconfig.spec.json", "!{projectRoot}/**/*.spec.[jt]s"]
-  }
+  },
+  "analytics": true
 }

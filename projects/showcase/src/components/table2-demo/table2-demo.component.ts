@@ -124,8 +124,8 @@ export class Table2DemoComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.table?.actionFired.subscribe((label: string) => {
-      console.log(`Action fired: ${label}`);
+    this.table?.actionFired.subscribe((id: number) => {
+      console.log(`Action fired: ${id}`);
     });
   }
 

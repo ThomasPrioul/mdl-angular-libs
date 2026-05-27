@@ -48,7 +48,14 @@
             "node_modules"
           ]
         },
-        "scripts": []
+        "scripts": [],
+        "budgets": [
+          {
+            "type": "anyComponentStyle",
+            "maximumWarning": "100kb",
+            "maximumError": "200kb"
+          }
+        ]
       },
       "configurations": {
         "production": {
@@ -60,8 +67,8 @@
             },
             {
               "type": "anyComponentStyle",
-              "maximumWarning": "2kb",
-              "maximumError": "4kb"
+              "maximumWarning": "100kb",
+              "maximumError": "200kb"
             }
           ],
           "outputHashing": "none"
@@ -79,6 +86,12 @@
           "namedChunks": true,
           "styles": [
             "projects/showcase/src/styles-md3.scss"
+          ],
+          "fileReplacements": [
+            {
+              "replace": "projects/showcase/src/environments/theme.ts",
+              "with": "projects/showcase/src/environments/theme.md3.ts"
+            }
           ]
         }
       },

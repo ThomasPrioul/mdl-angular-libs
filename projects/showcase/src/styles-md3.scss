@@ -8,60 +8,57 @@
 // @use rules must come first in SCSS
 @use "mdl-angular/scss" as mdl;
 
-// ─── MD3 core (replaces @import "mdl-angular/scss/material/core") ────────────
-@import "mdl-angular/scss/material/core-md3";
+// ─── MD3 core (replaces @use "mdl-angular/scss/material/core") ────────────────
+@use "mdl-angular/scss/material/core-md3";
 
-@import "scss/responsive";
-@import "mdl-angular/scss/fonts";
+@use "mdl-angular/scss/fonts";
 
 // ─── Component-level overrides (density, shapes, sizes) ─────────────────────
 // These overrides are compatible with both MD2 and MD3 themes.
-// mat.all-component-themes() in core-md3 already sets base + color tokens;
-// the files below only add SNCF-specific sizing/shape/layout overrides.
-@import "mdl-angular/scss/material/components/autocomplete";
-@import "mdl-angular/scss/material/components/badge";
-@import "mdl-angular/scss/material/components/button";
-@import "mdl-angular/scss/material/components/card";
-@import "mdl-angular/scss/material/components/chips";
-@import "mdl-angular/scss/material/components/checkbox";
-@import "mdl-angular/scss/material/components/dialog";
-@import "mdl-angular/scss/material/components/expansion";
-@import "mdl-angular/scss/material/components/table";
-@import "mdl-angular/scss/material/components/datepicker";
-@import "mdl-angular/scss/material/components/divider";
-@import "mdl-angular/scss/material/components/input";
-@import "mdl-angular/scss/material/components/list";
-@import "mdl-angular/scss/material/components/menu";
-@import "mdl-angular/scss/material/components/option";
-@import "mdl-angular/scss/material/components/paginator";
-@import "mdl-angular/scss/material/components/progress-bar";
-@import "mdl-angular/scss/material/components/progress-spinner";
-@import "mdl-angular/scss/material/components/radio";
-@import "mdl-angular/scss/material/components/select";
-@import "mdl-angular/scss/material/components/slide-toggle";
-@import "mdl-angular/scss/material/components/slider";
-@import "mdl-angular/scss/material/components/sidenav";
-@import "mdl-angular/scss/material/components/sort";
-@import "mdl-angular/scss/material/components/tabs";
-@import "mdl-angular/scss/material/components/toolbar";
-@import "mdl-angular/scss/material/components/tooltip";
-@import "mdl-angular/scss/material/components/tree";
-@import "mdl-angular/scss/material/components/snack-bar";
-@import "mdl-angular/scss/material/components/form-field";
-@import "mdl-angular/scss/material/components/stepper";
-@import "mdl-angular/scss/colored-badge";
-@import "mdl-angular/scss/highlight";
-@import "mdl-angular/scss/panels";
-@import "mdl-angular/scss/material/icons.scss";
+@use "mdl-angular/scss/material/components/autocomplete";
+@use "mdl-angular/scss/material/components/badge";
+@use "mdl-angular/scss/material/components/button";
+@use "mdl-angular/scss/material/components/card";
+@use "mdl-angular/scss/material/components/chips";
+@use "mdl-angular/scss/material/components/checkbox";
+@use "mdl-angular/scss/material/components/dialog";
+@use "mdl-angular/scss/material/components/expansion";
+@use "mdl-angular/scss/material/components/table";
+@use "mdl-angular/scss/material/components/datepicker";
+@use "mdl-angular/scss/material/components/divider";
+@use "mdl-angular/scss/material/components/input";
+@use "mdl-angular/scss/material/components/list";
+@use "mdl-angular/scss/material/components/menu";
+@use "mdl-angular/scss/material/components/option";
+@use "mdl-angular/scss/material/components/paginator";
+@use "mdl-angular/scss/material/components/progress-bar";
+@use "mdl-angular/scss/material/components/progress-spinner";
+@use "mdl-angular/scss/material/components/radio";
+@use "mdl-angular/scss/material/components/select";
+@use "mdl-angular/scss/material/components/slide-toggle";
+@use "mdl-angular/scss/material/components/slider";
+@use "mdl-angular/scss/material/components/sidenav";
+@use "mdl-angular/scss/material/components/sort";
+@use "mdl-angular/scss/material/components/tabs";
+@use "mdl-angular/scss/material/components/toolbar";
+@use "mdl-angular/scss/material/components/tooltip";
+@use "mdl-angular/scss/material/components/tree";
+@use "mdl-angular/scss/material/components/snack-bar";
+@use "mdl-angular/scss/material/components/form-field";
+@use "mdl-angular/scss/material/components/stepper";
+@use "mdl-angular/scss/colored-badge";
+@use "mdl-angular/scss/highlight";
+@use "mdl-angular/scss/panels";
+@use "mdl-angular/scss/material/icons";
+@use "scss/base";
+@use "scss/badges";
+@use "scss/forms";
+@use "scss/settings-drawer";
+@use "pages/theme-md3/theme-md3.styles";
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-@import "scss/base.scss";
-@import "scss/badges.scss";
-@import "scss/forms.scss";
-@import "scss/settings-drawer.scss";
 
 body {
   --lighter-outline-color: color-mix(in srgb, currentColor 35%, var(--mat-app-background-color));

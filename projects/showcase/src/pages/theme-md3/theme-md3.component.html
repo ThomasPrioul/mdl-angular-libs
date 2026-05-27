@@ -150,11 +150,12 @@ nx build showcase --configuration=md3</pre>
         <section>
           <h3>Autres composants</h3>
           <div class="component-row">
-            <mat-chip-set>
-              <mat-chip>Puce A</mat-chip>
-              <mat-chip>Puce B</mat-chip>
-              <mat-chip color="primary" selected>Sélectionnée</mat-chip>
-            </mat-chip-set>
+            <mat-chip-listbox aria-label="Exemple de puces">
+              <mat-chip-option>Puce A</mat-chip-option>
+              <mat-chip-option>Puce B</mat-chip-option>
+              <mat-chip-option selected>Sélectionnée</mat-chip-option>
+              <mat-chip-option disabled>Désactivée</mat-chip-option>
+            </mat-chip-listbox>
           </div>
           <div class="component-row">
             <mat-checkbox color="primary" checked>Coché</mat-checkbox>

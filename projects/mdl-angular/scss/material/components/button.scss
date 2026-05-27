@@ -24,14 +24,17 @@
 
 .mat-mdc-unelevated-button {
   --mdc-filled-button-container-shape: 0.5rem !important;
+  --mat-button-filled-container-shape: 0.5rem !important;
 }
 
 .mat-mdc-outlined-button {
   --mdc-outlined-button-container-shape: 0.5rem !important;
+  --mat-button-outlined-container-shape: 0.5rem !important;
 }
 
 .mat-mdc-raised-button {
   --mdc-protected-button-container-shape: 0.5rem !important;
+  --mat-button-protected-container-shape: 0.5rem !important;
 }
 
 .dark,
@@ -91,6 +94,7 @@
 /* Button */
 :root {
   --mdc-text-button-container-shape: 0.5rem;
+  --mat-button-text-container-shape: 0.5rem;
 }
 
 .mdc-button.mat-mdc-button {
@@ -153,6 +157,7 @@
 
 .mat-button-toggle-group {
   --mat-standard-button-toggle-shape: 12px !important;
+  --mat-button-toggle-shape: 12px !important;
   margin: -1px;
   min-width: fit-content;
 

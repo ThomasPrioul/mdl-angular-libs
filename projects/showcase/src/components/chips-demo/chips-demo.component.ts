@@ -32,7 +32,6 @@ import {
   tap,
 } from 'rxjs/operators';
 import { CODES, Code } from './codes';
-import { MdlSpinnerComponent } from 'mdl-angular/spinner';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import {
   CdkFixedSizeVirtualScroll,
@@ -96,7 +95,6 @@ function arrayChunks<T>(array: T[], chunkSize: number) {
     MdlAutocompleteStayOpenDirective,
     MdlHighlightWithPipe,
     MdlSortedArrayPipe,
-    MdlSpinnerComponent,
   ],
 })
 export class ChipsDemoComponent {

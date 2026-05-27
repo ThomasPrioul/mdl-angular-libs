@@ -10,8 +10,15 @@ import {
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
-import { matMenuAnimations } from '@angular/material/menu';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 import { MatListModule, MatSelectionList } from '@angular/material/list';
+
+const transformMenu = trigger('transformMenu', [
+  state('void', style({ opacity: 0, transform: 'scale(0.8)' })),
+  state('enter', style({ opacity: 1, transform: 'scale(1)' })),
+  transition('void => enter', animate('120ms cubic-bezier(0, 0, 0.2, 1)')),
+  transition('* => void', animate('100ms 25ms linear', style({ opacity: 0 }))),
+]);
 @Component({
   selector: 'mdl-time-picker',
   standalone: true,
@@ -26,7 +33,7 @@ import { MatListModule, MatSelectionList } from '@angular/material/list';
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './time-picker.component.html',
   styleUrl: './time-picker.component.scss',
-  animations: [matMenuAnimations.transformMenu],
+  animations: [transformMenu],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,

@@ -5,6 +5,8 @@
     "esbenp.prettier-vscode",
     "aljazsim.tsco",
     "cyrilletuzi.angular-schematics",
-    "nrwl.angular-console"
+    "nrwl.angular-console",
+    "dbaeumer.vscode-eslint",
+    "ms-playwright.playwright"
   ]
 }
