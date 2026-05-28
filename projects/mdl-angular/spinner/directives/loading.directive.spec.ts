@@ -1,17 +1,19 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
 import { MdlLoadingDirective } from './loading.directive';
 
+// Signals (not plain properties) so that updating them marks the host view dirty:
+// the unit-test builder runs zoneless, where a plain property write would not
+// trigger change detection on the second detectChanges() call.
 @Component({
   standalone: true,
   imports: [MdlLoadingDirective],
-  template: `<div [mdlLoading]="loading" [mdlLoadingText]="text" [mdlLoadingBackdrop]="backdrop">content</div>`,
+  template: `<div [mdlLoading]="loading()" [mdlLoadingText]="text()" [mdlLoadingBackdrop]="backdrop()">content</div>`,
 })
 class TestHostComponent {
-  loading: boolean | undefined = false;
-  text?: string;
-  backdrop: boolean | undefined = true;
+  loading = signal<boolean | undefined>(false);
+  text = signal<string | undefined>(undefined);
+  backdrop = signal<boolean | undefined>(true);
 }
 
 describe('MdlLoadingDirective', () => {
@@ -28,7 +30,7 @@ describe('MdlLoadingDirective', () => {
 
   it('creates a loading wrapper when mdlLoading=true', () => {
     const fixture = TestBed.createComponent(TestHostComponent);
-    fixture.componentInstance.loading = true;
+    fixture.componentInstance.loading.set(true);
     fixture.detectChanges();
     const wrapper = fixture.nativeElement.querySelector('mdl-loading-wrapper');
     expect(wrapper).not.toBeNull();
@@ -36,9 +38,9 @@ describe('MdlLoadingDirective', () => {
 
   it('destroys the wrapper when mdlLoading goes back to false', () => {
     const fixture = TestBed.createComponent(TestHostComponent);
-    fixture.componentInstance.loading = true;
+    fixture.componentInstance.loading.set(true);
     fixture.detectChanges();
-    fixture.componentInstance.loading = false;
+    fixture.componentInstance.loading.set(false);
     fixture.detectChanges();
     const wrapper = fixture.nativeElement.querySelector('mdl-loading-wrapper');
     expect(wrapper).toBeNull();
@@ -46,8 +48,8 @@ describe('MdlLoadingDirective', () => {
 
   it('passes text to the wrapper', () => {
     const fixture = TestBed.createComponent(TestHostComponent);
-    fixture.componentInstance.loading = true;
-    fixture.componentInstance.text = 'Chargement…';
+    fixture.componentInstance.loading.set(true);
+    fixture.componentInstance.text.set('Chargement…');
     fixture.detectChanges();
     const span = fixture.nativeElement.querySelector('mdl-loading-wrapper span');
     expect(span?.textContent?.trim()).toBe('Chargement…');
@@ -55,7 +57,7 @@ describe('MdlLoadingDirective', () => {
 
   it('adds backdrop class to wrapper by default', () => {
     const fixture = TestBed.createComponent(TestHostComponent);
-    fixture.componentInstance.loading = true;
+    fixture.componentInstance.loading.set(true);
     fixture.detectChanges();
     const wrapper = fixture.nativeElement.querySelector('mdl-loading-wrapper');
     expect(wrapper?.classList).toContain('backdrop');
@@ -63,8 +65,8 @@ describe('MdlLoadingDirective', () => {
 
   it('does not add backdrop class when mdlLoadingBackdrop=false', () => {
     const fixture = TestBed.createComponent(TestHostComponent);
-    fixture.componentInstance.loading = true;
-    fixture.componentInstance.backdrop = false;
+    fixture.componentInstance.loading.set(true);
+    fixture.componentInstance.backdrop.set(false);
     fixture.detectChanges();
     const wrapper = fixture.nativeElement.querySelector('mdl-loading-wrapper');
     expect(wrapper?.classList).not.toContain('backdrop');

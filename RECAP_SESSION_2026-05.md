@@ -38,6 +38,8 @@ Commit principal : `c9e95e1`
 
 **Pourquoi :** Les commits précédents sur la branche avaient déjà migré les composants principaux (ZoomButton, Spinner, Breadcrumbs, SelectFilter, Table2). Ces directives étaient les dernières utilisant encore le style `@Input()` décoratif.
 
+**Correction (session suivante) :** La migration de `loading.directive.ts` était **buggée** : elle combinait des signal inputs (`input()`) avec `ngOnChanges`. Or **`ngOnChanges` ne se déclenche JAMAIS pour les signal inputs** (uniquement pour les `@Input()` décoratifs) → l'overlay de chargement ne se serait jamais affiché en runtime. Corrigé en gardant les signal inputs mais en pilotant la création/destruction de l'overlay via `ngDoCheck` (qui tourne à chaque cycle quel que soit le type d'input). Vérifié au runtime dans `mdl-test-consumer` (page Spinner) : l'overlay apparaît/disparaît/réapparaît correctement.
+
 ---
 
 ## 4. Corrections `table2.component.ts` et `time-picker.component.ts`
@@ -79,3 +81,17 @@ Commit principal : `c9e95e1`
 npm dist-tags prévus : `@latest` → v2.x, `@v1` → v1.x
 
 > **Ne pas merger ni publier sans accord de ThomasPrioul.**
+
+---
+
+## 8. Fix des specs `loading.directive` + gotcha tests zoneless
+
+**Ce qui a été fait :** Réparation du test `loading.directive.spec.ts` (échec `NG0100` sur le 2ᵉ `detectChanges()`) et de la directive elle-même (cf. section 3).
+
+**Cause racine — tests zoneless :** Le builder `@angular/build:unit-test` exécute les specs en mode **zoneless**. Le pattern `fixture.componentInstance.prop = x; fixture.detectChanges();` (écriture de propriété simple) **ne marque pas la vue hôte comme dirty**. Conséquence : la passe principale du 2ᵉ `detectChanges()` n'actualise pas le binding, mais le `checkNoChanges()` lancé par `tick()` en dev-mode (Angular 21) ré-évalue le template et lève `NG0100`.
+
+**Fix du test :** `TestHostComponent` utilise désormais des `signal()` au lieu de propriétés simples ; un `.set()` marque la vue dirty et déclenche correctement la détection de changements en zoneless.
+
+**À retenir (cross-projet) :** En tests zoneless Angular 21, ne pas muter une propriété de composant puis appeler `detectChanges()` — utiliser des signals, `fixture.componentRef.setInput()`, ou `markForCheck()`. Et `ngOnChanges` ne se déclenche pas pour les signal inputs.
+
+**Résultat :** 132/132 specs lib OK, comportement runtime validé via Playwright sur `mdl-test-consumer`.
