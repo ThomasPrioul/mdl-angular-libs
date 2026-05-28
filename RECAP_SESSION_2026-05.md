@@ -1,7 +1,63 @@
 # Récap de session — `mdl-angular-libs`
 
-Branche : `feat/md3-angular20-support`  
-Commit principal : `c9e95e1`
+Branche : `feat/md3-angular20-support`
+
+---
+
+## 0. Stratégie de versioning — À IMPLÉMENTER (en détail)
+
+**Objectif :** maintenir deux lignes de version en parallèle pour ne PAS casser les projets existants (Angular 19 + MD2) tout en livrant MD3 + Angular 20/21 aux nouveaux projets.
+
+| Ligne | Branche git | Angular | Material | peerDependencies | npm dist-tag | Usage |
+|-------|-------------|---------|----------|------------------|--------------|-------|
+| **v1.x** | `v1` (à créer depuis `main` actuel) | 19 | MD2 | `>=19.2.9 <20.0.0` | `@v1` | Projets existants — bugfixes uniquement |
+| **v2.x** | `main` (← merge `feat/md3-angular20-support`) | 20/21 | MD3 | `>=20.0.0 <22.0.0` | `@latest` | Nouveaux projets / projets migrés |
+
+**État actuel à vérifier avant release :**
+- `main` : `mdl-angular@1.7.0`, peerDeps `>=19.2.9` (Angular 19 / MD2).
+- `feat/md3-angular20-support` : version **encore à `1.7.0`** (À BUMPER → `2.0.0`), peerDeps déjà `>=20.0.0 <22.0.0` (Angular 20/21 / MD3).
+
+### Étapes d'implémentation (dans l'ordre — par ThomasPrioul)
+
+1. **Figer la v1** — créer la branche `v1` depuis le `main` ACTUEL, AVANT tout merge MD3 :
+   ```bash
+   git checkout main && git pull
+   git checkout -b v1
+   git push -u origin v1
+   ```
+   `v1` reste sur Angular 19 + MD2. Y verrouiller dans `projects/mdl-angular/package.json` :
+   `version` en `1.x`, `peerDependencies` resserrées en `>=19.2.9 <20.0.0`.
+
+2. **Basculer `main` en v2** — merger la feature branch puis bumper la majeure :
+   ```bash
+   git checkout main
+   git merge feat/md3-angular20-support
+   # projects/mdl-angular/package.json : version 1.7.0 → 2.0.0
+   # (peerDeps déjà en >=20.0.0 <22.0.0)
+   git commit -am "chore(release): v2.0.0 — Angular 20/21 + MD3"
+   ```
+
+3. **Publier la v2 (par défaut → dist-tag `@latest`) :**
+   ```bash
+   npm run lib:build
+   npm publish dist/mdl-angular
+   ```
+
+4. **Publier / maintenir la v1 (dist-tag `@v1`, NE PAS écraser `@latest`) :**
+   ```bash
+   git checkout v1
+   # bugfix éventuel + bump 1.x
+   npm run lib:build
+   npm publish dist/mdl-angular --tag v1
+   ```
+
+5. **Côté consumers :**
+   - Projets Angular 19 existants : `npm i mdl-angular@v1` (ou pin `^1.7.0`).
+   - Nouveaux projets Angular 20/21 : `npm i mdl-angular` (= `@latest` = 2.x).
+
+**Maintenance ensuite :** bugfixes v1 → commits sur `v1`, publish `1.x` avec `--tag v1`. Features / MD3 → `main`, publish `2.x` en `@latest`.
+
+> ⚠️ **Ne rien merger ni publier sans accord de ThomasPrioul** (propriétaire du repo).
 
 ---
 
@@ -71,20 +127,7 @@ Commit principal : `c9e95e1`
 
 ---
 
-## 7. Stratégie de versioning à retenir
-
-| Version | Branche | Angular | Material | Usage |
-|---------|---------|---------|----------|-------|
-| v1.x | `v1` (à créer depuis `main` actuel) | 19 | MD2 | Projets existants — bugfixes uniquement |
-| v2.x | `main` ← merger `feat/md3-angular20-support` | 20/21 | MD3 | Nouveaux projets / projets migrés |
-
-npm dist-tags prévus : `@latest` → v2.x, `@v1` → v1.x
-
-> **Ne pas merger ni publier sans accord de ThomasPrioul.**
-
----
-
-## 8. Fix des specs `loading.directive` + gotcha tests zoneless
+## 7. Fix des specs `loading.directive` + gotcha tests zoneless
 
 **Ce qui a été fait :** Réparation du test `loading.directive.spec.ts` (échec `NG0100` sur le 2ᵉ `detectChanges()`) et de la directive elle-même (cf. section 3).
 
