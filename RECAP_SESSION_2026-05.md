@@ -168,12 +168,13 @@ La cible `serve` a la même config `md3` (`buildTarget: showcase:build:md3`).
 
 | But | Commande |
 |-----|----------|
-| Showcase MD2 (défaut) | `npm start` (lib watch + serve, port 4200) ou `nx serve showcase` |
-| Showcase **MD3** (serve) | `nx serve showcase --configuration=md3` (ou `-c md3`) |
+| Dev complet MD2 (défaut) | `npm start` (clean + lib watch + serve, port 4200) |
+| Dev complet **MD3** | `npm run start:md3` (clean + lib watch + serve MD3) |
+| Serve showcase MD3 seul | `npm run showcase:start:md3` (= `nx serve showcase -c md3`) |
 | Build MD3 | `nx build showcase --configuration=md3` |
 | Build MD2 prod | `nx build showcase` (defaultConfiguration = `production`) |
 
-> ⚠️ **Pas encore de script npm dédié pour le MD3** : `npm start` / `showcase:start` lancent le MD2. Pour le MD3 il faut passer par `nx ... -c md3` directement. *Amélioration possible : ajouter un `showcase:start:md3` dans `package.json`.*
+Scripts npm ajoutés (en miroir du trio MD2) : `start:md3`, `showcase:start:md3-waiton`, `showcase:start:md3`. Le `*-waiton` attend que le `dist/` de la lib soit prêt (le showcase en a besoin pour le SCSS via `stylePreprocessorOptions.includePaths`).
 
 > Note : `npm run gh-pages` build la showcase en **MD2** (config par défaut) vers `docs/`.
 

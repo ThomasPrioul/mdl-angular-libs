@@ -3,6 +3,7 @@
   "version": "1.7.0",
   "scripts": {
     "start": "npm-run-all clean --parallel lib:watch showcase:start-waiton",
+    "start:md3": "npm-run-all clean --parallel lib:watch showcase:start:md3-waiton",
     "build": "run-s lib:build showcase:build",
     "test": "run-p lib:test showcase:test",
     "lib:build": "nx build mdl-angular",
@@ -10,6 +11,8 @@
     "lib:test": "nx test mdl-angular",
     "showcase:start-waiton": "wait-on dist/mdl-angular/zoom-button/index.d.ts && npm run showcase:start",
     "showcase:start": "nx serve showcase",
+    "showcase:start:md3-waiton": "wait-on dist/mdl-angular/zoom-button/index.d.ts && npm run showcase:start:md3",
+    "showcase:start:md3": "nx serve showcase --configuration=md3",
     "showcase:build": "nx build showcase",
     "showcase:watch": "nx build showcase --watch --configuration development",
     "showcase:test": "nx test showcase",
