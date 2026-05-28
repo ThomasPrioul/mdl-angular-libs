@@ -17,7 +17,7 @@ Branche : `feat/md3-angular20-support`
 - `main` : `mdl-angular@1.7.0`, peerDeps `>=19.2.9` (Angular 19 / MD2).
 - `feat/md3-angular20-support` : version **encore à `1.7.0`** (À BUMPER → `2.0.0`), peerDeps déjà `>=20.0.0 <22.0.0` (Angular 20/21 / MD3).
 
-### Étapes d'implémentation (dans l'ordre — par ThomasPrioul)
+### Étapes d'implémentation (dans l'ordre)
 
 1. **Figer la v1** — créer la branche `v1` depuis le `main` ACTUEL, AVANT tout merge MD3 :
    ```bash
@@ -57,84 +57,125 @@ Branche : `feat/md3-angular20-support`
 
 **Maintenance ensuite :** bugfixes v1 → commits sur `v1`, publish `1.x` avec `--tag v1`. Features / MD3 → `main`, publish `2.x` en `@latest`.
 
-> ⚠️ **Ne rien merger ni publier sans accord de ThomasPrioul** (propriétaire du repo).
-
 ---
 
 ## 1. Upgrade Angular 20 → 21
 
-**Ce qui a été fait :** Tous les packages `@angular/*`, `@angular/cdk`, `@angular/material` ont été mis à jour de `20.3.21` vers `21.2.9`. Les `peerDependencies` de la lib publiée (`projects/mdl-angular/package.json`) ont été mises à jour de `>=19.2.9` vers `>=20.0.0 <22.0.0`, ce qui exprime clairement que la lib supporte Angular 20 et 21 mais pas 19.
+**Ce qui a été fait :**
+- `@angular/*`, `@angular/cdk`, `@angular/material` : `20.3.21` → `21.2.9` (devDependencies du workspace).
+- `peerDependencies` de la lib publiée (`projects/mdl-angular/package.json`) : `>=19.2.9` → `>=20.0.0 <22.0.0` (= supporte Angular 20 ET 21, plus 19).
+- La branche avait d'abord migré 19 → 20 + Vitest (commit `9804f9a`), puis 20 → 21 (commit `bdc54e1`).
 
-**Pourquoi :** La branche `feat/md3-angular20-support` cible MD3 + Angular 20/21. Passer à 21 concrétise cet objectif et aligne la lib avec la dernière version stable.
+**Pourquoi :** La branche `feat/md3-angular20-support` cible MD3 + Angular 20/21. Passer à 21 aligne la lib avec la dernière version stable et borne proprement la compatibilité côté consumers.
 
 ---
 
-## 2. Améliorations SCSS MD3
+## 2. Thème Material Design 3 (SCSS)
 
-**Ce qui a été fait :** Plusieurs fichiers SCSS de composants ont été mis à jour :
-- `button.scss` — ajouts de règles MD3
-- `chips.scss` — ajouts de règles MD3
-- `form-field.scss` — corrections mineures
-- `slide-toggle.scss` — refonte significative du style MD3
-- `tabs.scss` — ajustement mineur
-- `theme.scss` — restructuration
+**Nouveaux fichiers de theming MD3** (`projects/mdl-angular/scss/material/`) :
+- `core-md3.scss` (~95 lignes) — base/core MD3 (tokens, typographie, densité).
+- `theme-md3.scss` (~40 lignes) — définition du thème MD3 (palettes SNCF mappées sur les tokens MD3).
+- `all-md3.scss` (~13 lignes) — point d'entrée agrégateur (équivalent MD3 du `all` MD2) pour les consumers.
 
-**Pourquoi :** Le thème MD3 est en construction progressive sur cette branche. Chaque composant Material nécessite des overrides SCSS spécifiques pour respecter les tokens MD3 et le look SNCF.
+**Overrides de composants mis à jour** (`scss/material/components/`) :
+- `slide-toggle.scss` — refonte significative du style MD3 (+30 lignes).
+- `chips.scss` — ajouts de règles MD3 (+20 lignes).
+- `button.scss` — ajouts MD3 (+5 lignes), `tabs.scss` (+1), `form-field.scss` (+2 corrections mineures).
+- `theme.scss` — restructuration (séparation MD2 / chargement conditionnel).
+
+**Pourquoi :** Le thème MD3 est construit en parallèle du MD2 existant (les deux coexistent dans `dist/`, importés comme assets par les consumers, pas compilés dans la lib). Chaque composant Material nécessite des overrides spécifiques pour respecter les tokens MD3 et le look SNCF.
 
 **Point d'attention :** Le SCSS MDL applique un `background-color` gris uniquement sur `mdc-text-field--outlined`. L'`appearance="fill"` donne le style Material brut (juste une ligne en bas) qui ne correspond PAS au style MDL. **Toujours utiliser `appearance="outline"` ou configurer `MAT_FORM_FIELD_DEFAULT_OPTIONS = { appearance: 'outline' }` dans les consumers.**
 
 ---
 
-## 3. Migrations signal inputs (directives restantes)
+## 3. Migration vers les signals (inputs + queries)
 
-**Ce qui a été fait :** Trois directives ont été migrées vers les signal inputs/queries Angular :
+**Ce qui a été fait :** Toute la surface publique de la lib est passée des décorateurs (`@Input`, `@Output`, `@ViewChild`, `@ContentChild(ren)`) aux équivalents signaux. Bilan actuel : **22 `input()`, 3 `output()`, 2 `contentChild()`, des `contentChildren()`, 1 `viewChild.required()`, 1 `model()`**.
+
+Composants migrés (commits `76812f5` et `e95c38b`) :
+- **ZoomButton, Breadcrumbs** — `@Input()` → `input()`.
+- **Spinner** (`spinner.component.ts`) — refonte notable : suppression de la coercition CDK (`coerceBooleanProperty` / `coerceNumberProperty`) au profit de `input(…, { transform: booleanAttribute | numberAttribute })` ; `diameter`/`strokeWidth` effectifs via `computed()` ; host bindings déplacés dans le métadonnée `host: { … }` ; ajout de `ChangeDetectionStrategy.OnPush`. L'input `overlay` force `diameter=28` / `strokeWidth=9`.
+- **SelectFilter** (`select-filter.component.ts`) — inputs + queries en signaux.
+- **Table2** (`table2.component.ts`, ~170 lignes touchées) — `@ViewChild` → `viewChild()` (searchbar, paginator), `@ContentChild` → `contentChild()` (noDataRow, templates `paginatorAddons`/`buttonsAddons`), `@ContentChildren` → `contentChildren()` (`columnDefs`, `headerRowDefs`, `rowDefs`), `@Input()` → `input()`. Le `MatTable` reste en `@ViewChild(..., { static: true })` (query statique nécessaire tôt dans le cycle).
+
+Directives migrées (dernières restantes, en `@Input()` décoratif) :
 - `select/directives/clear-all-btn.directive.ts`
 - `select/directives/select-all-btn.directive.ts`
-- `spinner/directives/loading.directive.ts`
+- `spinner/directives/loading.directive.ts` (voir correction en section 7)
 
-**Pourquoi :** Les commits précédents sur la branche avaient déjà migré les composants principaux (ZoomButton, Spinner, Breadcrumbs, SelectFilter, Table2). Ces directives étaient les dernières utilisant encore le style `@Input()` décoratif.
+**Pourquoi :** Aligner la lib sur les API recommandées Angular 20/21 (réactivité fine, moins de boilerplate, meilleure interop OnPush).
 
-**Correction (session suivante) :** La migration de `loading.directive.ts` était **buggée** : elle combinait des signal inputs (`input()`) avec `ngOnChanges`. Or **`ngOnChanges` ne se déclenche JAMAIS pour les signal inputs** (uniquement pour les `@Input()` décoratifs) → l'overlay de chargement ne se serait jamais affiché en runtime. Corrigé en gardant les signal inputs mais en pilotant la création/destruction de l'overlay via `ngDoCheck` (qui tourne à chaque cycle quel que soit le type d'input). Vérifié au runtime dans `mdl-test-consumer` (page Spinner) : l'overlay apparaît/disparaît/réapparaît correctement.
-
----
-
-## 4. Corrections `table2.component.ts` et `time-picker.component.ts`
-
-**Ce qui a été fait :** Corrections mineures sur les deux composants (voir diff pour le détail exact).
-
-**Point d'attention (time-picker) :** La lib publiée génère un output en compilation **complète** (`ɵɵdefineComponent`) et non partielle (`ɵɵngDeclareComponent`). Cela signifie que dans un consumer Vite, `mdl-angular/time-picker` **peut maintenant être pre-bundlé** normalement via un side-effect import dans `app.ts`. L'ancienne limitation (crash du linker Vite à cause de `trigger()` au niveau module) ne s'applique plus à l'output actuel de la dist.
+**Gotcha clé rencontré :** `ngOnChanges` **ne se déclenche jamais pour les signal inputs**. Toute logique de réaction à un changement d'input doit passer par `effect()`, `computed()` ou `ngDoCheck` — pas `ngOnChanges`. C'est exactement le bug corrigé sur `loading.directive` (section 7).
 
 ---
 
-## 5. Outillage et configuration
+## 4. `time-picker.component.ts` — animation inlinée
 
-**Ce qui a été fait :**
-- `eslint.config.mjs` ajouté — configuration ESLint flat config (Angular ESLint)
-- `.prettierignore` ajouté
-- `.gitignore` mis à jour (ignore `.angular/` et `__screenshots__/`)
-- `nx.json` mis à jour
+**Ce qui a été fait :** Remplacement de `import { matMenuAnimations } from '@angular/material/menu'` par un `trigger('transformMenu', …)` défini localement (open/close du menu : scale 0.8→1 + fade, courbes `120ms cubic-bezier(0,0,0.2,1)` / `100ms 25ms linear`).
 
----
+**Pourquoi :** Angular Material 21 n'expose plus `matMenuAnimations`. L'animation a été ré-implémentée à l'identique dans le composant pour préserver le comportement.
 
-## 6. Showcase — améliorations
-
-**Ce qui a été fait :**
-- `projects/showcase/src/environments/` créé avec `theme.ts` et `theme.md3.ts` — environnements séparés pour les deux builds (MD2 et MD3)
-- `header` component mis à jour (toggle dark mode amélioré)
-- `theme-md3` page : HTML + SCSS retravaillés, nouveau fichier `theme-md3.styles.scss` séparé
-- `styles.scss` et `styles-md3.scss` restructurés pour une meilleure séparation MD2/MD3
-- `scss/base.scss` : ajouts mineurs
+**Point d'attention (pre-bundling Vite) :** La lib publiée génère désormais un output en compilation **complète** (`ɵɵdefineComponent`) et non partielle (`ɵɵngDeclareComponent`). Donc dans un consumer Vite, `mdl-angular/time-picker` **peut maintenant être pre-bundlé** normalement via un side-effect import dans `app.ts`. L'ancienne limitation (crash du linker Vite à cause du `trigger()` au niveau module) ne s'applique plus à l'output actuel de la dist.
 
 ---
 
-## 7. Fix des specs `loading.directive` + gotcha tests zoneless
+## 5. Suite de tests (migration Vitest + ~132 specs)
 
-**Ce qui a été fait :** Réparation du test `loading.directive.spec.ts` (échec `NG0100` sur le 2ᵉ `detectChanges()`) et de la directive elle-même (cf. section 3).
+**Ce qui a été fait :** La lib est passée de Karma/Jasmine à **Vitest** via le builder `@angular/build:unit-test` (commit `9804f9a`), puis la couverture a été étendue (commits `3efe891`, `2648b50`, `26dee53`). Infra ajoutée : `test-setup.ts` (import `zone.js`, stub `window.matchMedia` pour jsdom), `tsconfig.spec.json`, cible `test` dans `project.json`.
 
-**Cause racine — tests zoneless :** Le builder `@angular/build:unit-test` exécute les specs en mode **zoneless**. Le pattern `fixture.componentInstance.prop = x; fixture.detectChanges();` (écriture de propriété simple) **ne marque pas la vue hôte comme dirty**. Conséquence : la passe principale du 2ᵉ `detectChanges()` n'actualise pas le binding, mais le `checkNoChanges()` lancé par `tick()` en dev-mode (Angular 21) ré-évalue le template et lève `NG0100`.
+**~132 specs sur 11 fichiers :**
 
-**Fix du test :** `TestHostComponent` utilise désormais des `signal()` au lieu de propriétés simples ; un `.set()` marque la vue dirty et déclenche correctement la détection de changements en zoneless.
+| Specs | Fichier | Couvre |
+|------:|---------|--------|
+| 26 | `table2.component.spec.ts` | sélection, filtre, rendu, `WithSelectionPipe` |
+| 18 | `pipes.spec.ts` | pipes purs |
+| 14 | `dark/dark-mode.service.spec.ts` | service dark mode (signals) |
+| 12 | `select-filter.component.spec.ts` | filtre de select |
+| 11 | `time-picker.component.spec.ts` | time-picker |
+| 10 | `date-picker/utilities.spec.ts` | fonctions pures date |
+| 10 | `spinner.component.spec.ts` | spinner |
+| 10 | `zoom-button.component.spec.ts` | zoom button |
+| 9 | `helpers.spec.ts` | helpers purs |
+| 7 | `loading.directive.spec.ts` | overlay de chargement |
+| 5 | `breadcrumbs.component.spec.ts` | breadcrumbs |
 
-**À retenir (cross-projet) :** En tests zoneless Angular 21, ne pas muter une propriété de composant puis appeler `detectChanges()` — utiliser des signals, `fixture.componentRef.setInput()`, ou `markForCheck()`. Et `ngOnChanges` ne se déclenche pas pour les signal inputs.
+**Point d'attention (tests zoneless) :** voir section 7 — le builder exécute les specs en **zoneless**, ce qui change la façon de déclencher la détection de changements.
 
-**Résultat :** 132/132 specs lib OK, comportement runtime validé via Playwright sur `mdl-test-consumer`.
+**Commande :** `npm run lib:test` (ou `npx nx test mdl-angular`).
+
+---
+
+## 6. Outillage et configuration
+
+- `eslint.config.mjs` ajouté — config ESLint flat config (Angular ESLint).
+- `.prettierignore` ajouté.
+- `.gitignore` mis à jour (ignore `.angular/`, `__screenshots__/`, fichiers de config Claude).
+- `nx.json` mis à jour.
+- `autocomplete-stay-open.directive.ts` — correction TS2345 pour Angular 20 (typage autocomplete).
+
+---
+
+## 7. Showcase — améliorations
+
+- `projects/showcase/src/environments/` créé avec `theme.ts` et `theme.md3.ts` — environnements séparés pour les deux builds (MD2 et MD3).
+- Configuration de build `md3` ajoutée (commit `59b0b3e`) — la showcase peut être servie/buildée en MD2 ou MD3.
+- `header` — toggle dark mode amélioré.
+- Page `theme-md3` — HTML + SCSS retravaillés, fichier `theme-md3.styles.scss` séparé.
+- `styles.scss` / `styles-md3.scss` restructurés (séparation MD2/MD3) ; `scss/base.scss` ajouts mineurs.
+
+---
+
+## 8. Fix `loading.directive` + gotcha tests zoneless
+
+**Ce qui a été fait :** Réparation du test `loading.directive.spec.ts` (échec `NG0100` sur le 2ᵉ `detectChanges()`) ET de la directive elle-même.
+
+**Bug de la directive :** la migration l'avait laissée avec des signal inputs (`input()`) pilotés par `ngOnChanges` → `ngOnChanges` ne se déclenchant pas pour les signal inputs, l'overlay ne se serait **jamais affiché** en runtime. Corrigé en gardant les signal inputs mais en pilotant création/destruction via `ngDoCheck` (qui tourne à chaque cycle quel que soit le type d'input). Validé au runtime sur `mdl-test-consumer` (page Spinner) via Playwright : overlay apparaît / disparaît / réapparaît.
+
+**Cause racine du test — zoneless :** Le builder `@angular/build:unit-test` exécute les specs en mode **zoneless**. Le pattern `fixture.componentInstance.prop = x; fixture.detectChanges();` (écriture de propriété simple) **ne marque pas la vue hôte comme dirty**. Conséquence : la passe principale du 2ᵉ `detectChanges()` n'actualise pas le binding, mais le `checkNoChanges()` lancé par `tick()` en dev-mode (Angular 21) ré-évalue le template et lève `NG0100`.
+
+**Fix du test :** `TestHostComponent` utilise désormais des `signal()` ; un `.set()` marque la vue dirty et déclenche correctement la détection en zoneless.
+
+**À retenir (cross-projet) :** en tests zoneless Angular 21, ne pas muter une propriété de composant puis appeler `detectChanges()` — utiliser des signals, `fixture.componentRef.setInput()`, ou `markForCheck()`. Et `ngOnChanges` ne se déclenche pas pour les signal inputs.
+
+**Résultat :** 132/132 specs lib OK, comportement runtime validé.
