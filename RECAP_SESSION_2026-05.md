@@ -156,10 +156,29 @@ Directives migrées (dernières restantes, en `@Input()` décoratif) :
 
 ---
 
-## 7. Showcase — améliorations
+## 7. Showcase — builds MD2 / MD3
 
-- `projects/showcase/src/environments/` créé avec `theme.ts` et `theme.md3.ts` — environnements séparés pour les deux builds (MD2 et MD3).
-- Configuration de build `md3` ajoutée (commit `59b0b3e`) — la showcase peut être servie/buildée en MD2 ou MD3.
+**Mécanisme (commit `59b0b3e`) :** une configuration de build `md3` a été ajoutée dans `projects/showcase/project.json`, en plus de `development` (MD2, défaut) et `production`. La config `md3` fait deux choses :
+1. **Styles** : remplace `projects/showcase/src/styles.scss` par `styles-md3.scss`.
+2. **fileReplacements** : `environments/theme.ts` → `environments/theme.md3.ts`. Ces fichiers exposent `THEME_LABEL` (`'MD2'` vs `'MD3'`), affiché dans l'UI pour savoir quel thème tourne.
+
+La cible `serve` a la même config `md3` (`buildTarget: showcase:build:md3`).
+
+**Commandes (toutes les options de compilation ajoutées) :**
+
+| But | Commande |
+|-----|----------|
+| Showcase MD2 (défaut) | `npm start` (lib watch + serve, port 4200) ou `nx serve showcase` |
+| Showcase **MD3** (serve) | `nx serve showcase --configuration=md3` (ou `-c md3`) |
+| Build MD3 | `nx build showcase --configuration=md3` |
+| Build MD2 prod | `nx build showcase` (defaultConfiguration = `production`) |
+
+> ⚠️ **Pas encore de script npm dédié pour le MD3** : `npm start` / `showcase:start` lancent le MD2. Pour le MD3 il faut passer par `nx ... -c md3` directement. *Amélioration possible : ajouter un `showcase:start:md3` dans `package.json`.*
+
+> Note : `npm run gh-pages` build la showcase en **MD2** (config par défaut) vers `docs/`.
+
+**Autres améliorations showcase :**
+- `projects/showcase/src/environments/` créé (`theme.ts` / `theme.md3.ts`).
 - `header` — toggle dark mode amélioré.
 - Page `theme-md3` — HTML + SCSS retravaillés, fichier `theme-md3.styles.scss` séparé.
 - `styles.scss` / `styles-md3.scss` restructurés (séparation MD2/MD3) ; `scss/base.scss` ajouts mineurs.
