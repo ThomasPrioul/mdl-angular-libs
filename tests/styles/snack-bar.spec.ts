@@ -31,4 +31,17 @@ describe('snack-bar tokens (shape / weight / themed background)', () => {
   it('retains the legacy --mdc-snackbar-* tokens for Angular 19 consumers', () => {
     expect(tokenValues(css, '--mdc-snackbar-container-shape')).toContain('8px');
   });
+
+  // The duration progress animation must overlay the gradient WITHOUT wiping the
+  // surface's base background-color (which comes from --mat-snack-bar-container-
+  // color). Using the `background` shorthand reset it to transparent, so the
+  // darker progress played over a white/transparent surface.
+  it('paints the progress gradient via background-image (keeps the base fill)', () => {
+    expect(css).toMatch(/background-image:\s*linear-gradient/);
+    expect(css).toMatch(/background-repeat:\s*no-repeat/);
+  });
+
+  it('does not reset the surface background with a `background:` gradient shorthand', () => {
+    expect(css).not.toMatch(/background:\s*linear-gradient/);
+  });
 });

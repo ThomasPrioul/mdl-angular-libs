@@ -38,8 +38,15 @@
   &[class^="duration"],
   &[class*=" duration"] {
     .mdc-snackbar__surface {
-      background: linear-gradient(90deg, var(--progress-color) 0%, var(--progress-color) 100%)
-        no-repeat;
+      // Use background-IMAGE (not the `background` shorthand) so the surface
+      // keeps its base background-color (--mat-snack-bar-container-color); the
+      // gradient is the optional "darker" progress that grows from 0% to 100%.
+      background-image: linear-gradient(
+        90deg,
+        var(--progress-color) 0%,
+        var(--progress-color) 100%
+      );
+      background-repeat: no-repeat;
       background-size: 0%;
       animation: autoexit 5s ease-out;
       animation-fill-mode: forwards;
