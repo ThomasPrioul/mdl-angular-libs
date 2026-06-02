@@ -20,9 +20,14 @@
 .dark .light {
   @include mat.chips-color(theme.$light-theme);
 
+  // Dark chip on the light field (matching v1): a light-grey chip with dark
+  // label lost all contrast, and the remove "x" became invisible.
   .mat-mdc-form-field .mat-mdc-chip-grid .mat-mdc-standard-chip {
-    --mat-chip-elevated-container-color: #{colors.$cool-gray-3};
-    --mat-chip-label-text-color: #{colors.$carbon};
+    --mdc-chip-elevated-container-color: #{colors.$carbon};
+    --mat-chip-elevated-container-color: #{colors.$carbon};
+    --mat-chip-label-text-color: #fff;
+    --mat-chip-with-trailing-icon-trailing-icon-color: #fff;
+    --mat-chip-trailing-action-state-layer-color: #fff;
   }
 
   // Selected chip: use SNCF primary-container color (MD3 uses --mat-chip-elevated-selected-container-color)
