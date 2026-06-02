@@ -7,11 +7,21 @@
 .dark,
 .light .dark {
   @include mat.option-color(theme.$dark-theme);
+
+  // The option pseudo-checkbox uses MD3's azure palette (#abc7ff dark / #005cbb
+  // light) instead of the SNCF primary the real checkboxes (e.g. "check all")
+  // are themed with. Align it so multi-select ticks match the standalone ones.
+  --mat-pseudo-checkbox-full-selected-icon-color: #{colors.$primary-dark};
+  --mat-pseudo-checkbox-full-selected-checkmark-color: #fff;
+  --mat-pseudo-checkbox-minimal-selected-checkmark-color: #{colors.$primary-dark};
 }
 
 .light,
 .dark .light {
   @include mat.option-color(theme.$light-theme);
+
+  --mat-pseudo-checkbox-full-selected-icon-color: #{colors.$blue};
+  --mat-pseudo-checkbox-minimal-selected-checkmark-color: #{colors.$blue};
 }
 
 .mat-mdc-option {
