@@ -17,16 +17,23 @@
 }
 
 .mat-mdc-snack-bar-container.mdl {
+  // Angular 19 (MD2, --mdc-snackbar-*) and Angular 20/21 (MD3,
+  // --mat-snack-bar-*). On MD3 the .mdc-snackbar__surface paints itself from
+  // these tokens, so we no longer set a container-level background/border-radius
+  // — that mismatch left a white corner where the 8px container met the 4px
+  // surface, and the surface colour hid the themed background.
   --mdc-snackbar-container-color: #{colors.$cool-gray-11};
   --mdc-snackbar-container-shape: 8px;
   --mdc-snackbar-supporting-text-line-height: 22px;
   --mdc-snackbar-supporting-text-weight: 500;
   --mdc-snackbar-supporting-text-color: white;
+  --mat-snack-bar-container-color: #{colors.$cool-gray-11};
+  --mat-snack-bar-container-shape: 8px;
+  --mat-snack-bar-supporting-text-line-height: 22px;
+  --mat-snack-bar-supporting-text-weight: 500;
+  --mat-snack-bar-supporting-text-color: white;
   --mat-snack-bar-button-color: white;
   --progress-color: #{colors.$carbon};
-
-  background: var(--mdc-snackbar-container-color);
-  border-radius: var(--mdc-snackbar-container-shape);
 
   &[class^="duration"],
   &[class*=" duration"] {
@@ -54,6 +61,7 @@
   &.info {
     /* Syntaxe spéciale car utilisation d'une variable CSS */
     --mdc-snackbar-container-color: #{colors.$primary};
+    --mat-snack-bar-container-color: #{colors.$primary};
     --progress-color: #{colors.$strong-blue};
   }
 
