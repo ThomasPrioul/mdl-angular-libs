@@ -131,7 +131,11 @@
 
 .mat-mdc-outlined-button:not(:disabled) {
   &.mat-primary {
+    // Angular 19 (--mdc-*) + Angular 20/21 MD3 (--mat-button-outlined-*). MD3
+    // defaults the outline to --mat-sys-outline (grey); set the MD3 token so
+    // primary stroked buttons (e.g. datepicker "Annuler") keep the SNCF border.
     --mdc-outlined-button-outline-color: #{colors.$primary};
+    --mat-button-outlined-outline-color: #{colors.$primary};
   }
 }
 
