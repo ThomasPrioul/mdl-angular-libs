@@ -44,6 +44,12 @@
   @include mat.icon-button-color(theme.$dark-theme);
   @include mat.fab-color(theme.$dark-theme);
 
+  // The m2 mixin leaves the default icon-button colour as `inherit`, which
+  // resolves to black in containers that don't set a light text colour in dark
+  // mode (table2 header, drawer close button). Pin it to a light on-surface
+  // colour. `.mat-primary` icon buttons keep their own (more specific) colour.
+  --mat-icon-button-icon-color: #{colors.$cool-gray-1};
+
   // *** Contrast fix example of custom accent color ***
   .mat-mdc-raised-button.mat-primary,
   .mat-mdc-unelevated-button.mat-primary,
