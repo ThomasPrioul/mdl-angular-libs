@@ -33,13 +33,18 @@ function findRepoRoot(start: string): string {
 
 const REPO_ROOT = findRepoRoot(process.cwd());
 
-/** Compile a component SCSS file (path relative to projects/mdl-angular/scss/). */
-export function compileMdlScss(relFromScss: string): string {
-  const abs = path.join(REPO_ROOT, 'projects', 'mdl-angular', 'scss', relFromScss);
+/** Compile a SCSS file given a path relative to the repo root. */
+export function compileScss(relFromRoot: string): string {
+  const abs = path.join(REPO_ROOT, relFromRoot);
   return sass.compile(abs, {
     loadPaths: [REPO_ROOT, path.join(REPO_ROOT, 'node_modules')],
     silenceDeprecations: ['import', 'global-builtin', 'color-functions'],
   }).css;
+}
+
+/** Compile a theme SCSS file (path relative to projects/mdl-angular/scss/). */
+export function compileMdlScss(relFromScss: string): string {
+  return compileScss(path.join('projects', 'mdl-angular', 'scss', relFromScss));
 }
 
 /**
