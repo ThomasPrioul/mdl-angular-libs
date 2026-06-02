@@ -1,11 +1,12 @@
-@use "sass:map";
 @use "../theme";
 @use "../../colors";
 @use "@angular/material" as mat;
 
-@include mat.select-base(map.set(theme.$light-theme, "density", -2));
-@include mat.select-density(map.set(theme.$light-theme, "density", -2));
-@include mat.select-typography(map.set(theme.$light-theme, "density", -2));
+// Density passed as a raw scale: on Angular Material 21 a density carried in a
+// theme map (`map.set($theme, "density", -2)`) is ignored. See form-field.scss.
+@include mat.select-base(theme.$light-theme);
+@include mat.select-density(-2);
+@include mat.select-typography(theme.$light-theme);
 
 .dark,
 .light .dark {
