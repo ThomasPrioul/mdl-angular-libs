@@ -26,12 +26,14 @@
   }
 
   --mat-option-label-text-weight: 400;
+  // Pin the row metrics so option lists keep the v1 look. Material 21 ships a
+  // 1.25rem (20px) label line-height for MD3 which makes rows feel cramped vs
+  // the previous 22px; the 48px floor matches Material's own min-height but is
+  // restated here so it cannot drift. `.small` overrides to 40px below.
+  --mat-option-label-text-line-height: 22px;
+  min-height: 48px;
   border-radius: var(--mdc-shape-small);
   margin: 0 var(--mdc-shape-small);
-  // min-height: 48px !important;
-  // padding-top: var(--mdc-shape-small) !important;
-  // padding-bottom: var(--mdc-shape-small) !important;
-  // background: white;
 
   &.mdc-list-item--selected {
     --mat-option-label-text-weight: 500;
