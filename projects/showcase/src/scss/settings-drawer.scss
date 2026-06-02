@@ -43,8 +43,12 @@
       position: sticky;
       z-index: 1;
       top: 0px;
-      background: var(--mat-toolbar-container-background-color);
-      color: var(--mat-toolbar-container-text-color);
+      // MD3 doesn't set the toolbar tokens at theme level (only as an inline
+      // fallback inside real mat-toolbars), so a plain element borrowing them
+      // lost its background. Fall back to the system surface tokens; under the
+      // header's `.dark` class these resolve to the dark banner colours.
+      background: var(--mat-toolbar-container-background-color, var(--mat-sys-surface));
+      color: var(--mat-toolbar-container-text-color, var(--mat-sys-on-surface));
 
       h1.mat-h1 {
         margin-top: 1rem;

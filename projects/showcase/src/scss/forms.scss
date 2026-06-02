@@ -5,6 +5,10 @@ fieldset {
   border-radius: 0.5rem;
 
   > legend {
+    // Pin the legend size so it doesn't grow with the MD3 base font (16px);
+    // SNCF fieldset titles are 14px/500.
+    font-size: 14px;
+    line-height: 20px;
     font-weight: 500;
     padding-right: 0.5rem;
     padding-left: 0.25rem;
