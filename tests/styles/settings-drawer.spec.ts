@@ -10,6 +10,17 @@
 import { describe, it, expect } from 'vitest';
 import { compileScss } from './helpers/compile-scss';
 
+describe('fieldset padding vs tailwind preflight', () => {
+  const css = compileScss('projects/showcase/src/scss/forms.scss');
+
+  // Tailwind preflight resets `fieldset { padding: 0 }` and is emitted after
+  // forms.scss (equal specificity → preflight wins). Scope the padding to
+  // `body fieldset` (0,0,2) so it outranks preflight (0,0,1).
+  it('scopes fieldset padding so it beats preflight (body fieldset)', () => {
+    expect(css).toMatch(/body\s+fieldset[^{]*\{[^}]*padding:\s*0\.6rem/);
+  });
+});
+
 describe('settings-drawer header banner', () => {
   const css = compileScss('projects/showcase/src/scss/settings-drawer.scss');
 

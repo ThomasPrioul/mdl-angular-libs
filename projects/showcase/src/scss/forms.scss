@@ -1,5 +1,8 @@
 // Form field sets
-fieldset {
+// Scoped to `body fieldset` (specificity 0,0,2) so the padding survives
+// Tailwind's preflight, which resets `fieldset { padding: 0 }` (0,0,1) and is
+// emitted after this file (equal specificity would otherwise let preflight win).
+body fieldset {
   padding: 0.6rem 1rem 1rem 1rem;
   border: var(--mat-divider-width) solid var(--mat-divider-color);
   border-radius: 0.5rem;
