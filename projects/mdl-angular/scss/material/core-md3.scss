@@ -8,6 +8,7 @@
 // Then optionally import component-specific overrides from
 // mdl-angular/scss/material/components/ as usual (they remain compatible).
 @use "theme-md3" as theme;
+@use "theme" as theme-m2;
 @use "../colors";
 @use "@angular/material" as mat;
 
@@ -18,6 +19,12 @@
 // ─── Light theme (default) ───────────────────────────────────────────────────
 // Apply component base + structure (density, typography) once globally.
 @include mat.all-component-themes(theme.$light-theme);
+
+// SNCF typography hierarchy (.mat-h1–.mat-h6 / .mat-headline-* / .mat-subtitle-*
+// / .mat-body-*). MD3 system tokens alone do not emit these classes, so
+// headings using them (datepicker "Choix rapide", drawer/fieldset titles) lost
+// their size/weight. Mirror core.scss (MD2) so MD3 keeps the same hierarchy.
+@include mat.typography-hierarchy(theme-m2.$sncf-typography);
 
 // Emit MD3 system tokens for the light theme, overriding with exact SNCF colors.
 // azure-palette generates primary=#005cbb (tone-40); we replace with SNCF blue.
