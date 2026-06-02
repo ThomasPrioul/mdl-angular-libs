@@ -52,6 +52,11 @@ button.mdc-switch {
   --mat-slide-toggle-with-icon-handle-size: 14px !important;
   --mat-slide-toggle-selected-icon-color: transparent;
 
+  // MD3 draws a 2px outline around the unselected track (#74777f); MD2 had no
+  // such border and it clashes with the MDL compact handle. Remove it.
+  --mat-slide-toggle-track-outline-width: 0;
+  --mat-slide-toggle-disabled-unselected-track-outline-width: 0;
+
   .mdc-switch__shadow,
   .mdc-switch__icons {
     display: none;
