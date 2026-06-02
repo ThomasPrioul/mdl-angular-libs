@@ -85,6 +85,15 @@
   }
 }
 
+// `.small` only compacts the trigger field — the dropdown rows must stay at the
+// normal 48px. Force it on select/autocomplete panel options even when the
+// panel inherits `.small` (e.g. from a small filter field, or a consumer's
+// small select). Specificity (0,3,0) outranks `.small .mat-mdc-option` (0,2,0).
+.cdk-overlay-pane .mat-mdc-select-panel .mat-mdc-option,
+.cdk-overlay-pane .mat-mdc-autocomplete-panel .mat-mdc-option {
+  min-height: 48px !important;
+}
+
 /*
 Sticky tree items
 z-index: 100;

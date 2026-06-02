@@ -27,4 +27,18 @@ describe('option density (row heights)', () => {
   it('default option label line-height is 22px (not the cramped 1.25rem)', () => {
     expect(tokenValues(css, '--mat-option-label-text-line-height')).toContain('22px');
   });
+
+  // `.small` compacts the trigger field, not the dropdown. Select/autocomplete
+  // option rows must stay 48px even when the panel inherits `.small` (e.g. from
+  // a small filter field or a consumer's small select). This rule outranks the
+  // generic `.small .mat-mdc-option` (40px) override via higher specificity.
+  it('forces 48px on select-panel options regardless of .small', () => {
+    expect(css).toMatch(
+      /\.cdk-overlay-pane\s+\.mat-mdc-select-panel\s+\.mat-mdc-option[^{]*\{[^}]*min-height:\s*48px\s*!important/
+    );
+  });
+
+  it('forces 48px on autocomplete-panel options regardless of .small', () => {
+    expect(css).toMatch(/\.mat-mdc-autocomplete-panel\s+\.mat-mdc-option[^{]*\{[^}]*min-height:\s*48px\s*!important/);
+  });
 });
