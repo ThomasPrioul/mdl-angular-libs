@@ -50,8 +50,5 @@
         "stylelint.vscode-stylelint"
       ]
     }
-  },
-  "forwardPorts": [
-    4200
-  ]
+  }
 }

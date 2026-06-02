@@ -1,0 +1,9 @@
+{
+  "features": {
+    "ghcr.io/devcontainers-extra/features/nx-npm:1": {
+      "version": "1.0.11",
+      "resolved": "ghcr.io/devcontainers-extra/features/nx-npm@sha256:a8850e9992c06b12209b9be9c5880e2fe3f2746735ca7634abb499b9d84bd6a8",
+      "integrity": "sha256:a8850e9992c06b12209b9be9c5880e2fe3f2746735ca7634abb499b9d84bd6a8"
+    }
+  }
+}
