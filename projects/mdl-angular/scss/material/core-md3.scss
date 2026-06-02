@@ -16,6 +16,11 @@
 
 @include mat.core();
 
+// Elevation helper classes (.mat-elevation-z0 … z24). MD3 system tokens alone
+// do not emit them, so `class="mat-elevation-z8"` lost its box-shadow. Mirror
+// core.scss (MD2).
+@include mat.elevation-classes();
+
 // ─── Light theme (default) ───────────────────────────────────────────────────
 // Apply component base + structure (density, typography) once globally.
 @include mat.all-component-themes(theme.$light-theme);
