@@ -78,8 +78,8 @@ Extension du mat-table pour gérer le mode frontend/backend pour la pagination, 
 
 Cette librairie a les dépendances suivantes :
 
-- @angular ^18.2.0
-- @angular/material ^18.2.0
+- @angular >= 20
+- @angular/material >= 20
 
 Il n'y a pas de dépendance sur les librairies wcs-core et wcs-angular.
 
